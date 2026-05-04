@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>محسوب — محاسبك المالي الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<style>
+:root{
+  --bg:#f5f6fa;--bg2:#ffffff;--bg3:#f0f2f7;--bg4:#e8ebf2;
+  --b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);
+  --t:#1a1d2e;--t2:#5a6080;--t3:#9aa0b8;
+  --g:#16a372;--gb:rgba(22,163,114,.08);--gB:rgba(22,163,114,.2);
+  --r:#e8394a;--rb:rgba(232,57,74,.08);--rB:rgba(232,57,74,.2);
+  --bl:#2563eb;--blb:rgba(37,99,235,.08);--blB:rgba(37,99,235,.2);
+  --a:#d97706;--ab:rgba(217,119,6,.08);--aB:rgba(217,119,6,.2);
+  --p:#7c3aed;--pb:rgba(124,58,237,.08);--pB:rgba(124,58,237,.2);
+  --R:14px;--Rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--t);font-size:15px}
+.layout{display:flex;height:100vh;overflow:hidden}
+.sb{width:230px;background:var(--bg2);border-left:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s,transform .25s,opacity .2s}
+.layout.sb-hidden .sb{width:0;opacity:0;overflow:hidden;border:none}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.main::-webkit-scrollbar{width:3px}.main::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+/* Sidebar */
+.lw{padding:18px 14px;border-bottom:1px solid var(--b)}
+.lg{display:flex;align-items:center;gap:9px}
+.li{width:32px;height:32px;background:var(--gb);border:1px solid var(--gB);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.ln{font-size:16px;font-weight:700}.lt{font-size:10px;color:var(--t3);margin-top:1px}
+nav{padding:8px 6px;flex:1;overflow-y:auto}
+.ns{font-size:10px;color:var(--t3);padding:8px 8px 3px;font-weight:600;letter-spacing:.5px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:var(--Rs);cursor:pointer;color:var(--t2);font-size:13px;margin-bottom:1px;transition:all .15s}
+.ni:hover{background:var(--bg3);color:var(--t)}.ni.on{background:var(--gb);color:var(--g);border:1px solid var(--gB)}
+.nk{font-size:15px;width:18px;text-align:center}
+.nb{margin-right:auto;background:var(--rb);color:var(--r);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--rB)}
+.nbg{margin-right:auto;background:var(--gb);color:var(--g);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--gB)}
+.us{padding:10px;border-top:1px solid var(--b)}
+.uc{display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:var(--Rs);border:1px solid var(--b)}
+.ua{width:28px;height:28px;border-radius:50%;background:var(--blb);border:1px solid var(--blB);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bl);flex-shrink:0}
+.un{font-size:12px;font-weight:500}.up{font-size:10px;color:var(--g)}
+/* Top bar */
+.tb{padding:13px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10}
+.pt{font-size:17px;font-weight:700}
+.btn{padding:7px 13px;border-radius:var(--Rs);border:none;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.bp{background:var(--g);color:#0d1117}.bp:hover{opacity:.9}
+.bg2{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bg2:hover{background:var(--bg3);color:var(--t)}
+/* Pages */
+.pg{display:none;padding:18px}.pg.on{display:block}
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:16px}
+.csm{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:12px}
+/* KPI */
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px}
+.kc{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px;position:relative;overflow:hidden}
+.kc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.kc.G::after{background:var(--g)}.kc.R::after{background:var(--r)}.kc.B::after{background:var(--bl)}.kc.A::after{background:var(--a)}.kc.P::after{background:var(--p)}
+.kl{font-size:11px;color:var(--t3);margin-bottom:5px}
+.kv{font-size:19px;font-weight:700}
+.kv.G{color:var(--g)}.kv.R{color:var(--r)}.kv.B{color:var(--bl)}.kv.A{color:var(--a)}.kv.P{color:var(--p)}
+.kch{font-size:11px;color:var(--t3);margin-top:3px}.kch.up{color:var(--g)}.kch.dn{color:var(--r)}
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
+/* Section head */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.st{font-size:13px;font-weight:600}
+.sl{font-size:12px;color:var(--t3);cursor:pointer}.sl:hover{color:var(--g)}
+/* Alerts */
+.al{display:flex;gap:11px;padding:11px 13px;border-radius:var(--Rs);margin-bottom:9px;align-items:flex-start}
+.al-r{background:var(--rb);border:1px solid var(--rB)}.al-a{background:var(--ab);border:1px solid var(--aB)}
+.al-g{background:var(--gb);border:1px solid var(--gB)}.al-b{background:var(--blb);border:1px solid var(--blB)}
+.ai2{font-size:16px;flex-shrink:0;margin-top:1px}.ab2{flex:1}
+.at2{font-size:13px;font-weight:600;margin-bottom:2px}
+.at2.R{color:var(--r)}.at2.A{color:var(--a)}.at2.G{color:var(--g)}.at2.B{color:var(--bl)}
+.as2{font-size:12px;color:var(--t2);line-height:1.5}
+.aa2{font-size:12px;color:var(--t2);cursor:pointer;margin-top:3px;text-decoration:underline}
+/* Table */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:right;padding:8px 11px;font-size:11px;color:var(--t3);font-weight:500;border-bottom:1px solid var(--b)}
+.tbl td{padding:10px 11px;font-size:13px;border-bottom:1px solid var(--b);color:var(--t2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg3)}
+.tbl td.tm{color:var(--t)}
+/* Badge */
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.bdg-g{background:var(--gb);color:var(--g);border:1px solid var(--gB)}
+.bdg-r{background:var(--rb);color:var(--r);border:1px solid var(--rB)}
+.bdg-a{background:var(--ab);color:var(--a);border:1px solid var(--aB)}
+.bdg-b{background:var(--blb);color:var(--bl);border:1px solid var(--blB)}
+.bdg-p{background:var(--pb);color:var(--p);border:1px solid var(--pB)}
+/* Form */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.ff{display:flex;flex-direction:column;gap:4px}.ff.full{grid-column:span 2}
+.fl{font-size:11px;color:var(--t3)}
+.fi{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--Rs);padding:8px 11px;font-size:13px;color:var(--t);font-family:'Tajawal',sans-serif;direction:rtl;outline:none;width:100%}
+.fi:focus{border-color:var(--g)}.fi::placeholder{color:var(--t3)}
+/* Health ring */
+.hr{position:relative;width:100px;height:100px;flex-shrink:0}
+.hr svg{transform:rotate(-90deg)}
+.hrc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hrn{font-size:24px;font-weight:700}.hrl{font-size:10px;color:var(--t3)}
+/* Cash flow */
+.cfr{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--b)}
+.cfr:last-child{border-bottom:none}
+.cfl{font-size:12px;color:var(--t3);width:38px;flex-shrink:0}
+.cfbs{flex:1;display:flex;flex-direction:column;gap:3px}
+.cfbr{display:flex;align-items:center;gap:5px}
+.cfbg{flex:1;background:var(--bg3);border-radius:3px;height:6px;overflow:hidden}
+.cfbf{height:100%;border-radius:3px}
+.cfbv{font-size:11px;width:56px;text-align:left;direction:ltr;color:var(--t2)}
+/* Budget */
+.bi{padding:11px 0;border-bottom:1px solid var(--b)}.bi:last-child{border-bottom:none}
+.bt2{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.bc2{font-size:13px;font-weight:500}.bn2{font-size:12px;color:var(--t3)}
+.bb2{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden}
+.bf2{height:100%;border-radius:4px;transition:width .5s}
+.bs2{font-size:11px;margin-top:3px}
+/* Statement */
+.stmt{background:var(--bg3);border-radius:var(--Rs);overflow:hidden}
+.sr{display:flex;justify-content:space-between;padding:8px 13px;border-bottom:1px solid var(--b);font-size:13px}
+.sr:last-child{border-bottom:none}.sr.hd{background:var(--bg4);font-weight:600;font-size:11px;color:var(--t3)}
+.sr.tot{font-weight:700;border-top:1px solid var(--b2)}.sr.ind{padding-right:26px;color:var(--t2)}
+.sv{direction:ltr}.sv.pos{color:var(--g)}.sv.neg{color:var(--r)}
+/* Chat */
+.cw{display:flex;flex-direction:column;height:calc(100vh - 120px)}
+.cm{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:11px}
+.cm::-webkit-scrollbar{width:3px}.cm::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+.mr{display:flex;gap:9px;align-items:flex-start}.mr.u{flex-direction:row-reverse}
+.mav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.mav.ai{background:var(--gb);border:1px solid var(--gB);color:var(--g)}
+.mav.u{background:var(--blb);border:1px solid var(--blB);color:var(--bl)}
+.bbl{max-width:76%;padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.65}
+.bbl.ai{background:var(--bg2);border:1px solid var(--b);border-radius:12px 12px 12px 4px}
+.bbl.u{background:var(--blb);border:1px solid var(--blB);border-radius:12px 12px 4px 12px}
+.cft{padding:12px;border-top:1px solid var(--b)}
+.cps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.cp{background:var(--bg3);border:1px solid var(--b2);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--t2);cursor:pointer;font-family:'Tajawal',sans-serif}
+.cp:hover{background:var(--gb);color:var(--g);border-color:var(--gB)}
+.cir{display:flex;gap:7px}
+.cta{flex:1;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:9px 12px;font-size:13px;color:var(--t);font-family:'Tajawal',sans-serif;direction:rtl;outline:none;resize:none;min-height:42px;max-height:100px}
+.cta:focus{border-color:var(--g)}
+.csnd{width:42px;height:42px;border-radius:11px;background:var(--g);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ty{display:flex;gap:4px;padding:10px 13px}
+.ty span{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:bnc 1.2s infinite}
+.ty span:nth-child(2){animation-delay:.2s}.ty span:nth-child(3){animation-delay:.4s}
+@keyframes bnc{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+/* Modal */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:18px}
+.md{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:22px;max-width:400px;width:100%}
+.mt{font-size:16px;font-weight:700;margin-bottom:6px}
+.ms{font-size:13px;color:var(--t3);margin-bottom:16px;line-height:1.6}
+/* NEW: Client profitability */
+.clr{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--b)}
+.clr:last-child{border-bottom:none}
+.clav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.clin{flex:1;min-width:0}
+.cln{font-size:13px;font-weight:500;color:var(--t)}
+.cls{font-size:11px;color:var(--t3);margin-top:1px}
+.clbar{flex:1}
+.clbg{background:var(--bg3);border-radius:3px;height:5px;overflow:hidden}
+.clbf{height:100%;border-radius:3px}
+.clv{font-size:13px;font-weight:600;width:75px;text-align:left;direction:ltr}
+/* NEW: Goals */
+.gl{padding:13px 0;border-bottom:1px solid var(--b)}.gl:last-child{border-bottom:none}
+.glh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.gln{font-size:13px;font-weight:500}
+.glp{font-size:12px;font-weight:700}
+.glbg{background:var(--bg3);border-radius:5px;height:7px;overflow:hidden}
+.glbf{height:100%;border-radius:5px;transition:width .5s}
+.gls{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:5px}
+/* NEW: Aging */
+.agr{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--b)}
+.agr:last-child{border-bottom:none}
+.agic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.agin{flex:1;min-width:0}
+.agn{font-size:13px;font-weight:500;color:var(--t)}
+.ags{font-size:11px;color:var(--t3);margin-top:1px}
+.agr2{font-size:13px;font-weight:700;width:75px;text-align:left;direction:ltr}
+/* NEW: Tax tracker */
+.txr{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--b)}
+.txr:last-child{border-bottom:none}
+.txrn{font-size:13px;color:var(--t)}
+.txrd{font-size:12px;color:var(--t3);margin-top:1px}
+.txrv{font-size:14px;font-weight:700;direction:ltr}
+/* Onboarding */
+.ob{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.obc{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:28px;max-width:520px;width:100%}
+.obs{display:flex;justify-content:space-between;margin-bottom:20px}
+.obstep{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:1px solid var(--b2);color:var(--t3)}
+.obstep.done{background:var(--gb);border-color:var(--gB);color:var(--g)}
+.obstep.cur{background:var(--blb);border-color:var(--blB);color:var(--bl)}
+.obline{flex:1;height:1px;background:var(--b);align-self:center;margin:0 6px}
+/* Overlay */
+.ovb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40}
+.ovb.vis{display:block}
+.hbg{display:none;cursor:pointer;font-size:19px;color:var(--t2)}
+
+/* Dark/Light Toggle */
+.theme-toggle{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;transition:all .2s;flex-shrink:0}
+.theme-toggle:hover{background:var(--gb);border-color:var(--gB)}
+body.dark{
+  --bg:#0d1117;--bg2:#161b27;--bg3:#1e2535;--bg4:#252d3d;
+  --b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
+  --t:#f0f2f8;--t2:#8892a4;--t3:#4a5568;
+  --g:#22c98a;--gb:rgba(34,201,138,.1);--gB:rgba(34,201,138,.2);
+  --r:#ff5e6b;--rb:rgba(255,94,107,.1);--rB:rgba(255,94,107,.2);
+  --bl:#4e8cff;--blb:rgba(78,140,255,.1);--blB:rgba(78,140,255,.2);
+  --a:#ffaa33;--ab:rgba(255,170,51,.1);--aB:rgba(255,170,51,.2);
+  --p:#a78bfa;--pb:rgba(167,139,250,.1);--pB:rgba(167,139,250,.2);
+}
+body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
+/* Scan feature */
+.scan-drop{border:2px dashed var(--b2);border-radius:var(--R);padding:38px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3);margin-bottom:14px}
+.scan-drop:hover,.scan-drop.drag{border-color:var(--g);background:var(--gb)}
+.scan-icon{font-size:44px;margin-bottom:11px}.scan-title{font-size:15px;font-weight:600;margin-bottom:5px}.scan-sub{font-size:12px;color:var(--t3)}
+.scan-btns{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.scan-preview{border-radius:var(--R);overflow:hidden;margin-bottom:14px;position:relative}
+.scan-preview img{width:100%;display:block;max-height:280px;object-fit:contain;background:var(--bg3)}
+.scan-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,17,23,.75);border-radius:var(--R)}
+.spin{display:inline-block;width:38px;height:38px;border:3px solid var(--b2);border-top-color:var(--g);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:9px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ex-card{background:var(--bg3);border-radius:var(--R);padding:16px;margin-bottom:14px;border:1px solid var(--gB)}
+.ex-badge{display:flex;align-items:center;gap:8px;margin-bottom:11px;font-size:13px;color:var(--g);font-weight:600}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ex-f{background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rs);padding:9px 11px}
+.ex-l{font-size:10px;color:var(--t3);margin-bottom:3px}.ex-v{font-size:13px;font-weight:500;color:var(--t)}
+.ex-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--b);font-size:12px}.ex-item:last-child{border-bottom:none}
+/* Zakat input rows */
+.zr2{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;border-bottom:1px solid var(--b);font-size:13px}
+.zr2:last-child{border-bottom:none}.zr2.ded{color:var(--r)}.zr2 input.fi{width:110px;text-align:right;direction:ltr;padding:5px 8px;font-size:13px}
+.progb{background:var(--bg3);border-radius:5px;height:7px;overflow:hidden;margin-top:5px}
+.progf{height:100%;border-radius:5px;transition:width .5s}
+.txrw{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--b)}.txrw:last-child{border-bottom:none}
+.txrn{font-size:13px;color:var(--t)}.txrd{font-size:11px;color:var(--t3);margin-top:1px}.txrv{font-size:14px;font-weight:700;direction:ltr}
+/* Users & Permissions */
+.role-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;align-items:center;justify-content:center;padding:16px}
+.role-modal.open{display:flex}
+.role-box{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:20px;width:100%;max-width:340px}
+.user-card{display:flex;align-items:center;gap:11px;padding:11px;border-radius:var(--Rs);border:1px solid var(--b);margin-bottom:8px;cursor:pointer;transition:all .15s}
+.user-card:hover{border-color:var(--b2);background:var(--bg3)}
+.user-card.active-user{border-color:var(--gB);background:var(--gb)}
+.user-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:13px;font-weight:600;color:var(--t)}
+.user-role-lbl{font-size:11px;margin-top:1px}
+.role-bdg{display:inline-flex;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
+.role-admin{background:var(--blb);color:var(--bl);border:1px solid var(--blB)}
+.role-cashier{background:var(--gb);color:var(--g);border:1px solid var(--gB)}
+.role-inventory{background:var(--ab);color:var(--a);border:1px solid var(--aB)}
+.perm-tag{display:inline-flex;padding:2px 8px;border-radius:8px;font-size:11px;background:var(--bg3);color:var(--t2);border:1px solid var(--b);margin:2px}
+.perm-tag.yes{background:var(--gb);color:var(--g);border-color:var(--gB)}
+.perm-tag.no{background:var(--rb);color:var(--r);border-color:var(--rB);text-decoration:line-through;opacity:.6}
+.qab{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px 12px;cursor:pointer;font-family:'Tajawal',sans-serif;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .15s}
+.uc-role{font-size:10px;margin-top:1px}
+.kg{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}}
+@media(max-width:700px){
+  .sb{position:fixed;right:0;top:0;bottom:0;z-index:50;transform:translateX(110%);width:280px;box-shadow:-4px 0 20px rgba(0,0,0,.2)}
+  .sb.open{transform:translateX(0)}
+  .ovb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40}
+  .ovb.vis{display:block}
+  .hbg{display:block}
+  .pg{padding:12px}
+  .kg{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .g2{grid-template-columns:1fr}
+  .ff.full{grid-column:span 1}
+  .tb{padding:10px 13px;gap:7px}
+  .tb button{font-size:12px;padding:6px 9px}
+  .pt{font-size:13px}
+  #quickActions{grid-template-columns:repeat(2,1fr) !important}
+  .qab{padding:12px 8px}
+  .qab span:first-child{font-size:18px}
+  .tbl{font-size:12px}
+  .tbl th,.tbl td{padding:7px 8px}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .fg{grid-template-columns:1fr}
+  .cw{height:calc(100vh - 100px)}
+  .md{padding:16px}
+  .role-box{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ONBOARDING -->
+<div class="ob" id="obWrap">
+  <div class="obc">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px"><img src="img/logo-icon.png" style="width:40px;height:40px;object-fit:contain"><img src="img/logo-text.png" class="logo-text-img" style="height:30px;object-fit:contain"></div>
+      <div style="font-size:19px;font-weight:700">مرحباً بك</div>
+      <div style="font-size:13px;color:var(--t3);margin-top:4px">إعداد سريع لبدء إدارة مشروعك مالياً</div>
+    </div>
+    <div class="obs" id="obSteps">
+      <div class="obstep cur" id="os1">1</div><div class="obline"></div>
+      <div class="obstep" id="os2">2</div><div class="obline"></div>
+      <div class="obstep" id="os3">3</div>
+    </div>
+    <!-- Step 1 -->
+    <div id="obS1">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px">معلومات مشروعك</div>
+      <div class="fg" style="margin-bottom:14px">
+        <div class="ff full"><label class="fl">اسم المشروع أو الشركة</label><input class="fi" id="ob-name" placeholder="مثال: مؤسسة النور للاستشارات"/></div>
+        <div class="ff"><label class="fl">نوع النشاط</label>
+          <select class="fi" id="ob-type">
+            <option value="">اختر</option>
+            <option>استشارات ومهنية</option><option>تجارة وبيع</option><option>مطاعم وكافيهات</option>
+            <option>خدمات وصيانة</option><option>تقنية وبرمجة</option><option>تصميم وإبداع</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="ff"><label class="fl">عدد الموظفين</label>
+          <select class="fi" id="ob-emp">
+            <option value="1">عملي لوحدي</option><option value="5">1-5 موظفين</option>
+            <option value="15">6-15 موظفاً</option><option value="30">أكثر من 15</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn bp" style="width:100%;padding:11px" onclick="obNext(1)">التالي ←</button>
+    </div>
+    <!-- Step 2 -->
+    <div id="obS2" style="display:none">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px">وضعك المالي الحالي</div>
+      <div class="fg" style="margin-bottom:14px">
+        <div class="ff"><label class="fl">متوسط إيراداتك الشهرية (ر.س)</label><input class="fi" id="ob-rev" type="number" placeholder="مثال: 35000"/></div>
+        <div class="ff"><label class="fl">متوسط مصروفاتك الشهرية (ر.س)</label><input class="fi" id="ob-exp" type="number" placeholder="مثال: 14000"/></div>
+        <div class="ff"><label class="fl">الرصيد الحالي في الحساب (ر.س)</label><input class="fi" id="ob-bal" type="number" placeholder="مثال: 31000"/></div>
+        <div class="ff"><label class="fl">هل لديك فواتير غير محصّلة؟</label>
+          <select class="fi" id="ob-inv"><option value="0">لا</option><option value="1">نعم، أقل من 10,000</option><option value="2">نعم، أكثر من 10,000</option></select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bg2" style="flex:1;padding:10px" onclick="obBack()">← رجوع</button>
+        <button class="btn bp" style="flex:2;padding:10px" onclick="obNext(2)">التالي ←</button>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div id="obS3" style="display:none">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px">أهدافك المالية</div>
+      <div class="fg" style="margin-bottom:14px">
+        <div class="ff full"><label class="fl">ما هدفك المالي الرئيسي؟</label>
+          <select class="fi" id="ob-goal">
+            <option value="grow">زيادة الإيرادات</option><option value="save">ترشيد المصروفات</option>
+            <option value="collect">تحسين التحصيل</option><option value="plan">التخطيط للتوسع</option>
+          </select>
+        </div>
+        <div class="ff"><label class="fl">مفتاح Claude API (للذكاء الاصطناعي)</label><input type="password" class="fi" id="ob-api" placeholder="sk-ant-... (اختياري)"/></div>
+        <div class="ff"><label class="fl">هدف الإيرادات الشهري (ر.س)</label><input class="fi" id="ob-target" type="number" placeholder="مثال: 50000"/></div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:12px">المفتاح يُحفظ في متصفحك فقط — <a href="https://console.anthropic.com" target="_blank" style="color:var(--g)">احصل عليه هنا</a></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bg2" style="flex:1;padding:10px" onclick="obBack()">← رجوع</button>
+        <button class="btn bp" style="flex:2;padding:10px" onclick="obFinish()">ابدأ ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="layout" id="appLayout" style="display:none">
+<aside class="sb" id="sbEl">
+  <div class="lw"><div class="lg"><img src="img/logo-icon.png" class="li" style="width:36px;height:36px;object-fit:contain"><div><img src="img/logo-text.png" class="logo-text-img" style="height:26px;object-fit:contain;display:block"><div class="lt">محاسبك المالي الذكي</div></div></div></div>
+  <nav>
+    <div class="ns">البداية</div>
+    <div class="ni on" onclick="go('db',this)"><span class="nk">🏠</span>البداية</div>
+    <div class="ni" onclick="go('hl',this)"><span class="nk">❤️</span>صحتي المالية</div>
+    <div class="ns">الذكاء المالي ✨</div>
+    <div class="ni" onclick="go('cf',this)"><span class="nk">💧</span>تدفق الكاش<span class="nbg">ذكي</span></div>
+    <div class="ni" onclick="go('ag',this)"><span class="nk">⏳</span>من يدين لي؟<span class="nbg">جديد</span></div>
+    <div class="ni" onclick="go('cp',this)"><span class="nk">👥</span>أرباحي من العملاء<span class="nbg">جديد</span></div>
+    <div class="ni" onclick="go('gls',this)"><span class="nk">🎯</span>أهدافي المالية<span class="nbg">جديد</span></div>
+    <div class="ni" onclick="go('tax',this)"><span class="nk">🧮</span>الضرائب والزكاة<span class="nbg">جديد</span></div>
+    <div class="ns">العمليات اليومية</div>
+    <div class="ni" onclick="go('tx',this)"><span class="nk">💸</span>سجلي المالي</div>
+    <div class="ni" onclick="go('inv',this)"><span class="nk">🧾</span>فواتيري<span class="nb" id="invBadge"></span></div>
+    <div class="ni" onclick="go('bg',this)"><span class="nk">📊</span>ميزانيتي</div>
+    <div class="ns">الضرائب والزكاة 🆕</div>
+    <div class="ni" onclick="go('vat',this)"><span class="nk">🧾</span>تقرير الضريبة</div>
+    <div class="ni" onclick="go('zakat',this)"><span class="nk">☪️</span>احسب زكاتي</div>
+    <div class="ni" onclick="go('taxcal',this)"><span class="nk">📅</span>مواعيد الضريبة</div>
+    <div class="ni" onclick="go('scan',this)"><span class="nk">📷</span>مسح الفواتير<span class="nbg">AI</span></div>
+    <div class="ns">التقارير</div>
+    <div class="ni" onclick="go('st',this)"><span class="nk">📋</span>تقاريري المالية</div>
+    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span>إصدار فاتورة</div>
+    <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span>اسأل محسوب</div>
+    <div class="ns">الإدارة</div>
+    <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span>المستخدمون</div>
+  </nav>
+  <div class="us">
+    <div class="uc" style="cursor:pointer" onclick="openRoleModal()">
+      <div class="ua" id="userAv">أح</div>
+      <div style="flex:1;min-width:0">
+        <div class="un" id="userName">مشروعك</div>
+        <div class="uc-role" id="userRoleLbl" style="color:var(--g)">مدير ✓</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3)">تبديل</div>
+    </div>
+    <div style="margin-top:7px;display:flex;gap:6px">
+      <a href="pricing.html" target="_blank" style="flex:1;text-align:center;padding:6px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:7px;font-size:11px;color:#2563eb;text-decoration:none;cursor:pointer">⬆️ ترقية</a>
+      <button id="signOutBtn" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'Tajawal',sans-serif">خروج</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+<div class="tb">
+  <div style="display:flex;align-items:center;gap:9px"><span class="hbg" onclick="togSB()">☰</span><button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;font-size:17px;color:var(--t3);padding:4px 6px;border-radius:6px;transition:all .15s" title="إخفاء/إظهار القائمة">⇄</button><div class="pt" id="pt">لوحة التحكم</div></div>
+  <div style="display:flex;gap:7px">
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="تبديل الوضع">🌙</button>
+    <button class="btn bg2" onclick="go('ai',null)">🤖 استشر</button>
+    <button class="btn bp" onclick="go('zt',null)">＋ فاتورة</button>
+  </div>
+</div>
+
+<!-- ROLE SWITCH MODAL -->
+<div class="role-modal" id="roleModal">
+  <div class="role-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:15px;font-weight:700">تبديل المستخدم</div>
+      <span style="cursor:pointer;color:var(--t3);font-size:18px" onclick="closeRoleModal()">✕</span>
+    </div>
+    <div id="roleUserList"></div>
+    <button class="btn bg2" style="width:100%;margin-top:8px;font-size:12px;padding:8px" onclick="go('usrs',null);closeRoleModal()">إدارة المستخدمين ←</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="pg on" id="pg-db">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div>
+      <div style="font-size:18px;font-weight:700">أهلاً، <span id="greetName">—</span> 👋</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:2px" id="greetDate"></div>
+    </div>
+  </div>
+  <div id="quickActions" style="display:grid;gap:10px;margin-bottom:16px"></div>
+  <div id="smA"></div>
+  <div class="kg">
+    <div class="kc G"><div class="kl">الإيرادات — هذا الشهر</div><div class="kv G" id="kRevenue">0 ر.س</div><div class="kch up" id="kRevenueChange">—</div></div>
+    <div class="kc R"><div class="kl">المصروفات</div><div class="kv R" id="kExpense">0 ر.س</div><div class="kch dn">—</div></div>
+    <div class="kc B"><div class="kl">الرصيد الصافي</div><div class="kv B" id="kNet">0 ر.س</div><div class="kch up">—</div></div>
+    <div class="kc A"><div class="kl">السيولة المتاحة</div><div class="kv A" id="kLiq">0 ر.س</div><div class="kch">تكفي <span id="kDays">0</span> يوم</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">الصحة المالية</div><div class="sl" onclick="go('hl',null)">تفاصيل ←</div></div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <div class="hr">
+          <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1e2535" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#22c98a" stroke-width="11" stroke-dasharray="209 264" id="hrArc"/></svg>
+          <div class="hrc"><div class="hrn" style="color:var(--g)" id="hrScore">79</div><div class="hrl">من 100</div></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:7px">
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">السيولة</span><span style="color:var(--g)">82%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:82%;height:100%;background:var(--g);border-radius:3px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">التحصيل</span><span style="color:var(--a)">58%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:58%;height:100%;background:var(--a);border-radius:3px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">الربحية</span><span style="color:var(--g)">90%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:90%;height:100%;background:var(--g);border-radius:3px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">الالتزامات</span><span style="color:var(--bl)">70%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:70%;height:100%;background:var(--bl);border-radius:3px"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">أهم التنبيهات الذكية</div><div class="sl" onclick="go('ai',null)">استشر AI ←</div></div>
+      <div id="dbAlerts2"></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">أعلى العملاء ربحيةً</div><div class="sl" onclick="go('cp',null)">الكل ←</div></div>
+      <div id="topClients"></div>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">تقدم الأهداف</div><div class="sl" onclick="go('gls',null)">الكل ←</div></div>
+      <div id="dbGoals"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HEALTH -->
+<div class="pg" id="pg-hl">
+  <div class="g3">
+    <div class="card" style="text-align:center">
+      <div class="hr" style="margin:0 auto 11px">
+        <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1e2535" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#3a4060" stroke-width="11" stroke-dasharray="0 264"/></svg>
+        <div class="hrc"><div class="hrn" style="color:var(--t3)" id="hlScore">—</div><div class="hrl">صحة مالية</div></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--t3)" id="hlStatus">أضف بيانات لحساب الصحة المالية</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:3px"> </div>
+    </div>
+    <div class="card">
+      <div class="st" style="margin-bottom:12px">مؤشرات الأداء الرئيسية</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>هامش الربح الصافي</span><span style="color:var(--t3)">—</span></div><div style="background:var(--bg3);border-radius:4px;height:6px;overflow:hidden"><div style="width:0%;height:100%;background:var(--g);border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>نسبة التحصيل</span><span style="color:var(--t3)">—</span></div><div style="background:var(--bg3);border-radius:4px;height:6px;overflow:hidden"><div style="width:0%;height:100%;background:var(--a);border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>نسبة السيولة</span><span style="color:var(--t3)">—</span></div><div style="background:var(--bg3);border-radius:4px;height:6px;overflow:hidden"><div style="width:0%;height:100%;background:var(--bl);border-radius:4px"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>نمو الإيرادات</span><span style="color:var(--t3)">—</span></div><div style="background:var(--bg3);border-radius:4px;height:6px;overflow:hidden"><div style="width:0%;height:100%;background:var(--g);border-radius:4px"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">تشخيص ذكي</div>
+      <div style="text-align:center;padding:24px;color:var(--t3)">أضف معاملات لرؤية التشخيص الذكي</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="st" style="margin-bottom:12px">مقارنة بمشاريع مماثلة</div>
+    <table class="tbl"><thead><tr><th>المؤشر</th><th>مشروعك</th><th>متوسط القطاع</th><th>الحالة</th></tr></thead><tbody>
+      <tr><td class="tm">هامش الربح</td><td style="color:var(--t3);font-weight:600">—</td><td style="color:var(--t3)">45%</td><td><span class="bdg">أضف بيانات</span></td></tr>
+      <tr><td class="tm">دورة التحصيل</td><td style="color:var(--t3);font-weight:600">—</td><td style="color:var(--t3)">28 يوم</td><td><span class="bdg">أضف بيانات</span></td></tr>
+      <tr><td class="tm">نسبة المصروفات</td><td style="color:var(--t3);font-weight:600">—</td><td style="color:var(--t3)">52%</td><td><span class="bdg">أضف بيانات</span></td></tr>
+      <tr><td class="tm">نمو شهري</td><td style="color:var(--t3);font-weight:600">—</td><td style="color:var(--t3)">7%</td><td><span class="bdg">أضف بيانات</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- CASHFLOW -->
+<div class="pg" id="pg-cf">
+  <div class="g3">
+    <div class="kc B"><div class="kl">الرصيد الحالي</div><div class="kv B" id="cfBal">0 ر.س</div><div class="kch">متاح الآن</div></div>
+    <div class="kc G"><div class="kl">متوقع بعد 30 يوم</div><div class="kv G" id="cfExp">0 ر.س</div><div class="kch up">بعد التحصيل</div></div>
+    <div class="kc A"><div class="kl">أيام السيولة</div><div class="kv A" id="cfDays">0 يوم</div><div class="kch">قبل نفاد السيولة</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">توقع التدفق — 90 يوم</div></div>
+      <div style="text-align:center;padding:32px;color:var(--t3)">أضف معاملات لرؤية توقع التدفق النقدي</div>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">الالتزامات القادمة</div></div>
+      <table class="tbl"><thead><tr><th>الالتزام</th><th>الموعد</th><th>المبلغ</th></tr></thead><tbody>
+        <tr><td colspan="3" style="text-align:center;color:var(--t3);padding:18px">لا توجد التزامات مسجّلة</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- AGING (NEW) -->
+<div class="pg" id="pg-ag">
+  <div class="g4">
+    <div class="kc G"><div class="kl">0-30 يوم</div><div class="kv G">0 ر.س</div><div class="kch">لا يوجد</div></div>
+    <div class="kc A"><div class="kl">31-60 يوم</div><div class="kv A">0 ر.س</div><div class="kch">لا يوجد</div></div>
+    <div class="kc R"><div class="kl">61-90 يوم</div><div class="kv R">0 ر.س</div><div class="kch">لا يوجد</div></div>
+    <div class="kc P"><div class="kl">أكثر من 90 يوم</div><div class="kv P">0 ر.س</div><div class="kch">لا يوجد</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">تفصيل الذمم المدينة</div></div>
+      <div id="agingList" style="text-align:center;padding:28px;color:var(--t3)">
+        لا توجد فواتير معلقة — أضف فواتير لرؤية تحليل الذمم
+      </div>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">توصيات التحصيل الذكية</div></div>
+      <div style="text-align:center;padding:28px;color:var(--t3)">
+        ستظهر التوصيات تلقائياً عند وجود فواتير متأخرة
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT PROFITABILITY (NEW) -->
+<div class="pg" id="pg-cp">
+  <div class="al al-b" style="margin-bottom:13px">
+    <span class="ai2">💡</span>
+    <div class="ab2">
+      <div class="at2 B">تحليل ذكي</div>
+      <div class="as2">أضف معاملات مرتبطة بعملاء لرؤية تحليل ربحية كل عميل واقتراحات لتحسين هامش الربح.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="st">ربحية العملاء — أبريل</div></div>
+    <div id="clientsList">
+      <div style="text-align:center;padding:28px;color:var(--t3)">لا توجد بيانات عملاء بعد — أضف معاملات مرتبطة بعملاء لرؤية تحليل الربحية</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="st" style="margin-bottom:12px">توصيات استراتيجية</div>
+    <div class="g2" style="margin-bottom:0">
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
+        <div style="font-size:13px;font-weight:600;color:var(--g);margin-bottom:6px">▲ عملاء للتركيز عليهم</div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.7">سيظهر هنا أعلى عملائك ربحيةً بعد إضافة معاملات — اطلب منهم إحالة عملاء مشابهين.</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
+        <div style="font-size:13px;font-weight:600;color:var(--r);margin-bottom:6px">▼ عملاء تحتاج مراجعة</div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.7">سيظهر هنا العملاء ذوو الربحية المنخفضة أو المتأخرون في الدفع — مع توصيات للتحسين.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOALS (NEW) -->
+<div class="pg" id="pg-gls">
+  <div class="g3">
+    <div class="kc G"><div class="kl">الهدف الشهري</div><div class="kv G" id="gTarget">0 ر.س</div><div class="kch">حدد هدفك</div></div>
+    <div class="kc A"><div class="kl">تحقق حتى الآن</div><div class="kv A" id="gAchieved">0 ر.س</div><div class="kch">0% من الهدف</div></div>
+    <div class="kc P"><div class="kl">المتبقي للهدف</div><div class="kv P" id="gRemain">0 ر.س</div><div class="kch">—</div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="st">أهدافي المالية</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="addGoal()">＋ هدف جديد</button></div>
+    <div id="goalsList">
+      <div style="text-align:center;padding:28px;color:var(--t3)">لا توجد أهداف بعد — اضغط <b>＋ هدف جديد</b> لإضافة هدفك المالي الأول</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="st" style="margin-bottom:12px">خطة الوصول للأهداف — AI</div>
+    <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
+      <div style="text-align:center;padding:16px;color:var(--t3)">أضف هدفاً مالياً وسيقترح المساعد الذكي خطة للوصول إليه</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAX (NEW) -->
+<div class="pg" id="pg-tax">
+  <div class="al al-a" style="margin-bottom:13px">
+    <span class="ai2">⏰</span>
+    <div class="ab2">
+      <div class="at2 A">تذكير: ضريبة القيمة المضافة تستحق 30 أبريل</div>
+      <div class="as2">المبلغ المتوقع: 2,800 ر.س. تأكد من توفر السيولة.</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">ضريبة القيمة المضافة</div></div>
+      <div class="txr">
+        <div><div class="txrn">ضريبة المبيعات (خارجة)</div><div class="txrd">15% من الإيرادات الخاضعة</div></div>
+        <div class="txrv" style="color:var(--r)" id="txVatOut">0 ر.س</div>
+      </div>
+      <div class="txr">
+        <div><div class="txrn">ضريبة المشتريات (داخلة)</div><div class="txrd">15% من المصروفات المؤهلة</div></div>
+        <div class="txrv" style="color:var(--g)" id="txVatIn">0 ر.س</div>
+      </div>
+      <div class="txr" style="border-top:1px solid var(--b2);padding-top:10px">
+        <div><div class="txrn" style="font-weight:700;color:var(--t)">صافي الضريبة المستحقة</div><div class="txrd">للربع الحالي</div></div>
+        <div class="txrv" style="color:var(--a);font-size:16px" id="txVatNet">0 ر.س</div>
+      </div>
+      <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="alert('جاري تحضير الإقرار...')">تحضير الإقرار الضريبي ←</button>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">الزكاة السنوية</div></div>
+      <div class="txr">
+        <div><div class="txrn">وعاء الزكاة التقديري</div><div class="txrd">بناءً على الأصول الحالية</div></div>
+        <div class="txrv" style="color:var(--bl)" id="txZBase">0 ر.س</div>
+      </div>
+      <div class="txr">
+        <div><div class="txrn">نسبة الزكاة</div><div class="txrd">2.5% من وعاء الزكاة</div></div>
+        <div class="txrv">2.5%</div>
+      </div>
+      <div class="txr" style="border-top:1px solid var(--b2);padding-top:10px">
+        <div><div class="txrn" style="font-weight:700;color:var(--t)">الزكاة المقدرة سنوياً</div></div>
+        <div class="txrv" style="color:var(--a);font-size:16px" id="txZAmount">0 ر.س</div>
+      </div>
+      <div style="background:var(--gb);border:1px solid var(--gB);border-radius:var(--Rs);padding:10px;margin-top:12px;font-size:12px;color:var(--t2)">هذا تقدير أولي — استشر محاسباً معتمداً لتأكيد المبلغ الدقيق</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="st" style="margin-bottom:12px">التقويم الضريبي — 2026</div>
+    <table class="tbl"><thead><tr><th>الالتزام</th><th>الموعد</th><th>المبلغ المتوقع</th><th>الحالة</th></tr></thead><tbody>
+      <tr><td class="tm">ض.ق.م — الربع الأول</td><td>30 يناير</td><td style="direction:ltr;color:var(--t3)">—</td><td><span class="bdg">بانتظار البيانات</span></td></tr>
+      <tr><td class="tm">ض.ق.م — الربع الثاني</td><td style="color:var(--a)">30 أبريل</td><td style="direction:ltr;color:var(--t3)">—</td><td><span class="bdg bdg-b">لم يحل</span></td></tr>
+      <tr><td class="tm">ض.ق.م — الربع الثالث</td><td>31 يوليو</td><td style="direction:ltr;color:var(--t3)">—</td><td><span class="bdg bdg-b">لم يحل</span></td></tr>
+      <tr><td class="tm">إقرار الزكاة السنوي</td><td>30 مارس 2027</td><td style="direction:ltr;color:var(--t3)">—</td><td><span class="bdg bdg-b">لم يحل</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- TRANSACTIONS -->
+<div class="pg" id="pg-tx">
+  <div id="addTxW" style="display:none;margin-bottom:14px">
+    <div class="card">
+      <div class="sh"><div class="st">إضافة معاملة</div><span style="cursor:pointer;color:var(--t3)" onclick="document.getElementById('addTxW').style.display='none'">✕</span></div>
+      <div style="display:flex;gap:7px;margin-bottom:12px">
+        <button class="btn bp" id="tbIn" style="flex:1" onclick="setTT('income')">📥 إيراد</button>
+        <button class="btn bg2" id="tbOut" style="flex:1" onclick="setTT('expense')">📤 مصروف</button>
+      </div>
+      <div class="fg">
+        <div class="ff"><label class="fl">المبلغ (ر.س)</label><input class="fi" id="tAmt" type="number" placeholder="0.00"/></div>
+        <div class="ff"><label class="fl">التاريخ</label><input class="fi" id="tDate" type="date"/></div>
+        <div class="ff"><label class="fl">الوصف</label><input class="fi" id="tDesc" placeholder="وصف المعاملة"/></div>
+        <div class="ff"><label class="fl">الجهة</label><input class="fi" id="tParty" placeholder="العميل أو المورد"/></div>
+        <div class="ff"><label class="fl">التصنيف</label><select class="fi" id="tCat"><option>اختر</option><option>إيجار</option><option>رواتب</option><option>تشغيل</option><option>تسويق</option><option>عميل</option><option>مشروع</option><option>ضريبة</option><option>أخرى</option></select></div>
+        <div class="ff" style="align-self:flex-end"><button class="btn bp" style="width:100%;padding:9px" onclick="saveTx()">حفظ ✓</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sh"><div class="st">سجل المعاملات</div><button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="document.getElementById('addTxW').style.display='block'">＋ إضافة</button></div>
+    <table class="tbl"><thead><tr><th>الوصف</th><th>الجهة</th><th>التصنيف</th><th>التاريخ</th><th>المبلغ</th></tr></thead>
+    <tbody id="txTb">
+      <tr id="txEmpty"><td colspan="5" style="text-align:center;padding:28px;color:var(--t3)">لا توجد معاملات بعد — اضغط <b>＋ إضافة</b> لتسجيل أول معاملة</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- INVOICES -->
+<div class="pg" id="pg-inv">
+  <div class="g3"><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--a)" id="invPending">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">معلقة (ر.س)</div></div><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--r)" id="invOverdue">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">متأخرة</div></div><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--g)" id="invPaid">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">محصّلة (ر.س)</div></div></div>
+  <div class="card">
+    <div class="sh"><div class="st">الفواتير</div><button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="go('zt',null)">＋ فاتورة</button></div>
+    <table class="tbl"><thead><tr><th>رقم</th><th>العميل</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="invTb">
+      <tr><td colspan="6" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- BUDGET -->
+<div class="pg" id="pg-bg">
+  <div class="g2" style="margin-bottom:14px">
+    <div class="kc B"><div class="kl">الميزانية المخططة</div><div class="kv B" id="bgPlanned">0 ر.س</div></div>
+    <div class="kc A"><div class="kl">الإنفاق الفعلي</div><div class="kv A" id="bgActual">0 ر.س</div><div class="kch up" id="bgSaved">—</div></div>
+  </div>
+  <div class="card">
+    <div class="sh"><div class="st">الميزانية مقابل الفعلي</div></div>
+    <div id="budgetBars" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فئات ميزانية بعد — أضف فئة جديدة لبدء التتبع</div>
+  </div>
+</div>
+
+<!-- STATEMENTS -->
+<div class="pg" id="pg-st">
+  <div style="display:flex;gap:7px;margin-bottom:14px">
+    <button class="btn bp" id="stB1" onclick="showSt('income',this)">قائمة الدخل</button>
+    <button class="btn bg2" onclick="showSt('balance',this)">الميزانية العمومية</button>
+    <button class="btn bg2" onclick="showSt('cf',this)">التدفقات النقدية</button>
+  </div>
+  <div class="card"><div class="sh"><div class="st" id="stT">قائمة الدخل — أبريل 2026</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="alert('تصدير PDF...')">PDF ↓</button></div><div id="stC"></div></div>
+</div>
+
+<!-- ZATCA -->
+<div class="pg" id="pg-zt">
+  <div id="zFrm">
+    <div class="g2">
+      <div class="card"><div class="st" style="margin-bottom:11px">المُصدِر</div><div class="fg"><div class="ff full"><label class="fl">اسم المنشأة</label><input class="fi" id="zS" placeholder="مؤسسة النور"/></div><div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zSv" placeholder="300xxxxxxxxx"/></div><div class="ff"><label class="fl">المدينة</label><input class="fi" id="zC" placeholder="الرياض"/></div></div></div>
+      <div class="card"><div class="st" style="margin-bottom:11px">العميل</div><div class="fg"><div class="ff full"><label class="fl">اسم العميل</label><input class="fi" id="zB" placeholder="اسم العميل"/></div><div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zBv" placeholder="اختياري"/></div><div class="ff"><label class="fl">النوع</label><select class="fi" id="zT"><option>ضريبية</option><option>مبسّطة</option></select></div></div></div>
+    </div>
+    <div class="card" style="margin-bottom:13px">
+      <div class="sh"><div class="st">البنود</div><button class="btn bg2" style="font-size:12px;padding:4px 10px" onclick="addZR()">＋ بند</button></div>
+      <div id="zRws"><div class="zr" id="zr0" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin-bottom:7px">
+        <div class="ff"><label class="fl">الوصف</label><input class="fi zd" placeholder="خدمة" oninput="calcZ()"/></div>
+        <div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="1" oninput="calcZ()"/></div>
+        <div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" placeholder="0" oninput="calcZ()"/></div>
+        <div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="15" oninput="calcZ()"/></div>
+      </div></div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:11px;display:flex;justify-content:flex-end"><div style="min-width:190px;font-size:13px">
+        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">قبل الضريبة</span><span id="zSb" style="direction:ltr">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">الضريبة</span><span id="zVt" style="direction:ltr">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-size:14px;font-weight:700;border-top:1px solid var(--b);margin-top:5px"><span>الإجمالي</span><span id="zGr" style="direction:ltr;color:var(--g)">0.00 ر.س</span></div>
+      </div></div>
+    </div>
+    <button class="btn bp" style="width:100%;padding:12px;font-size:14px" onclick="issueZ()">إصدار الفاتورة وإرسالها لزاتكا ←</button>
+  </div>
+  <div id="zPrv" style="display:none">
+    <div class="al al-g" style="margin-bottom:13px"><span class="ai2">✅</span><div class="ab2"><div class="at2 G">تمت الموافقة من زاتكا</div><div class="as2" id="zRef">رقم الإشعار: ZAT-2026-XXXX</div></div><div style="display:flex;gap:7px;margin-right:auto"><button class="btn bg2" style="font-size:12px;padding:4px 9px" onclick="document.getElementById('zFrm').style.display='block';document.getElementById('zPrv').style.display='none'">جديدة</button><button class="btn bp" style="font-size:12px;padding:4px 9px" onclick="alert('PDF...')">PDF ↓</button></div></div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;color:#1a1a1a;border-radius:var(--R);padding:22px" id="zInv"></div>
+  </div>
+</div>
+
+<!-- AI -->
+<div class="pg" id="pg-ai">
+  <div class="cw">
+    <div class="cm" id="chatM">
+      <div class="mr"><div class="mav ai">🤖</div><div class="bbl ai">مرحباً! أنا محاسبك المالي الذكي.<br><br>أستطيع تحليل وضعك المالي، اكتشاف المشاكل قبل حدوثها، وتقديم توصيات مبنية على بياناتك الفعلية. اسألني بالعربي بشكل طبيعي.</div></div>
+    </div>
+    <div class="cft">
+      <div class="cps">
+        <span class="cp" onclick="ask('حلّل وضعي المالي الحالي')">📊 تحليل شامل</span>
+        <span class="cp" onclick="ask('ما المشاكل التي يجب أن أنتبه لها؟')">⚠️ المشاكل</span>
+        <span class="cp" onclick="ask('كيف أحسّن تدفقي النقدي؟')">💧 التدفق النقدي</span>
+        <span class="cp" onclick="ask('ما توصياتك لزيادة الربحية؟')">💡 زيادة الربح</span>
+        <span class="cp" onclick="ask('أي عملائي الأكثر ربحية وكيف أكسب مزيداً منهم؟')">👥 العملاء</span>
+        <span class="cp" onclick="ask('متى يجب أن أفكر في التوسع؟')">🚀 التوسع</span>
+        <span class="cp" onclick="ask('كيف أحضّر للضريبة القادمة؟')">🧮 الضرائب</span>
+      </div>
+      <div class="cir">
+        <textarea class="cta" id="cIn" placeholder="اسأل مستشارك المالي..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();ask();}"></textarea>
+        <button class="csnd" onclick="ask()">▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-scan">
+
+  <div class="al al-b" style="margin-bottom:14px">
+    <span class="ai3">📷</span>
+    <div class="ab3">
+      <div class="at3 B">مسح الفواتير بالذكاء الاصطناعي</div>
+      <div class="as3">صوّر أي فاتورة ورقية أو إلكترونية — سيقرأها النظام تلقائياً ويستخرج جميع البيانات ويسجّلها في حسابك.</div>
+    </div>
+  </div>
+
+  <div id="scanStep1">
+    <div class="scan-drop" id="dropZone"
+      onclick="document.getElementById('fileIn').click()"
+      ondragover="event.preventDefault();this.classList.add('drag')"
+      ondragleave="this.classList.remove('drag')"
+      ondrop="handleDrop(event)">
+      <div class="scan-icon">📸</div>
+      <div class="scan-title">ارفع صورة الفاتورة</div>
+      <div class="scan-sub">اسحب وأفلت الصورة هنا أو اضغط لاختيار ملف</div>
+      <div class="scan-btns">
+        <button class="btn bp" onclick="event.stopPropagation();document.getElementById('camIn').click()">📷 كاميرا الجوال</button>
+        <button class="btn bg2" onclick="event.stopPropagation();document.getElementById('fileIn').click()">📁 اختر ملفاً</button>
+      </div>
+    </div>
+    <!-- Hidden inputs -->
+    <input type="file" id="fileIn" accept="image/*,application/pdf" style="display:none" onchange="handleFile(this)">
+    <input type="file" id="camIn" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this)">
+
+    <!-- History -->
+    <div class="card">
+      <div class="sh"><div class="st">آخر الفواتير المُمسوحة</div></div>
+      <table class="tbl" id="scanHistory">
+        <thead><tr><th>الفاتورة</th><th>الجهة</th><th>التاريخ</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+        <tbody>
+          <tr><td class="tm">فاتورة #2241</td><td>مورد المستلزمات</td><td>18 أبريل</td><td style="direction:ltr;color:var(--r);font-weight:600">-1,840 ر.س</td><td><span class="bdg bdg-g">مسجّلة ✓</span></td></tr>
+          <tr><td class="tm">إيصال أرامكس</td><td>أرامكس</td><td>15 أبريل</td><td style="direction:ltr;color:var(--r);font-weight:600">-220 ر.س</td><td><span class="bdg bdg-g">مسجّلة ✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Preview + Processing -->
+  <div id="scanStep2" style="display:none">
+    <div class="scan-preview">
+      <img id="previewImg" src="" alt="صورة الفاتورة">
+      <div class="scan-overlay" id="scanOverlay">
+        <div class="scan-progress">
+          <div class="spin"></div>
+          <div style="font-size:14px;font-weight:600;color:var(--g)" id="scanStatus">يحلل الصورة...</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:4px" id="scanSub">استخراج بيانات الفاتورة</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button class="btn bg2" style="flex:1" onclick="resetScan()">← مسح آخر</button>
+      <button class="btn bp" style="flex:2" id="analyzeBtn" onclick="analyzeInvoice()" disabled>🔍 تحليل الفاتورة</button>
+    </div>
+  </div>
+
+  <!-- Extracted Data -->
+  <div id="scanStep3" style="display:none">
+    <div class="extracted-card">
+      <div class="ex-badge">✅ تم استخراج البيانات بنجاح</div>
+      <div class="ex-grid" id="extractedFields">
+        <!-- filled by JS -->
+      </div>
+      <div class="ex-items" id="extractedItems"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="sh"><div class="st">راجع البيانات قبل الحفظ</div></div>
+      <div class="fg">
+        <div class="ff"><label class="fl">نوع المعاملة</label>
+          <select class="fi" id="exType">
+            <option value="expense">مصروف (فاتورة شراء)</option>
+            <option value="income">إيراد (فاتورة بيع)</option>
+          </select>
+        </div>
+        <div class="ff"><label class="fl">التصنيف</label>
+          <select class="fi" id="exCat">
+            <option>مستلزمات</option><option>إيجار</option><option>رواتب</option>
+            <option>تشغيل</option><option>تسويق</option><option>عميل</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="ff"><label class="fl">المبلغ الإجمالي (ر.س)</label><input class="fi" id="exAmount" type="number"/></div>
+        <div class="ff"><label class="fl">ضريبة القيمة المضافة (ر.س)</label><input class="fi" id="exVat" type="number"/></div>
+        <div class="ff"><label class="fl">الجهة</label><input class="fi" id="exParty"/></div>
+        <div class="ff"><label class="fl">التاريخ</label><input class="fi" id="exDate" type="date"/></div>
+        <div class="ff full"><label class="fl">ملاحظات إضافية</label><input class="fi" id="exNote" placeholder="اختياري"/></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn bg2" style="flex:1" onclick="resetScan()">← إلغاء</button>
+        <button class="btn bp" style="flex:2;padding:11px" onclick="saveScanned()">حفظ المعاملة في النظام ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Key notice -->
+  <div id="apiNotice" class="al al-a" style="margin-top:14px;display:none">
+    <span class="ai3">⚠️</span>
+    <div class="ab3">
+      <div class="at3 A">لتفعيل المسح الذكي</div>
+      <div class="as3">أدخل مفتاح Claude API لقراءة الفواتير تلقائياً. بدونه سيتم ملء البيانات يدوياً.</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <input type="password" class="fi" id="apiIn" placeholder="sk-ant-..." style="flex:1"/>
+        <button class="btn bp" style="padding:8px 12px;white-space:nowrap" onclick="saveApiKey()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="pg" id="pg-vat">
+
+  <div class="tax-tab">
+    <button class="btn bp" id="vatQ1" onclick="showVat('q1',this)">ربع أول 2026</button>
+    <button class="btn bg2" onclick="showVat('q2',this)">ربع ثاني 2026</button>
+    <button class="btn bg2" onclick="showVat('q3',this)">ربع ثالث 2026</button>
+    <button class="btn bg2" onclick="showVat('q4',this)">ربع رابع 2026</button>
+  </div>
+
+  <div class="g4">
+    <div class="kc G"><div class="kl">الضريبة المحصّلة</div><div class="kv G" id="v-out">0 ر.س</div><div class="kch">على المبيعات</div></div>
+    <div class="kc B"><div class="kl">الضريبة المدفوعة</div><div class="kv B" id="v-in">0 ر.س</div><div class="kch">على المشتريات</div></div>
+    <div class="kc A"><div class="kl">صافي الضريبة</div><div class="kv A" id="v-net">0 ر.س</div><div class="kch">المستحق للهيئة</div></div>
+    <div class="kc R"><div class="kl">موعد السداد</div><div class="kv R" id="v-due">30 أبريل</div><div class="kch dn">متبقي 10 أيام</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">الإقرار الضريبي التفصيلي</div></div>
+      <div class="stmt" id="vatStmt">
+        <div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>
+        <div class="sr sec"><span>أولاً: الضريبة على المبيعات (المخرجات)</span></div>
+        <div class="sr ind"><span>مبيعات خاضعة للضريبة 15%</span><span class="sv" id="vatSales">0</span></div>
+        <div class="sr ind"><span>الضريبة على المبيعات</span><span class="sv pos" id="vatOut">+0</span></div>
+        <div class="sr sec"><span>ثانياً: الضريبة على المشتريات (المدخلات)</span></div>
+        <div class="sr ind"><span>مشتريات خاضعة للخصم</span><span class="sv" id="vatPurch">0</span></div>
+        <div class="sr ind"><span>الضريبة المسترجعة</span><span class="sv neg" id="vatIn">-0</span></div>
+        <div class="sr tot"><span>صافي الضريبة المستحقة</span><span class="sv" style="color:var(--a)" id="vatNet">0</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sh"><div class="st">تفصيل المبيعات الشهري</div></div>
+      <table class="tbl">
+        <thead><tr><th>الشهر</th><th>المبيعات</th><th>الضريبة</th></tr></thead>
+        <tbody id="vatMonthly">
+          <tr><td class="tm">يناير</td><td style="direction:ltr">34,200</td><td style="direction:ltr;color:var(--g)">5,130</td></tr>
+          <tr><td class="tm">فبراير</td><td style="direction:ltr">31,500</td><td style="direction:ltr;color:var(--g)">4,725</td></tr>
+          <tr><td class="tm">مارس</td><td style="direction:ltr">34,300</td><td style="direction:ltr;color:var(--g)">5,145</td></tr>
+          <tr><td style="font-weight:600;color:var(--t)">الإجمالي</td><td style="direction:ltr;font-weight:600">100,000</td><td style="direction:ltr;color:var(--g);font-weight:600">15,000</td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير PDF...')">📄 PDF</button>
+        <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير Excel...')">📊 Excel</button>
+        <button class="btn bp" style="flex:2;padding:9px" onclick="alert('تحضير الإقرار الإلكتروني...')">تقديم لزاتكا ←</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sh"><div class="st">معاملات ضريبة القيمة المضافة — هذا الربع</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="alert('تصدير...')">تصدير</button></div>
+    <table class="tbl">
+      <thead><tr><th>التاريخ</th><th>الوصف</th><th>الجهة</th><th>قبل الضريبة</th><th>الضريبة</th><th>النوع</th></tr></thead>
+      <tbody>
+        <tr><td colspan="6" style="text-align:center;color:var(--t3);padding:20px">لا توجد معاملات ضريبية هذا الربع — ستظهر هنا تلقائياً عند إضافة معاملات</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="pg" id="pg-zakat">
+
+  <div class="al al-b" style="margin-bottom:14px">
+    <span class="ai3">☪️</span>
+    <div class="ab3">
+      <div class="at3 B">حاسبة الزكاة التفاعلية</div>
+      <div class="as3">عدّل الأرقام حسب وضعك الفعلي — ستُحسب الزكاة تلقائياً. النصاب الحالي: 595 جرام فضة ≈ 16,450 ر.س</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">أصول الزكاة</div><div style="font-size:11px;color:var(--t3)">عدّل الأرقام مباشرة</div></div>
+      <div class="zakat-calc" id="zakatCalc">
+        <div class="zr2 head"><span>البند</span><span>المبلغ (ر.س)</span></div>
+        <div class="zr2"><span>النقد في البنك والصندوق</span><input class="fi" id="z-cash" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2"><span>الذمم المدينة (الفواتير المتوقع تحصيلها)</span><input class="fi" id="z-recv" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2"><span>المخزون التجاري</span><input class="fi" id="z-inv" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2"><span>استثمارات قصيرة المدى</span><input class="fi" id="z-invest" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2 head"><span>الخصومات</span><span></span></div>
+        <div class="zr2 deduct"><span>الديون قصيرة المدى والالتزامات</span><input class="fi" id="z-debt" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2 deduct"><span>المصروفات المستحقة والرواتب</span><input class="fi" id="z-payables" type="number" value="0" oninput="calcZakat()"/></div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:13px;margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:var(--t2)">وعاء الزكاة</span><span id="zBase" style="direction:ltr;font-weight:600">30,300 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px"><span style="color:var(--t2)">النصاب</span><span style="direction:ltr;color:var(--t3)">16,450 ر.س</span></div>
+        <div id="zNisabBar" style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:4px">الوعاء من النصاب</div>
+          <div class="prog-bar"><div class="prog-fill" id="zProg" style="background:var(--g)"></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--gb);border:1px solid var(--gB);border-radius:var(--Rs);padding:12px">
+          <div><div style="font-size:12px;color:var(--t2)">الزكاة المستحقة (2.5%)</div><div style="font-size:11px;color:var(--t3);margin-top:1px">تُحسب مرة واحدة سنوياً</div></div>
+          <div style="font-size:22px;font-weight:700;color:var(--g);direction:ltr" id="zAmount">757 ر.س</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="sh"><div class="st">حالة الزكاة</div></div>
+        <div style="text-align:center;padding:16px 0">
+          <div style="font-size:40px;margin-bottom:8px" id="zStatus">✅</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px" id="zStatusText" style="color:var(--g)">تجب الزكاة</div>
+          <div style="font-size:12px;color:var(--t3);line-height:1.6" id="zStatusSub">وعاء الزكاة تجاوز النصاب وحال عليه الحول</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:11px;font-size:12px;color:var(--t2);line-height:1.7">
+          <strong style="color:var(--a);display:block;margin-bottom:4px">⚠️ تنبيه هام</strong>
+          هذا تقدير مبدئي للتخطيط المالي فقط. استشر عالم شريعة أو محاسباً معتمداً لتأكيد المبلغ الدقيق وفق فقه الزكاة المعاصر.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sh"><div class="st">جدول الزكاة التاريخي</div></div>
+        <table class="tbl">
+          <thead><tr><th>السنة</th><th>الوعاء</th><th>الزكاة</th><th>الحالة</th></tr></thead>
+          <tbody>
+            <tr><td colspan="4" style="text-align:center;color:var(--t3);padding:18px">لا يوجد سجل زكاة بعد — أدخل أرقامك أعلاه لبدء التتبع</td></tr>
+          </tbody>
+        </table>
+        <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="alert('تصدير تقرير الزكاة...')">تصدير تقرير الزكاة PDF ↓</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pg" id="pg-taxcal">
+  <div class="g3">
+    <div class="kc R"><div class="kl">الدفعة القادمة</div><div class="kv R" id="taxNext">0 ر.س</div><div class="kch dn">أضف بيانات</div></div>
+    <div class="kc A"><div class="kl">إجمالي 2026</div><div class="kv A" id="taxTotal">0 ر.س</div><div class="kch">ض.ق.م تقديري</div></div>
+    <div class="kc B"><div class="kl">الضرائب المسددة</div><div class="kv B" id="taxPaid">0 ر.س</div><div class="kch">—</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="st">التقويم الضريبي الكامل — 2026</div></div>
+    <table class="tbl">
+      <thead><tr><th>الالتزام</th><th>الفترة</th><th>الموعد</th><th>المبلغ المتوقع</th><th>الحالة</th><th>إجراء</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tm">ضريبة القيمة المضافة</td><td>ربع أول</td><td>30 يناير</td>
+          <td style="direction:ltr;color:var(--t3)">—</td>
+          <td><span class="bdg">بانتظار البيانات</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="tm">ضريبة القيمة المضافة</td><td>ربع ثاني</td>
+          <td style="color:var(--r);font-weight:600">30 أبريل</td>
+          <td style="direction:ltr;color:var(--t3)">—</td>
+          <td><span class="bdg bdg-a">قيد الإعداد</span></td>
+          <td><button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="go('vat',null)">عرض التقرير</button></td>
+        </tr>
+        <tr>
+          <td class="tm">ضريبة القيمة المضافة</td><td>ربع ثالث</td><td>31 يوليو</td>
+          <td style="direction:ltr;color:var(--t3)">~3,500 ر.س</td>
+          <td><span class="bdg bdg-b">لم يحل</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="tm">ضريبة القيمة المضافة</td><td>ربع رابع</td><td>31 أكتوبر</td>
+          <td style="direction:ltr;color:var(--t3)">~3,800 ر.س</td>
+          <td><span class="bdg bdg-b">لم يحل</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="tm">إقرار ضريبة الدخل</td><td>سنوي</td><td>31 ديسمبر</td>
+          <td style="direction:ltr;color:var(--t3)">تقديري</td>
+          <td><span class="bdg bdg-b">لم يحل</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="tm">إقرار الزكاة</td><td>سنوي</td>
+          <td>30 مارس 2027</td>
+          <td style="direction:ltr;color:var(--t3)">~757 ر.س</td>
+          <td><span class="bdg bdg-b">لم يحل</span></td>
+          <td><button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="go('zakat',null)">الحاسبة</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="sh"><div class="st">توزيع الضرائب المتوقعة 2026</div></div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع أول</span><span style="color:var(--g)">مُسدَّدة</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--g)"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع ثاني</span><span style="color:var(--t3)">—</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--a)"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع ثالث (تقدير)</span><span style="color:var(--t3)">—</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--bl);opacity:.4"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع رابع (تقدير)</span><span style="color:var(--t3)">—</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--bl);opacity:.3"></div></div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:10px;margin-top:4px;display:flex;justify-content:space-between;font-size:13px">
+          <span style="color:var(--t2)">إجمالي ض.ق.م تقديري 2026</span>
+          <span style="font-weight:700;color:var(--t3);direction:ltr" id="taxTotalYear">أضف معاملات</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sh"><div class="st">نصائح ضريبية ذكية</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--g);margin-bottom:5px">💡 خصص 10% من كل فاتورة</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.6">افتح حساباً منفصلاً للضرائب وحوّل 10% من كل دفعة تلقائياً — لن تفاجأ وقت الاستحقاق.</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--bl);margin-bottom:5px">📋 احتفظ بجميع الفواتير</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.6">صوّر كل فاتورة مصروف في محسوب لاسترجاعها وقت الإقرار وخصم الضريبة المدفوعة.</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--a);margin-bottom:5px">⏰ قدّم 3 أيام مبكراً</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.6">لا تنتظر آخر يوم — غرامات التأخير تبدأ من 5% إلى 25% من قيمة الضريبة.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- USERS PAGE -->
+<div class="pg" id="pg-usrs">
+  <div class="g3" style="margin-bottom:16px">
+    <div class="kc B"><div class="kl">إجمالي المستخدمين</div><div class="kv B" id="u-total">3</div></div>
+    <div class="kc G"><div class="kl">نشطون الآن</div><div class="kv G" id="u-active">3</div></div>
+    <div class="kc A"><div class="kl">الدور الحالي</div><div class="kv A" id="u-current-role" style="font-size:14px">مدير</div></div>
+  </div>
+
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="sh"><div class="st">المستخدمون</div>
+        <button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="document.getElementById('addUserForm').style.display=document.getElementById('addUserForm').style.display==='none'?'block':'none'">＋ إضافة</button>
+      </div>
+      <div id="addUserForm" style="display:none;background:var(--bg3);border-radius:var(--Rs);padding:13px;margin-bottom:13px;border:1px solid var(--b)">
+        <div class="fg" style="margin-bottom:10px">
+          <div class="ff"><label class="fl">الاسم</label><input class="fi" id="nu-name" placeholder="اسم المستخدم"/></div>
+          <div class="ff"><label class="fl">الدور</label>
+            <select class="fi" id="nu-role">
+              <option value="admin">مدير — صلاحيات كاملة</option>
+              <option value="cashier">كاشير — فواتير ومبيعات</option>
+              <option value="inventory">مدير المخزون — مخزون وطلبات</option>
+            </select>
+          </div>
+          <div class="ff"><label class="fl">PIN (4 أرقام)</label><input class="fi" id="nu-pin" type="password" maxlength="4" placeholder="••••"/></div>
+          <div class="ff" style="align-self:flex-end"><button class="btn bp" style="width:100%;padding:9px" onclick="addUser()">إضافة المستخدم</button></div>
+        </div>
+      </div>
+      <div id="usersList"></div>
+    </div>
+
+    <div class="card">
+      <div class="st" style="margin-bottom:13px">الصلاحيات حسب الدور</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="background:var(--blb);border:1px solid var(--blB);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:13px;font-weight:600;color:var(--bl);margin-bottom:7px">👑 مدير — صلاحيات كاملة</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            <span class="perm-tag yes">لوحة التحكم</span><span class="perm-tag yes">الفواتير</span><span class="perm-tag yes">التقارير</span><span class="perm-tag yes">الضرائب</span><span class="perm-tag yes">المستخدمون</span><span class="perm-tag yes">المستشار الذكي</span><span class="perm-tag yes">الميزانية</span>
+          </div>
+        </div>
+        <div style="background:var(--gb);border:1px solid var(--gB);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:13px;font-weight:600;color:var(--g);margin-bottom:7px">🖥️ كاشير — مبيعات وفواتير</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            <span class="perm-tag yes">إصدار فاتورة</span><span class="perm-tag yes">تسجيل دفعة</span><span class="perm-tag yes">مسح فواتير</span><span class="perm-tag yes">المعاملات</span><span class="perm-tag no">التقارير المالية</span><span class="perm-tag no">الضرائب</span><span class="perm-tag no">إدارة المستخدمين</span>
+          </div>
+        </div>
+        <div style="background:var(--ab);border:1px solid var(--aB);border-radius:var(--Rs);padding:12px">
+          <div style="font-size:13px;font-weight:600;color:var(--a);margin-bottom:7px">📦 مدير المخزون — مخزون وتوريد</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            <span class="perm-tag yes">المخزون</span><span class="perm-tag yes">طلبات التوريد</span><span class="perm-tag yes">تقرير المخزون</span><span class="perm-tag yes">المعاملات</span><span class="perm-tag no">الفواتير</span><span class="perm-tag no">الضرائب</span><span class="perm-tag no">إدارة المستخدمين</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<div class="ovb" id="ovB" onclick="closeSB()"></div>
+
+<script>
+// ── State ──────────────────────────────
+let aKey='',txT='income',zN=1,tN=0;
+const cH=[];
+let userData={name:'مشروعك',rev:0,exp:0,bal:0,target:0};
+
+const CTX=`أنت مستشار مالي ذكي لنظام "محسوب" للمشاريع الصغيرة والمتوسطة في السعودية.
+ساعد المستخدم في تحليل بياناته المالية وتقديم توصيات عملية حول الإيرادات والمصروفات والتدفق النقدي وضريبة القيمة المضافة والزكاة.
+أجب بالعربي بشكل مباشر واحترافي. اسأل عن الأرقام إذا احتجتها لتقديم توصيات دقيقة.`;
+
+// ── Onboarding ─────────────────────────
+let obStep=1;
+function obNext(step){
+  document.getElementById('obS'+step).style.display='none';
+  obStep=step+1;
+  document.getElementById('os'+step).className='obstep done';
+  document.getElementById('os'+(step+1)).className='obstep cur';
+  document.getElementById('obS'+(step+1)).style.display='block';
+}
+function obBack(){
+  document.getElementById('obS'+obStep).style.display='none';
+  document.getElementById('os'+obStep).className='obstep';
+  obStep--;
+  document.getElementById('os'+obStep).className='obstep cur';
+  document.getElementById('obS'+obStep).style.display='block';
+}
+function obFinish(){
+  const name=document.getElementById('ob-name').value||'مشروعك';
+  const rev=parseFloat(document.getElementById('ob-rev').value)||38500;
+  const exp=parseFloat(document.getElementById('ob-exp').value)||14120;
+  const bal=parseFloat(document.getElementById('ob-bal').value)||31200;
+  const target=parseFloat(document.getElementById('ob-target').value)||50000;
+  const api=document.getElementById('ob-api').value.trim();
+  if(api){aKey=api;localStorage.setItem('mk',api);}
+  userData={name,rev,exp,bal,target,net:rev-exp};
+  // Update UI
+  document.getElementById('userName').textContent=name;
+  document.getElementById('userAv').textContent=name.charAt(0)||'م';
+  document.getElementById('kRevenue').textContent=rev.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('kExpense').textContent=exp.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('kNet').textContent=(rev-exp).toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('kLiq').textContent=bal.toLocaleString('ar-SA')+' ر.س';
+  const days=Math.floor(bal/(exp/30));
+  document.getElementById('kDays').textContent=days;
+  document.getElementById('cfBal').textContent=bal.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cfDays').textContent=days+' يوم';
+  document.getElementById('gTarget').textContent=target.toLocaleString('ar-SA')+' ر.س';
+  localStorage.setItem('mahsoob_user',JSON.stringify(userData));
+  document.getElementById('obWrap').style.display='none';
+  document.getElementById('appLayout').style.display='flex';
+  initApp();
+}
+
+// ── Init ───────────────────────────────
+window.onload=()=>{
+  const saved=localStorage.getItem('mahsoob_user');
+  const savedKey=localStorage.getItem('mk');
+  if(savedKey)aKey=savedKey;
+  if(saved){
+    userData=JSON.parse(saved);
+    document.getElementById('obWrap').style.display='none';
+    document.getElementById('appLayout').style.display='flex';
+    initApp();
+  }
+  const d=document.getElementById('tDate');if(d)d.value=new Date().toISOString().split('T')[0];
+};
+
+function initApp(){
+  if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
+  calcZakat();
+  renderAlerts();renderDbGoals();renderTopClients();
+  showSt('income',document.getElementById('stB1'));
+  usersInit();
+}
+
+// ── Navigation ─────────────────────────
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة زاتكا',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
+function go(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  document.getElementById('pt').textContent=PGN[id]||'';
+  closeSB();
+}
+function togSB(){document.getElementById('sbEl').classList.toggle('open');document.getElementById('ovB').classList.toggle('vis');}
+function closeSB(){document.getElementById('sbEl').classList.remove('open');document.getElementById('ovB').classList.remove('vis');}
+function togSBDesktop(){document.getElementById('appLayout').classList.toggle('sb-hidden');}
+
+// ── Render helpers ─────────────────────
+function renderAlerts(){
+  document.getElementById('smA').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد تنبيهات حالياً</div>`;
+  document.getElementById('dbAlerts2').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">أضف معاملات وفواتير لتظهر التنبيهات الذكية</div>`;
+}
+function renderTopClients(){
+  document.getElementById('topClients').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد بيانات عملاء بعد</div>`;
+}
+function renderDbGoals(){
+  document.getElementById('dbGoals').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لم تُضف أهدافاً بعد — <span style="color:var(--g);cursor:pointer" onclick="go('gls',null)">أضف هدفاً ←</span></div>`;
+}
+
+// ── Transactions ───────────────────────
+function setTT(t){
+  txT=t;
+  document.getElementById('tbIn').className=t==='income'?'btn bp':'btn bg2';
+  document.getElementById('tbIn').style.flex='1';
+  document.getElementById('tbOut').className=t==='expense'?'btn bp':'btn bg2';
+  document.getElementById('tbOut').style.flex='1';
+}
+function saveTx(){
+  const a=document.getElementById('tAmt').value;
+  if(!a||parseFloat(a)<=0){alert('أدخل مبلغاً');return;}
+  const desc=document.getElementById('tDesc').value||(txT==='income'?'إيراد':'مصروف');
+  const party=document.getElementById('tParty').value||'—';
+  const cat=document.getElementById('tCat').value||'أخرى';
+  const date=document.getElementById('tDate').value;
+  const sign=txT==='income'?'+':'-';
+  const col=txT==='income'?'var(--g)':'var(--r)';
+  const bc=txT==='income'?'bdg-b':'bdg-a';
+  const tb=document.getElementById('txTb');
+  const row=document.createElement('tr');
+  row.innerHTML=`<td class="tm">${desc}</td><td>${party}</td><td><span class="bdg ${bc}">${cat}</span></td><td>${date}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(a).toLocaleString('ar-SA')}</td>`;
+  tb.insertBefore(row,tb.firstChild);
+  document.getElementById('addTxW').style.display='none';
+  ['tAmt','tDesc','tParty'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ── Goals ──────────────────────────────
+function addGoal(){
+  const name=prompt('اسم الهدف الجديد:');
+  if(!name)return;
+  const target=prompt('المبلغ المستهدف (ر.س):');
+  if(!target)return;
+  const current=prompt('المبلغ المحقق حتى الآن (ر.س):');
+  if(!current)return;
+  const pct=Math.min(100,Math.round(parseFloat(current)/parseFloat(target)*100));
+  const color=pct>=75?'var(--g)':pct>=40?'var(--a)':'var(--r)';
+  const list=document.getElementById('goalsList');
+  const div=document.createElement('div');
+  div.className='gl';
+  div.innerHTML=`<div class="glh"><div class="gln">🎯 ${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('ar-SA')} من ${parseFloat(target).toLocaleString('ar-SA')} ر.س</span></div>`;
+  list.appendChild(div);
+}
+
+// ── Statements ─────────────────────────
+const SCD={
+  income:{t:'قائمة الدخل — الشهر الحالي',h:`<div class="stmt"><div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div><div class="sr"><span style="font-weight:600">الإيرادات</span></div><div class="sr ind"><span>إجمالي الإيرادات</span><span class="sv pos" id="stIncome">+0</span></div><div class="sr"><span style="font-weight:600">المصروفات</span></div><div class="sr ind"><span>إجمالي المصروفات</span><span class="sv neg" id="stExp">-0</span></div><div class="sr tot" style="font-size:14px;padding:11px 13px"><span>صافي الربح</span><span class="sv pos" style="font-size:14px" id="stNet">0</span></div><div style="text-align:center;padding:12px;color:var(--t3);font-size:12px">أضف معاملات لرؤية التفاصيل</div></div>`},
+  balance:{t:'الميزانية العمومية',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية الميزانية العمومية</div></div>`},
+  cf:{t:'قائمة التدفقات النقدية',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية قائمة التدفقات النقدية</div></div>`}
+};
+function showSt(t,el){
+  document.querySelectorAll('#pg-st .btn').forEach(b=>b.className='btn bg2');
+  if(el)el.className='btn bp';
+  document.getElementById('stT').textContent=SCD[t].t;
+  document.getElementById('stC').innerHTML=SCD[t].h;
+}
+
+// ── ZATCA ──────────────────────────────
+function addZR(){
+  const idx=zN++;
+  const d=document.createElement('div');
+  d.className='zr';d.id='zr'+idx;
+  d.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:9px;margin-bottom:7px';
+  d.innerHTML=`<div class="ff"><label class="fl">الوصف</label><input class="fi zd" placeholder="خدمة" oninput="calcZ()"/></div><div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="1" oninput="calcZ()"/></div><div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" placeholder="0" oninput="calcZ()"/></div><div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="15" oninput="calcZ()"/></div><div style="display:flex;align-items:flex-end;padding-bottom:1px"><button class="btn bg2" style="padding:7px;color:var(--r)" onclick="this.closest('.zr').remove();calcZ()">✕</button></div>`;
+  document.getElementById('zRws').appendChild(d);
+}
+function calcZ(){
+  let s=0,v=0;
+  document.querySelectorAll('.zr').forEach(r=>{
+    const q=parseFloat(r.querySelector('.zq').value)||0;
+    const p=parseFloat(r.querySelector('.zp').value)||0;
+    const vp=parseFloat(r.querySelector('.zv').value)||0;
+    s+=q*p;v+=q*p*vp/100;
+  });
+  document.getElementById('zSb').textContent=s.toFixed(2)+' ر.س';
+  document.getElementById('zVt').textContent=v.toFixed(2)+' ر.س';
+  document.getElementById('zGr').textContent=(s+v).toFixed(2)+' ر.س';
+}
+async function issueZ(){
+  const sel  = document.getElementById('zS').value.trim();
+  const selV = document.getElementById('zSv').value.trim();
+  const selC = document.getElementById('zC').value.trim();
+  const buy  = document.getElementById('zB').value.trim();
+  const buyV = document.getElementById('zBv').value.trim();
+  const iTyp = document.getElementById('zT').value === 'مبسّطة' ? 'simplified' : 'standard';
+
+  if (!sel || !selV) { alert('أدخل اسم المنشأة والرقم الضريبي'); return; }
+
+  const items = [];
+  let hasItems = false;
+  document.querySelectorAll('.zr').forEach(r => {
+    const desc   = r.querySelector('.zd').value || 'خدمة';
+    const qty    = parseFloat(r.querySelector('.zq').value) || 1;
+    const price  = parseFloat(r.querySelector('.zp').value) || 0;
+    const vatPct = parseFloat(r.querySelector('.zv').value) || 15;
+    if (price > 0) hasItems = true;
+    items.push({ desc, qty, price, vatPct });
+  });
+  if (!hasItems) { alert('أدخل بنداً واحداً على الأقل بسعر'); return; }
+
+  // Show loading
+  const btn = document.querySelector('#pg-zt .btn.bp');
+  const origText = btn.textContent;
+  btn.textContent = '⏳ جاري الإصدار...';
+  btn.disabled = true;
+
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session) { alert('سجّل دخولك أولاً'); return; }
+
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ seller: sel, sellerVat: selV, sellerCity: selC, buyer: buy, buyerVat: buyV, invoiceType: iTyp, items }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) { alert(data.error || 'خطأ في إصدار الفاتورة'); return; }
+
+    const inv = data.invoice;
+    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '🔧 مسودة (بانتظار شهادة زاتكا)';
+    const statusColor = inv.onboarded ? '#22c98a' : '#f59e0b';
+
+    // Build QR image from Base64
+    const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(inv.qr)}`;
+
+    let rows = '';
+    inv.items ? inv.items.forEach(l => {
+      rows += `<tr><td>${l.desc}</td><td>${l.qty}</td><td style="direction:ltr">${(+l.price).toFixed(2)}</td><td>${l.vatPct}%</td><td style="direction:ltr">${(+l.lineNet + +l.lineVat).toFixed(2)}</td></tr>`;
+    }) : items.forEach(it => {
+      const net = it.qty * it.price;
+      const vat = net * it.vatPct / 100;
+      rows += `<tr><td>${it.desc}</td><td>${it.qty}</td><td style="direction:ltr">${it.price.toFixed(2)}</td><td>${it.vatPct}%</td><td style="direction:ltr">${(net+vat).toFixed(2)}</td></tr>`;
+    });
+
+    document.getElementById('zRef').textContent = `رقم الفاتورة: ${inv.number}`;
+    document.getElementById('zInv').innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:18px">
+      <div>
+        <div style="font-size:19px;font-weight:700;color:#1a1a1a">${iTyp === 'simplified' ? 'فاتورة ضريبية مبسّطة' : 'فاتورة ضريبية'}</div>
+        <div style="font-size:12px;color:#666;margin-top:2px">${inv.number} · ${inv.issueDate}</div>
+        <div style="font-size:11px;color:#999;margin-top:2px;font-family:monospace">UUID: ${inv.uuid}</div>
+      </div>
+      <div style="text-align:left">
+        <div style="font-size:11px;font-weight:600;color:${statusColor}">${statusLabel}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px">
+      <div style="background:#f8f9fa;border-radius:8px;padding:11px">
+        <div style="font-size:11px;color:#888;margin-bottom:2px">المُصدِر</div>
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a">${inv.seller}</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">ر.ض: ${inv.sellerVat}</div>
+      </div>
+      <div style="background:#f8f9fa;border-radius:8px;padding:11px">
+        <div style="font-size:11px;color:#888;margin-bottom:2px">العميل</div>
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a">${inv.buyer || 'عميل'}</div>
+        ${inv.buyerVat ? `<div style="font-size:11px;color:#888;margin-top:2px">ر.ض: ${inv.buyerVat}</div>` : ''}
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:13px;font-size:13px">
+      <thead><tr style="background:#f0f2f5">
+        <th style="padding:7px;text-align:right;color:#555">الوصف</th>
+        <th style="padding:7px;color:#555">الكمية</th>
+        <th style="padding:7px;color:#555">السعر</th>
+        <th style="padding:7px;color:#555">ضريبة</th>
+        <th style="padding:7px;color:#555">الإجمالي</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:13px">
+      <div style="background:#f8f9fa;border-radius:8px;padding:11px;flex:1;font-size:13px">
+        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">قبل الضريبة</span><span style="direction:ltr">${inv.subtotal.toFixed(2)} ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">الضريبة 15%</span><span style="direction:ltr">${inv.vatTotal.toFixed(2)} ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-weight:700;font-size:14px;border-top:1px solid #ddd;margin-top:5px"><span>الإجمالي</span><span style="direction:ltr;color:#22c98a">${inv.total.toFixed(2)} ر.س</span></div>
+      </div>
+      <div style="text-align:center">
+        <img src="${qrDataUrl}" width="80" height="80" style="border-radius:6px;border:1px solid #e2e8f0" alt="QR زاتكا" onerror="this.style.display='none'"/>
+        <div style="font-size:10px;color:#888;margin-top:4px">QR زاتكا</div>
+      </div>
+    </div>
+    <div style="margin-top:11px;padding:9px;background:#f0f9f4;border-radius:8px;font-size:11px;color:#555;font-family:monospace;word-break:break-all">
+      <span style="color:#888">SHA-256: </span>${inv.hashHex}
+    </div>`;
+
+    document.getElementById('zFrm').style.display = 'none';
+    document.getElementById('zPrv').style.display = 'block';
+    window.scrollTo(0, 0);
+  } catch(e) {
+    alert('تعذّر الاتصال بالخادم');
+  } finally {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }
+}
+
+// ── AI Chat ────────────────────────────
+async function ask(text){
+  const inp=document.getElementById('cIn');
+  const msg=text||inp.value.trim();
+  if(!msg)return;
+  if(inp)inp.value='';
+  addMsg(msg,'u');
+  const tid=addTyping();
+  cH.push({role:'user',content:msg});
+  try{
+    const{data:{session}}=await _sb.auth.getSession();
+    if(!session){removeTyping(tid);addMsg(getFB(msg),'ai');return;}
+    const res=await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
+      body:JSON.stringify({mode:'chat',messages:cH})
+    });
+    const data=await res.json();
+    removeTyping(tid);
+    if(data.text){const r=data.text;cH.push({role:'assistant',content:r});addMsg(r,'ai');}
+    else addMsg(data.error||'تعذّر الاتصال بالمستشار الذكي.','ai');
+  }catch(e){removeTyping(tid);addMsg('خطأ في الاتصال.','ai');}
+}
+function getFB(m){
+  if(m.includes('تحليل')||m.includes('شامل'))return'لرؤية تحليل مالي كامل، أضف معاملاتك الشهرية من قسم المعاملات ثم اسألني مجدداً.';
+  if(m.includes('مشكل')||m.includes('تنبيه'))return'أضف فواتيرك ومعاملاتك حتى أستطيع رصد المشكلات وتنبيهك بها تلقائياً.';
+  if(m.includes('تدفق')||m.includes('سيولة'))return'لتحليل التدفق النقدي، أضف إيراداتك ومصروفاتك من قسم المعاملات وسأحسب التوقعات.';
+  if(m.includes('ربح')||m.includes('توصية'))return'توصية عامة: سجّل معاملاتك بانتظام، حدد هدفاً شهرياً، وتابع الفواتير المتأخرة أسبوعياً.';
+  if(m.includes('عميل'))return'أضف معاملات مع تحديد اسم العميل في حقل "الجهة" حتى أتمكن من تحليل ربحية كل عميل.';
+  if(m.includes('توسع'))return'معايير التوسع الآمن: استقرار الإيرادات 3 أشهر متتالية، صندوق طوارئ 3 أشهر، وعقود مضمونة.';
+  if(m.includes('ضريب')||m.includes('زكاة'))return'💡 نصيحة ضريبية: خصص 15% من كل فاتورة لضريبة القيمة المضافة واحتفظ بها في حساب منفصل.';
+  return'مرحباً! أضف بياناتك المالية من الأقسام المختلفة وسأساعدك في تحليلها وتقديم توصيات مخصصة لمشروعك.';
+}
+function addMsg(t,r){
+  const c=document.getElementById('chatM');
+  const d=document.createElement('div');
+  d.className='mr'+(r==='u'?' u':'');
+  d.innerHTML=`<div class="mav ${r==='u'?'u':'ai'}">${r==='u'?userData.name.charAt(0)||'م':'🤖'}</div><div class="bbl ${r==='u'?'u':'ai'}">${t.replace(/\n/g,'<br>')}</div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function addTyping(){
+  const id='ty-'+(++tN);
+  const c=document.getElementById('chatM');
+  const d=document.createElement('div');
+  d.id=id;d.className='mr';
+  d.innerHTML=`<div class="mav ai">🤖</div><div class="bbl ai"><div class="ty"><span></span><span></span><span></span></div></div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+  return id;
+}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
+
+
+// ── THEME TOGGLE ──────────────────────────────────
+let isDark = localStorage.getItem('mahsoob_theme') === 'dark';
+function applyTheme(){
+  if(isDark){document.body.classList.add('dark');document.getElementById('themeBtn').textContent='☀️';}
+  else{document.body.classList.remove('dark');document.getElementById('themeBtn').textContent='🌙';}
+}
+function toggleTheme(){isDark=!isDark;localStorage.setItem('mahsoob_theme',isDark?'dark':'light');applyTheme();}
+
+// ── SCAN ─────────────────────────────────────────
+function saveApiFromScan(){const k=document.getElementById('apiIn').value.trim();if(!k)return;aKey=k;localStorage.setItem('mk',k);document.getElementById('apiNotice').style.display='none';alert('تم حفظ المفتاح ✓');}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+function handleFile(input) {
+  const file = input.files[0];
+  if (file) processFile(file);
+}
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    currentImg = e.target.result;
+    document.getElementById('previewImg').src = currentImg;
+    document.getElementById('scanStep1').style.display = 'none';
+    document.getElementById('scanStep2').style.display = 'block';
+    document.getElementById('scanOverlay').style.display = 'none';
+    document.getElementById('analyzeBtn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+function compressImage(dataUrl, maxWidth, quality) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ratio = Math.min(1, maxWidth / img.width);
+      canvas.width = img.width * ratio;
+      canvas.height = img.height * ratio;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+async function analyzeInvoice() {
+  document.getElementById('scanOverlay').style.display = 'flex';
+  document.getElementById('scanStatus').textContent = 'يحلل الصورة...';
+  document.getElementById('scanSub').textContent = 'استخراج بيانات الفاتورة بالذكاء الاصطناعي';
+  document.getElementById('analyzeBtn').disabled = true;
+
+  try {
+    document.getElementById('scanStatus').textContent = 'يضغط الصورة...';
+    document.getElementById('scanSub').textContent = 'تحضير الفاتورة للتحليل';
+
+    // Compress image before sending to reduce payload size
+    const compressedBase64 = await compressImage(currentImg, 1200, 0.8);
+    const base64 = compressedBase64.split(',')[1];
+    const mimeType = 'image/jpeg';
+
+    document.getElementById('scanStatus').textContent = 'يتصل بـ Claude AI...';
+    document.getElementById('scanSub').textContent = 'قراءة تفاصيل الفاتورة';
+
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session) { showDemoExtraction(); return; }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ mode: 'scan', image_base64: base64, image_mime: mimeType })
+    });
+    clearTimeout(timeout);
+
+    const data = await response.json();
+    if (!response.ok) {
+      alert(data.error || 'حدث خطأ في المسح');
+      showDemoExtraction(); return;
+    }
+    const text = data.text;
+
+    let invoiceData;
+    try {
+      const clean = text.replace(/```json|```/g, '').trim();
+      invoiceData = JSON.parse(clean);
+    } catch {
+      invoiceData = null;
+    }
+
+    if (invoiceData) {
+      showExtraction(invoiceData);
+    } else {
+      showDemoExtraction();
+    }
+
+  } catch (err) {
+    console.error(err);
+    showDemoExtraction();
+  }
+}
+function showExtraction(data) {
+  document.getElementById('scanOverlay').style.display = 'none';
+  document.getElementById('scanStep2').style.display = 'none';
+  document.getElementById('scanStep3').style.display = 'block';
+
+  // Fill extracted fields display
+  document.getElementById('extractedFields').innerHTML = `
+    <div class="ex-field"><div class="ex-label">المورد / البائع</div><div class="ex-val">${data.seller || '—'}</div></div>
+    <div class="ex-field"><div class="ex-label">رقم الفاتورة</div><div class="ex-val">${data.invoice_number || '—'}</div></div>
+    <div class="ex-field"><div class="ex-label">الرقم الضريبي</div><div class="ex-val">${data.vat_number || '—'}</div></div>
+    <div class="ex-field"><div class="ex-label">التاريخ</div><div class="ex-val">${data.date || '—'}</div></div>
+    <div class="ex-field"><div class="ex-label">قبل الضريبة</div><div class="ex-val" style="color:var(--t)">${(data.subtotal||0).toLocaleString('ar-SA')} ر.س</div></div>
+    <div class="ex-field"><div class="ex-label">الضريبة 15%</div><div class="ex-val" style="color:var(--a)">${(data.vat_amount||0).toLocaleString('ar-SA')} ر.س</div></div>`;
+
+  if (data.items && data.items.length > 0) {
+    document.getElementById('extractedItems').innerHTML = `
+      <div style="font-size:11px;color:var(--t3);margin:10px 0 6px;font-weight:600">البنود المستخرجة</div>
+      ${data.items.map(item => `
+        <div class="ex-item-row">
+          <span style="color:var(--t)">${item.name}</span>
+          <span style="color:var(--t3)">${item.qty} × ${(item.price||0).toFixed(2)}</span>
+          <span style="direction:ltr;font-weight:600">${(item.total||0).toFixed(2)} ر.س</span>
+        </div>`).join('')}`;
+  }
+
+  // Pre-fill form
+  document.getElementById('exAmount').value = data.total || '';
+  document.getElementById('exVat').value = data.vat_amount || '';
+  document.getElementById('exParty').value = data.seller || '';
+  document.getElementById('exDate').value = data.date || new Date().toISOString().split('T')[0];
+  document.getElementById('exNote').value = data.invoice_number ? `رقم الفاتورة: ${data.invoice_number}` : '';
+}
+function saveScanned() {
+  const amount = document.getElementById('exAmount').value;
+  const type = document.getElementById('exType').value;
+  const party = document.getElementById('exParty').value;
+  const cat = document.getElementById('exCat').value;
+  const date = document.getElementById('exDate').value;
+  const note = document.getElementById('exNote').value;
+
+  if (!amount) { alert('تحقق من المبلغ'); return; }
+
+  // Add to scan history
+  const tbody = document.getElementById('scanHistory').querySelector('tbody');
+  const row = document.createElement('tr');
+  const sign = type === 'income' ? '+' : '-';
+  const col = type === 'income' ? 'var(--g)' : 'var(--r)';
+  row.innerHTML = `
+    <td class="tm">${note || 'فاتورة مُمسوحة'}</td>
+    <td>${party || '—'}</td>
+    <td>${date}</td>
+    <td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(amount).toLocaleString('ar-SA')} ر.س</td>
+    <td><span class="bdg bdg-g">مسجّلة ✓</span></td>`;
+  tbody.insertBefore(row, tbody.firstChild);
+
+  resetScan();
+  alert(`تم حفظ المعاملة بنجاح ✓\n${party} — ${parseFloat(amount).toLocaleString('ar-SA')} ر.س`);
+}
+function resetScan() {
+  currentImg = null;
+  document.getElementById('scanStep1').style.display = 'block';
+  document.getElementById('scanStep2').style.display = 'none';
+  document.getElementById('scanStep3').style.display = 'none';
+  document.getElementById('scanOverlay').style.display = 'none';
+  document.getElementById('previewImg').src = '';
+  document.getElementById('analyzeBtn').disabled = false;
+  document.getElementById('fileIn').value = '';
+  document.getElementById('camIn').value = '';
+}
+
+// ── VAT ──────────────────────────────────────────
+const vatData = {
+  q1: { out: '0', i: '0', net: '0', due: '30 يناير', months: [
+    ['أكتوبر', '0', '0'], ['نوفمبر', '0', '0'], ['ديسمبر', '0', '0']
+  ]},
+  q2: { out: '0', i: '0', net: '0', due: '30 أبريل', months: [
+    ['يناير', '0', '0'], ['فبراير', '0', '0'], ['مارس', '0', '0']
+  ]},
+  q3: { out: '0', i: '0', net: '0', due: '31 يوليو', months: [
+    ['أبريل', '0', '0'], ['مايو', '0', '0'], ['يونيو', '0', '0']
+  ]},
+  q4: { out: '0', i: '0', net: '0', due: '31 أكتوبر', months: [
+    ['يوليو', '0', '0'], ['أغسطس', '0', '0'], ['سبتمبر', '0', '0']
+  ]}
+};
+
+function showVat(q, el) {
+  document.querySelectorAll('.tax-tab .btn').forEach(b => b.className = 'btn bg2');
+  el.className = 'btn bp';
+  const d = vatData[q];
+  document.getElementById('v-out').textContent = d.out + ' ر.س';
+  document.getElementById('v-in').textContent = d.i + ' ر.س';
+  document.getElementById('v-net').textContent = d.net + ' ر.س';
+  document.getElementById('v-due').textContent = d.due;
+  document.getElementById('vatMonthly').innerHTML = d.months.map((m, i, arr) => {
+    const isLast = i === arr.length - 1;
+    return `<tr><td ${isLast ? 'style="font-weight:600;color:var(--t)"' : ''}>${m[0]}</td><td style="direction:ltr${isLast ? ';font-weight:600' : ''}">${m[1]}</td><td style="direction:ltr;color:var(--g)${isLast ? ';font-weight:600' : ''}">${m[2]}</td></tr>`;
+  }).join('');
+}
+
+// ── ZAKAT ────────────────────────────────────────
+const NISAB = 16450;
+function calcZakat() {
+  const cash = parseFloat(document.getElementById('z-cash').value) || 0;
+  const recv = parseFloat(document.getElementById('z-recv').value) || 0;
+  const inv = parseFloat(document.getElementById('z-inv').value) || 0;
+  const invest = parseFloat(document.getElementById('z-invest').value) || 0;
+  const debt = parseFloat(document.getElementById('z-debt').value) || 0;
+  const payables = parseFloat(document.getElementById('z-payables').value) || 0;
+
+  const assets = cash + recv + inv + invest;
+  const deductions = debt + payables;
+  const base = Math.max(0, assets - deductions);
+  const zakat = base >= NISAB ? base * 0.025 : 0;
+  const pct = Math.min(100, Math.round((base / NISAB) * 100));
+
+  document.getElementById('zBase').textContent = base.toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('zAmount').textContent = Math.round(zakat).toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('zProg').style.width = pct + '%';
+  document.getElementById('zProg').style.background = pct >= 100 ? 'var(--g)' : pct >= 60 ? 'var(--a)' : 'var(--r)';
+
+  if (base >= NISAB) {
+    document.getElementById('zStatus').textContent = '✅';
+    document.getElementById('zStatusText').textContent = 'تجب الزكاة';
+    document.getElementById('zStatusText').style.color = 'var(--g)';
+    document.getElementById('zStatusSub').textContent = `وعاء الزكاة ${base.toLocaleString('ar-SA')} ر.س تجاوز النصاب`;
+  } else {
+    document.getElementById('zStatus').textContent = '⏳';
+    document.getElementById('zStatusText').textContent = 'لا تجب الزكاة بعد';
+    document.getElementById('zStatusText').style.color = 'var(--a)';
+    document.getElementById('zStatusSub').textContent = `الوعاء ${base.toLocaleString('ar-SA')} ر.س — لم يبلغ النصاب (${NISAB.toLocaleString('ar-SA')} ر.س)`;
+  }
+}
+
+// ── USERS & ROLES ─────────────────────────────────
+const ROLE_DEF={
+  admin:{label:'مدير',color:'bl',av:'مد',
+    actions:[
+      {icon:'🧾',title:'إصدار فاتورة',sub:'فاتورة زاتكا جديدة',page:'zt',hover:'g'},
+      {icon:'💳',title:'تسجيل دفعة',sub:'تحصيل فاتورة معلقة',page:'inv',hover:'a'},
+      {icon:'📷',title:'مسح فاتورة',sub:'تصوير وتسجيل فوري',page:'scan',hover:'bl'},
+      {icon:'🤖',title:'استشر المستشار',sub:'تحليل ذكي فوري',page:'ai',hover:'p'}
+    ]},
+  cashier:{label:'كاشير',color:'g',av:'كا',
+    actions:[
+      {icon:'🧾',title:'إصدار فاتورة',sub:'فاتورة زاتكا جديدة',page:'zt',hover:'g'},
+      {icon:'💳',title:'تسجيل دفعة',sub:'تحصيل فاتورة معلقة',page:'inv',hover:'a'},
+      {icon:'📷',title:'مسح فاتورة',sub:'تصوير وتسجيل فوري',page:'scan',hover:'bl'},
+      {icon:'🔒',title:'إقفال اليوم',sub:'تسليم النقدية',page:'tx',hover:'r'}
+    ]},
+  inventory:{label:'مدير المخزون',color:'a',av:'مخ',
+    actions:[
+      {icon:'📦',title:'تحديث المخزون',sub:'كميات ومنتجات',page:'tx',hover:'a'},
+      {icon:'🛒',title:'طلب توريد',sub:'طلب بضاعة جديدة',page:'tx',hover:'g'},
+      {icon:'📊',title:'تقرير المخزون',sub:'حالة المنتجات',page:'st',hover:'bl'},
+      {icon:'⚠️',title:'تنبيهات النقص',sub:'منتجات تحت الحد',page:'db',hover:'r'}
+    ]}
+};
+
+let appUsers=[];
+let currentUserId=1;
+
+function usersInit(){
+  try{const s=localStorage.getItem('mahsoob_users');if(s)appUsers=JSON.parse(s);}catch(e){}
+  if(!appUsers.length){
+    appUsers=[
+      {id:1,name:userData.name||'المدير',role:'admin',pin:'',active:true},
+      {id:2,name:'الكاشير',role:'cashier',pin:'',active:true},
+      {id:3,name:'مدير المخزون',role:'inventory',pin:'',active:true}
+    ];
+    saveUsers();
+  }
+  try{const c=localStorage.getItem('mahsoob_cur_user');if(c)currentUserId=parseInt(c);}catch(e){}
+  applyCurrentUser();
+}
+
+function saveUsers(){try{localStorage.setItem('mahsoob_users',JSON.stringify(appUsers));}catch(e){}}
+
+function getCurrentUser(){return appUsers.find(u=>u.id===currentUserId)||appUsers[0];}
+
+function applyCurrentUser(){
+  const u=getCurrentUser();
+  const role=ROLE_DEF[u.role]||ROLE_DEF.admin;
+  // Sidebar
+  const av=document.getElementById('userAv');
+  const un=document.getElementById('userName');
+  const rl=document.getElementById('userRoleLbl');
+  if(av)av.textContent=u.name.charAt(0)||role.av;
+  if(un)un.textContent=u.name;
+  if(rl){rl.textContent=role.label+' ✓';rl.style.color='var(--'+role.color+')';}
+  // Greeting
+  const gn=document.getElementById('greetName');
+  if(gn)gn.textContent=u.name;
+  const gd=document.getElementById('greetDate');
+  if(gd)gd.textContent=new Date().toLocaleDateString('ar-SA-u-nu-latn',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  // Quick actions
+  renderQuickActions(u.role);
+  // Users page stats
+  const ucr=document.getElementById('u-current-role');
+  if(ucr)ucr.textContent=role.label;
+  const utot=document.getElementById('u-total');if(utot)utot.textContent=appUsers.length;
+  const uact=document.getElementById('u-active');if(uact)uact.textContent=appUsers.filter(x=>x.active).length;
+  // Render lists
+  renderUsersList();
+  renderRoleModalList();
+}
+
+function renderQuickActions(role){
+  const el=document.getElementById('quickActions');if(!el)return;
+  const def=ROLE_DEF[role]||ROLE_DEF.admin;
+  const cols=def.actions.length;
+  el.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  el.innerHTML=def.actions.map(a=>`
+    <button class="qab" onclick="go('${a.page}',null)" style="border-top:3px solid var(--${a.hover})">
+      <div style="width:42px;height:42px;border-radius:12px;background:var(--${a.hover}b);display:flex;align-items:center;justify-content:center;font-size:22px">${a.icon}</div>
+      <span style="font-size:13px;font-weight:600;color:var(--t)">${a.title}</span>
+      <span style="font-size:11px;color:var(--t3)">${a.sub}</span>
+    </button>`).join('');
+}
+
+function renderUsersList(){
+  const el=document.getElementById('usersList');if(!el)return;
+  el.innerHTML=appUsers.map(u=>{
+    const role=ROLE_DEF[u.role]||ROLE_DEF.admin;
+    const isCur=u.id===currentUserId;
+    return `<div class="user-card${isCur?' active-user':''}" onclick="switchUser(${u.id})">
+      <div class="user-av" style="background:var(--${role.color}b);color:var(--${role.color})">${u.name.charAt(0)||'م'}</div>
+      <div class="user-info">
+        <div class="user-name">${u.name}${isCur?' <span style="font-size:10px;color:var(--g)">● نشط</span>':''}</div>
+        <div class="user-role-lbl"><span class="role-bdg role-${u.role}">${role.label}</span></div>
+      </div>
+      ${u.id!==1?`<button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="event.stopPropagation();deleteUser(${u.id})">حذف</button>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderRoleModalList(){
+  const el=document.getElementById('roleUserList');if(!el)return;
+  el.innerHTML=appUsers.filter(u=>u.active).map(u=>{
+    const role=ROLE_DEF[u.role]||ROLE_DEF.admin;
+    const isCur=u.id===currentUserId;
+    return `<div class="user-card${isCur?' active-user':''}" onclick="switchUser(${u.id});closeRoleModal()">
+      <div class="user-av" style="background:var(--${role.color}b);color:var(--${role.color})">${u.name.charAt(0)||'م'}</div>
+      <div class="user-info">
+        <div class="user-name">${u.name}</div>
+        <div class="user-role-lbl"><span class="role-bdg role-${u.role}">${role.label}</span></div>
+      </div>
+      ${isCur?'<span style="color:var(--g);font-size:16px">✓</span>':''}
+    </div>`;
+  }).join('');
+}
+
+function switchUser(id){
+  currentUserId=id;
+  localStorage.setItem('mahsoob_cur_user',id);
+  applyCurrentUser();
+}
+
+function addUser(){
+  const name=(document.getElementById('nu-name').value||'').trim();
+  const role=document.getElementById('nu-role').value;
+  const pin=document.getElementById('nu-pin').value;
+  if(!name){alert('أدخل اسم المستخدم');return;}
+  const newUser={id:Date.now(),name,role,pin,active:true};
+  appUsers.push(newUser);
+  saveUsers();
+  applyCurrentUser();
+  document.getElementById('nu-name').value='';
+  document.getElementById('nu-pin').value='';
+  document.getElementById('addUserForm').style.display='none';
+}
+
+function deleteUser(id){
+  if(!confirm('حذف هذا المستخدم؟'))return;
+  appUsers=appUsers.filter(u=>u.id!==id);
+  if(currentUserId===id)currentUserId=appUsers[0]?.id||1;
+  saveUsers();
+  applyCurrentUser();
+}
+
+function openRoleModal(){document.getElementById('roleModal').classList.add('open');renderRoleModalList();}
+function closeRoleModal(){document.getElementById('roleModal').classList.remove('open');}
+
+// ── SUPABASE AUTH BOOT ──────────────────────────────────────────────────
+async function bootApp() {
+  const ok = await Auth.boot();
+  if (!ok) return; // redirected to login
+
+  const t = Auth.tenant;
+  const p = Auth.profile;
+
+  // Populate sidebar user info
+  const name = t.name || 'مشروعي';
+  const initials = name.charAt(0) + (name.charAt(1) || '');
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userAv').textContent = initials;
+
+  const planLabel = Auth.planName();
+  document.getElementById('userRoleLbl').textContent =
+    (p?.role === 'admin' ? 'مدير' : p?.role === 'accountant' ? 'محاسب' : 'كاشير') +
+    ' · ' + planLabel;
+
+  // Show plan badge on scan page if near limit
+  const scanUsed = await DB.getScanCount();
+  const scanLimit = PLANS[t.plan]?.scan_limit ?? 5;
+  const scanEl = document.getElementById('scanLimitInfo');
+  if (scanEl) scanEl.textContent = `استخدمت ${scanUsed} من ${scanLimit} مسح هذا الشهر`;
+
+  // Upgrade notice for free plan
+  if (t.plan === 'free') {
+    const notice = document.createElement('div');
+    notice.style.cssText = 'background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:9px 13px;font-size:12px;color:#2563eb;margin:8px;cursor:pointer;text-align:center;';
+    notice.innerHTML = '✨ الخطة التجريبية — <b>ترقّى الآن</b>';
+    notice.onclick = () => window.open('pricing.html', '_blank');
+    document.querySelector('.us').before(notice);
+  }
+
+  // Wire signout
+  const soBtn = document.getElementById('signOutBtn');
+  if (soBtn) soBtn.onclick = () => Auth.signOut();
+
+  // Reset KPI cards to zero for new users
+  document.getElementById('kRevenue').textContent = '0 ر.س';
+  document.getElementById('kExpense').textContent = '0 ر.س';
+  document.getElementById('kNet').textContent = '0 ر.س';
+  document.getElementById('kLiq').textContent = '0 ر.س';
+  document.getElementById('kDays').textContent = '0';
+
+  // Reset invoice summary
+  const invSummary = document.querySelector('#pg-inv .g3');
+  if (invSummary) invSummary.innerHTML = `
+    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--a)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">معلقة (ر.س)</div></div>
+    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--r)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">متأخرة</div></div>
+    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--g)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">محصّلة (ر.س)</div></div>`;
+
+  // Show app
+  document.getElementById('appLayout').style.display = 'flex';
+}
+
+bootApp();
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>محسوب — تسجيل الدخول</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',sans-serif;background:#f5f6fa;color:#1a1d2e;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+body.dark{background:#0d1117;color:#f0f2f8}
+.wrap{width:100%;max-width:420px}
+.logo{text-align:center;margin-bottom:28px}
+.logo-icon{width:52px;height:52px;background:rgba(22,163,114,.1);border:1px solid rgba(22,163,114,.2);border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px}
+.logo-name{font-size:22px;font-weight:700}
+.logo-tag{font-size:13px;color:#9aa0b8;margin-top:3px}
+.card{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:28px}
+body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
+.tabs{display:flex;gap:6px;margin-bottom:22px;background:#f0f2f7;border-radius:10px;padding:4px}
+body.dark .tabs{background:#1e2535}
+.tab{flex:1;padding:8px;border:none;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s}
+.tab.on{background:#fff;color:#1a1d2e;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+body.dark .tab.on{background:#252d3d;color:#f0f2f8}
+.ff{display:flex;flex-direction:column;gap:4px;margin-bottom:13px}
+.fl{font-size:12px;color:#9aa0b8;font-weight:500}
+.fi{background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;padding:10px 13px;font-size:14px;color:#1a1d2e;font-family:'Tajawal',sans-serif;direction:rtl;outline:none;width:100%;transition:border-color .2s}
+.fi:focus{border-color:#16a372;background:#fff}
+body.dark .fi{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
+body.dark .fi:focus{background:#252d3d;border-color:#22c98a}
+.btn-main{width:100%;padding:12px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:4px}
+.btn-main:hover{opacity:.9}
+.btn-main:disabled{opacity:.5;cursor:not-allowed}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#9aa0b8;font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.08)}
+body.dark .divider::before,body.dark .divider::after{background:rgba(255,255,255,.08)}
+.btn-magic{width:100%;padding:11px;background:transparent;border:1px solid rgba(0,0,0,.12);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:#5a6080;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-magic:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
+body.dark .btn-magic{border-color:rgba(255,255,255,.12);color:#8892a4}
+.err{background:rgba(232,57,74,.08);border:1px solid rgba(232,57,74,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#e8394a;margin-bottom:12px;display:none}
+.suc{background:rgba(22,163,114,.08);border:1px solid rgba(22,163,114,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#16a372;margin-bottom:12px;display:none}
+.footer-links{text-align:center;margin-top:18px;font-size:13px;color:#9aa0b8}
+.footer-links a{color:#16a372;text-decoration:none}
+.pricing-btn{display:block;text-align:center;margin-top:14px;font-size:12px;color:#9aa0b8}
+.pricing-btn a{color:#2563eb;text-decoration:none}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-left:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px">
+      <img src="img/logo-icon.png" class="logo-img" style="width:44px;height:44px;object-fit:contain">
+      <img src="img/logo-text.png" class="logo-img" style="height:36px;object-fit:contain">
+    </div>
+    <div class="logo-tag">محاسبك المالي الذكي</div>
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab on" id="tabLogin" onclick="switchTab('login')">تسجيل الدخول</button>
+      <button class="tab" id="tabSignup" onclick="switchTab('signup')">حساب جديد</button>
+    </div>
+
+    <div id="errMsg" class="err"></div>
+    <div id="sucMsg" class="suc"></div>
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <div class="ff">
+        <label class="fl">البريد الإلكتروني</label>
+        <input class="fi" id="loginEmail" type="email" placeholder="example@mail.com" dir="ltr">
+      </div>
+      <div class="ff">
+        <label class="fl">كلمة المرور</label>
+        <input class="fi" id="loginPass" type="password" placeholder="••••••••" dir="ltr">
+      </div>
+      <button class="btn-main" id="loginBtn" onclick="doLogin()">دخول ←</button>
+      <div class="divider">أو</div>
+      <button class="btn-magic" onclick="doMagicLink('login')">
+        <span>✉️</span> رابط دخول سريع على بريدك
+      </button>
+      <div class="footer-links" style="margin-top:14px">
+        <a href="#" onclick="showReset()">نسيت كلمة المرور؟</a>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" style="display:none">
+      <div class="ff">
+        <label class="fl">اسم المشروع أو الشركة</label>
+        <input class="fi" id="signupBiz" type="text" placeholder="مثال: مؤسسة النور للاستشارات">
+      </div>
+      <div class="ff">
+        <label class="fl">البريد الإلكتروني</label>
+        <input class="fi" id="signupEmail" type="email" placeholder="example@mail.com" dir="ltr">
+      </div>
+      <div class="ff">
+        <label class="fl">كلمة المرور (8 أحرف على الأقل)</label>
+        <input class="fi" id="signupPass" type="password" placeholder="••••••••" dir="ltr">
+      </div>
+      <button class="btn-main" id="signupBtn" onclick="doSignup()">إنشاء الحساب ←</button>
+      <div class="divider">أو</div>
+      <button class="btn-magic" onclick="doMagicLink('signup')">
+        <span>✉️</span> سجّل برابط على بريدك مباشرة
+      </button>
+    </div>
+
+    <!-- Reset Password -->
+    <div id="resetForm" style="display:none">
+      <div style="font-size:14px;font-weight:600;margin-bottom:12px">إعادة تعيين كلمة المرور</div>
+      <div class="ff">
+        <label class="fl">البريد الإلكتروني</label>
+        <input class="fi" id="resetEmail" type="email" placeholder="example@mail.com" dir="ltr">
+      </div>
+      <button class="btn-main" onclick="doReset()">أرسل رابط الاستعادة ←</button>
+      <div class="footer-links" style="margin-top:14px">
+        <a href="#" onclick="showReset(false)">← رجوع لتسجيل الدخول</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-btn">
+    لا تملك حساباً بعد؟ <a href="pricing.html">شاهد الخطط والأسعار</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script>
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Check if already logged in
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) window.location.href = 'index.html';
+});
+
+function switchTab(t) {
+  document.getElementById('loginForm').style.display = t === 'login' ? '' : 'none';
+  document.getElementById('signupForm').style.display = t === 'signup' ? '' : 'none';
+  document.getElementById('resetForm').style.display = 'none';
+  document.getElementById('tabLogin').className = 'tab' + (t === 'login' ? ' on' : '');
+  document.getElementById('tabSignup').className = 'tab' + (t === 'signup' ? ' on' : '');
+  clearMsgs();
+}
+
+function showReset(show = true) {
+  document.getElementById('loginForm').style.display = show ? 'none' : '';
+  document.getElementById('resetForm').style.display = show ? '' : 'none';
+  clearMsgs();
+}
+
+function showErr(msg) {
+  const el = document.getElementById('errMsg');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('sucMsg').style.display = 'none';
+}
+function showSuc(msg) {
+  const el = document.getElementById('sucMsg');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('errMsg').style.display = 'none';
+}
+function clearMsgs() {
+  document.getElementById('errMsg').style.display = 'none';
+  document.getElementById('sucMsg').style.display = 'none';
+}
+
+function setBtnLoading(id, loading) {
+  const btn = document.getElementById(id);
+  if (loading) {
+    btn.disabled = true;
+    btn.dataset.orig = btn.textContent;
+    btn.innerHTML = btn.dataset.orig + '<span class="spin"></span>';
+  } else {
+    btn.disabled = false;
+    btn.textContent = btn.dataset.orig || btn.textContent;
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showErr('يرجى إدخال البريد وكلمة المرور'); return; }
+  setBtnLoading('loginBtn', true);
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  setBtnLoading('loginBtn', false);
+  if (error) { showErr(translateError(error.message)); return; }
+  window.location.href = 'index.html';
+}
+
+async function doSignup() {
+  const biz = document.getElementById('signupBiz').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const pass = document.getElementById('signupPass').value;
+  if (!biz) { showErr('يرجى إدخال اسم المشروع'); return; }
+  if (!email) { showErr('يرجى إدخال البريد الإلكتروني'); return; }
+  if (pass.length < 8) { showErr('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); return; }
+  setBtnLoading('signupBtn', true);
+  const { error } = await sb.auth.signUp({
+    email, password: pass,
+    options: { data: { business_name: biz } }
+  });
+  setBtnLoading('signupBtn', false);
+  if (error) { showErr(translateError(error.message)); return; }
+  showSuc('تم إنشاء حسابك! تحقق من بريدك لتأكيد الحساب ثم سجّل دخولك.');
+}
+
+async function doMagicLink(mode) {
+  const emailId = mode === 'login' ? 'loginEmail' : 'signupEmail';
+  const email = document.getElementById(emailId).value.trim();
+  if (!email) { showErr('يرجى إدخال بريدك الإلكتروني أولاً'); return; }
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin + '/index.html' }
+  });
+  if (error) { showErr(translateError(error.message)); return; }
+  showSuc('تم إرسال الرابط! تفقد بريدك الإلكتروني.');
+}
+
+async function doReset() {
+  const email = document.getElementById('resetEmail').value.trim();
+  if (!email) { showErr('يرجى إدخال بريدك الإلكتروني'); return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/index.html'
+  });
+  if (error) { showErr(translateError(error.message)); return; }
+  showSuc('تم إرسال رابط الاستعادة! تفقد بريدك.');
+}
+
+function translateError(msg) {
+  if (msg.includes('Invalid login')) return 'البريد أو كلمة المرور غير صحيحة';
+  if (msg.includes('already registered')) return 'هذا البريد مسجّل مسبقاً، جرّب تسجيل الدخول';
+  if (msg.includes('Email not confirmed')) return 'يرجى تأكيد بريدك الإلكتروني أولاً';
+  if (msg.includes('rate limit')) return 'حاولت كثيراً، انتظر قليلاً';
+  return msg;
+}
+
+// Dark mode sync
+if (localStorage.getItem('mahsoob_theme') === 'dark') {
+  document.body.classList.add('dark');
+  document.querySelectorAll('.logo-img').forEach(el => el.style.filter = 'invert(1)');
+}
+</script>
+</body>
+</html>
