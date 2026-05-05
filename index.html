@@ -562,17 +562,23 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 <!-- CLIENTS PAGE -->
 <div class="pg" id="pg-cp">
 
-  <!-- Summary -->
-  <div class="g3" style="margin-bottom:18px">
-    <div class="kc G"><div class="kl">إجمالي العملاء</div><div class="kv G" id="cl-total">0</div><div class="kch">مسجّل</div></div>
-    <div class="kc B"><div class="kl">إجمالي الإيرادات</div><div class="kv B" id="cl-rev">0 ر.س</div><div class="kch">من جميع العملاء</div></div>
-    <div class="kc R"><div class="kl">مستحقات غير مدفوعة</div><div class="kv R" id="cl-due">0 ر.س</div><div class="kch">فواتير مفتوحة</div></div>
-  </div>
-
-  <!-- Toolbar -->
-  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center">
-    <input class="fi" id="cl-search" placeholder="🔍  ابحث عن عميل…" oninput="renderClients()" style="flex:1;max-width:320px"/>
-    <button class="btn bp" onclick="toggleAddClient()">＋ إضافة عميل</button>
+  <!-- Toolbar + summary in one strip -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:var(--t3)">العملاء</div>
+        <div style="font-size:22px;font-weight:700;color:var(--g)" id="cl-total">0</div>
+      </div>
+      <div style="width:1px;height:32px;background:var(--b)"></div>
+      <div>
+        <div style="font-size:11px;color:var(--t3)">إجمالي الإيرادات</div>
+        <div style="font-size:22px;font-weight:700;color:var(--bl)" id="cl-rev">—</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input class="fi" id="cl-search" placeholder="🔍  ابحث…" oninput="renderClients()" style="width:200px"/>
+      <button class="btn bp" onclick="toggleAddClient()">＋ إضافة عميل</button>
+    </div>
   </div>
 
   <!-- Add client form -->
