@@ -559,34 +559,72 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   </div>
 </div>
 
-<!-- CLIENT PROFITABILITY (NEW) -->
+<!-- CLIENTS PAGE -->
 <div class="pg" id="pg-cp">
-  <div class="al al-b" style="margin-bottom:13px">
-    <span class="ai2">💡</span>
-    <div class="ab2">
-      <div class="at2 B">تحليل ذكي</div>
-      <div class="as2">أضف معاملات مرتبطة بعملاء لرؤية تحليل ربحية كل عميل واقتراحات لتحسين هامش الربح.</div>
+
+  <!-- Summary -->
+  <div class="g3" style="margin-bottom:18px">
+    <div class="kc G"><div class="kl">إجمالي العملاء</div><div class="kv G" id="cl-total">0</div><div class="kch">مسجّل</div></div>
+    <div class="kc B"><div class="kl">إجمالي الإيرادات</div><div class="kv B" id="cl-rev">0 ر.س</div><div class="kch">من جميع العملاء</div></div>
+    <div class="kc R"><div class="kl">مستحقات غير مدفوعة</div><div class="kv R" id="cl-due">0 ر.س</div><div class="kch">فواتير مفتوحة</div></div>
+  </div>
+
+  <!-- Toolbar -->
+  <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center">
+    <input class="fi" id="cl-search" placeholder="🔍  ابحث عن عميل…" oninput="renderClients()" style="flex:1;max-width:320px"/>
+    <button class="btn bp" onclick="toggleAddClient()">＋ إضافة عميل</button>
+  </div>
+
+  <!-- Add client form -->
+  <div id="cl-form" style="display:none;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:16px;margin-bottom:16px">
+    <div class="st" style="margin-bottom:12px" id="cl-form-title">عميل جديد</div>
+    <div class="fg">
+      <div class="ff"><label class="fl">الاسم *</label><input class="fi" id="cl-name" placeholder="اسم العميل أو المنشأة"/></div>
+      <div class="ff"><label class="fl">الجوال</label><input class="fi" id="cl-phone" placeholder="05xxxxxxxx" inputmode="tel"/></div>
+      <div class="ff"><label class="fl">البريد الإلكتروني</label><input class="fi" id="cl-email" placeholder="example@domain.com" inputmode="email"/></div>
+      <div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="cl-vat" placeholder="اختياري"/></div>
+      <div class="ff full"><label class="fl">ملاحظات</label><input class="fi" id="cl-notes" placeholder="أي معلومات إضافية…"/></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn bp" onclick="saveClient()">حفظ العميل</button>
+      <button class="btn bg2" onclick="toggleAddClient()">إلغاء</button>
     </div>
   </div>
-  <div class="card" style="margin-bottom:14px">
-    <div class="sh"><div class="st">ربحية العملاء — أبريل</div></div>
-    <div id="clientsList">
-      <div style="text-align:center;padding:28px;color:var(--t3)">لا توجد بيانات عملاء بعد — أضف معاملات مرتبطة بعملاء لرؤية تحليل الربحية</div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="st" style="margin-bottom:12px">توصيات استراتيجية</div>
-    <div class="g2" style="margin-bottom:0">
-      <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--g);margin-bottom:6px">▲ عملاء للتركيز عليهم</div>
-        <div style="font-size:12px;color:var(--t2);line-height:1.7">سيظهر هنا أعلى عملائك ربحيةً بعد إضافة معاملات — اطلب منهم إحالة عملاء مشابهين.</div>
+
+  <!-- Client cards -->
+  <div id="cl-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:18px"></div>
+
+  <!-- Client detail panel (hidden by default) -->
+  <div id="cl-detail" style="display:none">
+    <div class="card">
+      <div class="sh">
+        <div>
+          <div class="st" id="cd-name">—</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:2px" id="cd-meta">—</div>
+        </div>
+        <button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="closeClientDetail()">✕ إغلاق</button>
       </div>
-      <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--r);margin-bottom:6px">▼ عملاء تحتاج مراجعة</div>
-        <div style="font-size:12px;color:var(--t2);line-height:1.7">سيظهر هنا العملاء ذوو الربحية المنخفضة أو المتأخرون في الدفع — مع توصيات للتحسين.</div>
+      <div class="g3" style="margin:14px 0">
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:4px">إجمالي الإيرادات</div>
+          <div style="font-size:20px;font-weight:700;color:var(--g)" id="cd-rev">0 ر.س</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:4px">عدد المعاملات</div>
+          <div style="font-size:20px;font-weight:700;color:var(--bl)" id="cd-txcount">0</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:4px">آخر معاملة</div>
+          <div style="font-size:14px;font-weight:700;color:var(--t1)" id="cd-last">—</div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--t2)">سجل المعاملات</div>
+      <div id="cd-txlist" style="display:flex;flex-direction:column;gap:6px">
+        <div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">لا توجد معاملات مرتبطة بهذا العميل — أضف معاملات وحدّد اسم العميل في حقل "الجهة"</div>
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- GOALS (NEW) -->
@@ -1286,7 +1324,7 @@ window.onload=()=>{
 function initApp(){
   if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
   calcZakat();
-  renderAlerts();renderDbGoals();renderTopClients();
+  renderAlerts();renderDbGoals();renderTopClients();renderClients();
   showSt('income',document.getElementById('stB1'));
   usersInit();
 }
@@ -1305,13 +1343,191 @@ function togSB(){document.getElementById('sbEl').classList.toggle('open');docume
 function closeSB(){document.getElementById('sbEl').classList.remove('open');document.getElementById('ovB').classList.remove('vis');}
 function togSBDesktop(){document.getElementById('appLayout').classList.toggle('sb-hidden');}
 
+// ── Clients ────────────────────────────
+let clClients = JSON.parse(localStorage.getItem('mahsoob_clients')||'[]');
+let clEditId = null;
+
+function saveClientsStore(){ localStorage.setItem('mahsoob_clients', JSON.stringify(clClients)); }
+
+function toggleAddClient(){
+  const f = document.getElementById('cl-form');
+  const open = f.style.display === 'block';
+  f.style.display = open ? 'none' : 'block';
+  if(!open){
+    clEditId = null;
+    document.getElementById('cl-form-title').textContent = 'عميل جديد';
+    ['cl-name','cl-phone','cl-email','cl-vat','cl-notes'].forEach(id=>document.getElementById(id).value='');
+  }
+}
+
+function saveClient(){
+  const name = document.getElementById('cl-name').value.trim();
+  if(!name){ alert('أدخل اسم العميل'); return; }
+  const client = {
+    id: clEditId || Date.now(),
+    name,
+    phone: document.getElementById('cl-phone').value.trim(),
+    email: document.getElementById('cl-email').value.trim(),
+    vat:   document.getElementById('cl-vat').value.trim(),
+    notes: document.getElementById('cl-notes').value.trim(),
+    createdAt: clEditId ? (clClients.find(c=>c.id===clEditId)||{}).createdAt : new Date().toISOString().split('T')[0]
+  };
+  if(clEditId){
+    clClients = clClients.map(c=>c.id===clEditId ? client : c);
+  } else {
+    clClients.push(client);
+  }
+  saveClientsStore();
+  toggleAddClient();
+  renderClients();
+  renderTopClients();
+}
+
+function deleteClient(id){
+  if(!confirm('حذف هذا العميل؟')) return;
+  clClients = clClients.filter(c=>c.id!==id);
+  saveClientsStore();
+  closeClientDetail();
+  renderClients();
+  renderTopClients();
+}
+
+function editClient(id){
+  const c = clClients.find(x=>x.id===id);
+  if(!c) return;
+  clEditId = id;
+  document.getElementById('cl-name').value  = c.name  ||'';
+  document.getElementById('cl-phone').value = c.phone ||'';
+  document.getElementById('cl-email').value = c.email ||'';
+  document.getElementById('cl-vat').value   = c.vat   ||'';
+  document.getElementById('cl-notes').value = c.notes ||'';
+  document.getElementById('cl-form-title').textContent = 'تعديل بيانات العميل';
+  document.getElementById('cl-form').style.display = 'block';
+  document.getElementById('cl-form').scrollIntoView({behavior:'smooth'});
+}
+
+function getClientTx(name){
+  const rows = Array.from(document.querySelectorAll('#txTb tr'));
+  return rows.filter(r=>{
+    const cells = r.querySelectorAll('td');
+    return cells.length>=2 && cells[1].textContent.trim()===name;
+  }).map(r=>{
+    const cells = r.querySelectorAll('td');
+    const amtText = cells[4]?.textContent||'0';
+    const amt = parseFloat(amtText.replace(/[^0-9.]/g,''))||0;
+    const isIncome = amtText.includes('+');
+    return { desc: cells[0]?.textContent||'—', date: cells[3]?.textContent||'—', amt, isIncome };
+  });
+}
+
+function renderClients(){
+  const q = (document.getElementById('cl-search')?.value||'').toLowerCase();
+  const filtered = clClients.filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)||c.email.toLowerCase().includes(q));
+  const grid = document.getElementById('cl-grid');
+
+  let totalRev=0, totalDue=0;
+  clClients.forEach(c=>{
+    const tx = getClientTx(c.name);
+    totalRev += tx.filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
+  });
+
+  document.getElementById('cl-total').textContent = clClients.length;
+  document.getElementById('cl-rev').textContent = totalRev.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cl-due').textContent = '—';
+
+  if(!filtered.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--t3)">
+      ${clClients.length===0
+        ? 'لا يوجد عملاء بعد — اضغط <b>＋ إضافة عميل</b> لإضافة أول عميل'
+        : 'لا توجد نتائج للبحث'}
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c=>{
+    const tx = getClientTx(c.name);
+    const rev = tx.filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
+    const txCount = tx.length;
+    const initial = c.name.charAt(0)||'ع';
+    const colors=['#10b981','#3b82f6','#8b5cf6','#f59e0b','#ef4444','#06b6d4'];
+    const color = colors[c.name.charCodeAt(0)%colors.length];
+    const profBadge = rev>10000
+      ? `<span class="bdg" style="background:var(--g);color:#fff;font-size:10px">ربحية عالية</span>`
+      : rev>0
+      ? `<span class="bdg bdg-b" style="font-size:10px">ربحية متوسطة</span>`
+      : `<span class="bdg" style="font-size:10px;color:var(--t3)">لا بيانات</span>`;
+    return `
+    <div style="background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:16px;cursor:pointer;transition:.15s" onclick="openClientDetail(${c.id})" onmouseenter="this.style.borderColor='var(--g)'" onmouseleave="this.style.borderColor='var(--b)'">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:44px;height:44px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">${initial}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:1px">${c.phone||c.email||'لا يوجد تواصل'}</div>
+        </div>
+        ${profBadge}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--bg3);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">إجمالي الإيرادات</div>
+          <div style="font-size:13px;font-weight:700;color:var(--g)">${rev>0?rev.toLocaleString('ar-SA')+' ر.س':'—'}</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:6px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">المعاملات</div>
+          <div style="font-size:13px;font-weight:700;color:var(--bl)">${txCount>0?txCount+' معاملة':'لا يوجد'}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px" onclick="event.stopPropagation()">
+        <button class="btn bg2" style="flex:1;font-size:11px;padding:5px" onclick="editClient(${c.id})">✏️ تعديل</button>
+        <button class="btn bg2" style="font-size:11px;padding:5px;color:var(--r)" onclick="deleteClient(${c.id})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openClientDetail(id){
+  const c = clClients.find(x=>x.id===id);
+  if(!c) return;
+  const tx = getClientTx(c.name);
+  const rev = tx.filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
+  document.getElementById('cd-name').textContent = c.name;
+  document.getElementById('cd-meta').textContent = [c.phone,c.email,c.vat?'ض: '+c.vat:''].filter(Boolean).join(' · ')||'لا توجد بيانات تواصل';
+  document.getElementById('cd-rev').textContent = rev.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cd-txcount').textContent = tx.length;
+  document.getElementById('cd-last').textContent = tx.length ? tx[0].date : '—';
+  document.getElementById('cd-txlist').innerHTML = tx.length
+    ? tx.map(t=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
+        <div><div style="font-size:13px;font-weight:600">${t.desc}</div><div style="font-size:11px;color:var(--t3)">${t.date}</div></div>
+        <div style="font-weight:700;color:${t.isIncome?'var(--g)':'var(--r)'}">
+          ${t.isIncome?'+':'−'}${t.amt.toLocaleString('ar-SA')} ر.س
+        </div>
+      </div>`).join('')
+    : `<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">لا توجد معاملات — أضف معاملة وحدّد <b>${c.name}</b> في حقل "الجهة"</div>`;
+  document.getElementById('cl-detail').style.display='block';
+  document.getElementById('cl-detail').scrollIntoView({behavior:'smooth'});
+}
+
+function closeClientDetail(){
+  document.getElementById('cl-detail').style.display='none';
+}
+
 // ── Render helpers ─────────────────────
 function renderAlerts(){
   document.getElementById('smA').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد تنبيهات حالياً</div>`;
   document.getElementById('dbAlerts2').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">أضف معاملات وفواتير لتظهر التنبيهات الذكية</div>`;
 }
 function renderTopClients(){
-  document.getElementById('topClients').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد بيانات عملاء بعد</div>`;
+  const el = document.getElementById('topClients');
+  if(!el) return;
+  if(!clClients.length){ el.innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد بيانات عملاء بعد</div>`; return; }
+  const sorted = clClients.map(c=>{
+    const rev = getClientTx(c.name).filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
+    return {...c,rev};
+  }).sort((a,b)=>b.rev-a.rev).slice(0,3);
+  el.innerHTML = sorted.map(c=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--b)">
+      <span style="font-size:13px;font-weight:600">${c.name}</span>
+      <span style="font-size:13px;color:var(--g);direction:ltr">${c.rev>0?c.rev.toLocaleString('ar-SA')+' ر.س':'—'}</span>
+    </div>`).join('');
 }
 function renderDbGoals(){
   document.getElementById('dbGoals').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لم تُضف أهدافاً بعد — <span style="color:var(--g);cursor:pointer" onclick="go('gls',null)">أضف هدفاً ←</span></div>`;
