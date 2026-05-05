@@ -34,9 +34,13 @@ const Auth = {
       // First login — create tenant from signup metadata
       const meta = this.session.user.user_metadata || {};
       const { data: newTenant } = await _sb.from('tenants').insert({
-        owner_id: this.session.user.id,
-        name: meta.business_name || 'مشروعي',
-        plan: 'free',
+        owner_id:   this.session.user.id,
+        name:       meta.business_name || meta.full_name || 'مشروعي',
+        plan:       'free',
+        vat_number: meta.vat_number  || null,
+        cr_number:  meta.cr_number   || null,
+        city:       meta.city        || 'الرياض',
+        address:    meta.address     || null,
       }).select().single();
       this.tenant = newTenant;
     } else {

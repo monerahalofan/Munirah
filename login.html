@@ -11,31 +11,54 @@ body{font-family:'Tajawal',sans-serif;background:#f5f6fa;color:#1a1d2e;min-heigh
 body.dark{background:#0d1117;color:#f0f2f8}
 .wrap{width:100%;max-width:420px}
 .logo{text-align:center;margin-bottom:28px}
-.logo-icon{width:52px;height:52px;background:rgba(22,163,114,.1);border:1px solid rgba(22,163,114,.2);border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px}
-.logo-name{font-size:22px;font-weight:700}
 .logo-tag{font-size:13px;color:#9aa0b8;margin-top:3px}
 .card{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:28px}
 body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
 .tabs{display:flex;gap:6px;margin-bottom:22px;background:#f0f2f7;border-radius:10px;padding:4px}
 body.dark .tabs{background:#1e2535}
-.tab{flex:1;padding:8px;border:none;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s}
+.tab{flex:1;padding:8px;border:none;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:500;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s}
 .tab.on{background:#fff;color:#1a1d2e;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 body.dark .tab.on{background:#252d3d;color:#f0f2f8}
 .ff{display:flex;flex-direction:column;gap:4px;margin-bottom:13px}
 .fl{font-size:12px;color:#9aa0b8;font-weight:500}
+.fl span{color:#e8394a;margin-right:2px}
 .fi{background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;padding:10px 13px;font-size:14px;color:#1a1d2e;font-family:'Tajawal',sans-serif;direction:rtl;outline:none;width:100%;transition:border-color .2s}
 .fi:focus{border-color:#16a372;background:#fff}
 body.dark .fi{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
 body.dark .fi:focus{background:#252d3d;border-color:#22c98a}
+/* password strength */
+.pw-bar-wrap{display:flex;gap:4px;margin-top:6px}
+.pw-bar{flex:1;height:4px;border-radius:2px;background:#e8eaf0;transition:background .3s}
+.pw-label{font-size:11px;margin-top:5px;font-weight:600;transition:color .3s}
+/* phone */
+.phone-wrap{display:flex;gap:8px}
+.phone-prefix{background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;padding:10px 13px;font-size:14px;color:#5a6080;direction:ltr;white-space:nowrap;min-width:70px;text-align:center}
+body.dark .phone-prefix{background:#1e2535;border-color:rgba(255,255,255,.1);color:#8892a4}
+.phone-toggle{width:100%;padding:11px;background:transparent;border:1px solid rgba(0,0,0,.12);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:#5a6080;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0}
+.phone-toggle:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
+body.dark .phone-toggle{border-color:rgba(255,255,255,.12);color:#8892a4}
+.phone-box{background:#f8f9fc;border:1px solid rgba(0,0,0,.07);border-radius:11px;padding:16px;margin-top:10px}
+body.dark .phone-box{background:#1a2030;border-color:rgba(255,255,255,.07)}
+/* otp */
+.otp-wrap{display:flex;gap:8px;justify-content:center;margin:4px 0}
+.otp-digit{width:44px;height:50px;background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;font-size:22px;font-weight:700;text-align:center;outline:none;font-family:'Tajawal',sans-serif;direction:ltr;transition:border-color .2s}
+.otp-digit:focus{border-color:#16a372;background:#fff}
+body.dark .otp-digit{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
+/* buttons */
 .btn-main{width:100%;padding:12px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:4px}
 .btn-main:hover{opacity:.9}
 .btn-main:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:9px 14px;background:#16a372;color:#fff;border:none;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.btn-sm:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:transparent;border:none;color:#16a372;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer;padding:0;margin-top:8px;display:block;width:100%;text-align:center}
 .divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#9aa0b8;font-size:12px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.08)}
 body.dark .divider::before,body.dark .divider::after{background:rgba(255,255,255,.08)}
-.btn-magic{width:100%;padding:11px;background:transparent;border:1px solid rgba(0,0,0,.12);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:#5a6080;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-magic:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
-body.dark .btn-magic{border-color:rgba(255,255,255,.12);color:#8892a4}
+.btn-social{width:100%;padding:11px;background:transparent;border:1px solid rgba(0,0,0,.12);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:#5a6080;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.btn-social:hover{border-color:#4285F4;color:#4285F4;background:rgba(66,133,244,.05)}
+body.dark .btn-social{border-color:rgba(255,255,255,.12);color:#8892a4}
+.btn-social svg{width:18px;height:18px;flex-shrink:0}
+/* messages */
 .err{background:rgba(232,57,74,.08);border:1px solid rgba(232,57,74,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#e8394a;margin-bottom:12px;display:none}
 .suc{background:rgba(22,163,114,.08);border:1px solid rgba(22,163,114,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#16a372;margin-bottom:12px;display:none}
 .footer-links{text-align:center;margin-top:18px;font-size:13px;color:#9aa0b8}
@@ -44,6 +67,10 @@ body.dark .btn-magic{border-color:rgba(255,255,255,.12);color:#8892a4}
 .pricing-btn a{color:#2563eb;text-decoration:none}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-left:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
+.section-title{font-size:11px;font-weight:600;color:#9aa0b8;letter-spacing:.4px;margin:16px 0 10px;display:flex;align-items:center;gap:6px}
+.section-title::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.07)}
+body.dark .section-title::after{background:rgba(255,255,255,.07)}
+.optional-tag{font-size:10px;color:#b0b8d0;font-weight:400}
 </style>
 </head>
 <body>
@@ -58,55 +85,135 @@ body.dark .btn-magic{border-color:rgba(255,255,255,.12);color:#8892a4}
 
   <div class="card">
     <div class="tabs">
-      <button class="tab on" id="tabLogin" onclick="switchTab('login')">تسجيل الدخول</button>
-      <button class="tab" id="tabSignup" onclick="switchTab('signup')">حساب جديد</button>
+      <button class="tab on" id="tabLogin"  onclick="switchTab('login')">تسجيل الدخول</button>
+      <button class="tab"    id="tabSignup" onclick="switchTab('signup')">حساب جديد</button>
     </div>
 
     <div id="errMsg" class="err"></div>
     <div id="sucMsg" class="suc"></div>
 
-    <!-- Login Form -->
+    <!-- ══ LOGIN FORM ══════════════════════════════════ -->
     <div id="loginForm">
+      <button class="btn-social" onclick="doGoogle()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        متابعة عبر Google
+      </button>
+
+      <div class="divider">أو بالبريد الإلكتروني</div>
+
       <div class="ff">
         <label class="fl">البريد الإلكتروني</label>
         <input class="fi" id="loginEmail" type="email" placeholder="example@mail.com" dir="ltr">
       </div>
       <div class="ff">
         <label class="fl">كلمة المرور</label>
-        <input class="fi" id="loginPass" type="password" placeholder="••••••••" dir="ltr">
+        <input class="fi" id="loginPass" type="password" placeholder="••••••••" dir="ltr"
+               onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <button class="btn-main" id="loginBtn" onclick="doLogin()">دخول ←</button>
-      <div class="divider">أو</div>
-      <button class="btn-magic" onclick="doMagicLink('login')">
-        <span>✉️</span> رابط دخول سريع على بريدك
-      </button>
-      <div class="footer-links" style="margin-top:14px">
+
+      <div class="footer-links" style="margin-top:12px">
         <a href="#" onclick="showReset()">نسيت كلمة المرور؟</a>
+      </div>
+
+      <div class="divider" style="margin-top:16px">أو</div>
+
+      <!-- Phone OTP inside login -->
+      <button class="phone-toggle" id="phoneToggleBtn" onclick="togglePhone()">
+        📱 دخول برقم الجوال
+      </button>
+
+      <div id="phoneBox" class="phone-box" style="display:none">
+        <div id="phoneStep1">
+          <div class="ff" style="margin-bottom:10px">
+            <label class="fl">رقم الجوال</label>
+            <div class="phone-wrap">
+              <div class="phone-prefix">🇸🇦 +966</div>
+              <input class="fi" id="phoneNum" type="tel" placeholder="5XXXXXXXX" dir="ltr"
+                     maxlength="9" oninput="this.value=this.value.replace(/\D/g,'')"
+                     onkeydown="if(event.key==='Enter')doSendOtp()">
+            </div>
+          </div>
+          <button class="btn-sm" id="phoneSendBtn" onclick="doSendOtp()" style="width:100%">
+            إرسال رمز التحقق ←
+          </button>
+        </div>
+
+        <div id="phoneStep2" style="display:none">
+          <div style="text-align:center;margin-bottom:14px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:3px">أدخل رمز التحقق</div>
+            <div id="otpSubtitle" style="font-size:11px;color:#9aa0b8">رمز مكوّن من 6 أرقام أُرسل إلى جوالك</div>
+          </div>
+          <div class="otp-wrap" id="otpInputs">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,0)">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,1)">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,2)">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,3)">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,4)">
+            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,5)">
+          </div>
+          <button class="btn-sm" id="otpVerifyBtn" onclick="doVerifyOtp()" style="width:100%;margin-top:12px">
+            تحقق والدخول ←
+          </button>
+          <button class="btn-ghost" onclick="resetPhone()">← تغيير الرقم</button>
+        </div>
       </div>
     </div>
 
-    <!-- Signup Form -->
+    <!-- ══ SIGNUP FORM ═════════════════════════════════ -->
     <div id="signupForm" style="display:none">
+      <button class="btn-social" onclick="doGoogle()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        إنشاء حساب عبر Google
+      </button>
+      <div class="divider">أو بالبريد الإلكتروني</div>
+
+      <div class="section-title">معلومات الحساب</div>
       <div class="ff">
-        <label class="fl">اسم المشروع أو الشركة</label>
+        <label class="fl">اسم المشروع أو الشركة <span>*</span></label>
         <input class="fi" id="signupBiz" type="text" placeholder="مثال: مؤسسة النور للاستشارات">
       </div>
       <div class="ff">
-        <label class="fl">البريد الإلكتروني</label>
+        <label class="fl">البريد الإلكتروني <span>*</span></label>
         <input class="fi" id="signupEmail" type="email" placeholder="example@mail.com" dir="ltr">
       </div>
       <div class="ff">
-        <label class="fl">كلمة المرور (8 أحرف على الأقل)</label>
-        <input class="fi" id="signupPass" type="password" placeholder="••••••••" dir="ltr">
+        <label class="fl">كلمة المرور <span>*</span></label>
+        <input class="fi" id="signupPass" type="password" placeholder="••••••••" dir="ltr"
+               oninput="checkPasswordStrength(this.value)">
+        <div class="pw-bar-wrap" id="pwBars">
+          <div class="pw-bar" id="pwB1"></div>
+          <div class="pw-bar" id="pwB2"></div>
+          <div class="pw-bar" id="pwB3"></div>
+          <div class="pw-bar" id="pwB4"></div>
+        </div>
+        <div class="pw-label" id="pwLabel" style="color:#b0b8d0">أدخل كلمة المرور</div>
       </div>
+
+      <div class="section-title">بيانات العمل التجارية <span class="optional-tag">(اختياري — لتفعيل فواتير زاتكا)</span></div>
+      <div class="ff">
+        <label class="fl">الرقم الضريبي (VAT)</label>
+        <input class="fi" id="signupVat" type="text" placeholder="300000000000003" dir="ltr" maxlength="15">
+      </div>
+      <div style="display:flex;gap:10px">
+        <div class="ff" style="flex:1">
+          <label class="fl">السجل التجاري (CR)</label>
+          <input class="fi" id="signupCr" type="text" placeholder="1234567890" dir="ltr" maxlength="10">
+        </div>
+        <div class="ff" style="flex:1">
+          <label class="fl">المدينة</label>
+          <input class="fi" id="signupCity" type="text" placeholder="الرياض">
+        </div>
+      </div>
+      <div class="ff">
+        <label class="fl">العنوان</label>
+        <input class="fi" id="signupAddress" type="text" placeholder="مثال: حي العليا، شارع العروبة">
+      </div>
+
       <button class="btn-main" id="signupBtn" onclick="doSignup()">إنشاء الحساب ←</button>
-      <div class="divider">أو</div>
-      <button class="btn-magic" onclick="doMagicLink('signup')">
-        <span>✉️</span> سجّل برابط على بريدك مباشرة
-      </button>
     </div>
 
-    <!-- Reset Password -->
+    <!-- ══ RESET PASSWORD ══════════════════════════════ -->
     <div id="resetForm" style="display:none">
       <div style="font-size:14px;font-weight:600;margin-bottom:12px">إعادة تعيين كلمة المرور</div>
       <div class="ff">
@@ -130,16 +237,16 @@ body.dark .btn-magic{border-color:rgba(255,255,255,.12);color:#8892a4}
 <script>
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Check if already logged in
 sb.auth.getSession().then(({ data: { session } }) => {
   if (session) window.location.href = 'index.html';
 });
 
+// ── Tab switching ─────────────────────────────────────
 function switchTab(t) {
-  document.getElementById('loginForm').style.display = t === 'login' ? '' : 'none';
+  document.getElementById('loginForm').style.display  = t === 'login'  ? '' : 'none';
   document.getElementById('signupForm').style.display = t === 'signup' ? '' : 'none';
-  document.getElementById('resetForm').style.display = 'none';
-  document.getElementById('tabLogin').className = 'tab' + (t === 'login' ? ' on' : '');
+  document.getElementById('resetForm').style.display  = 'none';
+  document.getElementById('tabLogin').className  = 'tab' + (t === 'login'  ? ' on' : '');
   document.getElementById('tabSignup').className = 'tab' + (t === 'signup' ? ' on' : '');
   clearMsgs();
 }
@@ -150,6 +257,7 @@ function showReset(show = true) {
   clearMsgs();
 }
 
+// ── Messages ──────────────────────────────────────────
 function showErr(msg) {
   const el = document.getElementById('errMsg');
   el.textContent = msg; el.style.display = 'block';
@@ -165,11 +273,12 @@ function clearMsgs() {
   document.getElementById('sucMsg').style.display = 'none';
 }
 
-function setBtnLoading(id, loading) {
+function setBtnLoading(id, loading, origText) {
   const btn = document.getElementById(id);
+  if (!btn) return;
   if (loading) {
     btn.disabled = true;
-    btn.dataset.orig = btn.textContent;
+    btn.dataset.orig = origText || btn.textContent;
     btn.innerHTML = btn.dataset.orig + '<span class="spin"></span>';
   } else {
     btn.disabled = false;
@@ -177,46 +286,137 @@ function setBtnLoading(id, loading) {
   }
 }
 
+// ── Password Strength ─────────────────────────────────
+function checkPasswordStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8)  score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+  if (/\d/.test(pw))   score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const level = score <= 1 ? 0 : score <= 2 ? 1 : score <= 3 ? 2 : 3;
+  const colors = ['#e8394a', '#f59e0b', '#3b82f6', '#16a372'];
+  const labels = ['ضعيفة — غير مقبولة', 'متوسطة', 'جيدة', 'قوية'];
+  const fills  = [1, 2, 3, 4];
+
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('pwB' + i).style.background =
+      i <= fills[level] ? colors[level] : '#e8eaf0';
+  }
+  const lbl = document.getElementById('pwLabel');
+  lbl.textContent = pw.length === 0 ? 'أدخل كلمة المرور' : labels[level];
+  lbl.style.color = pw.length === 0 ? '#b0b8d0' : colors[level];
+}
+
+// ── Google OAuth ──────────────────────────────────────
+async function doGoogle() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + '/index.html' }
+  });
+  if (error) showErr(translateError(error.message));
+}
+
+// ── Email Login ───────────────────────────────────────
 async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPass').value;
+  const pass  = document.getElementById('loginPass').value;
   if (!email || !pass) { showErr('يرجى إدخال البريد وكلمة المرور'); return; }
-  setBtnLoading('loginBtn', true);
+  setBtnLoading('loginBtn', true, 'دخول ←');
   const { error } = await sb.auth.signInWithPassword({ email, password: pass });
   setBtnLoading('loginBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
   window.location.href = 'index.html';
 }
 
+// ── Signup ────────────────────────────────────────────
 async function doSignup() {
-  const biz = document.getElementById('signupBiz').value.trim();
-  const email = document.getElementById('signupEmail').value.trim();
-  const pass = document.getElementById('signupPass').value;
-  if (!biz) { showErr('يرجى إدخال اسم المشروع'); return; }
+  const biz     = document.getElementById('signupBiz').value.trim();
+  const email   = document.getElementById('signupEmail').value.trim();
+  const pass    = document.getElementById('signupPass').value;
+  const vat     = document.getElementById('signupVat').value.trim();
+  const cr      = document.getElementById('signupCr').value.trim();
+  const city    = document.getElementById('signupCity').value.trim() || 'الرياض';
+  const address = document.getElementById('signupAddress').value.trim();
+
+  if (!biz)   { showErr('يرجى إدخال اسم المشروع'); return; }
   if (!email) { showErr('يرجى إدخال البريد الإلكتروني'); return; }
-  if (pass.length < 8) { showErr('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); return; }
-  setBtnLoading('signupBtn', true);
+
+  // Reject weak passwords
+  let score = 0;
+  if (pass.length >= 8)  score++;
+  if (pass.length >= 12) score++;
+  if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score++;
+  if (/\d/.test(pass))   score++;
+  if (/[^A-Za-z0-9]/.test(pass)) score++;
+  if (score <= 1) { showErr('كلمة المرور ضعيفة جداً — استخدم حروف كبيرة وصغيرة وأرقام'); return; }
+
+  if (vat && !/^\d{15}$/.test(vat)) { showErr('الرقم الضريبي يجب أن يكون 15 رقماً'); return; }
+
+  setBtnLoading('signupBtn', true, 'إنشاء الحساب ←');
   const { error } = await sb.auth.signUp({
     email, password: pass,
-    options: { data: { business_name: biz } }
+    options: { data: { business_name: biz, vat_number: vat, cr_number: cr, city, address } }
   });
   setBtnLoading('signupBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
   showSuc('تم إنشاء حسابك! تحقق من بريدك لتأكيد الحساب ثم سجّل دخولك.');
 }
 
-async function doMagicLink(mode) {
-  const emailId = mode === 'login' ? 'loginEmail' : 'signupEmail';
-  const email = document.getElementById(emailId).value.trim();
-  if (!email) { showErr('يرجى إدخال بريدك الإلكتروني أولاً'); return; }
-  const { error } = await sb.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: window.location.origin + '/index.html' }
-  });
-  if (error) { showErr(translateError(error.message)); return; }
-  showSuc('تم إرسال الرابط! تفقد بريدك الإلكتروني.');
+// ── Phone OTP ─────────────────────────────────────────
+function togglePhone() {
+  const box = document.getElementById('phoneBox');
+  const btn = document.getElementById('phoneToggleBtn');
+  const open = box.style.display === 'none';
+  box.style.display = open ? '' : 'none';
+  btn.textContent = open ? '✕ إغلاق' : '📱 دخول برقم الجوال';
+  if (open) document.getElementById('phoneNum').focus();
+  clearMsgs();
 }
 
+async function doSendOtp() {
+  const raw = document.getElementById('phoneNum').value.trim();
+  if (!raw || raw.length < 9) { showErr('يرجى إدخال رقم جوال صحيح (9 أرقام بدون الصفر)'); return; }
+  const phone = '+966' + raw.replace(/^0/, '');
+  setBtnLoading('phoneSendBtn', true, 'إرسال رمز التحقق ←');
+  const { error } = await sb.auth.signInWithOtp({ phone });
+  setBtnLoading('phoneSendBtn', false);
+  if (error) { showErr(translateError(error.message)); return; }
+  document.getElementById('phoneStep1').style.display = 'none';
+  document.getElementById('phoneStep2').style.display = '';
+  document.getElementById('otpSubtitle').textContent  = `أُرسل الرمز إلى ${phone}`;
+  document.querySelectorAll('.otp-digit')[0].focus();
+  clearMsgs();
+  showSuc('تم إرسال رمز التحقق');
+}
+
+function otpNext(el, idx) {
+  el.value = el.value.replace(/\D/g, '');
+  if (el.value && idx < 5) document.querySelectorAll('.otp-digit')[idx + 1].focus();
+  if (idx === 5 && el.value) doVerifyOtp();
+}
+
+async function doVerifyOtp() {
+  const digits = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
+  if (digits.length < 6) { showErr('أدخل رمز التحقق المكوّن من 6 أرقام'); return; }
+  const raw   = document.getElementById('phoneNum').value.trim();
+  const phone = '+966' + raw.replace(/^0/, '');
+  setBtnLoading('otpVerifyBtn', true, 'تحقق والدخول ←');
+  const { error } = await sb.auth.verifyOtp({ phone, token: digits, type: 'sms' });
+  setBtnLoading('otpVerifyBtn', false);
+  if (error) { showErr(translateError(error.message)); return; }
+  window.location.href = 'index.html';
+}
+
+function resetPhone() {
+  document.getElementById('phoneStep1').style.display = '';
+  document.getElementById('phoneStep2').style.display = 'none';
+  document.querySelectorAll('.otp-digit').forEach(i => i.value = '');
+  clearMsgs();
+}
+
+// ── Reset Password ────────────────────────────────────
 async function doReset() {
   const email = document.getElementById('resetEmail').value.trim();
   if (!email) { showErr('يرجى إدخال بريدك الإلكتروني'); return; }
@@ -228,14 +428,16 @@ async function doReset() {
 }
 
 function translateError(msg) {
-  if (msg.includes('Invalid login')) return 'البريد أو كلمة المرور غير صحيحة';
-  if (msg.includes('already registered')) return 'هذا البريد مسجّل مسبقاً، جرّب تسجيل الدخول';
-  if (msg.includes('Email not confirmed')) return 'يرجى تأكيد بريدك الإلكتروني أولاً';
-  if (msg.includes('rate limit')) return 'حاولت كثيراً، انتظر قليلاً';
+  if (msg.includes('Invalid login'))        return 'البريد أو كلمة المرور غير صحيحة';
+  if (msg.includes('already registered'))   return 'هذا البريد مسجّل مسبقاً، جرّب تسجيل الدخول';
+  if (msg.includes('Email not confirmed'))  return 'يرجى تأكيد بريدك الإلكتروني أولاً';
+  if (msg.includes('rate limit'))           return 'حاولت كثيراً، انتظر قليلاً';
+  if (msg.includes('Phone'))               return 'تأكد من رقم الجوال أو انتظر قبل إعادة المحاولة';
+  if (msg.includes('Token has expired'))   return 'انتهت صلاحية الرمز، اطلب رمزاً جديداً';
+  if (msg.includes('Invalid OTP'))         return 'الرمز غير صحيح، تحقق وأعد المحاولة';
   return msg;
 }
 
-// Dark mode sync
 if (localStorage.getItem('mahsoob_theme') === 'dark') {
   document.body.classList.add('dark');
   document.querySelectorAll('.logo-img').forEach(el => el.style.filter = 'invert(1)');
