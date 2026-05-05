@@ -95,6 +95,16 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .bdg-a{background:var(--ab);color:var(--a);border:1px solid var(--aB)}
 .bdg-b{background:var(--blb);color:var(--bl);border:1px solid var(--blB)}
 .bdg-p{background:var(--pb);color:var(--p);border:1px solid var(--pB)}
+/* Invoice stepper */
+.inv-step{display:flex;align-items:center;gap:7px;flex:1;justify-content:center}
+.inv-step-num{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
+.inv-step-label{font-size:12px;color:var(--t3);white-space:nowrap;transition:.2s}
+.inv-step.on .inv-step-num{background:var(--g);border-color:var(--g);color:#fff}
+.inv-step.on .inv-step-label{color:var(--t1);font-weight:600}
+.inv-step.done .inv-step-num{background:var(--gb);border-color:var(--g);color:var(--g)}
+.inv-step.done .inv-step-num::after{content:'✓'}
+.inv-step.done .inv-step-num span{display:none}
+.inv-step-line{flex:1;height:2px;background:var(--b);max-width:60px;border-radius:2px}
 /* Form */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .ff{display:flex;flex-direction:column;gap:4px}.ff.full{grid-column:span 2}
@@ -386,7 +396,8 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div class="ni" onclick="go('scan',this)"><span class="nk">📷</span>مسح الفواتير<span class="nbg">AI</span></div>
     <div class="ns">التقارير</div>
     <div class="ni" onclick="go('st',this)"><span class="nk">📋</span>تقاريري المالية</div>
-    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span>إصدار فاتورة</div>
+    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span>فاتورة جديدة</div>
+    <div class="ni" onclick="go('products',this)"><span class="nk">📦</span>خدماتي ومنتجاتي</div>
     <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span>اسأل محسوب</div>
     <div class="ns">الإدارة</div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span>المستخدمون</div>
@@ -769,33 +780,189 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   <div class="card"><div class="sh"><div class="st" id="stT">قائمة الدخل — أبريل 2026</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="alert('تصدير PDF...')">PDF ↓</button></div><div id="stC"></div></div>
 </div>
 
-<!-- ZATCA -->
+<!-- INVOICE -->
 <div class="pg" id="pg-zt">
+
+  <!-- Stepper -->
+  <div style="display:flex;align-items:center;gap:0;margin-bottom:24px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px 20px">
+    <div class="inv-step on" id="step1"><span class="inv-step-num">1</span><span class="inv-step-label">إنشاء الفاتورة</span></div>
+    <div class="inv-step-line"></div>
+    <div class="inv-step" id="step2"><span class="inv-step-num">2</span><span class="inv-step-label">إصدارها</span></div>
+    <div class="inv-step-line"></div>
+    <div class="inv-step" id="step3"><span class="inv-step-num">3</span><span class="inv-step-label">إرسالها للعميل</span></div>
+    <div class="inv-step-line"></div>
+    <div class="inv-step" id="step4"><span class="inv-step-num">4</span><span class="inv-step-label">تحصيلها</span></div>
+  </div>
+
+  <!-- Step 1: Create -->
   <div id="zFrm">
     <div class="g2">
-      <div class="card"><div class="st" style="margin-bottom:11px">المُصدِر</div><div class="fg"><div class="ff full"><label class="fl">اسم المنشأة</label><input class="fi" id="zS" placeholder="مؤسسة النور"/></div><div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zSv" placeholder="300xxxxxxxxx"/></div><div class="ff"><label class="fl">المدينة</label><input class="fi" id="zC" placeholder="الرياض"/></div></div></div>
-      <div class="card"><div class="st" style="margin-bottom:11px">العميل</div><div class="fg"><div class="ff full"><label class="fl">اسم العميل</label><input class="fi" id="zB" placeholder="اسم العميل"/></div><div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zBv" placeholder="اختياري"/></div><div class="ff"><label class="fl">النوع</label><select class="fi" id="zT"><option>ضريبية</option><option>مبسّطة</option></select></div></div></div>
+      <div class="card">
+        <div class="st" style="margin-bottom:11px">المُصدِر</div>
+        <div class="fg">
+          <div class="ff full"><label class="fl">اسم المنشأة</label><input class="fi" id="zS" placeholder="مؤسسة النور"/></div>
+          <div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zSv" placeholder="300xxxxxxxxx"/></div>
+          <div class="ff"><label class="fl">المدينة</label><input class="fi" id="zC" placeholder="الرياض"/></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="st" style="margin-bottom:11px">العميل</div>
+        <div class="fg">
+          <div class="ff full"><label class="fl">اسم العميل</label><input class="fi" id="zB" placeholder="اسم العميل"/></div>
+          <div class="ff"><label class="fl">الرقم الضريبي</label><input class="fi" id="zBv" placeholder="اختياري"/></div>
+          <div class="ff"><label class="fl">النوع</label><select class="fi" id="zT"><option>ضريبية</option><option>مبسّطة</option></select></div>
+        </div>
+      </div>
     </div>
     <div class="card" style="margin-bottom:13px">
-      <div class="sh"><div class="st">البنود</div><button class="btn bg2" style="font-size:12px;padding:4px 10px" onclick="addZR()">＋ بند</button></div>
-      <div id="zRws"><div class="zr" id="zr0" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin-bottom:7px">
-        <div class="ff"><label class="fl">الوصف</label><input class="fi zd" placeholder="خدمة" oninput="calcZ()"/></div>
-        <div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="1" oninput="calcZ()"/></div>
-        <div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" placeholder="0" oninput="calcZ()"/></div>
-        <div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="15" oninput="calcZ()"/></div>
-      </div></div>
-      <div style="background:var(--bg3);border-radius:var(--Rs);padding:11px;display:flex;justify-content:flex-end"><div style="min-width:190px;font-size:13px">
-        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">قبل الضريبة</span><span id="zSb" style="direction:ltr">0.00 ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">الضريبة</span><span id="zVt" style="direction:ltr">0.00 ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-size:14px;font-weight:700;border-top:1px solid var(--b);margin-top:5px"><span>الإجمالي</span><span id="zGr" style="direction:ltr;color:var(--g)">0.00 ر.س</span></div>
-      </div></div>
+      <div class="sh">
+        <div class="st">البنود</div>
+        <div style="display:flex;gap:7px">
+          <button class="btn bg2" style="font-size:12px;padding:4px 10px" onclick="pickProduct()">📦 من منتجاتي</button>
+          <button class="btn bg2" style="font-size:12px;padding:4px 10px" onclick="addZR()">＋ بند يدوي</button>
+        </div>
+      </div>
+      <div id="zRws">
+        <div class="zr" id="zr0" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px;margin-bottom:7px">
+          <div class="ff"><label class="fl">الوصف</label><input class="fi zd" placeholder="خدمة" oninput="calcZ()"/></div>
+          <div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="1" oninput="calcZ()"/></div>
+          <div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" placeholder="0" oninput="calcZ()"/></div>
+          <div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="15" oninput="calcZ()"/></div>
+        </div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:11px;display:flex;justify-content:flex-end">
+        <div style="min-width:190px;font-size:13px">
+          <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">قبل الضريبة</span><span id="zSb" style="direction:ltr">0.00 ر.س</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:var(--t3)">الضريبة</span><span id="zVt" style="direction:ltr">0.00 ر.س</span></div>
+          <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-size:14px;font-weight:700;border-top:1px solid var(--b);margin-top:5px"><span>الإجمالي</span><span id="zGr" style="direction:ltr;color:var(--g)">0.00 ر.س</span></div>
+        </div>
+      </div>
     </div>
-    <button class="btn bp" style="width:100%;padding:12px;font-size:14px" onclick="issueZ()">إصدار الفاتورة وإرسالها لزاتكا ←</button>
+    <button class="btn bp" style="width:100%;padding:12px;font-size:14px" onclick="issueZ()">إصدار الفاتورة ←</button>
   </div>
+
+  <!-- Step 2+3+4: Issued -->
   <div id="zPrv" style="display:none">
-    <div class="al al-g" style="margin-bottom:13px"><span class="ai2">✅</span><div class="ab2"><div class="at2 G">تمت الموافقة من زاتكا</div><div class="as2" id="zRef">رقم الإشعار: ZAT-2026-XXXX</div></div><div style="display:flex;gap:7px;margin-right:auto"><button class="btn bg2" style="font-size:12px;padding:4px 9px" onclick="document.getElementById('zFrm').style.display='block';document.getElementById('zPrv').style.display='none'">جديدة</button><button class="btn bp" style="font-size:12px;padding:4px 9px" onclick="alert('PDF...')">PDF ↓</button></div></div>
-    <div style="background:#f8fafc;border:1px solid #e2e8f0;color:#1a1a1a;border-radius:var(--R);padding:22px" id="zInv"></div>
+
+    <!-- Step 2: Issued confirmation -->
+    <div class="al al-g" style="margin-bottom:16px">
+      <span class="ai2">✅</span>
+      <div class="ab2">
+        <div class="at2 G">صدرت الفاتورة بنجاح</div>
+        <div class="as2" id="zRef">رقم الفاتورة: INV-2026-0001</div>
+      </div>
+      <div style="display:flex;gap:7px;margin-right:auto">
+        <button class="btn bg2" style="font-size:12px;padding:4px 9px" onclick="newInvoice()">＋ فاتورة جديدة</button>
+        <button class="btn bp"  style="font-size:12px;padding:4px 9px" onclick="alert('PDF...')">PDF ↓</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Send to client -->
+    <div class="card" style="margin-bottom:14px" id="zSendCard">
+      <div class="sh" style="margin-bottom:14px">
+        <div>
+          <div class="st">إرسالها للعميل</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:2px">اختر طريقة الإرسال</div>
+        </div>
+        <span id="zSentBadge" style="display:none" class="bdg" style="background:var(--g);color:#fff">تم الإرسال ✓</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn bg2" style="display:flex;align-items:center;gap:7px;padding:10px 16px" onclick="sendInvoiceWA()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          واتساب
+        </button>
+        <button class="btn bg2" style="display:flex;align-items:center;gap:7px;padding:10px 16px" onclick="sendInvoiceEmail()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          بريد إلكتروني
+        </button>
+        <button class="btn bg2" style="display:flex;align-items:center;gap:7px;padding:10px 16px" onclick="copyInvoiceLink()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          نسخ الرابط
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 4: Collect -->
+    <div class="card" id="zCollectCard">
+      <div class="sh" style="margin-bottom:14px">
+        <div>
+          <div class="st">تحصيل الدفع</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:2px">هل تم استلام المبلغ؟</div>
+        </div>
+        <span id="zPaidBadge" style="display:none;background:var(--g);color:#fff;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">مُحصَّلة ✓</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap" id="zCollectBtns">
+        <button class="btn bp" style="padding:10px 20px" onclick="markCollected('cash')">💵 نقداً</button>
+        <button class="btn bg2" style="padding:10px 20px" onclick="markCollected('transfer')">🏦 تحويل بنكي</button>
+        <button class="btn bg2" style="padding:10px 20px" onclick="markCollected('card')">💳 بطاقة</button>
+        <button class="btn bg2" style="padding:10px 20px;color:var(--r)" onclick="markCollected('pending')">⏳ لم يُدفع بعد</button>
+      </div>
+    </div>
+
+    <!-- Invoice preview -->
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;color:#1a1a1a;border-radius:var(--R);padding:22px;margin-top:16px" id="zInv"></div>
   </div>
+</div>
+
+<!-- PRODUCTS / SERVICES -->
+<div class="pg" id="pg-products">
+
+  <!-- Summary strip -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:var(--t3)">إجمالي البنود</div>
+        <div style="font-size:22px;font-weight:700;color:var(--t1)" id="prod-total">0</div>
+      </div>
+      <div style="width:1px;height:32px;background:var(--b)"></div>
+      <div>
+        <div style="font-size:11px;color:var(--t3)">خدمات</div>
+        <div style="font-size:22px;font-weight:700;color:var(--bl)" id="prod-services">0</div>
+      </div>
+      <div style="width:1px;height:32px;background:var(--b)"></div>
+      <div>
+        <div style="font-size:11px;color:var(--t3)">منتجات</div>
+        <div style="font-size:22px;font-weight:700;color:var(--g)" id="prod-items">0</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <select class="fi" id="prod-filter" onchange="renderProducts()" style="width:130px">
+        <option value="all">الكل</option>
+        <option value="service">خدمات فقط</option>
+        <option value="product">منتجات فقط</option>
+      </select>
+      <input class="fi" id="prod-search" placeholder="🔍  ابحث…" oninput="renderProducts()" style="width:180px"/>
+      <button class="btn bp" onclick="toggleAddProduct()">＋ إضافة</button>
+    </div>
+  </div>
+
+  <!-- Add / Edit form -->
+  <div id="prod-form" style="display:none;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:16px;margin-bottom:16px">
+    <div class="st" style="margin-bottom:12px" id="prod-form-title">منتج / خدمة جديدة</div>
+    <input type="hidden" id="prod-edit-id"/>
+    <div class="fg">
+      <div class="ff full"><label class="fl">الاسم *</label><input class="fi" id="prod-name" placeholder="مثال: استشارة مالية / تيشيرت أسود"/></div>
+      <div class="ff">
+        <label class="fl">النوع</label>
+        <select class="fi" id="prod-type" onchange="toggleProdType()">
+          <option value="service">خدمة</option>
+          <option value="product">منتج</option>
+        </select>
+      </div>
+      <div class="ff"><label class="fl">السعر (ر.س) *</label><input class="fi" id="prod-price" type="number" placeholder="0.00" inputmode="decimal"/></div>
+      <div class="ff"><label class="fl">الوحدة</label><input class="fi" id="prod-unit" placeholder="مثال: ساعة / قطعة / كيلو"/></div>
+      <div class="ff" id="prod-stock-row" style="display:none"><label class="fl">الكمية في المخزون</label><input class="fi" id="prod-stock" type="number" placeholder="0" inputmode="numeric"/></div>
+      <div class="ff full"><label class="fl">ملاحظات</label><input class="fi" id="prod-notes" placeholder="وصف مختصر اختياري…"/></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn bp" onclick="saveProduct()">حفظ</button>
+      <button class="btn bg2" onclick="toggleAddProduct()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div id="prod-list" style="display:flex;flex-direction:column;gap:8px"></div>
+
 </div>
 
 <!-- AI -->
@@ -1330,13 +1497,13 @@ window.onload=()=>{
 function initApp(){
   if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
   calcZakat();
-  renderAlerts();renderDbGoals();renderTopClients();renderClients();
+  renderAlerts();renderDbGoals();renderTopClients();renderClients();renderProducts();
   showSt('income',document.getElementById('stB1'));
   usersInit();
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة زاتكا',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -1723,6 +1890,7 @@ async function issueZ(){
 
     document.getElementById('zFrm').style.display = 'none';
     document.getElementById('zPrv').style.display = 'block';
+    setInvStep(2);
     window.scrollTo(0, 0);
   } catch(e) {
     alert('تعذّر الاتصال بالخادم');
@@ -1730,6 +1898,179 @@ async function issueZ(){
     btn.textContent = origText;
     btn.disabled = false;
   }
+}
+
+function setInvStep(n){
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('step'+i);
+    if(!el)continue;
+    el.classList.remove('on','done');
+    if(i<n) el.classList.add('done');
+    else if(i===n) el.classList.add('on');
+  }
+}
+function newInvoice(){
+  document.getElementById('zFrm').style.display='block';
+  document.getElementById('zPrv').style.display='none';
+  setInvStep(1);
+  document.getElementById('zPaidBadge').style.display='none';
+  document.getElementById('zSentBadge').style.display='none';
+  document.getElementById('zCollectBtns').style.display='flex';
+}
+function sendInvoiceWA(){
+  const ref=document.getElementById('zRef').textContent;
+  const total=document.getElementById('zGr').textContent;
+  const msg=encodeURIComponent(`مرحباً، يرجى الاطلاع على ${ref} بقيمة ${total} — صادرة من محسوب.`);
+  window.open('https://wa.me/?text='+msg,'_blank');
+  document.getElementById('zSentBadge').style.display='inline-flex';
+  setInvStep(3);
+}
+function sendInvoiceEmail(){
+  const ref=document.getElementById('zRef').textContent;
+  const total=document.getElementById('zGr').textContent;
+  window.location.href=`mailto:?subject=${encodeURIComponent(ref)}&body=${encodeURIComponent('مرحباً،\n\nيرجى مراجعة '+ref+' بقيمة '+total+'.\n\nمع تحيات محسوب.')}`;
+  document.getElementById('zSentBadge').style.display='inline-flex';
+  setInvStep(3);
+}
+function copyInvoiceLink(){
+  const ref=document.getElementById('zRef').textContent;
+  navigator.clipboard?.writeText(window.location.href+'#'+ref).catch(()=>{});
+  document.getElementById('zSentBadge').style.display='inline-flex';
+  setInvStep(3);
+  alert('تم نسخ الرابط');
+}
+function markCollected(method){
+  const labels={'cash':'نقداً','transfer':'تحويل بنكي','card':'بطاقة','pending':'لم يُدفع'};
+  const badge=document.getElementById('zPaidBadge');
+  if(method==='pending'){
+    badge.textContent='⏳ لم يُدفع بعد';
+    badge.style.background='var(--ab)';badge.style.color='var(--a)';
+  } else {
+    badge.textContent='مُحصَّلة ✓ — '+labels[method];
+    badge.style.background='var(--g)';badge.style.color='#fff';
+    setInvStep(4);
+  }
+  badge.style.display='inline-block';
+  document.getElementById('zCollectBtns').style.display='none';
+}
+
+// ── Products / Services ────────────────
+let products = JSON.parse(localStorage.getItem('mahsoob_products')||'[]');
+function saveProducts(){ localStorage.setItem('mahsoob_products', JSON.stringify(products)); }
+
+function toggleAddProduct(){
+  const f=document.getElementById('prod-form');
+  const open=f.style.display==='block';
+  f.style.display=open?'none':'block';
+  if(!open){
+    document.getElementById('prod-edit-id').value='';
+    document.getElementById('prod-form-title').textContent='منتج / خدمة جديدة';
+    ['prod-name','prod-price','prod-stock','prod-unit','prod-notes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('prod-type').value='service';
+    document.getElementById('prod-stock-row').style.display='none';
+  }
+}
+function toggleProdType(){
+  const t=document.getElementById('prod-type').value;
+  document.getElementById('prod-stock-row').style.display=t==='product'?'flex':'none';
+}
+function saveProduct(){
+  const name=document.getElementById('prod-name').value.trim();
+  const price=parseFloat(document.getElementById('prod-price').value)||0;
+  if(!name){alert('أدخل الاسم');return;}
+  const editId=document.getElementById('prod-edit-id').value;
+  const p={
+    id: editId?parseInt(editId):Date.now(),
+    name, price,
+    type: document.getElementById('prod-type').value,
+    stock: parseInt(document.getElementById('prod-stock').value)||null,
+    unit: document.getElementById('prod-unit').value.trim()||'وحدة',
+    notes: document.getElementById('prod-notes').value.trim(),
+  };
+  if(editId){ products=products.map(x=>x.id===p.id?p:x); }
+  else { products.push(p); }
+  saveProducts();
+  toggleAddProduct();
+  renderProducts();
+}
+function deleteProduct(id){
+  if(!confirm('حذف هذا البند؟'))return;
+  products=products.filter(p=>p.id!==id);
+  saveProducts();
+  renderProducts();
+}
+function editProduct(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  document.getElementById('prod-edit-id').value=p.id;
+  document.getElementById('prod-form-title').textContent='تعديل البند';
+  document.getElementById('prod-name').value=p.name;
+  document.getElementById('prod-price').value=p.price;
+  document.getElementById('prod-type').value=p.type;
+  document.getElementById('prod-stock').value=p.stock||'';
+  document.getElementById('prod-unit').value=p.unit||'';
+  document.getElementById('prod-notes').value=p.notes||'';
+  document.getElementById('prod-stock-row').style.display=p.type==='product'?'flex':'none';
+  document.getElementById('prod-form').style.display='block';
+  document.getElementById('prod-form').scrollIntoView({behavior:'smooth'});
+}
+function renderProducts(){
+  const q=(document.getElementById('prod-search')?.value||'').toLowerCase();
+  const filter=document.getElementById('prod-filter')?.value||'all';
+  const list=document.getElementById('prod-list');
+  let filtered=products.filter(p=>{
+    const matchQ=p.name.toLowerCase().includes(q);
+    const matchF=filter==='all'||(filter==='service'&&p.type==='service')||(filter==='product'&&p.type==='product');
+    return matchQ&&matchF;
+  });
+  document.getElementById('prod-total').textContent=products.length;
+  document.getElementById('prod-services').textContent=products.filter(p=>p.type==='service').length;
+  document.getElementById('prod-items').textContent=products.filter(p=>p.type==='product').length;
+  if(!filtered.length){
+    list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--t3)">${products.length===0?'لا يوجد بنود — اضغط <b>＋ إضافة</b> لإضافة خدمة أو منتج':'لا توجد نتائج'}</div>`;
+    return;
+  }
+  list.innerHTML=filtered.map(p=>{
+    const isService=p.type==='service';
+    const stockBadge=!isService&&p.stock!=null
+      ?`<span class="bdg ${p.stock>5?'bdg-g':p.stock>0?'bdg-a':'bdg-r'}" style="font-size:10px">${p.stock>0?'مخزون: '+p.stock:'نفد المخزون'}</span>`
+      :`<span class="bdg bdg-b" style="font-size:10px">${isService?'خدمة':'منتج'}</span>`;
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);transition:.15s" onmouseenter="this.style.borderColor='var(--g)'" onmouseleave="this.style.borderColor='var(--b)'">
+      <div style="width:40px;height:40px;border-radius:10px;background:${isService?'var(--blb)':'var(--gb)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${isService?'⚙️':'📦'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:14px">${p.name}</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:2px">${p.unit}${p.notes?' · '+p.notes:''}</div>
+      </div>
+      <div style="text-align:center;min-width:80px">
+        <div style="font-size:15px;font-weight:700;color:var(--g)">${p.price.toLocaleString('ar-SA')} ر.س</div>
+        ${stockBadge}
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn bg2" style="font-size:11px;padding:5px 9px" onclick="addProdToInvoice(${p.id})">＋ فاتورة</button>
+        <button class="btn bg2" style="font-size:11px;padding:5px 8px" onclick="editProduct(${p.id})">✏️</button>
+        <button class="btn bg2" style="font-size:11px;padding:5px 8px;color:var(--r)" onclick="deleteProduct(${p.id})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function addProdToInvoice(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  go('zt',null);
+  const idx=zN++;
+  const d=document.createElement('div');
+  d.className='zr';d.id='zr'+idx;
+  d.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:9px;margin-bottom:7px';
+  d.innerHTML=`<div class="ff"><label class="fl">الوصف</label><input class="fi zd" value="${p.name}" oninput="calcZ()"/></div><div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="1" oninput="calcZ()"/></div><div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" value="${p.price}" oninput="calcZ()"/></div><div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="15" oninput="calcZ()"/></div><div style="display:flex;align-items:flex-end;padding-bottom:1px"><button class="btn bg2" style="padding:7px;color:var(--r)" onclick="this.closest('.zr').remove();calcZ()">✕</button></div>`;
+  document.getElementById('zRws').appendChild(d);
+  calcZ();
+}
+function pickProduct(){
+  if(!products.length){alert('لا يوجد منتجات — أضف منتجاً أولاً من صفحة "خدماتي ومنتجاتي"');return;}
+  const list=products.map((p,i)=>`${i+1}. ${p.name} — ${p.price} ر.س`).join('\n');
+  const idx=parseInt(prompt('اختر رقم المنتج:\n\n'+list))-1;
+  if(isNaN(idx)||idx<0||idx>=products.length)return;
+  addProdToInvoice(products[idx].id);
 }
 
 // ── AI Chat ────────────────────────────
