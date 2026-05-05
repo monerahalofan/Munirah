@@ -162,7 +162,7 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         <input class="fi" id="signupCr" type="text" placeholder="1234567890" dir="ltr" maxlength="10">
       </div>
 
-      <div class="section-title">العنوان <span class="optional-tag">(اختياري)</span></div>
+      <div class="section-title">العنوان</div>
       <div class="ff">
         <label class="fl">الدولة</label>
         <select class="fi" id="signupCountry" onchange="onCountryChange(this.value)" style="cursor:pointer">
@@ -179,22 +179,30 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         </select>
       </div>
 
-      <div id="addressFields" style="display:none">
+      <div id="regionField" style="display:none" class="ff">
+        <label class="fl">المنطقة</label>
+        <select class="fi" id="signupRegion" onchange="onRegionChange(this.value)" style="cursor:pointer">
+          <option value="">— اختر المنطقة —</option>
+        </select>
+      </div>
+
+      <div id="cityField" style="display:none" class="ff">
+        <label class="fl">المدينة</label>
+        <select class="fi" id="signupCity" onchange="onCityChange(this.value)" style="cursor:pointer">
+          <option value="">— اختر المدينة —</option>
+        </select>
+      </div>
+
+      <div id="detailFields" style="display:none">
         <div class="ff">
-          <label class="fl">المدينة</label>
-          <select class="fi" id="signupCity" style="cursor:pointer">
-            <option value="">— اختر المدينة —</option>
+          <label class="fl">الحي</label>
+          <select class="fi" id="signupDistrict" style="cursor:pointer">
+            <option value="">— اختر الحي —</option>
           </select>
         </div>
-        <div style="display:flex;gap:10px">
-          <div class="ff" style="flex:1">
-            <label class="fl">الحي</label>
-            <input class="fi" id="signupDistrict" type="text" placeholder="مثال: حي العليا">
-          </div>
-          <div class="ff" style="flex:1">
-            <label class="fl">الشارع</label>
-            <input class="fi" id="signupStreet" type="text" placeholder="مثال: شارع العروبة">
-          </div>
+        <div class="ff">
+          <label class="fl">الشارع <span class="optional-tag">(اختياري)</span></label>
+          <input class="fi" id="signupStreet" type="text" placeholder="مثال: شارع العروبة">
         </div>
         <div class="ff">
           <label class="fl">الرمز البريدي <span class="optional-tag">(اختياري)</span></label>
@@ -227,6 +235,7 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/config.js"></script>
 <script src="js/security.js"></script>
+<script src="js/geo-data.js"></script>
 <script>
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -343,49 +352,70 @@ async function doLogin() {
   window.location.href = 'index.html';
 }
 
-// ── Country / City data ───────────────────────────────
-const CITIES = {
-  SA: ['الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الأحساء','القطيف','تبوك','أبها','خميس مشيط','حائل','نجران','جازان','ينبع','القصيم','بريدة','عرعر','الجوف','سكاكا','الطائف','الباحة'],
-  AE: ['دبي','أبوظبي','الشارقة','عجمان','رأس الخيمة','الفجيرة','أم القيوين'],
-  KW: ['مدينة الكويت','حولي','الفروانية','الأحمدي','الجهراء','مبارك الكبير'],
-  QA: ['الدوحة','الريان','الوكرة','الخور','الشمال','الشيلة'],
-  BH: ['المنامة','المحرق','الرفاع','مدينة عيسى','مدينة حمد','الحد'],
-  OM: ['مسقط','صلالة','نزوى','صحار','السيب','مطرح'],
-  EG: ['القاهرة','الإسكندرية','الجيزة','الإسماعيلية','المنصورة','أسوان','الأقصر','شرم الشيخ'],
-  JO: ['عمّان','الزرقاء','إربد','العقبة','السلط','مادبا'],
-  OTHER: [],
-};
-
-function onCountryChange(val) {
-  const fields = document.getElementById('addressFields');
-  const citySelect = document.getElementById('signupCity');
-  if (!val) { fields.style.display = 'none'; return; }
-  fields.style.display = '';
-  const cities = CITIES[val] || [];
-  citySelect.innerHTML = '<option value="">— اختر المدينة —</option>';
-  if (cities.length === 0) {
-    citySelect.style.display = 'none';
-    // Show text input instead
-    if (!document.getElementById('signupCityText')) {
-      const inp = document.createElement('input');
-      inp.className = 'fi'; inp.id = 'signupCityText';
-      inp.placeholder = 'اكتب اسم المدينة'; inp.type = 'text';
-      citySelect.parentNode.appendChild(inp);
-    }
-    document.getElementById('signupCityText').style.display = '';
-  } else {
-    citySelect.style.display = '';
-    if (document.getElementById('signupCityText'))
-      document.getElementById('signupCityText').style.display = 'none';
-    cities.forEach(c => {
-      const o = document.createElement('option');
-      o.value = c; o.textContent = c;
-      citySelect.appendChild(o);
-    });
-  }
+// ── Cascading address dropdowns ───────────────────────
+function populateSelect(id, items, placeholder) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">${placeholder}</option>`;
+  items.forEach(item => {
+    const o = document.createElement('option');
+    o.value = typeof item === 'string' ? item : item.name;
+    o.textContent = typeof item === 'string' ? item : item.name;
+    sel.appendChild(o);
+  });
 }
 
-// Init with Saudi Arabia selected
+function onCountryChange(val) {
+  ['regionField','cityField','detailFields'].forEach(id =>
+    document.getElementById(id).style.display = 'none');
+  document.getElementById('signupRegion').innerHTML   = '<option value="">— اختر المنطقة —</option>';
+  document.getElementById('signupCity').innerHTML     = '<option value="">— اختر المدينة —</option>';
+  document.getElementById('signupDistrict').innerHTML = '<option value="">— اختر الحي —</option>';
+
+  if (!val || !GEO[val]) return;
+  const country = GEO[val];
+  if (country.regions.length === 0) return;
+
+  populateSelect('signupRegion', country.regions, '— اختر المنطقة —');
+  document.getElementById('regionField').style.display = '';
+}
+
+function onRegionChange(regionName) {
+  document.getElementById('cityField').style.display    = 'none';
+  document.getElementById('detailFields').style.display = 'none';
+  document.getElementById('signupCity').innerHTML     = '<option value="">— اختر المدينة —</option>';
+  document.getElementById('signupDistrict').innerHTML = '<option value="">— اختر الحي —</option>';
+
+  if (!regionName) return;
+  const countryCode = document.getElementById('signupCountry').value;
+  const country = GEO[countryCode];
+  if (!country) return;
+  const region = country.regions.find(r => r.name === regionName);
+  if (!region) return;
+
+  populateSelect('signupCity', region.cities, '— اختر المدينة —');
+  document.getElementById('cityField').style.display = '';
+}
+
+function onCityChange(cityName) {
+  document.getElementById('detailFields').style.display = 'none';
+  document.getElementById('signupDistrict').innerHTML = '<option value="">— اختر الحي —</option>';
+
+  if (!cityName) return;
+  const countryCode  = document.getElementById('signupCountry').value;
+  const regionName   = document.getElementById('signupRegion').value;
+  const country = GEO[countryCode];
+  if (!country) return;
+  const region = country.regions.find(r => r.name === regionName);
+  if (!region) return;
+  const city = region.cities.find(c => c.name === cityName);
+  if (!city) return;
+
+  if (city.districts?.length) {
+    populateSelect('signupDistrict', city.districts, '— اختر الحي —');
+  }
+  document.getElementById('detailFields').style.display = '';
+}
+
 window.addEventListener('DOMContentLoaded', () => onCountryChange('SA'));
 
 // ── Signup ────────────────────────────────────────────
@@ -396,14 +426,12 @@ async function doSignup() {
   const vat      = document.getElementById('signupVat').value.trim();
   const cr       = document.getElementById('signupCr').value.trim();
   const country  = document.getElementById('signupCountry').value;
-  const cityEl   = document.getElementById('signupCityText');
-  const city     = cityEl && cityEl.style.display !== 'none'
-                   ? cityEl.value.trim()
-                   : (document.getElementById('signupCity').value.trim() || 'الرياض');
-  const district = document.getElementById('signupDistrict')?.value.trim() || '';
+  const region   = document.getElementById('signupRegion').value.trim();
+  const city     = document.getElementById('signupCity').value.trim() || 'الرياض';
+  const district = document.getElementById('signupDistrict').value.trim();
   const street   = document.getElementById('signupStreet')?.value.trim() || '';
   const postal   = document.getElementById('signupPostal')?.value.trim() || '';
-  const address  = [district, street, postal].filter(Boolean).join('، ');
+  const address  = [region, city, district, street, postal].filter(Boolean).join('، ');
 
   if (!biz)   { showErr('يرجى إدخال اسم المشروع'); return; }
   if (!email) { showErr('يرجى إدخال البريد الإلكتروني'); return; }
