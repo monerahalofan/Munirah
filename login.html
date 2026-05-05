@@ -157,19 +157,49 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         <label class="fl">الرقم الضريبي (VAT)</label>
         <input class="fi" id="signupVat" type="text" placeholder="300000000000003" dir="ltr" maxlength="15">
       </div>
-      <div style="display:flex;gap:10px">
-        <div class="ff" style="flex:1">
-          <label class="fl">السجل التجاري (CR)</label>
-          <input class="fi" id="signupCr" type="text" placeholder="1234567890" dir="ltr" maxlength="10">
-        </div>
-        <div class="ff" style="flex:1">
-          <label class="fl">المدينة</label>
-          <input class="fi" id="signupCity" type="text" placeholder="الرياض">
-        </div>
-      </div>
       <div class="ff">
-        <label class="fl">العنوان</label>
-        <input class="fi" id="signupAddress" type="text" placeholder="مثال: حي العليا، شارع العروبة">
+        <label class="fl">السجل التجاري (CR)</label>
+        <input class="fi" id="signupCr" type="text" placeholder="1234567890" dir="ltr" maxlength="10">
+      </div>
+
+      <div class="section-title">العنوان <span class="optional-tag">(اختياري)</span></div>
+      <div class="ff">
+        <label class="fl">الدولة</label>
+        <select class="fi" id="signupCountry" onchange="onCountryChange(this.value)" style="cursor:pointer">
+          <option value="">— اختر الدولة —</option>
+          <option value="SA" selected>🇸🇦 المملكة العربية السعودية</option>
+          <option value="AE">🇦🇪 الإمارات العربية المتحدة</option>
+          <option value="KW">🇰🇼 الكويت</option>
+          <option value="QA">🇶🇦 قطر</option>
+          <option value="BH">🇧🇭 البحرين</option>
+          <option value="OM">🇴🇲 عُمان</option>
+          <option value="EG">🇪🇬 مصر</option>
+          <option value="JO">🇯🇴 الأردن</option>
+          <option value="OTHER">🌍 أخرى</option>
+        </select>
+      </div>
+
+      <div id="addressFields" style="display:none">
+        <div class="ff">
+          <label class="fl">المدينة</label>
+          <select class="fi" id="signupCity" style="cursor:pointer">
+            <option value="">— اختر المدينة —</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="ff" style="flex:1">
+            <label class="fl">الحي</label>
+            <input class="fi" id="signupDistrict" type="text" placeholder="مثال: حي العليا">
+          </div>
+          <div class="ff" style="flex:1">
+            <label class="fl">الشارع</label>
+            <input class="fi" id="signupStreet" type="text" placeholder="مثال: شارع العروبة">
+          </div>
+        </div>
+        <div class="ff">
+          <label class="fl">الرمز البريدي <span class="optional-tag">(اختياري)</span></label>
+          <input class="fi" id="signupPostal" type="text" placeholder="مثال: 12345" dir="ltr" maxlength="10">
+        </div>
       </div>
 
       <button class="btn-main" id="signupBtn" onclick="doSignup()">إنشاء الحساب ←</button>
@@ -296,15 +326,67 @@ async function doLogin() {
   window.location.href = 'index.html';
 }
 
+// ── Country / City data ───────────────────────────────
+const CITIES = {
+  SA: ['الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الأحساء','القطيف','تبوك','أبها','خميس مشيط','حائل','نجران','جازان','ينبع','القصيم','بريدة','عرعر','الجوف','سكاكا','الطائف','الباحة'],
+  AE: ['دبي','أبوظبي','الشارقة','عجمان','رأس الخيمة','الفجيرة','أم القيوين'],
+  KW: ['مدينة الكويت','حولي','الفروانية','الأحمدي','الجهراء','مبارك الكبير'],
+  QA: ['الدوحة','الريان','الوكرة','الخور','الشمال','الشيلة'],
+  BH: ['المنامة','المحرق','الرفاع','مدينة عيسى','مدينة حمد','الحد'],
+  OM: ['مسقط','صلالة','نزوى','صحار','السيب','مطرح'],
+  EG: ['القاهرة','الإسكندرية','الجيزة','الإسماعيلية','المنصورة','أسوان','الأقصر','شرم الشيخ'],
+  JO: ['عمّان','الزرقاء','إربد','العقبة','السلط','مادبا'],
+  OTHER: [],
+};
+
+function onCountryChange(val) {
+  const fields = document.getElementById('addressFields');
+  const citySelect = document.getElementById('signupCity');
+  if (!val) { fields.style.display = 'none'; return; }
+  fields.style.display = '';
+  const cities = CITIES[val] || [];
+  citySelect.innerHTML = '<option value="">— اختر المدينة —</option>';
+  if (cities.length === 0) {
+    citySelect.style.display = 'none';
+    // Show text input instead
+    if (!document.getElementById('signupCityText')) {
+      const inp = document.createElement('input');
+      inp.className = 'fi'; inp.id = 'signupCityText';
+      inp.placeholder = 'اكتب اسم المدينة'; inp.type = 'text';
+      citySelect.parentNode.appendChild(inp);
+    }
+    document.getElementById('signupCityText').style.display = '';
+  } else {
+    citySelect.style.display = '';
+    if (document.getElementById('signupCityText'))
+      document.getElementById('signupCityText').style.display = 'none';
+    cities.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      citySelect.appendChild(o);
+    });
+  }
+}
+
+// Init with Saudi Arabia selected
+window.addEventListener('DOMContentLoaded', () => onCountryChange('SA'));
+
 // ── Signup ────────────────────────────────────────────
 async function doSignup() {
-  const biz     = document.getElementById('signupBiz').value.trim();
-  const email   = document.getElementById('signupEmail').value.trim();
-  const pass    = document.getElementById('signupPass').value;
-  const vat     = document.getElementById('signupVat').value.trim();
-  const cr      = document.getElementById('signupCr').value.trim();
-  const city    = document.getElementById('signupCity').value.trim() || 'الرياض';
-  const address = document.getElementById('signupAddress').value.trim();
+  const biz      = document.getElementById('signupBiz').value.trim();
+  const email    = document.getElementById('signupEmail').value.trim();
+  const pass     = document.getElementById('signupPass').value;
+  const vat      = document.getElementById('signupVat').value.trim();
+  const cr       = document.getElementById('signupCr').value.trim();
+  const country  = document.getElementById('signupCountry').value;
+  const cityEl   = document.getElementById('signupCityText');
+  const city     = cityEl && cityEl.style.display !== 'none'
+                   ? cityEl.value.trim()
+                   : (document.getElementById('signupCity').value.trim() || 'الرياض');
+  const district = document.getElementById('signupDistrict')?.value.trim() || '';
+  const street   = document.getElementById('signupStreet')?.value.trim() || '';
+  const postal   = document.getElementById('signupPostal')?.value.trim() || '';
+  const address  = [district, street, postal].filter(Boolean).join('، ');
 
   if (!biz)   { showErr('يرجى إدخال اسم المشروع'); return; }
   if (!email) { showErr('يرجى إدخال البريد الإلكتروني'); return; }
@@ -323,7 +405,7 @@ async function doSignup() {
   setBtnLoading('signupBtn', true, 'إنشاء الحساب ←');
   const { error } = await sb.auth.signUp({
     email, password: pass,
-    options: { data: { business_name: biz, vat_number: vat, cr_number: cr, city, address } }
+    options: { data: { business_name: biz, vat_number: vat, cr_number: cr, country, city, address } }
   });
   setBtnLoading('signupBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
