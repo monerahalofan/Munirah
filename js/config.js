@@ -2,8 +2,8 @@
 // Replace these values with your actual Supabase project credentials.
 // Get them from: https://supabase.com/dashboard → Project Settings → API
 
-const SUPABASE_URL  = 'https://rkyusvgozmsrftpxzjhb.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJreXVzdmdvem1zcmZ0cHh6amhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NzY0NjMsImV4cCI6MjA5MzE1MjQ2M30.sgPNR3_ucYUEA9hdamMSjs-MTpjoxsQFz1fHkWedJkE';
+const SUPABASE_URL  = 'https://icmpdgayzwwgbaqqcfnr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljbXBkZ2F5end3Z2JhcXFjZm5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5OTgyODAsImV4cCI6MjA5MjU3NDI4MH0.mbXOMCHLlzbvmqdTxdNW08At-leZIOj1MRWESBIZu-I';
 
 // ─── Subscription Plans ───────────────────────────────────────────────────
 const PLANS = {
