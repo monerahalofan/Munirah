@@ -110,54 +110,16 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         <input class="fi" id="loginPass" type="password" placeholder="••••••••" dir="ltr"
                onkeydown="if(event.key==='Enter')doLogin()">
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:10px 0 4px">
+        <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#5a6080">
+          <input type="checkbox" id="rememberMe" checked
+                 style="width:15px;height:15px;accent-color:#16a372;cursor:pointer">
+          تذكرني
+        </label>
+        <a href="#" onclick="showReset()" style="font-size:13px;color:#16a372;text-decoration:none">نسيت كلمة المرور؟</a>
+      </div>
+
       <button class="btn-main" id="loginBtn" onclick="doLogin()">دخول ←</button>
-
-      <div class="footer-links" style="margin-top:12px">
-        <a href="#" onclick="showReset()">نسيت كلمة المرور؟</a>
-      </div>
-
-      <div class="divider" style="margin-top:16px">أو</div>
-
-      <!-- Phone OTP inside login -->
-      <button class="phone-toggle" id="phoneToggleBtn" onclick="togglePhone()">
-        📱 دخول برقم الجوال
-      </button>
-
-      <div id="phoneBox" class="phone-box" style="display:none">
-        <div id="phoneStep1">
-          <div class="ff" style="margin-bottom:10px">
-            <label class="fl">رقم الجوال</label>
-            <div class="phone-wrap">
-              <div class="phone-prefix">🇸🇦 +966</div>
-              <input class="fi" id="phoneNum" type="tel" placeholder="5XXXXXXXX" dir="ltr"
-                     maxlength="9" oninput="this.value=this.value.replace(/\D/g,'')"
-                     onkeydown="if(event.key==='Enter')doSendOtp()">
-            </div>
-          </div>
-          <button class="btn-sm" id="phoneSendBtn" onclick="doSendOtp()" style="width:100%">
-            إرسال رمز التحقق ←
-          </button>
-        </div>
-
-        <div id="phoneStep2" style="display:none">
-          <div style="text-align:center;margin-bottom:14px">
-            <div style="font-size:13px;font-weight:600;margin-bottom:3px">أدخل رمز التحقق</div>
-            <div id="otpSubtitle" style="font-size:11px;color:#9aa0b8">رمز مكوّن من 6 أرقام أُرسل إلى جوالك</div>
-          </div>
-          <div class="otp-wrap" id="otpInputs">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,0)">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,1)">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,2)">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,3)">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,4)">
-            <input class="otp-digit" maxlength="1" type="tel" oninput="otpNext(this,5)">
-          </div>
-          <button class="btn-sm" id="otpVerifyBtn" onclick="doVerifyOtp()" style="width:100%;margin-top:12px">
-            تحقق والدخول ←
-          </button>
-          <button class="btn-ghost" onclick="resetPhone()">← تغيير الرقم</button>
-        </div>
-      </div>
     </div>
 
     <!-- ══ SIGNUP FORM ═════════════════════════════════ -->
@@ -320,11 +282,15 @@ async function doGoogle() {
 
 // ── Email Login ───────────────────────────────────────
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPass').value;
+  const email    = document.getElementById('loginEmail').value.trim();
+  const pass     = document.getElementById('loginPass').value;
+  const remember = document.getElementById('rememberMe').checked;
   if (!email || !pass) { showErr('يرجى إدخال البريد وكلمة المرور'); return; }
   setBtnLoading('loginBtn', true, 'دخول ←');
-  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  const loginSb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: remember }
+  });
+  const { error } = await loginSb.auth.signInWithPassword({ email, password: pass });
   setBtnLoading('loginBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
   window.location.href = 'index.html';
