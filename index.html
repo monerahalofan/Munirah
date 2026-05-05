@@ -1014,104 +1014,148 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   </div>
 </div>
 <div class="pg" id="pg-taxcal">
-  <div class="g3">
-    <div class="kc R"><div class="kl">الدفعة القادمة</div><div class="kv R" id="taxNext">0 ر.س</div><div class="kch dn">أضف بيانات</div></div>
-    <div class="kc A"><div class="kl">إجمالي 2026</div><div class="kv A" id="taxTotal">0 ر.س</div><div class="kch">ض.ق.م تقديري</div></div>
-    <div class="kc B"><div class="kl">الضرائب المسددة</div><div class="kv B" id="taxPaid">0 ر.س</div><div class="kch">—</div></div>
-  </div>
 
-  <div class="card" style="margin-bottom:14px">
-    <div class="sh"><div class="st">التقويم الضريبي الكامل — 2026</div></div>
-    <table class="tbl">
-      <thead><tr><th>الالتزام</th><th>الفترة</th><th>الموعد</th><th>المبلغ المتوقع</th><th>الحالة</th><th>إجراء</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="tm">ضريبة القيمة المضافة</td><td>ربع أول</td><td>30 يناير</td>
-          <td style="direction:ltr;color:var(--t3)">—</td>
-          <td><span class="bdg">بانتظار البيانات</span></td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td class="tm">ضريبة القيمة المضافة</td><td>ربع ثاني</td>
-          <td style="color:var(--r);font-weight:600">30 أبريل</td>
-          <td style="direction:ltr;color:var(--t3)">—</td>
-          <td><span class="bdg bdg-a">قيد الإعداد</span></td>
-          <td><button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="go('vat',null)">عرض التقرير</button></td>
-        </tr>
-        <tr>
-          <td class="tm">ضريبة القيمة المضافة</td><td>ربع ثالث</td><td>31 يوليو</td>
-          <td style="direction:ltr;color:var(--t3)">~3,500 ر.س</td>
-          <td><span class="bdg bdg-b">لم يحل</span></td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td class="tm">ضريبة القيمة المضافة</td><td>ربع رابع</td><td>31 أكتوبر</td>
-          <td style="direction:ltr;color:var(--t3)">~3,800 ر.س</td>
-          <td><span class="bdg bdg-b">لم يحل</span></td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td class="tm">إقرار ضريبة الدخل</td><td>سنوي</td><td>31 ديسمبر</td>
-          <td style="direction:ltr;color:var(--t3)">تقديري</td>
-          <td><span class="bdg bdg-b">لم يحل</span></td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td class="tm">إقرار الزكاة</td><td>سنوي</td>
-          <td>30 مارس 2027</td>
-          <td style="direction:ltr;color:var(--t3)">~757 ر.س</td>
-          <td><span class="bdg bdg-b">لم يحل</span></td>
-          <td><button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="go('zakat',null)">الحاسبة</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="sh"><div class="st">توزيع الضرائب المتوقعة 2026</div></div>
-      <div style="display:flex;flex-direction:column;gap:9px">
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع أول</span><span style="color:var(--g)">مُسدَّدة</span></div>
-          <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--g)"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع ثاني</span><span style="color:var(--t3)">—</span></div>
-          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--a)"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع ثالث (تقدير)</span><span style="color:var(--t3)">—</span></div>
-          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--bl);opacity:.4"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>ض.ق.م ربع رابع (تقدير)</span><span style="color:var(--t3)">—</span></div>
-          <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--bl);opacity:.3"></div></div>
-        </div>
-        <div style="background:var(--bg3);border-radius:var(--Rs);padding:10px;margin-top:4px;display:flex;justify-content:space-between;font-size:13px">
-          <span style="color:var(--t2)">إجمالي ض.ق.م تقديري 2026</span>
-          <span style="font-weight:700;color:var(--t3);direction:ltr" id="taxTotalYear">أضف معاملات</span>
-        </div>
-      </div>
+  <!-- ── Summary strip ── -->
+  <div class="g3" style="margin-bottom:20px">
+    <div class="kc R">
+      <div class="kl">الموعد القادم</div>
+      <div class="kv R" id="taxNextDate" style="font-size:18px">30 أبريل</div>
+      <div class="kch" id="taxNextCountdown" style="color:var(--r);font-weight:600">جارٍ الحساب…</div>
     </div>
-    <div class="card">
-      <div class="sh"><div class="st">نصائح ضريبية ذكية</div></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:12px;font-weight:600;color:var(--g);margin-bottom:5px">💡 خصص 10% من كل فاتورة</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">افتح حساباً منفصلاً للضرائب وحوّل 10% من كل دفعة تلقائياً — لن تفاجأ وقت الاستحقاق.</div>
-        </div>
-        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:12px;font-weight:600;color:var(--bl);margin-bottom:5px">📋 احتفظ بجميع الفواتير</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">صوّر كل فاتورة مصروف في محسوب لاسترجاعها وقت الإقرار وخصم الضريبة المدفوعة.</div>
-        </div>
-        <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:12px;font-weight:600;color:var(--a);margin-bottom:5px">⏰ قدّم 3 أيام مبكراً</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">لا تنتظر آخر يوم — غرامات التأخير تبدأ من 5% إلى 25% من قيمة الضريبة.</div>
-        </div>
-      </div>
+    <div class="kc A">
+      <div class="kl">المتوقع هذا العام</div>
+      <div class="kv A" id="taxTotal" style="font-size:18px">—</div>
+      <div class="kch">يُحسب من معاملاتك</div>
+    </div>
+    <div class="kc G">
+      <div class="kl">مسدَّد حتى الآن</div>
+      <div class="kv G" id="taxPaid" style="font-size:18px">0 ر.س</div>
+      <div class="kch">ربع أول ✓</div>
     </div>
   </div>
+
+  <!-- ── Timeline ── -->
+  <div class="sh" style="margin-bottom:12px">
+    <div class="st">مواعيد 2026</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+
+    <!-- Q1 VAT — done -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px;opacity:.7">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">✓</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الأول</div>
+        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 30 يناير 2026</div>
+      </div>
+      <span class="bdg" style="background:var(--g);color:#fff;font-size:11px">مسدَّدة</span>
+    </div>
+
+    <!-- Q2 VAT — urgent -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:2px solid var(--r);border-radius:var(--Rb);padding:14px 16px;box-shadow:0 0 0 3px rgba(220,53,69,.08)">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--r);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الثاني</div>
+        <div style="font-size:12px;color:var(--r);font-weight:600" id="q2Countdown">موعد التقديم: 30 أبريل 2026</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="bdg bdg-a" style="font-size:11px">قيد الإعداد</span>
+        <button class="btn bg2" style="font-size:11px;padding:3px 10px" onclick="go('vat',null)">عرض التقرير ←</button>
+      </div>
+    </div>
+
+    <!-- Q3 VAT — upcoming -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الثالث</div>
+        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 يوليو 2026</div>
+      </div>
+      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
+    </div>
+
+    <!-- Q4 VAT — upcoming -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الرابع</div>
+        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 أكتوبر 2026</div>
+      </div>
+      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
+    </div>
+
+    <!-- Income tax — upcoming -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📄</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">إقرار ضريبة الدخل — سنوي</div>
+        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 ديسمبر 2026</div>
+      </div>
+      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
+    </div>
+
+    <!-- Zakat — upcoming -->
+    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">☪️</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:2px">إقرار الزكاة — سنوي</div>
+        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 30 مارس 2027</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
+        <button class="btn bg2" style="font-size:11px;padding:3px 10px" onclick="go('zakat',null)">الحاسبة ←</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Tips ── -->
+  <div class="card">
+    <div class="sh" style="margin-bottom:12px"><div class="st">نصائح ضريبية</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
+        <span style="font-size:18px">💡</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">خصّص 10% من كل فاتورة</div><div style="font-size:12px;color:var(--t2)">حوّل 10% من كل دفعة لحساب منفصل تلقائياً — لن تفاجأ وقت الاستحقاق.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
+        <span style="font-size:18px">📋</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">احتفظ بجميع الفواتير</div><div style="font-size:12px;color:var(--t2)">صوّر كل فاتورة مصروف في محسوب لخصم الضريبة المدفوعة وقت الإقرار.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
+        <span style="font-size:18px">⏰</span>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">قدّم 3 أيام مبكراً</div><div style="font-size:12px;color:var(--t2)">غرامات التأخير تبدأ من 5% وتصل 25% — لا تنتظر آخر يوم.</div></div>
+      </div>
+    </div>
+  </div>
+
 </div>
+<script>
+(function(){
+  function daysUntil(dateStr){
+    const d = new Date(dateStr);
+    const now = new Date();
+    now.setHours(0,0,0,0);
+    d.setHours(0,0,0,0);
+    return Math.ceil((d - now) / 86400000);
+  }
+  function updateTaxCountdowns(){
+    const q2Days = daysUntil('2026-04-30');
+    const q2El = document.getElementById('q2Countdown');
+    const nextEl = document.getElementById('taxNextCountdown');
+    if(q2El){
+      if(q2Days > 0) q2El.textContent = `باقي ${q2Days} يوم على الموعد`;
+      else if(q2Days === 0) q2El.textContent = 'الموعد اليوم!';
+      else q2El.textContent = `تأخّر ${Math.abs(q2Days)} يوم`;
+    }
+    if(nextEl){
+      if(q2Days > 0) nextEl.textContent = `باقي ${q2Days} يوم`;
+      else if(q2Days === 0) nextEl.textContent = 'الموعد اليوم!';
+      else nextEl.textContent = 'فات الموعد';
+    }
+  }
+  updateTaxCountdowns();
+})();
+</script>
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
   <div class="g3" style="margin-bottom:16px">
