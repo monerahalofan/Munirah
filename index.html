@@ -386,6 +386,9 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div class="ni" onclick="go('gls',this)"><span class="nk">🎯</span>أهدافي المالية<span class="nbg">جديد</span></div>
     <div class="ni" onclick="go('tax',this)"><span class="nk">🧮</span>الضرائب والزكاة<span class="nbg">جديد</span></div>
     <div class="ns">العمليات اليومية</div>
+    <div class="ni" onclick="go('pos',this)"><span class="nk">🏪</span>نقطة البيع</div>
+    <div class="ni" onclick="go('channels',this)"><span class="nk">📡</span>مصادر المبيعات</div>
+    <div class="ni" onclick="go('daily',this)"><span class="nk">⚖️</span>الموازنة اليومية</div>
     <div class="ni" onclick="go('tx',this)"><span class="nk">💸</span>سجلي المالي</div>
     <div class="ni" onclick="go('inv',this)"><span class="nk">🧾</span>فواتيري<span class="nb" id="invBadge"></span></div>
     <div class="ni" onclick="go('bg',this)"><span class="nk">📊</span>ميزانيتي</div>
@@ -902,6 +905,191 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <!-- Invoice preview -->
     <div style="background:#f8fafc;border:1px solid #e2e8f0;color:#1a1a1a;border-radius:var(--R);padding:22px;margin-top:16px" id="zInv"></div>
   </div>
+</div>
+
+<!-- POS -->
+<div class="pg" id="pg-pos">
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start">
+
+    <!-- Left: product catalog -->
+    <div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <input class="fi" id="pos-search" placeholder="🔍  ابحث عن منتج…" oninput="renderPosProducts()" style="flex:1;min-width:160px"/>
+        <select class="fi" id="pos-type-filter" onchange="renderPosProducts()" style="width:130px">
+          <option value="all">الكل</option>
+          <option value="service">خدمات</option>
+          <option value="product">منتجات</option>
+        </select>
+      </div>
+      <div id="pos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px"></div>
+    </div>
+
+    <!-- Right: cart -->
+    <div class="card" style="position:sticky;top:16px">
+      <div class="sh" style="margin-bottom:12px">
+        <div class="st">السلة</div>
+        <button class="btn bg2" style="font-size:11px;padding:3px 8px;color:var(--r)" onclick="clearCart()">مسح ✕</button>
+      </div>
+      <div id="pos-cart-items" style="min-height:80px;max-height:280px;overflow-y:auto;margin-bottom:12px">
+        <div id="pos-empty" style="text-align:center;padding:20px;color:var(--t3);font-size:13px">اختر منتجاً من القائمة</div>
+      </div>
+      <div style="border-top:1px solid var(--b);padding-top:10px;margin-bottom:10px;font-size:13px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:var(--t3)">قبل الضريبة</span><span id="pos-sub">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--t3)">الضريبة 15%</span><span id="pos-vat">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700"><span>الإجمالي</span><span id="pos-total" style="color:var(--g)">0.00 ر.س</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+        <button class="btn bg2 pos-pay" id="pp-cash"   onclick="setPosPayment('cash')"     style="font-size:12px;padding:7px">💵 نقداً</button>
+        <button class="btn bg2 pos-pay" id="pp-card"   onclick="setPosPayment('card')"     style="font-size:12px;padding:7px">💳 بطاقة</button>
+        <button class="btn bg2 pos-pay" id="pp-trans"  onclick="setPosPayment('transfer')" style="font-size:12px;padding:7px">🏦 تحويل</button>
+      </div>
+      <button class="btn bp" style="width:100%;padding:11px;font-size:14px" onclick="processPOS()">إتمام البيع ←</button>
+    </div>
+
+  </div>
+
+  <!-- Today's sales -->
+  <div class="card" style="margin-top:16px">
+    <div class="sh" style="margin-bottom:10px">
+      <div class="st">مبيعات اليوم</div>
+      <div id="pos-today-total" style="font-weight:700;color:var(--g)">0.00 ر.س</div>
+    </div>
+    <div id="pos-sales-log" style="display:flex;flex-direction:column;gap:6px">
+      <div style="text-align:center;padding:14px;color:var(--t3);font-size:13px">لا توجد مبيعات اليوم بعد</div>
+    </div>
+  </div>
+</div>
+
+<!-- SALES CHANNELS -->
+<div class="pg" id="pg-channels">
+
+  <!-- Summary -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <div><div style="font-size:11px;color:var(--t3)">إجمالي اليوم</div><div style="font-size:22px;font-weight:700;color:var(--g)" id="ch-today-gross">0 ر.س</div></div>
+      <div style="width:1px;height:32px;background:var(--b)"></div>
+      <div><div style="font-size:11px;color:var(--t3)">بعد العمولات</div><div style="font-size:22px;font-weight:700;color:var(--bl)" id="ch-today-net">0 ر.س</div></div>
+      <div style="width:1px;height:32px;background:var(--b)"></div>
+      <div><div style="font-size:11px;color:var(--t3)">عمولات اليوم</div><div style="font-size:22px;font-weight:700;color:var(--r)" id="ch-today-comm">0 ر.س</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--t3)" id="ch-date-label"></div>
+  </div>
+
+  <!-- Channel cards grid -->
+  <div id="ch-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:16px"></div>
+
+  <!-- Add custom channel -->
+  <div style="margin-bottom:16px">
+    <button class="btn bg2" style="font-size:13px" onclick="toggleAddChannel()">＋ إضافة قناة مخصصة</button>
+    <div id="ch-form" style="display:none;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px;margin-top:10px">
+      <div class="fg">
+        <div class="ff"><label class="fl">اسم القناة</label><input class="fi" id="ch-name" placeholder="مثال: متجري الإلكتروني"/></div>
+        <div class="ff"><label class="fl">نسبة العمولة %</label><input class="fi" id="ch-comm" type="number" placeholder="0" inputmode="decimal"/></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn bp" onclick="addCustomChannel()">إضافة</button>
+        <button class="btn bg2" onclick="toggleAddChannel()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="card">
+    <div class="sh" style="margin-bottom:10px"><div class="st">سجل آخر 7 أيام</div></div>
+    <div id="ch-history" style="display:flex;flex-direction:column;gap:6px">
+      <div style="text-align:center;padding:14px;color:var(--t3);font-size:13px">لا توجد بيانات بعد</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY BALANCE -->
+<div class="pg" id="pg-daily">
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <div class="st" style="flex:1">الموازنة اليومية</div>
+    <input type="date" class="fi" id="daily-date" style="width:160px" onchange="loadDailyBalance()"/>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+
+    <!-- Opening balance -->
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">رصيد الافتتاح</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="fi" id="daily-open" type="number" placeholder="0.00" inputmode="decimal" oninput="calcDailyBalance()" style="flex:1"/>
+        <span style="font-size:13px;color:var(--t3)">ر.س</span>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-top:6px">النقد الموجود في الصندوق أول اليوم</div>
+    </div>
+
+    <!-- Cash on hand -->
+    <div class="card">
+      <div class="st" style="margin-bottom:10px">العد الفعلي للنقد</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="fi" id="daily-actual" type="number" placeholder="0.00" inputmode="decimal" oninput="calcDailyBalance()" style="flex:1"/>
+        <span style="font-size:13px;color:var(--t3)">ر.س</span>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-top:6px">النقد الفعلي في الصندوق آخر اليوم</div>
+    </div>
+
+  </div>
+
+  <!-- Breakdown -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="st" style="margin-bottom:12px">مبيعات اليوم حسب المصدر</div>
+    <div id="daily-sales-breakdown" style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:var(--Rs)">
+        <span style="font-size:13px">🏪 نقطة البيع</span>
+        <span style="font-weight:600;color:var(--g)" id="daily-pos-sales">0.00 ر.س</span>
+      </div>
+      <div id="daily-channel-rows"></div>
+    </div>
+    <div style="border-top:1px solid var(--b);margin-top:10px;padding-top:10px">
+      <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700">
+        <span>إجمالي المبيعات</span>
+        <span id="daily-total-sales" style="color:var(--g)">0.00 ر.س</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expenses today -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh" style="margin-bottom:10px">
+      <div class="st">مصاريف اليوم</div>
+      <button class="btn bg2" style="font-size:12px;padding:4px 9px" onclick="addDailyExpense()">＋ إضافة</button>
+    </div>
+    <div id="daily-expenses-list" style="display:flex;flex-direction:column;gap:6px">
+      <div style="text-align:center;padding:12px;color:var(--t3);font-size:13px">لا توجد مصاريف مسجّلة</div>
+    </div>
+    <div style="border-top:1px solid var(--b);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;font-size:14px;font-weight:700">
+      <span>إجمالي المصاريف</span>
+      <span id="daily-total-exp" style="color:var(--r)">0.00 ر.س</span>
+    </div>
+  </div>
+
+  <!-- Reconciliation result -->
+  <div class="card" id="daily-result">
+    <div class="st" style="margin-bottom:14px">نتيجة الموازنة</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">رصيد الإغلاق المتوقع</div>
+        <div style="font-size:18px;font-weight:700;color:var(--bl)" id="daily-expected">0.00 ر.س</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">العد الفعلي</div>
+        <div style="font-size:18px;font-weight:700;color:var(--t1)" id="daily-actual-display">0.00 ر.س</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">الفرق</div>
+        <div style="font-size:18px;font-weight:700" id="daily-diff">—</div>
+      </div>
+    </div>
+    <div id="daily-status" style="text-align:center;padding:12px;border-radius:var(--Rs);font-weight:600;font-size:14px;background:var(--bg3);color:var(--t3)">
+      أدخل البيانات لرؤية نتيجة الموازنة
+    </div>
+    <button class="btn bp" style="width:100%;margin-top:12px;padding:10px" onclick="saveDailyBalance()">حفظ الموازنة ✓</button>
+  </div>
+
 </div>
 
 <!-- PRODUCTS / SERVICES -->
@@ -1498,12 +1686,15 @@ function initApp(){
   if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
   calcZakat();
   renderAlerts();renderDbGoals();renderTopClients();renderClients();renderProducts();
+  renderPosProducts();renderPosSales();renderChannels();
+  const dd = document.getElementById('daily-date');
+  if (dd) { dd.value = new Date().toISOString().split('T')[0]; loadDailyBalance(); }
   showSt('income',document.getElementById('stB1'));
   usersInit();
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -1952,6 +2143,370 @@ function markCollected(method){
   }
   badge.style.display='inline-block';
   document.getElementById('zCollectBtns').style.display='none';
+}
+
+// ── POS ────────────────────────────────
+let posCart = [];
+let posPayMethod = 'cash';
+let posSales = JSON.parse(localStorage.getItem('mahsoob_pos_sales') || '[]');
+
+function renderPosProducts() {
+  const q = (document.getElementById('pos-search')?.value || '').toLowerCase();
+  const tf = document.getElementById('pos-type-filter')?.value || 'all';
+  const grid = document.getElementById('pos-grid');
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(q) &&
+    (tf === 'all' || p.type === tf)
+  );
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--t3);font-size:13px">${products.length ? 'لا توجد نتائج' : 'أضف منتجات من صفحة "خدماتي ومنتجاتي" أولاً'}</div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(p => {
+    const outOfStock = p.type === 'product' && p.stock != null && p.stock <= 0;
+    return `<div onclick="${outOfStock ? '' : `addToCart(${p.id})`}"
+      style="background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:.15s"
+      onmouseenter="if(!${outOfStock})this.style.borderColor='var(--g)'" onmouseleave="this.style.borderColor='var(--b)'">
+      <div style="font-size:26px;margin-bottom:6px">${p.type === 'service' ? '⚙️' : '📦'}</div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:3px;line-height:1.3">${p.name}</div>
+      <div style="font-size:13px;font-weight:700;color:var(--g)">${p.price.toLocaleString('ar-SA')} ر.س</div>
+      ${outOfStock ? `<div style="font-size:10px;color:var(--r);margin-top:3px">نفد المخزون</div>` : ''}
+      ${p.type === 'product' && p.stock != null && p.stock > 0 ? `<div style="font-size:10px;color:var(--t3);margin-top:3px">مخزون: ${p.stock}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const existing = posCart.find(c => c.id === id);
+  if (existing) existing.qty++;
+  else posCart.push({ id, name: p.name, price: p.price, qty: 1 });
+  renderCart();
+}
+
+function updateCartQty(id, delta) {
+  const item = posCart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) posCart = posCart.filter(c => c.id !== id);
+  renderCart();
+}
+
+function clearCart() { posCart = []; renderCart(); }
+
+function renderCart() {
+  const el = document.getElementById('pos-cart-items');
+  const empty = document.getElementById('pos-empty');
+  if (!posCart.length) {
+    el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">اختر منتجاً من القائمة</div>`;
+    document.getElementById('pos-sub').textContent = '0.00 ر.س';
+    document.getElementById('pos-vat').textContent = '0.00 ر.س';
+    document.getElementById('pos-total').textContent = '0.00 ر.س';
+    return;
+  }
+  let sub = 0;
+  el.innerHTML = posCart.map(c => {
+    const line = c.price * c.qty; sub += line;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--b)">
+      <div style="flex:1;font-size:13px;font-weight:600">${c.name}</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="btn bg2" style="width:24px;height:24px;padding:0;font-size:14px;line-height:1" onclick="updateCartQty(${c.id},-1)">−</button>
+        <span style="font-size:13px;font-weight:700;min-width:18px;text-align:center">${c.qty}</span>
+        <button class="btn bg2" style="width:24px;height:24px;padding:0;font-size:14px;line-height:1" onclick="updateCartQty(${c.id},1)">+</button>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--g);direction:ltr;min-width:72px;text-align:left">${line.toLocaleString('ar-SA')} ر.س</div>
+    </div>`;
+  }).join('');
+  const vat = sub * 0.15;
+  document.getElementById('pos-sub').textContent = sub.toFixed(2) + ' ر.س';
+  document.getElementById('pos-vat').textContent = vat.toFixed(2) + ' ر.س';
+  document.getElementById('pos-total').textContent = (sub + vat).toFixed(2) + ' ر.س';
+}
+
+function setPosPayment(m) {
+  posPayMethod = m;
+  ['cash','card','trans'].forEach(x => {
+    const el = document.getElementById('pp-' + x);
+    if (el) el.className = 'btn ' + (x === m.replace('transfer','trans') ? 'bp' : 'bg2') + ' pos-pay';
+  });
+}
+
+function processPOS() {
+  if (!posCart.length) { alert('السلة فارغة'); return; }
+  let sub = posCart.reduce((s, c) => s + c.price * c.qty, 0);
+  const vat = sub * 0.15;
+  const total = sub + vat;
+  const now = new Date();
+  const sale = {
+    id: Date.now(),
+    time: now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+    date: now.toISOString().split('T')[0],
+    items: [...posCart],
+    sub, vat, total,
+    method: posPayMethod
+  };
+  posSales.push(sale);
+  localStorage.setItem('mahsoob_pos_sales', JSON.stringify(posSales));
+  posCart.forEach(c => {
+    const p = products.find(x => x.id === c.id);
+    if (p && p.type === 'product' && p.stock != null) {
+      p.stock = Math.max(0, p.stock - c.qty);
+    }
+  });
+  saveProducts();
+  clearCart();
+  renderPosProducts();
+  renderPosSales();
+  calcDailyBalance();
+  alert(`✅ تمت عملية البيع\nالإجمالي: ${total.toFixed(2)} ر.س`);
+}
+
+function renderPosSales() {
+  const today = new Date().toISOString().split('T')[0];
+  const todaySales = posSales.filter(s => s.date === today);
+  const totalToday = todaySales.reduce((s, x) => s + x.total, 0);
+  document.getElementById('pos-today-total').textContent = totalToday.toFixed(2) + ' ر.س';
+  const log = document.getElementById('pos-sales-log');
+  if (!todaySales.length) {
+    log.innerHTML = `<div style="text-align:center;padding:14px;color:var(--t3);font-size:13px">لا توجد مبيعات اليوم بعد</div>`;
+    return;
+  }
+  const icons = { cash: '💵', card: '💳', transfer: '🏦' };
+  log.innerHTML = [...todaySales].reverse().map(s => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg3);border-radius:var(--Rs)">
+      <span style="font-size:16px">${icons[s.method] || '💵'}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600">${s.items.map(i => i.name + (i.qty > 1 ? ' ×' + i.qty : '')).join('، ')}</div>
+        <div style="font-size:11px;color:var(--t3)">${s.time}</div>
+      </div>
+      <div style="font-weight:700;color:var(--g);direction:ltr">${s.total.toFixed(2)} ر.س</div>
+    </div>`).join('');
+}
+
+// ── Sales Channels ─────────────────────
+const DEFAULT_CHANNELS = [
+  { id: 'jahez',    name: 'جاهز',          icon: '🟡', comm: 25 },
+  { id: 'hunger',   name: 'هنقرستيشن',     icon: '🔴', comm: 25 },
+  { id: 'careem',   name: 'كريم',           icon: '🟢', comm: 20 },
+  { id: 'noon',     name: 'نون فود',        icon: '🟡', comm: 22 },
+  { id: 'toyou',    name: 'طلبات',          icon: '🔵', comm: 18 },
+  { id: 'online',   name: 'متجر إلكتروني', icon: '🌐', comm: 2  },
+  { id: 'walkin',   name: 'بيع مباشر',      icon: '🏪', comm: 0  },
+];
+let chChannels = JSON.parse(localStorage.getItem('mahsoob_channels') || 'null') || [...DEFAULT_CHANNELS];
+let chEntries  = JSON.parse(localStorage.getItem('mahsoob_ch_entries') || '{}');
+
+function saveChannels() {
+  localStorage.setItem('mahsoob_channels', JSON.stringify(chChannels));
+  localStorage.setItem('mahsoob_ch_entries', JSON.stringify(chEntries));
+}
+
+function toggleAddChannel() {
+  const f = document.getElementById('ch-form');
+  f.style.display = f.style.display === 'block' ? 'none' : 'block';
+}
+
+function addCustomChannel() {
+  const name = document.getElementById('ch-name').value.trim();
+  const comm = parseFloat(document.getElementById('ch-comm').value) || 0;
+  if (!name) { alert('أدخل اسم القناة'); return; }
+  chChannels.push({ id: 'custom_' + Date.now(), name, icon: '📡', comm });
+  saveChannels();
+  toggleAddChannel();
+  renderChannels();
+}
+
+function setChannelEntry(id, val) {
+  const today = new Date().toISOString().split('T')[0];
+  if (!chEntries[today]) chEntries[today] = {};
+  chEntries[today][id] = parseFloat(val) || 0;
+  saveChannels();
+  updateChannelSummary();
+  calcDailyBalance();
+}
+
+function updateChannelSummary() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayData = chEntries[today] || {};
+  let gross = 0, comms = 0;
+  chChannels.forEach(ch => {
+    const g = todayData[ch.id] || 0;
+    const c = g * ch.comm / 100;
+    gross += g; comms += c;
+  });
+  document.getElementById('ch-today-gross').textContent = gross.toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('ch-today-net').textContent = (gross - comms).toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('ch-today-comm').textContent = comms.toLocaleString('ar-SA') + ' ر.س';
+}
+
+function renderChannels() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayData = chEntries[today] || {};
+  document.getElementById('ch-date-label').textContent = new Date().toLocaleDateString('ar-SA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('ch-grid').innerHTML = chChannels.map(ch => {
+    const gross = todayData[ch.id] || 0;
+    const net = gross - (gross * ch.comm / 100);
+    return `<div class="card" style="padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:22px">${ch.icon}</span>
+        <div>
+          <div style="font-weight:700;font-size:14px">${ch.name}</div>
+          <div style="font-size:11px;color:var(--t3)">عمولة ${ch.comm}%</div>
+        </div>
+      </div>
+      <label class="fl">مبيعات اليوم (ر.س)</label>
+      <input class="fi" type="number" inputmode="decimal" placeholder="0.00"
+        value="${gross || ''}"
+        oninput="setChannelEntry('${ch.id}', this.value)"
+        style="margin-top:4px;margin-bottom:8px"/>
+      <div style="display:flex;justify-content:space-between;font-size:12px">
+        <span style="color:var(--t3)">صافي بعد العمولة</span>
+        <span style="font-weight:700;color:var(--g)">${net > 0 ? net.toLocaleString('ar-SA') + ' ر.س' : '—'}</span>
+      </div>
+    </div>`;
+  }).join('');
+  renderChannelHistory();
+  updateChannelSummary();
+}
+
+function renderChannelHistory() {
+  const sorted = Object.keys(chEntries).sort().reverse().slice(0, 7);
+  const el = document.getElementById('ch-history');
+  if (!sorted.length) { el.innerHTML = `<div style="text-align:center;padding:14px;color:var(--t3);font-size:13px">لا توجد بيانات بعد</div>`; return; }
+  el.innerHTML = sorted.map(date => {
+    const data = chEntries[date];
+    let gross = 0, comms = 0;
+    chChannels.forEach(ch => { const g = data[ch.id] || 0; gross += g; comms += g * ch.comm / 100; });
+    const d = new Date(date);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:var(--Rs)">
+      <span style="font-size:13px">${d.toLocaleDateString('ar-SA', { weekday:'short', month:'short', day:'numeric' })}</span>
+      <div style="display:flex;gap:14px;font-size:13px">
+        <span style="color:var(--t3)">إجمالي: <b style="color:var(--t1)">${gross.toLocaleString('ar-SA')} ر.س</b></span>
+        <span style="color:var(--g)">صافي: <b>${(gross - comms).toLocaleString('ar-SA')} ر.س</b></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Daily Balance ──────────────────────
+let dailyData = JSON.parse(localStorage.getItem('mahsoob_daily') || '{}');
+
+function loadDailyBalance() {
+  const date = document.getElementById('daily-date').value;
+  const saved = dailyData[date] || {};
+  document.getElementById('daily-open').value = saved.open || '';
+  document.getElementById('daily-actual').value = saved.actual || '';
+  renderDailyExpenses(date);
+  calcDailyBalance();
+}
+
+function calcDailyBalance() {
+  const date = document.getElementById('daily-date')?.value;
+  if (!date) return;
+
+  const open = parseFloat(document.getElementById('daily-open').value) || 0;
+  const actual = parseFloat(document.getElementById('daily-actual').value) || 0;
+
+  const todaySales = posSales.filter(s => s.date === date);
+  const posTotal = todaySales.reduce((s, x) => s + x.total, 0);
+
+  const chToday = chEntries[date] || {};
+  let chGross = 0, chComm = 0;
+  chChannels.forEach(ch => { const g = chToday[ch.id] || 0; chGross += g; chComm += g * ch.comm / 100; });
+  const chNet = chGross - chComm;
+
+  document.getElementById('daily-pos-sales').textContent = posTotal.toFixed(2) + ' ر.س';
+  document.getElementById('daily-channel-rows').innerHTML = chChannels
+    .filter(ch => (chToday[ch.id] || 0) > 0)
+    .map(ch => {
+      const g = chToday[ch.id]; const net = g - g * ch.comm / 100;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:var(--Rs)">
+        <span style="font-size:13px">${ch.icon} ${ch.name}</span>
+        <span style="font-weight:600;color:var(--g)">${net.toFixed(2)} ر.س <span style="font-size:10px;color:var(--t3)">(بعد ${ch.comm}% عمولة)</span></span>
+      </div>`;
+    }).join('') || '';
+
+  const totalSales = posTotal + chNet;
+  document.getElementById('daily-total-sales').textContent = totalSales.toFixed(2) + ' ر.س';
+
+  const saved = dailyData[date] || {};
+  const expenses = (saved.expenses || []).reduce((s, e) => s + e.amount, 0);
+  document.getElementById('daily-total-exp').textContent = expenses.toFixed(2) + ' ر.س';
+
+  const expected = open + totalSales - expenses;
+  const diff = actual - expected;
+
+  document.getElementById('daily-expected').textContent = expected.toFixed(2) + ' ر.س';
+  document.getElementById('daily-actual-display').textContent = actual > 0 ? actual.toFixed(2) + ' ر.س' : '—';
+
+  const diffEl = document.getElementById('daily-diff');
+  const statusEl = document.getElementById('daily-status');
+  if (actual > 0) {
+    const absDiff = Math.abs(diff);
+    diffEl.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(2) + ' ر.س';
+    diffEl.style.color = absDiff < 1 ? 'var(--g)' : absDiff < 50 ? 'var(--a)' : 'var(--r)';
+    if (absDiff < 1) {
+      statusEl.textContent = '✅ الموازنة متطابقة';
+      statusEl.style.background = 'var(--gb)'; statusEl.style.color = 'var(--g)';
+    } else if (absDiff < 50) {
+      statusEl.textContent = `⚠️ فرق بسيط: ${absDiff.toFixed(2)} ر.س — راجع المعاملات`;
+      statusEl.style.background = 'var(--ab)'; statusEl.style.color = 'var(--a)';
+    } else {
+      statusEl.textContent = `🔴 فرق كبير: ${absDiff.toFixed(2)} ر.س — يلزم مراجعة`;
+      statusEl.style.background = 'var(--rb)'; statusEl.style.color = 'var(--r)';
+    }
+  } else {
+    diffEl.textContent = '—';
+    diffEl.style.color = 'var(--t3)';
+    statusEl.textContent = 'أدخل البيانات لرؤية نتيجة الموازنة';
+    statusEl.style.background = 'var(--bg3)'; statusEl.style.color = 'var(--t3)';
+  }
+}
+
+function addDailyExpense() {
+  const date = document.getElementById('daily-date').value;
+  if (!date) return;
+  const desc = prompt('وصف المصروف:'); if (!desc) return;
+  const amount = parseFloat(prompt('المبلغ (ر.س):')); if (!amount) return;
+  if (!dailyData[date]) dailyData[date] = {};
+  if (!dailyData[date].expenses) dailyData[date].expenses = [];
+  dailyData[date].expenses.push({ desc, amount, time: new Date().toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit' }) });
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  renderDailyExpenses(date);
+  calcDailyBalance();
+}
+
+function renderDailyExpenses(date) {
+  const exps = (dailyData[date] || {}).expenses || [];
+  const el = document.getElementById('daily-expenses-list');
+  if (!exps.length) {
+    el.innerHTML = `<div style="text-align:center;padding:12px;color:var(--t3);font-size:13px">لا توجد مصاريف مسجّلة</div>`;
+    return;
+  }
+  el.innerHTML = exps.map((e, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg3);border-radius:var(--Rs)">
+      <div style="flex:1"><div style="font-size:13px;font-weight:600">${e.desc}</div><div style="font-size:11px;color:var(--t3)">${e.time || ''}</div></div>
+      <span style="font-weight:700;color:var(--r)">${e.amount.toFixed(2)} ر.س</span>
+      <button class="btn bg2" style="font-size:11px;padding:3px 7px;color:var(--r)" onclick="removeDailyExpense('${date}',${i})">✕</button>
+    </div>`).join('');
+}
+
+function removeDailyExpense(date, idx) {
+  dailyData[date].expenses.splice(idx, 1);
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  renderDailyExpenses(date);
+  calcDailyBalance();
+}
+
+function saveDailyBalance() {
+  const date = document.getElementById('daily-date').value;
+  if (!date) return;
+  if (!dailyData[date]) dailyData[date] = {};
+  dailyData[date].open = parseFloat(document.getElementById('daily-open').value) || 0;
+  dailyData[date].actual = parseFloat(document.getElementById('daily-actual').value) || 0;
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  alert('✅ تم حفظ الموازنة');
 }
 
 // ── Products / Services ────────────────
