@@ -152,7 +152,7 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         <div class="pw-label" id="pwLabel" style="color:#b0b8d0">أدخل كلمة المرور</div>
       </div>
 
-      <div class="section-title">بيانات العمل التجارية <span class="optional-tag">(اختياري — لتفعيل فواتير زاتكا)</span></div>
+      <div class="section-title">بيانات العمل التجارية</div>
       <div class="ff">
         <label class="fl">الرقم الضريبي (VAT)</label>
         <input class="fi" id="signupVat" type="text" placeholder="300000000000003" dir="ltr" maxlength="15">
@@ -226,6 +226,7 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/config.js"></script>
+<script src="js/security.js"></script>
 <script>
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -312,17 +313,33 @@ async function doGoogle() {
 
 // ── Email Login ───────────────────────────────────────
 async function doLogin() {
+  // Check rate limit
+  const locked = RateLimit.isLocked();
+  if (locked) {
+    showErr(`تم تجميد الدخول لمدة ${RateLimit.remainingMins(locked)} دقيقة بسبب محاولات متكررة`);
+    return;
+  }
+
   const email    = document.getElementById('loginEmail').value.trim();
   const pass     = document.getElementById('loginPass').value;
   const remember = document.getElementById('rememberMe').checked;
   if (!email || !pass) { showErr('يرجى إدخال البريد وكلمة المرور'); return; }
+
   setBtnLoading('loginBtn', true, 'دخول ←');
   const loginSb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: remember }
   });
   const { error } = await loginSb.auth.signInWithPassword({ email, password: pass });
   setBtnLoading('loginBtn', false);
-  if (error) { showErr(translateError(error.message)); return; }
+
+  if (error) {
+    const remaining = RateLimit.fail();
+    const msg = translateError(error.message);
+    showErr(remaining > 0 ? `${msg} (${remaining} محاولة متبقية)` : 'تم تجميد الدخول 15 دقيقة');
+    return;
+  }
+
+  RateLimit.reset();
   window.location.href = 'index.html';
 }
 
@@ -391,6 +408,13 @@ async function doSignup() {
   if (!biz)   { showErr('يرجى إدخال اسم المشروع'); return; }
   if (!email) { showErr('يرجى إدخال البريد الإلكتروني'); return; }
 
+  // Sanitize all text inputs before saving
+  const safeBiz      = sanitize(biz);
+  const safeCity     = sanitize(city);
+  const safeDistrict = sanitize(district);
+  const safeStreet   = sanitize(street);
+  const safeAddress  = sanitize(address);
+
   // Reject weak passwords
   let score = 0;
   if (pass.length >= 8)  score++;
@@ -405,7 +429,7 @@ async function doSignup() {
   setBtnLoading('signupBtn', true, 'إنشاء الحساب ←');
   const { error } = await sb.auth.signUp({
     email, password: pass,
-    options: { data: { business_name: biz, vat_number: vat, cr_number: cr, country, city, address } }
+    options: { data: { business_name: safeBiz, vat_number: vat, cr_number: cr, country, city: safeCity, address: safeAddress } }
   });
   setBtnLoading('signupBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
