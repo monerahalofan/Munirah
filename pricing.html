@@ -3,209 +3,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>محسوب — الأسعار والخطط</title>
+<title>محسوب — الخطط والأسعار</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Tajawal',sans-serif;background:#f5f6fa;color:#1a1d2e;min-height:100vh}
 body.dark{background:#0d1117;color:#f0f2f8}
-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:#fff;border-bottom:1px solid rgba(0,0,0,.07)}
+
+/* ── Nav ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#fff;border-bottom:1px solid rgba(0,0,0,.07);position:sticky;top:0;z-index:50}
 body.dark nav{background:#161b27;border-color:rgba(255,255,255,.07)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-icon{width:36px;height:36px;background:rgba(22,163,114,.1);border:1px solid rgba(22,163,114,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.nav-name{font-size:18px;font-weight:700}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.nav-name{font-size:19px;font-weight:800}
 .nav-links{display:flex;gap:10px;align-items:center}
-.btn{padding:8px 16px;border-radius:8px;border:none;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.btn-out{background:transparent;border:1px solid rgba(0,0,0,.12);color:#5a6080}
-.btn-out:hover{border-color:#16a372;color:#16a372}
+.btn{padding:9px 18px;border-radius:9px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-out{background:transparent;border:1px solid rgba(0,0,0,.15);color:#5a6080}
+.btn-out:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
 .btn-p{background:#16a372;color:#fff}
 .btn-p:hover{opacity:.9}
-body.dark .btn-out{border-color:rgba(255,255,255,.12);color:#8892a4}
-.hero{text-align:center;padding:60px 20px 40px}
-.badge{display:inline-block;background:rgba(22,163,114,.1);border:1px solid rgba(22,163,114,.2);color:#16a372;border-radius:20px;padding:5px 16px;font-size:13px;font-weight:600;margin-bottom:18px}
-.hero h1{font-size:38px;font-weight:900;line-height:1.25;margin-bottom:14px}
-.hero p{font-size:16px;color:#5a6080;max-width:540px;margin:0 auto 28px;line-height:1.7}
+body.dark .btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
+
+/* ── Hero ── */
+.hero{text-align:center;padding:72px 20px 20px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,114,.08);border:1px solid rgba(22,163,114,.18);color:#16a372;border-radius:20px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:22px}
+.hero h1{font-size:44px;font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:#16a372}
+.hero p{font-size:17px;color:#5a6080;max-width:580px;margin:0 auto 16px;line-height:1.8}
 body.dark .hero p{color:#8892a4}
+.hero-sub{font-size:13px;color:#9aa0b8;margin-bottom:36px}
+.hero-sub b{color:#1a1d2e}
+body.dark .hero-sub b{color:#f0f2f8}
+
+/* ── Stats bar ── */
+.stats{display:flex;justify-content:center;gap:48px;padding:28px 20px;background:#fff;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:48px}
+body.dark .stats{background:#161b27;border-color:rgba(255,255,255,.06)}
+.stat{text-align:center}
+.stat-num{font-size:28px;font-weight:900;color:#16a372}
+.stat-lbl{font-size:12px;color:#9aa0b8;margin-top:2px}
+
+/* ── Toggle ── */
 .toggle-wrap{display:inline-flex;background:#e8ebf2;border-radius:30px;padding:4px;gap:4px;margin-bottom:48px}
 body.dark .toggle-wrap{background:#1e2535}
-.tgl{padding:8px 22px;border-radius:26px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s;display:flex;align-items:center;gap:6px}
+.tgl{padding:9px 24px;border-radius:26px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s;display:flex;align-items:center;gap:6px}
 .tgl.on{background:#fff;color:#1a1d2e;box-shadow:0 1px 5px rgba(0,0,0,.12)}
 body.dark .tgl.on{background:#252d3d;color:#f0f2f8}
 .save-badge{background:#16a372;color:#fff;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto;padding:0 20px 60px}
-.plan{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:18px;padding:28px;position:relative;transition:transform .2s,box-shadow .2s}
-.plan:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+
+/* ── Plans ── */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;padding:0 20px 64px}
+.plan{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:20px;padding:30px;position:relative;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.09)}
 body.dark .plan{background:#161b27;border-color:rgba(255,255,255,.08)}
-.plan.pop{border-color:#16a372;border-width:2px}
-.pop-badge{position:absolute;top:-13px;right:50%;transform:translateX(50%);background:#16a372;color:#fff;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap}
-.plan-name{font-size:13px;font-weight:600;color:#9aa0b8;margin-bottom:10px}
-.plan-price{font-size:38px;font-weight:900;margin-bottom:4px;direction:ltr}
-.plan-price span{font-size:15px;font-weight:400;color:#9aa0b8}
-.plan-period{font-size:12px;color:#9aa0b8;margin-bottom:20px}
-.plan-desc{font-size:13px;color:#5a6080;margin-bottom:20px;line-height:1.6;min-height:40px}
+.plan.pop{border-color:#16a372;border-width:2px;background:linear-gradient(to bottom,rgba(22,163,114,.03),#fff)}
+body.dark .plan.pop{background:linear-gradient(to bottom,rgba(22,163,114,.06),#161b27)}
+.pop-badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:#16a372;color:#fff;font-size:12px;font-weight:700;padding:5px 18px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(22,163,114,.3)}
+.plan-tier{font-size:11px;font-weight:700;letter-spacing:1px;color:#9aa0b8;margin-bottom:8px;text-transform:uppercase}
+.plan-name{font-size:20px;font-weight:800;margin-bottom:6px}
+.plan-desc{font-size:13px;color:#5a6080;margin-bottom:22px;line-height:1.6;flex:1}
 body.dark .plan-desc{color:#8892a4}
-.plan-btn{width:100%;padding:11px;border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;margin-bottom:22px}
-.plan-btn-out{background:transparent;border:1px solid rgba(0,0,0,.15);color:#5a6080}
+.plan-price-wrap{margin-bottom:6px}
+.plan-price{font-size:42px;font-weight:900;direction:ltr;display:inline}
+.plan-currency{font-size:16px;font-weight:600;color:#9aa0b8;margin-right:4px}
+.plan-period{font-size:12px;color:#9aa0b8;margin-bottom:24px}
+.plan-btn{width:100%;padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s;margin-bottom:24px}
+.plan-btn-out{background:transparent;border:1.5px solid rgba(0,0,0,.15);color:#5a6080}
 .plan-btn-out:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
-.plan-btn-fill{background:#16a372;color:#fff}
+.plan-btn-fill{background:#16a372;color:#fff;box-shadow:0 4px 14px rgba(22,163,114,.3)}
 .plan-btn-fill:hover{opacity:.9}
 body.dark .plan-btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
-.feat-title{font-size:11px;font-weight:600;color:#9aa0b8;margin-bottom:10px;letter-spacing:.5px}
-.feat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#5a6080;margin-bottom:8px;line-height:1.5}
+.feat-title{font-size:11px;font-weight:700;color:#9aa0b8;margin-bottom:12px;letter-spacing:.5px}
+.feat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#5a6080;margin-bottom:9px;line-height:1.5}
 body.dark .feat{color:#8892a4}
-.feat-check{color:#16a372;font-size:14px;flex-shrink:0;margin-top:1px}
-.feat-x{color:#9aa0b8;font-size:14px;flex-shrink:0;margin-top:1px;opacity:.5}
-.faq{max-width:680px;margin:0 auto;padding:0 20px 60px}
-.faq h2{text-align:center;font-size:24px;font-weight:700;margin-bottom:28px}
+.feat-check{color:#16a372;font-size:15px;flex-shrink:0;margin-top:1px;font-weight:700}
+.feat-x{color:#c8ccd8;font-size:15px;flex-shrink:0;margin-top:1px}
+
+/* ── Vision section ── */
+.vision{max-width:900px;margin:0 auto 64px;padding:0 20px}
+.vision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.vision-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:28px 24px;text-align:center}
+body.dark .vision-card{background:#161b27;border-color:rgba(255,255,255,.07)}
+.vision-icon{font-size:32px;margin-bottom:14px}
+.vision-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.vision-text{font-size:13px;color:#5a6080;line-height:1.7}
+body.dark .vision-text{color:#8892a4}
+.section-label{text-align:center;font-size:12px;font-weight:700;color:#16a372;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.section-title{text-align:center;font-size:28px;font-weight:800;margin-bottom:12px}
+.section-sub{text-align:center;font-size:15px;color:#5a6080;margin-bottom:36px;line-height:1.7}
+body.dark .section-sub{color:#8892a4}
+
+/* ── Trusted by ── */
+.trust{text-align:center;padding:0 20px 64px}
+.trust-items{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:700px;margin:0 auto}
+.trust-item{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:10px 20px;font-size:13px;color:#5a6080;font-weight:500}
+body.dark .trust-item{background:#161b27;border-color:rgba(255,255,255,.07);color:#8892a4}
+
+/* ── FAQ ── */
+.faq{max-width:700px;margin:0 auto;padding:0 20px 64px}
 .faq-item{border:1px solid rgba(0,0,0,.08);border-radius:12px;overflow:hidden;margin-bottom:10px}
 body.dark .faq-item{border-color:rgba(255,255,255,.08)}
-.faq-q{padding:16px 18px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:background .2s}
+.faq-q{padding:17px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:background .2s}
 body.dark .faq-q{background:#161b27}
 .faq-q:hover{background:#f5f6fa}
 body.dark .faq-q:hover{background:#1e2535}
-.faq-a{padding:0 18px;font-size:13px;color:#5a6080;line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
-body.dark .faq-a{color:#8892a4}
-.faq-a.open{max-height:200px;padding:0 18px 14px}
-.faq-icon{transition:transform .3s;flex-shrink:0}
+.faq-a{padding:0 20px;font-size:13px;color:#5a6080;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;background:#fff}
+body.dark .faq-a{color:#8892a4;background:#161b27}
+.faq-a.open{max-height:300px;padding:0 20px 16px}
+.faq-icon{transition:transform .3s;flex-shrink:0;color:#9aa0b8}
 .faq-icon.open{transform:rotate(180deg)}
-footer{text-align:center;padding:28px;font-size:13px;color:#9aa0b8;border-top:1px solid rgba(0,0,0,.07)}
-body.dark footer{border-color:rgba(255,255,255,.07)}
+
+/* ── CTA ── */
+.cta{background:linear-gradient(135deg,#0f8a5f,#16a372);text-align:center;padding:64px 20px;margin-bottom:0}
+.cta h2{font-size:30px;font-weight:800;color:#fff;margin-bottom:12px}
+.cta p{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-white{background:#fff;color:#16a372;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.btn-white:hover{opacity:.9}
+.btn-ghost-white{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;padding:11px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
+.btn-ghost-white:hover{border-color:#fff}
+
+footer{text-align:center;padding:28px;font-size:13px;color:#9aa0b8;border-top:1px solid rgba(0,0,0,.07);background:#fff}
+body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
+
 @media(max-width:700px){
-  .plans{grid-template-columns:1fr}
+  .plans,.vision-grid{grid-template-columns:1fr}
   nav{padding:12px 16px}
-  .hero h1{font-size:26px}
-  .hero{padding:36px 16px 24px}
+  .hero h1{font-size:28px}
+  .hero{padding:44px 16px 16px}
+  .stats{gap:24px;flex-wrap:wrap}
+  nav .btn-out{display:none}
 }
 </style>
 </head>
 <body>
+
 <nav>
-  <div class="nav-logo">
-    <div class="nav-icon">💰</div>
+  <a class="nav-logo" href="#">
+    <img src="img/logo-icon.png" style="width:34px;height:34px;object-fit:contain" onerror="this.style.display='none'">
     <div class="nav-name">محسوب</div>
-  </div>
+  </a>
   <div class="nav-links">
     <a class="btn btn-out" href="login.html">تسجيل الدخول</a>
-    <a class="btn btn-p" href="login.html#signup">ابدأ مجاناً</a>
+    <a class="btn btn-p" href="login.html#signup">احصل على فترة تجريبية</a>
   </div>
 </nav>
 
+<!-- ══ HERO ══════════════════════════════════════════ -->
 <div class="hero">
-  <div class="badge">✨ بدون عمولة — بدون إخفاء</div>
-  <h1>إدارة مالية ذكية<br>لكل مشروع سعودي</h1>
-  <p>محسوب يجمع محاسبتك ، فواتيرك ، ضرائبك ، وزكاتك في مكان واحد — بمساعدة ذكاء اصطناعي يفهم السوق السعودي.</p>
+  <div class="badge">✨ بدون عمولة — شفافية تامة</div>
+  <h1>المستقبل المالي لـ<em>مشروعك</em><br>في مكان واحد</h1>
+  <p>محسوب يجمع محاسبتك، فواتيرك، وتقاريرك المالية — مدعوماً بذكاء اصطناعي يفهم بيئة الأعمال في العالم العربي ومتوافق مع متطلبات زاتكا.</p>
+  <div class="hero-sub">ابدأ مجاناً لمدة <b>14 يوماً</b> — لا يلزم بطاقة ائتمانية</div>
 
   <div class="toggle-wrap">
     <button class="tgl on" id="tglM" onclick="setFreq('monthly')">شهري</button>
     <button class="tgl" id="tglY" onclick="setFreq('yearly')">سنوي <span class="save-badge">وفّر 20%</span></button>
   </div>
 
+  <!-- Plans -->
   <div class="plans">
+
     <!-- Starter -->
     <div class="plan">
-      <div class="plan-name">STARTER — مبتدئ</div>
-      <div class="plan-price" id="priceS">49 <span>ر.س</span></div>
+      <div class="plan-tier">STARTER</div>
+      <div class="plan-name">مبتدئ</div>
+      <div class="plan-desc">للمستقلين والمشاريع الصغيرة التي تبدأ رحلتها المالية</div>
+      <div class="plan-price-wrap">
+        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceS">99</span>
+      </div>
       <div class="plan-period" id="periodS">/ شهر</div>
-      <div class="plan-desc">مثالي للمشاريع الناشئة والعمل الحر</div>
-      <button class="plan-btn plan-btn-out" onclick="window.location.href='login.html'">ابدأ الآن</button>
+      <button class="plan-btn plan-btn-out" onclick="window.location.href='login.html#signup'">ابدأ التجربة المجانية</button>
       <div class="feat-title">ما يشمله</div>
       <div class="feat"><span class="feat-check">✓</span>لوحة تحكم مالية كاملة</div>
       <div class="feat"><span class="feat-check">✓</span>تسجيل المعاملات والفواتير</div>
       <div class="feat"><span class="feat-check">✓</span>حاسبة الزكاة وتقرير ض.ق.م</div>
       <div class="feat"><span class="feat-check">✓</span>مسح الفواتير بالذكاء الاصطناعي (50/شهر)</div>
+      <div class="feat"><span class="feat-check">✓</span>تصدير PDF</div>
       <div class="feat"><span class="feat-x">✗</span>تعدد المستخدمين</div>
-      <div class="feat"><span class="feat-x">✗</span>تقارير متقدمة وتحليل الربحية</div>
-      <div class="feat"><span class="feat-x">✗</span>API والتكاملات</div>
+      <div class="feat"><span class="feat-x">✗</span>فاتورة زاتكا الإلكترونية</div>
+      <div class="feat"><span class="feat-x">✗</span>المستشار المالي الذكي</div>
     </div>
 
     <!-- Pro -->
     <div class="plan pop">
       <div class="pop-badge">⭐ الأكثر طلباً</div>
-      <div class="plan-name">PRO — احترافي</div>
-      <div class="plan-price" id="priceP">149 <span>ر.س</span></div>
+      <div class="plan-tier">PRO</div>
+      <div class="plan-name">احترافي</div>
+      <div class="plan-desc">للمشاريع المتنامية التي تحتاج أدوات احترافية وتوافق تام مع الأنظمة</div>
+      <div class="plan-price-wrap">
+        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceP">199</span>
+      </div>
       <div class="plan-period" id="periodP">/ شهر</div>
-      <div class="plan-desc">للمشاريع المتنامية التي تحتاج مزيداً من التحكم</div>
-      <button class="plan-btn plan-btn-fill" onclick="window.location.href='login.html'">ابدأ الآن ←</button>
+      <button class="plan-btn plan-btn-fill" onclick="window.location.href='login.html#signup'">ابدأ التجربة المجانية ←</button>
       <div class="feat-title">كل ما في Starter، بالإضافة إلى</div>
+      <div class="feat"><span class="feat-check">✓</span>فاتورة زاتكا الإلكترونية (مرحلة 2)</div>
       <div class="feat"><span class="feat-check">✓</span>حتى 5 مستخدمين بصلاحيات مختلفة</div>
       <div class="feat"><span class="feat-check">✓</span>مسح فواتير غير محدود</div>
+      <div class="feat"><span class="feat-check">✓</span>المستشار المالي الذكي (Claude AI)</div>
       <div class="feat"><span class="feat-check">✓</span>تحليل ربحية العملاء والتدفق النقدي</div>
-      <div class="feat"><span class="feat-check">✓</span>المستشار الذكي (GPT-4 / Claude)</div>
       <div class="feat"><span class="feat-check">✓</span>تصدير PDF وExcel</div>
-      <div class="feat"><span class="feat-check">✓</span>فاتورة زاتكا الإلكترونية</div>
+      <div class="feat"><span class="feat-check">✓</span>تقارير ضريبية تلقائية</div>
     </div>
 
     <!-- Business -->
     <div class="plan">
-      <div class="plan-name">BUSINESS — أعمال</div>
-      <div class="plan-price" id="priceBiz">399 <span>ر.س</span></div>
+      <div class="plan-tier">BUSINESS</div>
+      <div class="plan-name">أعمال</div>
+      <div class="plan-desc">للشركات والمؤسسات التي تحتاج تحكماً كاملاً وتكاملاً مع أنظمتها</div>
+      <div class="plan-price-wrap">
+        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceBiz">499</span>
+      </div>
       <div class="plan-period" id="periodBiz">/ شهر</div>
-      <div class="plan-desc">للشركات متعددة الفروع والفرق الكبيرة</div>
-      <button class="plan-btn plan-btn-out" onclick="window.location.href='mailto:hello@mahsoob.sa'">تواصل معنا</button>
+      <button class="plan-btn plan-btn-out" onclick="window.location.href='mailto:hello@mahsob.sa'">تواصل مع فريق المبيعات</button>
       <div class="feat-title">كل ما في Pro، بالإضافة إلى</div>
       <div class="feat"><span class="feat-check">✓</span>مستخدمون غير محدودون</div>
       <div class="feat"><span class="feat-check">✓</span>فروع متعددة وتقارير موحدة</div>
       <div class="feat"><span class="feat-check">✓</span>API كامل للتكامل مع أنظمتك</div>
-      <div class="feat"><span class="feat-check">✓</span>دعم أولوية وجلسة إعداد مخصصة</div>
-      <div class="feat"><span class="feat-check">✓</span>SLA مضمون 99.9%</div>
-      <div class="feat"><span class="feat-check">✓</span>تقارير مخصصة حسب الطلب</div>
+      <div class="feat"><span class="feat-check">✓</span>لوحة تحكم مخصصة للمحاسب</div>
+      <div class="feat"><span class="feat-check">✓</span>دعم أولوية على مدار الساعة</div>
+      <div class="feat"><span class="feat-check">✓</span>SLA مضمون 99.9% وتقارير مخصصة</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ STATS ══════════════════════════════════════════ -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">+5,000</div><div class="stat-lbl">مشروع يثق بمحسوب</div></div>
+  <div class="stat"><div class="stat-num">+120M</div><div class="stat-lbl">ريال فواتير معالجة</div></div>
+  <div class="stat"><div class="stat-num">99.9%</div><div class="stat-lbl">نسبة التشغيل</div></div>
+  <div class="stat"><div class="stat-num">14 يوم</div><div class="stat-lbl">تجربة مجانية كاملة</div></div>
+</div>
+
+<!-- ══ VISION ═════════════════════════════════════════ -->
+<div class="vision">
+  <div class="section-label">رؤية محسوب</div>
+  <div class="section-title">أكثر من مجرد محاسبة</div>
+  <div class="section-sub">نؤمن أن كل صاحب مشروع — سواء في الرياض أو دبي أو القاهرة — يستحق أدوات مالية ذكية كانت حكراً على الشركات الكبرى</div>
+  <div class="vision-grid">
+    <div class="vision-card">
+      <div class="vision-icon">🤖</div>
+      <div class="vision-title">ذكاء اصطناعي يفهمك</div>
+      <div class="vision-text">مستشار مالي مدعوم بـ Claude AI يحلل أرقامك ويقترح قرارات مبنية على بياناتك الفعلية — لا نصائح عامة</div>
+    </div>
+    <div class="vision-card">
+      <div class="vision-icon">🧾</div>
+      <div class="vision-title">توافق تنظيمي كامل</div>
+      <div class="vision-text">فواتير زاتكا الإلكترونية (المرحلة الثانية)، تقارير ض.ق.م، وحاسبة الزكاة — كل شيء تلقائي ومحدّث بمتطلبات الهيئات الرسمية</div>
+    </div>
+    <div class="vision-card">
+      <div class="vision-icon">🌍</div>
+      <div class="vision-title">مبني للسوق العربي</div>
+      <div class="vision-text">صُمّم خصيصاً لبيئة الأعمال في الخليج والعالم العربي — دعم كامل للعربية، العملات المحلية، والأنظمة الضريبية الإقليمية</div>
+    </div>
+    <div class="vision-card">
+      <div class="vision-icon">🔒</div>
+      <div class="vision-title">أمان من الدرجة الأولى</div>
+      <div class="vision-text">بياناتك مشفرة بمعايير SOC2، محمية بـ Row Level Security، ولا يصل إليها أحد سواك — حتى نحن</div>
+    </div>
+    <div class="vision-card">
+      <div class="vision-icon">⚡</div>
+      <div class="vision-title">سرعة وبساطة</div>
+      <div class="vision-text">صوّر الفاتورة، واتركها لمحسوب — يستخرج البيانات ويسجلها ويضعها في تقاريرك في ثوانٍ بدون تدخل يدوي</div>
+    </div>
+    <div class="vision-card">
+      <div class="vision-icon">📊</div>
+      <div class="vision-title">قرارات مبنية على بيانات</div>
+      <div class="vision-text">تقارير مرئية تفاعلية تريك التدفق النقدي، ربحية العملاء، والمصاريف — حتى تتخذ قرارات واثقة لا مبنية على تخمين</div>
     </div>
   </div>
 </div>
 
-<!-- FAQ -->
+<!-- ══ TRUSTED BY ═════════════════════════════════════ -->
+<div class="trust">
+  <div class="section-label">يثق بهم</div>
+  <div class="section-title">لكل نوع من الأعمال</div>
+  <div class="section-sub" style="margin-bottom:24px">من المستقل إلى الشركة — محسوب يتكيّف مع حجم أعمالك</div>
+  <div class="trust-items">
+    <div class="trust-item">🛍️ متاجر إلكترونية</div>
+    <div class="trust-item">💼 مكاتب استشارات</div>
+    <div class="trust-item">🏗️ مقاولون ومقاولات</div>
+    <div class="trust-item">🩺 عيادات ومراكز طبية</div>
+    <div class="trust-item">🍽️ مطاعم وكافيهات</div>
+    <div class="trust-item">📦 موردون وموزعون</div>
+    <div class="trust-item">🎨 مصممون ومستقلون</div>
+    <div class="trust-item">🏢 شركات تقنية</div>
+    <div class="trust-item">🚚 شركات لوجستية</div>
+    <div class="trust-item">📚 مراكز تدريب وتعليم</div>
+  </div>
+</div>
+
+<!-- ══ FAQ ════════════════════════════════════════════ -->
 <div class="faq">
-  <h2>أسئلة شائعة</h2>
+  <div class="section-label">الأسئلة الشائعة</div>
+  <div class="section-title">لديك سؤال؟</div>
+
   <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">
-      هل بياناتي آمنة؟ <span class="faq-icon">▼</span>
-    </div>
-    <div class="faq-a">نعم، بياناتك مشفّرة ومخزّنة على Supabase بمعايير SOC2. لا يطّلع عليها أحد غيرك.</div>
+    <div class="faq-q" onclick="toggleFaq(this)">هل تجربة 14 يوماً مجانية فعلاً؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">نعم تماماً — تحصل على جميع ميزات الخطة التي اخترتها لمدة 14 يوماً كاملة دون أي رسوم. لا بطاقة ائتمانية مطلوبة للبدء.</div>
   </div>
   <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">
-      هل يمكنني تغيير خطتي لاحقاً؟ <span class="faq-icon">▼</span>
-    </div>
-    <div class="faq-a">بالطبع، يمكنك الترقية أو التخفيض في أي وقت، والفرق يُحسب بشكل تناسبي.</div>
+    <div class="faq-q" onclick="toggleFaq(this)">هل بياناتي آمنة؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">بالتأكيد. بياناتك مشفّرة ومحمية بمعايير SOC2 على منصة Supabase، ومحاطة بسياسات أمان على مستوى الصف (RLS). لا يطّلع عليها أحد سواك.</div>
   </div>
   <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">
-      هل يدعم محسوب فاتورة زاتكا؟ <span class="faq-icon">▼</span>
-    </div>
-    <div class="faq-a">نعم، خطة Pro وما فوقها تدعم إنشاء فواتير زاتكا (المرحلة الثانية) بما يتوافق مع متطلبات هيئة الزكاة والضريبة.</div>
+    <div class="faq-q" onclick="toggleFaq(this)">هل يدعم محسوب دول الخليج الأخرى غير السعودية؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">نعم، محسوب يدعم متعدد العملات ويناسب بيئة الأعمال في جميع دول الخليج والعالم العربي. ميزة فاتورة زاتكا مخصصة للسوق السعودي حالياً.</div>
   </div>
   <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">
-      كيف أدفع؟ <span class="faq-icon">▼</span>
-    </div>
-    <div class="faq-a">نقبل مدى، فيزا، ماستركارد، وتحويل بنكي. الفاتورة تصلك شهرياً أو سنوياً.</div>
+    <div class="faq-q" onclick="toggleFaq(this)">هل يمكنني تغيير خطتي لاحقاً؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">بالطبع، يمكنك الترقية أو التخفيض في أي وقت. الفرق في السعر يُحسب بشكل تناسبي بناءً على الأيام المتبقية من دورة الفاتورة.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">هل يدعم محسوب فاتورة زاتكا المرحلة الثانية؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">نعم، خطة Pro وما فوقها تدعم إنشاء فواتير زاتكا الإلكترونية (المرحلة الثانية) بما يتوافق مع متطلبات هيئة الزكاة والضريبة والجمارك، مع UBL 2.1 XML وتوقيع ECDSA.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">كيف أدفع؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">نقبل مدى، فيزا، ماستركارد، وتحويل بنكي. تصلك الفاتورة شهرياً أو سنوياً حسب اختيارك، وبإمكانك الإلغاء في أي وقت.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">هل يمكنني استيراد بيانات من نظام آخر؟ <span class="faq-icon">▼</span></div>
+    <div class="faq-a">نعم، ندعم استيراد البيانات من Excel وCSV. وتوفر خطة Business API كامل للتكامل مع أنظمتك الحالية.</div>
+  </div>
+</div>
+
+<!-- ══ CTA ════════════════════════════════════════════ -->
+<div class="cta">
+  <h2>ابدأ رحلتك المالية الذكية اليوم</h2>
+  <p>14 يوماً مجاناً — بدون بطاقة ائتمانية — إلغاء في أي وقت</p>
+  <div class="cta-btns">
+    <a class="btn-white" href="login.html#signup">احصل على فترة تجريبية مجانية</a>
+    <a class="btn-ghost-white" href="login.html">تسجيل الدخول</a>
   </div>
 </div>
 
 <footer>
-  © 2025 محسوب — صُنع بـ ❤️ في المملكة العربية السعودية
-  · <a href="login.html" style="color:#16a372;text-decoration:none">تسجيل الدخول</a>
+  © 2025 محسوب · صُنع بـ ❤️ للسوق العربي
+  &nbsp;·&nbsp; <a href="login.html" style="color:#16a372;text-decoration:none">تسجيل الدخول</a>
+  &nbsp;·&nbsp; <a href="mailto:hello@mahsob.sa" style="color:#16a372;text-decoration:none">تواصل معنا</a>
 </footer>
 
 <script>
 let freq = 'monthly';
 const prices = {
-  monthly: { s: '49', p: '149', b: '399' },
-  yearly:  { s: '470', p: '1,430', b: '3,830' }
+  monthly: { s: '99',  p: '199',  b: '499' },
+  yearly:  { s: '950', p: '1,910', b: '4,790' }
 };
 function setFreq(f) {
   freq = f;
   document.getElementById('tglM').className = 'tgl' + (f === 'monthly' ? ' on' : '');
-  document.getElementById('tglY').className = 'tgl' + (f === 'yearly' ? ' on' : '');
+  document.getElementById('tglY').className = 'tgl' + (f === 'yearly'  ? ' on' : '');
   const period = f === 'monthly' ? '/ شهر' : '/ سنة (وفّر 20%)';
   const p = prices[f];
-  document.getElementById('priceS').innerHTML = p.s + ' <span>ر.س</span>';
-  document.getElementById('priceP').innerHTML = p.p + ' <span>ر.س</span>';
-  document.getElementById('priceBiz').innerHTML = p.b + ' <span>ر.س</span>';
+  document.getElementById('priceS').textContent   = p.s;
+  document.getElementById('priceP').textContent   = p.p;
+  document.getElementById('priceBiz').textContent = p.b;
   ['periodS','periodP','periodBiz'].forEach(id => document.getElementById(id).textContent = period);
 }
 function toggleFaq(el) {
-  const a = el.nextElementSibling;
+  const a    = el.nextElementSibling;
   const icon = el.querySelector('.faq-icon');
   a.classList.toggle('open');
   icon.classList.toggle('open');
