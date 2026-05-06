@@ -1878,11 +1878,6 @@ function obFinish(){
   document.getElementById('cfDays').textContent=days+' يوم';
   document.getElementById('gTarget').textContent=target.toLocaleString('ar-SA')+' ر.س';
   localStorage.setItem('mahsoob_user',JSON.stringify(userData));
-  // Mark onboarding as done in Supabase so this user never sees it again on any device
-  if(typeof _sb !== 'undefined') {
-    _sb.from('tenants').update({ onboarding_done: true, name })
-      .eq('owner_id', (Auth?.session?.user?.id || '')).then(()=>{});
-  }
   cloudBackup();
   document.getElementById('obWrap').style.display='none';
   document.getElementById('appLayout').style.display='flex';
@@ -3852,44 +3847,24 @@ function hideBootLoader() {
 
 async function bootApp() {
   const ok = await Auth.boot();
-
-  // Auth failed → redirect to login (Auth.boot handles this)
-  // But hide bootLoader so the redirect isn't blocked
   if (!ok) { hideBootLoader(); return; }
 
-  // Restore cloud backup before deciding what to show
+  // Restore cloud backup first
   await cloudRestore();
 
+  // Bootstrap userData — authenticated users always go to the app
   const saved = localStorage.getItem('mahsoob_user');
-
   if (saved) {
-    // Returning user with local data
     userData = JSON.parse(saved);
-    hideBootLoader();
-    document.getElementById('appLayout').style.display = 'flex';
-    initApp();
-  } else if (Auth.tenant) {
-    // Authenticated but no local data (new device / cleared cache)
-    // Check if it's truly a first-time user or just missing data
-    const isFirstTime = !Auth.tenant.onboarding_done;
-    if (isFirstTime) {
-      // Show onboarding for first-time setup
-      hideBootLoader();
-      document.getElementById('obWrap').style.display = 'flex';
-    } else {
-      // Returning user — bootstrap from tenant and go straight to app
-      userData = { name: Auth.tenant.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
-      localStorage.setItem('mahsoob_user', JSON.stringify(userData));
-      hideBootLoader();
-      document.getElementById('appLayout').style.display = 'flex';
-      initApp();
-    }
   } else {
-    // Fallback — show app anyway
-    hideBootLoader();
-    document.getElementById('appLayout').style.display = 'flex';
-    initApp();
+    userData = { name: Auth.tenant?.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
+    localStorage.setItem('mahsoob_user', JSON.stringify(userData));
+    cloudBackup();
   }
+
+  hideBootLoader();
+  document.getElementById('appLayout').style.display = 'flex';
+  initApp();
 
   const t = Auth.tenant;
   const p = Auth.profile;
