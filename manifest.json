@@ -1,0 +1,43 @@
+{
+  "name": "محسوب — محاسبك المالي الذكي",
+  "short_name": "محسوب",
+  "description": "نظام محاسبة ذكي للمشاريع الصغيرة والمتوسطة",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101426",
+  "theme_color": "#22c98a",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "فاتورة جديدة",
+      "short_name": "فاتورة",
+      "url": "/index.html#invoice",
+      "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "نقطة البيع",
+      "short_name": "POS",
+      "url": "/index.html#pos",
+      "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
