@@ -3870,25 +3870,40 @@ function hideBootLoader() {
 }
 
 async function bootApp() {
-  const ok = await Auth.boot();
-  if (!ok) { hideBootLoader(); return; }
+  // Safety timeout — never let the spinner run more than 12 seconds
+  const timeout = setTimeout(() => {
+    hideBootLoader();
+    window.location.href = 'login.html';
+  }, 12000);
 
-  // Restore cloud backup first
-  await cloudRestore();
+  try {
+    const ok = await Auth.boot();
+    clearTimeout(timeout);
+    if (!ok) { hideBootLoader(); return; } // Auth.boot() already redirected to login
 
-  // Bootstrap userData — authenticated users always go to the app
-  const saved = localStorage.getItem('mahsoob_user');
-  if (saved) {
-    userData = JSON.parse(saved);
-  } else {
-    userData = { name: Auth.tenant?.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
-    localStorage.setItem('mahsoob_user', JSON.stringify(userData));
-    cloudBackup();
+    // Restore cloud backup first
+    await cloudRestore();
+
+    // Bootstrap userData — authenticated users always go to the app
+    const saved = localStorage.getItem('mahsoob_user');
+    if (saved) {
+      userData = JSON.parse(saved);
+    } else {
+      userData = { name: Auth.tenant?.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
+      localStorage.setItem('mahsoob_user', JSON.stringify(userData));
+      cloudBackup();
+    }
+
+    hideBootLoader();
+    document.getElementById('appLayout').style.display = 'flex';
+    initApp();
+  } catch(err) {
+    clearTimeout(timeout);
+    console.error('bootApp failed:', err);
+    hideBootLoader();
+    window.location.href = 'login.html';
+    return;
   }
-
-  hideBootLoader();
-  document.getElementById('appLayout').style.display = 'flex';
-  initApp();
 
   const t = Auth.tenant;
   const p = Auth.profile;
@@ -3918,10 +3933,6 @@ async function bootApp() {
     notice.onclick = () => window.open('pricing.html', '_blank');
     document.querySelector('.us').before(notice);
   }
-
-  // Wire signout
-  const soBtn = document.getElementById('signOutBtn');
-  if (soBtn) soBtn.onclick = () => Auth.signOut();
 
   // Reset KPI cards to zero for new users
   document.getElementById('kRevenue').textContent = '0 ر.س';

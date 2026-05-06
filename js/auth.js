@@ -10,16 +10,22 @@ const Auth = {
 
   // Boot: called once on app load — redirects to login if no session
   async boot() {
-    const { data: { session } } = await _sb.auth.getSession();
-    if (!session) {
+    try {
+      const { data: { session }, error } = await _sb.auth.getSession();
+      if (error || !session) {
+        window.location.href = 'login.html';
+        return false;
+      }
+      this.session = session;
+      await this._loadTenant();
+      await this._loadProfile();
+      this._listenAuthChanges();
+      return true;
+    } catch(e) {
+      console.error('Auth.boot error:', e);
       window.location.href = 'login.html';
       return false;
     }
-    this.session = session;
-    await this._loadTenant();
-    await this._loadProfile();
-    this._listenAuthChanges();
-    return true;
   },
 
   // Load the tenant (business) associated with this user
