@@ -376,37 +376,38 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 <aside class="sb" id="sbEl">
   <div class="lw"><div class="lg"><img src="img/logo-icon.png" class="li" style="width:36px;height:36px;object-fit:contain"><div><img src="img/logo-text.png" class="logo-text-img" style="height:26px;object-fit:contain;display:block"><div class="lt">محاسبك المالي الذكي</div></div></div></div>
   <nav>
-    <div class="ns">البداية</div>
-    <div class="ni on" onclick="go('db',this)"><span class="nk">🏠</span>البداية</div>
-    <div class="ni" onclick="go('hl',this)"><span class="nk">❤️</span>صحتي المالية</div>
-    <div class="ns">الذكاء المالي ✨</div>
-    <div class="ni" onclick="go('cf',this)"><span class="nk">💧</span>تدفق الكاش<span class="nbg">ذكي</span></div>
-    <div class="ni" onclick="go('ag',this)"><span class="nk">⏳</span>من يدين لي؟<span class="nbg">جديد</span></div>
-    <div class="ni" onclick="go('cp',this)"><span class="nk">👥</span>أرباحي من العملاء<span class="nbg">جديد</span></div>
-    <div class="ni" onclick="go('gls',this)"><span class="nk">🎯</span>أهدافي المالية<span class="nbg">جديد</span></div>
-    <div class="ni" onclick="go('tax',this)"><span class="nk">🧮</span>الضرائب والزكاة<span class="nbg">جديد</span></div>
-    <div class="ns">العمليات اليومية</div>
-    <div class="ni" onclick="go('pos',this)"><span class="nk">🏪</span>نقطة البيع</div>
-    <div class="ni" onclick="go('channels',this)"><span class="nk">📡</span>مصادر المبيعات</div>
-    <div class="ni" onclick="go('daily',this)"><span class="nk">⚖️</span>الموازنة اليومية</div>
-    <div class="ni" onclick="go('tx',this)"><span class="nk">💸</span>سجلي المالي</div>
-    <div class="ni" onclick="go('inv',this)"><span class="nk">🧾</span>فواتيري<span class="nb" id="invBadge"></span></div>
-    <div class="ni" onclick="go('bg',this)"><span class="nk">📊</span>ميزانيتي</div>
-    <div class="ns">الضرائب والزكاة 🆕</div>
-    <div class="ni" onclick="go('vat',this)"><span class="nk">🧾</span>تقرير الضريبة</div>
-    <div class="ni" onclick="go('zakat',this)"><span class="nk">☪️</span>احسب زكاتي</div>
-    <div class="ni" onclick="go('taxcal',this)"><span class="nk">📅</span>مواعيد الضريبة</div>
-    <div class="ni" onclick="go('scan',this)"><span class="nk">📷</span>مسح الفواتير<span class="nbg">AI</span></div>
-    <div class="ns">التقارير</div>
-    <div class="ni" onclick="go('st',this)"><span class="nk">📋</span>تقاريري المالية</div>
-    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span>فاتورة جديدة</div>
-    <div class="ni" onclick="go('products',this)"><span class="nk">📦</span>خدماتي ومنتجاتي</div>
-    <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span>اسأل محسوب</div>
-    <div class="ns">الإدارة</div>
-    <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span>المستخدمون</div>
+    <div class="ns" data-i18n="ns_home">البداية</div>
+    <div class="ni on" onclick="go('db',this)"><span class="nk">🏠</span><span data-i18n="nav_db">البداية</span></div>
+    <div class="ni" onclick="go('hl',this)"><span class="nk">❤️</span><span data-i18n="nav_hl">صحتي المالية</span></div>
+    <div class="ns" data-i18n="ns_ai">الذكاء المالي ✨</div>
+    <div class="ni" onclick="go('cf',this)"><span class="nk">💧</span><span data-i18n="nav_cf">تدفق الكاش</span><span class="nbg" data-i18n="badge_smart">ذكي</span></div>
+    <div class="ni" onclick="go('ag',this)"><span class="nk">⏳</span><span data-i18n="nav_ag">من يدين لي؟</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('cp',this)"><span class="nk">👥</span><span data-i18n="nav_cp">أرباحي من العملاء</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('gls',this)"><span class="nk">🎯</span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('tax',this)"><span class="nk">🧮</span><span data-i18n="nav_tax">الضرائب والزكاة</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ns" data-i18n="ns_daily">العمليات اليومية</div>
+    <div class="ni" onclick="go('pos',this)"><span class="nk">🏪</span><span data-i18n="nav_pos">نقطة البيع</span></div>
+    <div class="ni" onclick="go('channels',this)"><span class="nk">📡</span><span data-i18n="nav_channels">مصادر المبيعات</span></div>
+    <div class="ni" onclick="go('daily',this)"><span class="nk">⚖️</span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
+    <div class="ni" onclick="go('tx',this)"><span class="nk">💸</span><span data-i18n="nav_tx">سجلي المالي</span></div>
+    <div class="ni" onclick="go('inv',this)"><span class="nk">🧾</span><span data-i18n="nav_inv">فواتيري</span><span class="nb" id="invBadge"></span></div>
+    <div class="ni" onclick="go('bg',this)"><span class="nk">📊</span><span data-i18n="nav_bg">ميزانيتي</span></div>
+    <div class="ns" data-i18n="ns_tax">الضرائب والزكاة 🆕</div>
+    <div class="ni" onclick="go('vat',this)"><span class="nk">🧾</span><span data-i18n="nav_vat">تقرير الضريبة</span></div>
+    <div class="ni" onclick="go('zakat',this)"><span class="nk">☪️</span><span data-i18n="nav_zakat">احسب زكاتي</span></div>
+    <div class="ni" onclick="go('taxcal',this)"><span class="nk">📅</span><span data-i18n="nav_taxcal">مواعيد الضريبة</span></div>
+    <div class="ni" onclick="go('scan',this)"><span class="nk">📷</span><span data-i18n="nav_scan">مسح الفواتير</span><span class="nbg">AI</span></div>
+    <div class="ns" data-i18n="ns_reports">التقارير</div>
+    <div class="ni" onclick="go('st',this)"><span class="nk">📋</span><span data-i18n="nav_st">تقاريري المالية</span></div>
+    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span><span data-i18n="nav_zt">فاتورة جديدة</span></div>
+    <div class="ni" onclick="go('products',this)"><span class="nk">📦</span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
+    <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span><span data-i18n="nav_ai">اسأل محسوب</span></div>
+    <div class="ns" data-i18n="ns_admin">الإدارة</div>
+    <div class="ni" onclick="go('profile',this)"><span class="nk">⚙️</span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
+    <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
   <div class="us">
-    <div class="uc" style="cursor:pointer" onclick="openRoleModal()">
+    <div class="uc" style="cursor:pointer" onclick="go('profile',null)">
       <div class="ua" id="userAv">أح</div>
       <div style="flex:1;min-width:0">
         <div class="un" id="userName">مشروعك</div>
@@ -424,10 +425,11 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 <main class="main">
 <div class="tb">
   <div style="display:flex;align-items:center;gap:9px"><span class="hbg" onclick="togSB()">☰</span><button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;font-size:17px;color:var(--t3);padding:4px 6px;border-radius:6px;transition:all .15s" title="إخفاء/إظهار القائمة">⇄</button><div class="pt" id="pt">لوحة التحكم</div></div>
-  <div style="display:flex;gap:7px">
-    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="تبديل الوضع">🌙</button>
-    <button class="btn bg2" onclick="go('ai',null)">🤖 استشر</button>
-    <button class="btn bp" onclick="go('zt',null)">＋ فاتورة</button>
+  <div style="display:flex;gap:7px;align-items:center">
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <button id="lang-toggle" onclick="toggleLang()" style="background:var(--bg3);border:1px solid var(--b);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--t1);font-family:'Tajawal',sans-serif;letter-spacing:.5px">EN</button>
+    <button class="btn bg2" id="tb-consult" onclick="go('ai',null)" data-i18n="tb_consult">🤖 استشر</button>
+    <button class="btn bp"  id="tb-invoice" onclick="go('zt',null)"  data-i18n="tb_invoice">＋ فاتورة</button>
   </div>
 </div>
 
@@ -1555,6 +1557,163 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   updateTaxCountdowns();
 })();
 </script>
+<!-- PROFILE / ACCOUNT SETTINGS -->
+<div class="pg" id="pg-profile">
+
+  <!-- Avatar section -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="position:relative;flex-shrink:0">
+        <div id="prof-avatar-wrap" style="width:88px;height:88px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;overflow:hidden;border:3px solid var(--b)">
+          <span id="prof-initials">م</span>
+          <img id="prof-photo" style="display:none;width:100%;height:100%;object-fit:cover" alt=""/>
+        </div>
+        <label for="prof-photo-input" style="position:absolute;bottom:0;left:0;width:26px;height:26px;background:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg2);font-size:12px" title="تغيير الصورة">📷</label>
+        <input type="file" id="prof-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhoto(this)"/>
+      </div>
+      <div style="flex:1;min-width:180px">
+        <div style="font-size:18px;font-weight:700" id="prof-name-display">—</div>
+        <div style="font-size:13px;color:var(--t3);margin-top:3px" id="prof-title-display">—</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:2px" id="prof-email-display">—</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px" id="prof-joined">—</div>
+      </div>
+      <div>
+        <span id="prof-plan-badge" class="bdg bdg-b" style="font-size:12px;padding:4px 12px">—</span>
+      </div>
+    </div>
+    <button class="btn bg2" style="margin-top:12px;font-size:12px;padding:5px 12px;color:var(--r)" onclick="removeProfilePhoto()">حذف الصورة</button>
+  </div>
+
+  <div class="g2">
+
+    <!-- Personal info -->
+    <div class="card">
+      <div class="st" style="margin-bottom:14px">المعلومات الشخصية</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div>
+          <label class="fl">الاسم الكامل</label>
+          <input class="fi" id="prof-name" placeholder="اسمك الكامل" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">المسمى الوظيفي / المنصب</label>
+          <input class="fi" id="prof-title" placeholder="مثال: مدير عام، محاسب، صاحب المشروع" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">رقم الجوال</label>
+          <input class="fi" id="prof-phone" placeholder="05xxxxxxxx" inputmode="tel" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">تاريخ الميلاد</label>
+          <input class="fi" id="prof-dob" type="date" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">البريد الإلكتروني</label>
+          <input class="fi" id="prof-email" style="margin-top:4px;opacity:.6" readonly/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business info -->
+    <div class="card">
+      <div class="st" style="margin-bottom:14px">بيانات المنشأة</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div>
+          <label class="fl">اسم المنشأة / المشروع</label>
+          <input class="fi" id="prof-biz-name" placeholder="اسم شركتك أو مشروعك" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">الرقم الضريبي (VAT)</label>
+          <input class="fi" id="prof-vat" placeholder="300xxxxxxxxxx" inputmode="numeric" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">السجل التجاري (CR)</label>
+          <input class="fi" id="prof-cr" placeholder="1xxxxxxxxx" inputmode="numeric" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">المدينة</label>
+          <input class="fi" id="prof-city" placeholder="الرياض" style="margin-top:4px"/>
+        </div>
+        <div>
+          <label class="fl">العنوان</label>
+          <input class="fi" id="prof-address" placeholder="الشارع، الحي" style="margin-top:4px"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Preferences -->
+  <div class="card" style="margin-top:14px;margin-bottom:14px">
+    <div class="st" style="margin-bottom:14px">التفضيلات</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <label class="fl">العملة الافتراضية</label>
+        <select class="fi" id="prof-currency" style="margin-top:4px">
+          <option value="SAR">ريال سعودي (ر.س)</option>
+          <option value="AED">درهم إماراتي (د.إ)</option>
+          <option value="KWD">دينار كويتي (د.ك)</option>
+          <option value="QAR">ريال قطري (ر.ق)</option>
+          <option value="BHD">دينار بحريني (د.ب)</option>
+          <option value="OMR">ريال عماني (ر.ع)</option>
+          <option value="EGP">جنيه مصري (ج.م)</option>
+        </select>
+      </div>
+      <div>
+        <label class="fl">لغة الواجهة</label>
+        <select class="fi" id="prof-lang" style="margin-top:4px">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div>
+        <label class="fl">السنة المالية تبدأ من</label>
+        <select class="fi" id="prof-fiscal" style="margin-top:4px">
+          <option value="1">يناير</option>
+          <option value="4">أبريل</option>
+          <option value="7">يوليو</option>
+          <option value="10">أكتوبر</option>
+        </select>
+      </div>
+      <div>
+        <label class="fl">نسبة ضريبة القيمة المضافة</label>
+        <select class="fi" id="prof-vat-rate" style="margin-top:4px">
+          <option value="15">15% — المملكة العربية السعودية</option>
+          <option value="5">5% — الإمارات / البحرين / قطر</option>
+          <option value="0">0% — معفى</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="st" style="margin-bottom:14px">الأمان</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
+        <div>
+          <div style="font-size:13px;font-weight:600">كلمة المرور</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">آخر تغيير: غير معروف</div>
+        </div>
+        <button class="btn bg2" style="font-size:12px;padding:5px 12px" onclick="changePassword()">تغيير ←</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
+        <div>
+          <div style="font-size:13px;font-weight:600">تسجيل الخروج من جميع الأجهزة</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">ينهي جميع الجلسات النشطة</div>
+        </div>
+        <button class="btn bg2" style="font-size:12px;padding:5px 12px;color:var(--r)" onclick="Auth.signOut()">خروج ←</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save -->
+  <div style="display:flex;gap:10px">
+    <button class="btn bp" style="flex:2;padding:12px;font-size:14px" onclick="saveProfile()">حفظ التغييرات ✓</button>
+    <button class="btn bg2" style="flex:1;padding:12px" onclick="loadProfilePage()">إلغاء</button>
+  </div>
+
+</div>
+
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
   <div class="g3" style="margin-bottom:16px">
@@ -1689,12 +1848,112 @@ function initApp(){
   renderPosProducts();renderPosSales();renderChannels();
   const dd = document.getElementById('daily-date');
   if (dd) { dd.value = new Date().toISOString().split('T')[0]; loadDailyBalance(); }
+  loadProfilePage();
+  applyLang();
   showSt('income',document.getElementById('stB1'));
   usersInit();
 }
 
+// ── i18n ───────────────────────────────
+const TRANSLATIONS = {
+  ar: {
+    // Nav sections
+    ns_home:'البداية', ns_ai:'الذكاء المالي ✨', ns_daily:'العمليات اليومية',
+    ns_tax:'الضرائب والزكاة 🆕', ns_reports:'التقارير', ns_admin:'الإدارة',
+    // Nav items
+    nav_db:'البداية', nav_hl:'صحتي المالية', nav_cf:'تدفق الكاش',
+    nav_ag:'من يدين لي؟', nav_cp:'أرباحي من العملاء', nav_gls:'أهدافي المالية',
+    nav_tax:'الضرائب والزكاة', nav_pos:'نقطة البيع', nav_channels:'مصادر المبيعات',
+    nav_daily:'الموازنة اليومية', nav_tx:'سجلي المالي', nav_inv:'فواتيري',
+    nav_bg:'ميزانيتي', nav_vat:'تقرير الضريبة', nav_zakat:'احسب زكاتي',
+    nav_taxcal:'مواعيد الضريبة', nav_scan:'مسح الفواتير', nav_st:'تقاريري المالية',
+    nav_zt:'فاتورة جديدة', nav_products:'خدماتي ومنتجاتي', nav_ai:'اسأل محسوب',
+    nav_profile:'إعدادات الحساب', nav_usrs:'المستخدمون',
+    // Badges
+    badge_new:'جديد', badge_smart:'ذكي',
+    // Top bar
+    tb_consult:'🤖 استشر', tb_invoice:'＋ فاتورة',
+    // Page titles
+    pgn_db:'لوحة التحكم', pgn_hl:'الصحة المالية', pgn_cf:'التدفق النقدي',
+    pgn_ag:'تحليل الذمم', pgn_cp:'ربحية العملاء', pgn_gls:'أهدافي المالية',
+    pgn_tax:'الضرائب والزكاة', pgn_pos:'نقطة البيع', pgn_channels:'مصادر المبيعات',
+    pgn_daily:'الموازنة اليومية', pgn_tx:'المعاملات', pgn_inv:'الفواتير',
+    pgn_bg:'الميزانية', pgn_vat:'تقرير ض.ق.م', pgn_zakat:'حاسبة الزكاة',
+    pgn_taxcal:'التقويم الضريبي', pgn_scan:'مسح الفواتير', pgn_st:'القوائم المالية',
+    pgn_zt:'فاتورة جديدة', pgn_products:'خدماتي ومنتجاتي', pgn_ai:'المستشار الذكي',
+    pgn_profile:'إعدادات الحساب', pgn_usrs:'المستخدمون والصلاحيات',
+  },
+  en: {
+    // Nav sections
+    ns_home:'Home', ns_ai:'AI Insights ✨', ns_daily:'Daily Operations',
+    ns_tax:'Tax & Zakat 🆕', ns_reports:'Reports', ns_admin:'Management',
+    // Nav items
+    nav_db:'Dashboard', nav_hl:'Financial Health', nav_cf:'Cash Flow',
+    nav_ag:'Who Owes Me?', nav_cp:'Client Profitability', nav_gls:'Financial Goals',
+    nav_tax:'Taxes & Zakat', nav_pos:'Point of Sale', nav_channels:'Sales Channels',
+    nav_daily:'Daily Balance', nav_tx:'Transactions', nav_inv:'Invoices',
+    nav_bg:'Budget', nav_vat:'VAT Report', nav_zakat:'Zakat Calculator',
+    nav_taxcal:'Tax Calendar', nav_scan:'Scan Invoices', nav_st:'Financial Statements',
+    nav_zt:'New Invoice', nav_products:'Products & Services', nav_ai:'Ask Mahsoob',
+    nav_profile:'Account Settings', nav_usrs:'Users',
+    // Badges
+    badge_new:'New', badge_smart:'Smart',
+    // Top bar
+    tb_consult:'🤖 Consult', tb_invoice:'＋ Invoice',
+    // Page titles
+    pgn_db:'Dashboard', pgn_hl:'Financial Health', pgn_cf:'Cash Flow',
+    pgn_ag:'Receivables', pgn_cp:'Client Profitability', pgn_gls:'Financial Goals',
+    pgn_tax:'Taxes & Zakat', pgn_pos:'Point of Sale', pgn_channels:'Sales Channels',
+    pgn_daily:'Daily Balance', pgn_tx:'Transactions', pgn_inv:'Invoices',
+    pgn_bg:'Budget', pgn_vat:'VAT Report', pgn_zakat:'Zakat Calculator',
+    pgn_taxcal:'Tax Calendar', pgn_scan:'Scan Invoices', pgn_st:'Financial Statements',
+    pgn_zt:'New Invoice', pgn_products:'Products & Services', pgn_ai:'AI Advisor',
+    pgn_profile:'Account Settings', pgn_usrs:'Users & Permissions',
+  }
+};
+
+let currentLang = localStorage.getItem('mahsoob_lang') || 'ar';
+
+function t(key) {
+  return (TRANSLATIONS[currentLang] || TRANSLATIONS.ar)[key]
+      || TRANSLATIONS.ar[key]
+      || key;
+}
+
+function applyLang() {
+  const isEn = currentLang === 'en';
+  document.documentElement.dir  = isEn ? 'ltr' : 'rtl';
+  document.documentElement.lang = currentLang;
+  // Swap font direction class
+  document.body.classList.toggle('lang-en', isEn);
+  // Update toggle button label
+  const btn = document.getElementById('lang-toggle');
+  if (btn) btn.textContent = isEn ? 'ع' : 'EN';
+  // Apply all data-i18n text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  // Apply placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-ph'));
+  });
+  // Update active page title
+  const currentPage = Object.entries(PGN).find(([k]) =>
+    document.getElementById('pg-' + k)?.classList.contains('on')
+  );
+  if (currentPage) {
+    document.getElementById('pt').textContent = t('pgn_' + currentPage[0]) || currentPage[1];
+  }
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('mahsoob_lang', currentLang);
+  applyLang();
+}
+
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -2507,6 +2766,143 @@ function saveDailyBalance() {
   dailyData[date].actual = parseFloat(document.getElementById('daily-actual').value) || 0;
   localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
   alert('✅ تم حفظ الموازنة');
+}
+
+// ── Profile / Account Settings ─────────
+function loadProfilePage() {
+  const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+  const t = (typeof Auth !== 'undefined' && Auth.tenant) ? Auth.tenant : {};
+  const p = (typeof Auth !== 'undefined' && Auth.profile) ? Auth.profile : {};
+  const user = (typeof _sb !== 'undefined') ? (_sb.auth.getUser ? null : null) : null;
+
+  // Personal
+  document.getElementById('prof-name').value    = saved.name    || t.name || '';
+  document.getElementById('prof-title').value   = saved.title   || '';
+  document.getElementById('prof-phone').value   = saved.phone   || '';
+  document.getElementById('prof-dob').value     = saved.dob     || '';
+  document.getElementById('prof-email').value   = saved.email   || p?.email || '';
+
+  // Business
+  document.getElementById('prof-biz-name').value = saved.bizName || t.name  || '';
+  document.getElementById('prof-vat').value       = saved.vat     || t.vat_number || '';
+  document.getElementById('prof-cr').value        = saved.cr      || t.cr_number  || '';
+  document.getElementById('prof-city').value      = saved.city    || t.city || '';
+  document.getElementById('prof-address').value   = saved.address || t.address || '';
+
+  // Prefs
+  if (saved.currency) document.getElementById('prof-currency').value = saved.currency;
+  if (saved.lang)     document.getElementById('prof-lang').value     = saved.lang;
+  if (saved.fiscal)   document.getElementById('prof-fiscal').value   = saved.fiscal;
+  if (saved.vatRate)  document.getElementById('prof-vat-rate').value = saved.vatRate;
+
+  // Avatar
+  const photo = saved.photo;
+  const name  = saved.name || t.name || '؟';
+  const initials = name.slice(0, 2);
+  document.getElementById('prof-initials').textContent = initials;
+  if (photo) {
+    document.getElementById('prof-photo').src = photo;
+    document.getElementById('prof-photo').style.display = 'block';
+    document.getElementById('prof-initials').style.display = 'none';
+  } else {
+    document.getElementById('prof-photo').style.display = 'none';
+    document.getElementById('prof-initials').style.display = 'block';
+  }
+
+  // Display card
+  document.getElementById('prof-name-display').textContent  = saved.name || t.name || '—';
+  document.getElementById('prof-title-display').textContent = saved.title || '—';
+  document.getElementById('prof-email-display').textContent = saved.email || '—';
+  document.getElementById('prof-joined').textContent = saved.joined
+    ? 'عضو منذ ' + new Date(saved.joined).toLocaleDateString('ar-SA', { year:'numeric', month:'long', day:'numeric' })
+    : 'عضو منذ ' + new Date().toLocaleDateString('ar-SA', { year:'numeric', month:'long' });
+
+  const plan = t.plan || 'free';
+  const planNames = { free:'تجريبي', starter:'مبتدئ', pro:'احترافي', business:'أعمال' };
+  const badge = document.getElementById('prof-plan-badge');
+  badge.textContent = '⭐ ' + (planNames[plan] || plan);
+}
+
+function handleProfilePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { alert('الصورة كبيرة جداً — الحد الأقصى 2MB'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    document.getElementById('prof-photo').src = src;
+    document.getElementById('prof-photo').style.display = 'block';
+    document.getElementById('prof-initials').style.display = 'none';
+    const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+    saved.photo = src;
+    localStorage.setItem('mahsoob_profile', JSON.stringify(saved));
+    updateSidebarAvatar(saved);
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProfilePhoto() {
+  document.getElementById('prof-photo').style.display = 'none';
+  document.getElementById('prof-initials').style.display = 'block';
+  const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+  delete saved.photo;
+  localStorage.setItem('mahsoob_profile', JSON.stringify(saved));
+  updateSidebarAvatar(saved);
+}
+
+function saveProfile() {
+  const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+  const data = {
+    ...saved,
+    name:     document.getElementById('prof-name').value.trim(),
+    title:    document.getElementById('prof-title').value.trim(),
+    phone:    document.getElementById('prof-phone').value.trim(),
+    dob:      document.getElementById('prof-dob').value,
+    email:    document.getElementById('prof-email').value.trim(),
+    bizName:  document.getElementById('prof-biz-name').value.trim(),
+    vat:      document.getElementById('prof-vat').value.trim(),
+    cr:       document.getElementById('prof-cr').value.trim(),
+    city:     document.getElementById('prof-city').value.trim(),
+    address:  document.getElementById('prof-address').value.trim(),
+    currency: document.getElementById('prof-currency').value,
+    lang:     document.getElementById('prof-lang').value,
+    fiscal:   document.getElementById('prof-fiscal').value,
+    vatRate:  document.getElementById('prof-vat-rate').value,
+    joined:   saved.joined || new Date().toISOString(),
+  };
+  localStorage.setItem('mahsoob_profile', JSON.stringify(data));
+  updateSidebarAvatar(data);
+
+  // Update display card
+  document.getElementById('prof-name-display').textContent  = data.name  || '—';
+  document.getElementById('prof-title-display').textContent = data.title || '—';
+  document.getElementById('prof-email-display').textContent = data.email || '—';
+
+  // Flash button
+  const btn = document.querySelector('#pg-profile .btn.bp');
+  const orig = btn.textContent;
+  btn.textContent = '✅ تم الحفظ';
+  setTimeout(() => btn.textContent = orig, 1800);
+}
+
+function updateSidebarAvatar(data) {
+  const name = data.name || data.bizName || 'م';
+  document.getElementById('userName').textContent = data.bizName || name;
+  const av = document.getElementById('userAv');
+  if (data.photo) {
+    av.innerHTML = `<img src="${data.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>`;
+  } else {
+    av.textContent = name.slice(0, 2);
+  }
+}
+
+function changePassword() {
+  if (typeof _sb === 'undefined') { alert('يلزم تسجيل الدخول'); return; }
+  const email = document.getElementById('prof-email').value || prompt('أدخل بريدك الإلكتروني:');
+  if (!email) return;
+  _sb.auth.resetPasswordForEmail(email).then(() => {
+    alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني');
+  }).catch(e => alert('خطأ: ' + e.message));
 }
 
 // ── Products / Services ────────────────
