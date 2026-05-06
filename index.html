@@ -243,6 +243,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 .scan-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,17,23,.75);border-radius:var(--R)}
 .spin{display:inline-block;width:38px;height:38px;border:3px solid var(--b2);border-top-color:var(--g);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:9px}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.92)}}
 .ex-card{background:var(--bg3);border-radius:var(--R);padding:16px;margin-bottom:14px;border:1px solid var(--gB)}
 .ex-badge{display:flex;align-items:center;gap:8px;margin-bottom:11px;font-size:13px;color:var(--g);font-weight:600}
 .ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -306,8 +307,14 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 </head>
 <body>
 
+<!-- BOOT LOADER — shown until bootApp resolves -->
+<div id="bootLoader" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <img src="img/logo-icon.png" style="width:54px;height:54px;object-fit:contain;animation:pulse 1.6s ease-in-out infinite" alt="">
+  <div class="spin" style="width:28px;height:28px;border-width:3px"></div>
+</div>
+
 <!-- ONBOARDING -->
-<div class="ob" id="obWrap">
+<div class="ob" id="obWrap" style="display:none">
   <div class="obc">
     <div style="text-align:center;margin-bottom:20px">
       <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px"><img src="img/logo-icon.png" style="width:40px;height:40px;object-fit:contain"><img src="img/logo-text.png" class="logo-text-img" style="height:30px;object-fit:contain"></div>
@@ -1871,6 +1878,12 @@ function obFinish(){
   document.getElementById('cfDays').textContent=days+' يوم';
   document.getElementById('gTarget').textContent=target.toLocaleString('ar-SA')+' ر.س';
   localStorage.setItem('mahsoob_user',JSON.stringify(userData));
+  // Mark onboarding as done in Supabase so this user never sees it again on any device
+  if(typeof _sb !== 'undefined') {
+    _sb.from('tenants').update({ onboarding_done: true, name })
+      .eq('owner_id', (Auth?.session?.user?.id || '')).then(()=>{});
+  }
+  cloudBackup();
   document.getElementById('obWrap').style.display='none';
   document.getElementById('appLayout').style.display='flex';
   initApp();
@@ -1878,26 +1891,9 @@ function obFinish(){
 
 // ── Init ───────────────────────────────
 window.onload=()=>{
-  const saved    = localStorage.getItem('mahsoob_user');
-  const savedKey = localStorage.getItem('mk');
-  if(savedKey) aKey = savedKey;
-
-  // Check for an active Supabase session in localStorage (survives across tabs/pages)
-  const sbKey = 'sb-icmpdgayzwwgbaqqcfnr-auth-token';
-  const hasSbSession = !!localStorage.getItem(sbKey);
-
-  if(saved){
-    userData = JSON.parse(saved);
-    document.getElementById('obWrap').style.display='none';
-    document.getElementById('appLayout').style.display='flex';
-    initApp();
-  } else if(hasSbSession){
-    // Logged-in user but mahsoob_user is missing (new device / cleared cache).
-    // Hide onboarding immediately — bootApp() will restore data + call initApp()
-    document.getElementById('obWrap').style.display='none';
-    document.getElementById('appLayout').style.display='flex';
-  }
-
+  const savedKey=localStorage.getItem('mk');
+  if(savedKey) aKey=savedKey;
+  // bootApp() handles everything — it will hide bootLoader and show the right screen
   const d=document.getElementById('tDate'); if(d) d.value=new Date().toISOString().split('T')[0];
 };
 
@@ -3849,22 +3845,50 @@ function openRoleModal(){document.getElementById('roleModal').classList.add('ope
 function closeRoleModal(){document.getElementById('roleModal').classList.remove('open');}
 
 // ── SUPABASE AUTH BOOT ──────────────────────────────────────────────────
+function hideBootLoader() {
+  const el = document.getElementById('bootLoader');
+  if (el) el.style.display = 'none';
+}
+
 async function bootApp() {
   const ok = await Auth.boot();
-  if (!ok) return; // redirected to login
 
-  // Restore any data that was in cloud backup but missing locally
+  // Auth failed → redirect to login (Auth.boot handles this)
+  // But hide bootLoader so the redirect isn't blocked
+  if (!ok) { hideBootLoader(); return; }
+
+  // Restore cloud backup before deciding what to show
   await cloudRestore();
 
-  // If mahsoob_user is missing (new device / cleared cache), bootstrap from tenant
-  // so the user never sees the onboarding screen again after first setup
-  if (!localStorage.getItem('mahsoob_user') && Auth.tenant) {
-    const t = Auth.tenant;
-    userData = { name: t.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
-    localStorage.setItem('mahsoob_user', JSON.stringify(userData));
-    document.getElementById('obWrap').style.display = 'none';
+  const saved = localStorage.getItem('mahsoob_user');
+
+  if (saved) {
+    // Returning user with local data
+    userData = JSON.parse(saved);
+    hideBootLoader();
     document.getElementById('appLayout').style.display = 'flex';
-    initApp(); // safe — guarded by _appInited flag
+    initApp();
+  } else if (Auth.tenant) {
+    // Authenticated but no local data (new device / cleared cache)
+    // Check if it's truly a first-time user or just missing data
+    const isFirstTime = !Auth.tenant.onboarding_done;
+    if (isFirstTime) {
+      // Show onboarding for first-time setup
+      hideBootLoader();
+      document.getElementById('obWrap').style.display = 'flex';
+    } else {
+      // Returning user — bootstrap from tenant and go straight to app
+      userData = { name: Auth.tenant.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
+      localStorage.setItem('mahsoob_user', JSON.stringify(userData));
+      hideBootLoader();
+      document.getElementById('appLayout').style.display = 'flex';
+      initApp();
+    }
+  } else {
+    // Fallback — show app anyway
+    hideBootLoader();
+    document.getElementById('appLayout').style.display = 'flex';
+    initApp();
   }
 
   const t = Auth.tenant;
