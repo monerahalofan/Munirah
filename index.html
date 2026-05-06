@@ -431,7 +431,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     </div>
     <div style="margin-top:7px;display:flex;gap:6px">
       <a href="pricing.html" target="_blank" style="flex:1;text-align:center;padding:6px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:7px;font-size:11px;color:#2563eb;text-decoration:none;cursor:pointer">⬆️ ترقية</a>
-      <button id="signOutBtn" onclick="Auth.signOut()" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'Tajawal',sans-serif">خروج</button>
+      <button id="signOutBtn" onclick="doSignOut()" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'Tajawal',sans-serif">خروج</button>
     </div>
   </div>
 </aside>
@@ -1756,7 +1756,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
           <div style="font-size:13px;font-weight:600">تسجيل الخروج من جميع الأجهزة</div>
           <div style="font-size:11px;color:var(--t3);margin-top:2px">ينهي جميع الجلسات النشطة</div>
         </div>
-        <button class="btn bg2" style="font-size:12px;padding:5px 12px;color:var(--r)" onclick="Auth.signOut()">خروج ←</button>
+        <button class="btn bg2" style="font-size:12px;padding:5px 12px;color:var(--r)" onclick="doSignOut()">خروج ←</button>
       </div>
     </div>
   </div>
@@ -1976,26 +1976,40 @@ function applyLang() {
   const isEn = currentLang === 'en';
   document.documentElement.dir  = isEn ? 'ltr' : 'rtl';
   document.documentElement.lang = currentLang;
-  // Swap font direction class
   document.body.classList.toggle('lang-en', isEn);
-  // Update toggle button label
+
+  // Toggle button label
   const btn = document.getElementById('lang-toggle');
   if (btn) btn.textContent = isEn ? 'ع' : 'EN';
-  // Apply all data-i18n text nodes
+
+  // Sidebar border side
+  const sb = document.getElementById('sbEl');
+  if (sb) {
+    sb.style.borderLeft  = isEn ? 'none' : '';
+    sb.style.borderRight = isEn ? '1px solid var(--b)' : '';
+  }
+
+  // All data-i18n text nodes
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.getAttribute('data-i18n'));
   });
-  // Apply placeholders
+  // Placeholders
   document.querySelectorAll('[data-i18n-ph]').forEach(el => {
     el.placeholder = t(el.getAttribute('data-i18n-ph'));
   });
-  // Update active page title
-  const currentPage = Object.entries(PGN).find(([k]) =>
+
+  // Active page title (via go() translation)
+  const activePg = Object.keys(PGN).find(k =>
     document.getElementById('pg-' + k)?.classList.contains('on')
   );
-  if (currentPage) {
-    document.getElementById('pt').textContent = t('pgn_' + currentPage[0]) || currentPage[1];
-  }
+  if (activePg) document.getElementById('pt').textContent = t('pgn_' + activePg) || PGN[activePg];
+
+  // Dashboard greeting
+  const greetDate = document.getElementById('greetDate');
+  if (greetDate) greetDate.textContent = new Date().toLocaleDateString(
+    isEn ? 'en-US' : 'ar-SA-u-nu-latn',
+    { weekday:'long', year:'numeric', month:'long', day:'numeric' }
+  );
 }
 
 function toggleLang() {
@@ -2011,7 +2025,7 @@ function go(id,el){
   document.getElementById('pg-'+id).classList.add('on');
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
   if(el)el.classList.add('on');
-  document.getElementById('pt').textContent=PGN[id]||'';
+  document.getElementById('pt').textContent = t('pgn_'+id) || PGN[id] || '';
   closeSB();
 }
 function togSB(){document.getElementById('sbEl').classList.toggle('open');document.getElementById('ovB').classList.toggle('vis');}
@@ -3840,6 +3854,16 @@ function openRoleModal(){document.getElementById('roleModal').classList.add('ope
 function closeRoleModal(){document.getElementById('roleModal').classList.remove('open');}
 
 // ── SUPABASE AUTH BOOT ──────────────────────────────────────────────────
+async function doSignOut() {
+  try {
+    if (typeof _sb !== 'undefined') await _sb.auth.signOut();
+  } catch(e) { /* ignore */ }
+  // Always clear local state and redirect regardless of Supabase response
+  localStorage.removeItem('mahsoob_user');
+  localStorage.removeItem('mahsoob_profile');
+  window.location.href = 'login.html';
+}
+
 function hideBootLoader() {
   const el = document.getElementById('bootLoader');
   if (el) el.style.display = 'none';
