@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/geo-data.js"></script>
 <style>
 :root{
   --bg:#f5f6fa;--bg2:#ffffff;--bg3:#f0f2f7;--bg4:#e8ebf2;
@@ -1630,12 +1631,32 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
           <input class="fi" id="prof-cr" placeholder="1xxxxxxxxx" inputmode="numeric" style="margin-top:4px"/>
         </div>
         <div>
-          <label class="fl">المدينة</label>
-          <input class="fi" id="prof-city" placeholder="الرياض" style="margin-top:4px"/>
+          <label class="fl">الدولة</label>
+          <select class="fi" id="prof-country" style="margin-top:4px" onchange="profOnCountry()">
+            <option value="">اختر الدولة</option>
+          </select>
         </div>
         <div>
-          <label class="fl">العنوان</label>
-          <input class="fi" id="prof-address" placeholder="الشارع، الحي" style="margin-top:4px"/>
+          <label class="fl">المنطقة</label>
+          <select class="fi" id="prof-region" style="margin-top:4px" onchange="profOnRegion()" disabled>
+            <option value="">اختر المنطقة</option>
+          </select>
+        </div>
+        <div>
+          <label class="fl">المدينة</label>
+          <select class="fi" id="prof-city" style="margin-top:4px" onchange="profOnCity()" disabled>
+            <option value="">اختر المدينة</option>
+          </select>
+        </div>
+        <div>
+          <label class="fl">الحي</label>
+          <select class="fi" id="prof-district" style="margin-top:4px" disabled>
+            <option value="">اختر الحي</option>
+          </select>
+        </div>
+        <div style="grid-column:span 2">
+          <label class="fl">العنوان التفصيلي (اختياري)</label>
+          <input class="fi" id="prof-address" placeholder="رقم المبنى، الشارع، الرمز البريدي" style="margin-top:4px"/>
         </div>
       </div>
     </div>
@@ -2786,8 +2807,31 @@ function loadProfilePage() {
   document.getElementById('prof-biz-name').value = saved.bizName || t.name  || '';
   document.getElementById('prof-vat').value       = saved.vat     || t.vat_number || '';
   document.getElementById('prof-cr').value        = saved.cr      || t.cr_number  || '';
-  document.getElementById('prof-city').value      = saved.city    || t.city || '';
   document.getElementById('prof-address').value   = saved.address || t.address || '';
+
+  // Geo dropdowns
+  profPopulateCountries();
+  const country = saved.country || '';
+  const region  = saved.region  || '';
+  const city    = saved.city    || '';
+  const district= saved.district|| '';
+  const cSel = document.getElementById('prof-country');
+  if (country && cSel) {
+    cSel.value = country;
+    profPopulateRegions(country);
+    const rSel = document.getElementById('prof-region');
+    if (region && rSel) {
+      rSel.value = region;
+      profPopulateCities(country, region);
+      const citSel = document.getElementById('prof-city');
+      if (city && citSel) {
+        citSel.value = city;
+        profPopulateDistricts(country, region, city);
+        const dSel = document.getElementById('prof-district');
+        if (district && dSel) dSel.value = district;
+      }
+    }
+  }
 
   // Prefs
   if (saved.currency) document.getElementById('prof-currency').value = saved.currency;
@@ -2862,7 +2906,10 @@ function saveProfile() {
     bizName:  document.getElementById('prof-biz-name').value.trim(),
     vat:      document.getElementById('prof-vat').value.trim(),
     cr:       document.getElementById('prof-cr').value.trim(),
-    city:     document.getElementById('prof-city').value.trim(),
+    country:  document.getElementById('prof-country').value,
+    region:   document.getElementById('prof-region').value,
+    city:     document.getElementById('prof-city').value,
+    district: document.getElementById('prof-district').value,
     address:  document.getElementById('prof-address').value.trim(),
     currency: document.getElementById('prof-currency').value,
     lang:     document.getElementById('prof-lang').value,
@@ -2878,11 +2925,96 @@ function saveProfile() {
   document.getElementById('prof-title-display').textContent = data.title || '—';
   document.getElementById('prof-email-display').textContent = data.email || '—';
 
+  // Update greeting name in dashboard
+  const gn = document.getElementById('greetName');
+  if (gn && data.name) gn.textContent = data.name;
+
   // Flash button
   const btn = document.querySelector('#pg-profile .btn.bp');
   const orig = btn.textContent;
   btn.textContent = '✅ تم الحفظ';
   setTimeout(() => btn.textContent = orig, 1800);
+}
+
+function profPopulateCountries() {
+  const sel = document.getElementById('prof-country');
+  if (!sel || typeof GEO === 'undefined') return;
+  sel.innerHTML = '<option value="">اختر الدولة</option>';
+  Object.entries(GEO).forEach(([code, obj]) => {
+    const opt = document.createElement('option');
+    opt.value = code; opt.textContent = obj.name;
+    sel.appendChild(opt);
+  });
+}
+
+function profPopulateRegions(countryCode) {
+  const rSel = document.getElementById('prof-region');
+  const citSel = document.getElementById('prof-city');
+  const dSel = document.getElementById('prof-district');
+  rSel.innerHTML = '<option value="">اختر المنطقة</option>';
+  citSel.innerHTML = '<option value="">اختر المدينة</option>';
+  dSel.innerHTML = '<option value="">اختر الحي</option>';
+  rSel.disabled = true; citSel.disabled = true; dSel.disabled = true;
+  if (!countryCode || typeof GEO === 'undefined') return;
+  const country = GEO[countryCode];
+  if (!country) return;
+  (country.regions || []).forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r.name; opt.textContent = r.name;
+    rSel.appendChild(opt);
+  });
+  rSel.disabled = false;
+}
+
+function profPopulateCities(countryCode, regionName) {
+  const citSel = document.getElementById('prof-city');
+  const dSel = document.getElementById('prof-district');
+  citSel.innerHTML = '<option value="">اختر المدينة</option>';
+  dSel.innerHTML = '<option value="">اختر الحي</option>';
+  citSel.disabled = true; dSel.disabled = true;
+  if (!countryCode || !regionName || typeof GEO === 'undefined') return;
+  const region = (GEO[countryCode]?.regions || []).find(r => r.name === regionName);
+  if (!region) return;
+  (region.cities || []).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.name; opt.textContent = c.name;
+    citSel.appendChild(opt);
+  });
+  citSel.disabled = false;
+}
+
+function profPopulateDistricts(countryCode, regionName, cityName) {
+  const dSel = document.getElementById('prof-district');
+  dSel.innerHTML = '<option value="">اختر الحي</option>';
+  dSel.disabled = true;
+  if (!countryCode || !regionName || !cityName || typeof GEO === 'undefined') return;
+  const region = (GEO[countryCode]?.regions || []).find(r => r.name === regionName);
+  const city = (region?.cities || []).find(c => c.name === cityName);
+  if (!city) return;
+  (city.districts || []).forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    dSel.appendChild(opt);
+  });
+  dSel.disabled = false;
+}
+
+function profOnCountry() {
+  const code = document.getElementById('prof-country').value;
+  profPopulateRegions(code);
+}
+
+function profOnRegion() {
+  const code = document.getElementById('prof-country').value;
+  const region = document.getElementById('prof-region').value;
+  profPopulateCities(code, region);
+}
+
+function profOnCity() {
+  const code = document.getElementById('prof-country').value;
+  const region = document.getElementById('prof-region').value;
+  const city = document.getElementById('prof-city').value;
+  profPopulateDistricts(code, region, city);
 }
 
 function updateSidebarAvatar(data) {
@@ -3517,6 +3649,14 @@ async function bootApp() {
     <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--a)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">معلقة (ر.س)</div></div>
     <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--r)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">متأخرة</div></div>
     <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--g)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">محصّلة (ر.س)</div></div>`;
+
+  // Re-populate profile page with Auth data and update greeting
+  loadProfilePage();
+  const gn = document.getElementById('greetName');
+  if (gn) {
+    const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+    gn.textContent = saved.name || t.name || '—';
+  }
 
   // Show app
   document.getElementById('appLayout').style.display = 'flex';
