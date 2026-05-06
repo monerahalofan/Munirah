@@ -3870,7 +3870,7 @@ function hideBootLoader() {
 }
 
 async function bootApp() {
-  // Safety timeout — never let the spinner run more than 12 seconds
+  // Safety net — spinner never runs more than 12 seconds
   const timeout = setTimeout(() => {
     hideBootLoader();
     window.location.href = 'login.html';
@@ -3879,85 +3879,73 @@ async function bootApp() {
   try {
     const ok = await Auth.boot();
     clearTimeout(timeout);
-    if (!ok) { hideBootLoader(); return; } // Auth.boot() already redirected to login
+    if (!ok) { hideBootLoader(); return; } // Auth.boot() redirected to login already
 
-    // Restore cloud backup first
-    await cloudRestore();
+    // Restore cloud backup silently
+    await cloudRestore().catch(() => {});
 
-    // Bootstrap userData — authenticated users always go to the app
+    // Bootstrap userData
     const saved = localStorage.getItem('mahsoob_user');
     if (saved) {
-      userData = JSON.parse(saved);
-    } else {
+      try { userData = JSON.parse(saved); } catch(e) { userData = null; }
+    }
+    if (!userData) {
       userData = { name: Auth.tenant?.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
       localStorage.setItem('mahsoob_user', JSON.stringify(userData));
-      cloudBackup();
+      cloudBackup().catch(() => {});
     }
 
+    // Show app
     hideBootLoader();
     document.getElementById('appLayout').style.display = 'flex';
     initApp();
+
+    // Populate sidebar — non-critical, errors here must not crash boot
+    const t = Auth.tenant || {};
+    const p = Auth.profile || {};
+    const name = t.name || 'مشروعي';
+    const initials = name.charAt(0) + (name.charAt(1) || '');
+    const nameEl = document.getElementById('userName');
+    const avEl   = document.getElementById('userAv');
+    const roleEl = document.getElementById('userRoleLbl');
+    if (nameEl) nameEl.textContent = name;
+    if (avEl)   avEl.textContent   = initials;
+    if (roleEl) roleEl.textContent =
+      (p.role === 'admin' ? 'مدير' : p.role === 'accountant' ? 'محاسب' : 'كاشير') +
+      ' · ' + Auth.planName();
+
+    // Upgrade notice for free plan
+    if (t.plan === 'free') {
+      const usEl = document.querySelector('.us');
+      if (usEl) {
+        const notice = document.createElement('div');
+        notice.style.cssText = 'background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:9px 13px;font-size:12px;color:#2563eb;margin:8px;cursor:pointer;text-align:center;';
+        notice.innerHTML = '✨ الخطة التجريبية — <b>ترقّى الآن</b>';
+        notice.onclick = () => window.open('pricing.html', '_blank');
+        usEl.before(notice);
+      }
+    }
+
+    // Scan limit badge (async, non-blocking)
+    DB.getScanCount().then(scanUsed => {
+      const scanLimit = PLANS[t.plan]?.scan_limit ?? 5;
+      const scanEl = document.getElementById('scanLimitInfo');
+      if (scanEl) scanEl.textContent = `استخدمت ${scanUsed} من ${scanLimit} مسح هذا الشهر`;
+    }).catch(() => {});
+
+    // Greeting name
+    const gn = document.getElementById('greetName');
+    if (gn) {
+      const prof = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+      gn.textContent = prof.name || t.name || '—';
+    }
+
   } catch(err) {
     clearTimeout(timeout);
     console.error('bootApp failed:', err);
     hideBootLoader();
     window.location.href = 'login.html';
-    return;
   }
-
-  const t = Auth.tenant;
-  const p = Auth.profile;
-
-  // Populate sidebar user info
-  const name = t.name || 'مشروعي';
-  const initials = name.charAt(0) + (name.charAt(1) || '');
-  document.getElementById('userName').textContent = name;
-  document.getElementById('userAv').textContent = initials;
-
-  const planLabel = Auth.planName();
-  document.getElementById('userRoleLbl').textContent =
-    (p?.role === 'admin' ? 'مدير' : p?.role === 'accountant' ? 'محاسب' : 'كاشير') +
-    ' · ' + planLabel;
-
-  // Show plan badge on scan page if near limit
-  const scanUsed = await DB.getScanCount();
-  const scanLimit = PLANS[t.plan]?.scan_limit ?? 5;
-  const scanEl = document.getElementById('scanLimitInfo');
-  if (scanEl) scanEl.textContent = `استخدمت ${scanUsed} من ${scanLimit} مسح هذا الشهر`;
-
-  // Upgrade notice for free plan
-  if (t.plan === 'free') {
-    const notice = document.createElement('div');
-    notice.style.cssText = 'background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:9px 13px;font-size:12px;color:#2563eb;margin:8px;cursor:pointer;text-align:center;';
-    notice.innerHTML = '✨ الخطة التجريبية — <b>ترقّى الآن</b>';
-    notice.onclick = () => window.open('pricing.html', '_blank');
-    document.querySelector('.us').before(notice);
-  }
-
-  // Reset KPI cards to zero for new users
-  document.getElementById('kRevenue').textContent = '0 ر.س';
-  document.getElementById('kExpense').textContent = '0 ر.س';
-  document.getElementById('kNet').textContent = '0 ر.س';
-  document.getElementById('kLiq').textContent = '0 ر.س';
-  document.getElementById('kDays').textContent = '0';
-
-  // Reset invoice summary
-  const invSummary = document.querySelector('#pg-inv .g3');
-  if (invSummary) invSummary.innerHTML = `
-    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--a)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">معلقة (ر.س)</div></div>
-    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--r)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">متأخرة</div></div>
-    <div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--g)">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">محصّلة (ر.س)</div></div>`;
-
-  // Re-populate profile page with Auth data and update greeting
-  loadProfilePage();
-  const gn = document.getElementById('greetName');
-  if (gn) {
-    const saved = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
-    gn.textContent = saved.name || t.name || '—';
-  }
-
-  // Show app
-  document.getElementById('appLayout').style.display = 'flex';
 }
 
 bootApp();
