@@ -1821,6 +1821,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 let aKey='',txT='income',zN=1,tN=0;
 const cH=[];
 let userData={name:'مشروعك',rev:0,exp:0,bal:0,target:0};
+let _appInited=false;
 
 const CTX=`أنت مستشار مالي ذكي لنظام "محسوب" للمشاريع الصغيرة والمتوسطة في السعودية.
 ساعد المستخدم في تحليل بياناته المالية وتقديم توصيات عملية حول الإيرادات والمصروفات والتدفق النقدي وضريبة القيمة المضافة والزكاة.
@@ -1884,6 +1885,7 @@ window.onload=()=>{
 };
 
 function initApp(){
+  if(_appInited)return; _appInited=true;
   if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
   calcZakat();
   renderAlerts();renderDbGoals();renderTopClients();renderClients();renderProducts();
@@ -2012,7 +2014,7 @@ function togSBDesktop(){document.getElementById('appLayout').classList.toggle('s
 let clClients = JSON.parse(localStorage.getItem('mahsoob_clients')||'[]');
 let clEditId = null;
 
-function saveClientsStore(){ localStorage.setItem('mahsoob_clients', JSON.stringify(clClients)); }
+function saveClientsStore(){ localStorage.setItem('mahsoob_clients', JSON.stringify(clClients)); cloudBackup(); }
 
 function toggleAddClient(){
   const f = document.getElementById('cl-form');
@@ -2549,6 +2551,7 @@ function processPOS() {
   };
   posSales.push(sale);
   localStorage.setItem('mahsoob_pos_sales', JSON.stringify(posSales));
+  cloudBackup();
   posCart.forEach(c => {
     const p = products.find(x => x.id === c.id);
     if (p && p.type === 'product' && p.stock != null) {
@@ -2601,6 +2604,7 @@ let chEntries  = JSON.parse(localStorage.getItem('mahsoob_ch_entries') || '{}');
 function saveChannels() {
   localStorage.setItem('mahsoob_channels', JSON.stringify(chChannels));
   localStorage.setItem('mahsoob_ch_entries', JSON.stringify(chEntries));
+  cloudBackup();
 }
 
 function toggleAddChannel() {
@@ -2773,7 +2777,7 @@ function addDailyExpense() {
   if (!dailyData[date]) dailyData[date] = {};
   if (!dailyData[date].expenses) dailyData[date].expenses = [];
   dailyData[date].expenses.push({ desc, amount, time: new Date().toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit' }) });
-  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData)); cloudBackup();
   renderDailyExpenses(date);
   calcDailyBalance();
 }
@@ -2795,7 +2799,7 @@ function renderDailyExpenses(date) {
 
 function removeDailyExpense(date, idx) {
   dailyData[date].expenses.splice(idx, 1);
-  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData)); cloudBackup();
   renderDailyExpenses(date);
   calcDailyBalance();
 }
@@ -2806,7 +2810,7 @@ function saveDailyBalance() {
   if (!dailyData[date]) dailyData[date] = {};
   dailyData[date].open = parseFloat(document.getElementById('daily-open').value) || 0;
   dailyData[date].actual = parseFloat(document.getElementById('daily-actual').value) || 0;
-  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData));
+  localStorage.setItem('mahsoob_daily', JSON.stringify(dailyData)); cloudBackup();
   alert('✅ تم حفظ الموازنة');
 }
 
@@ -2940,6 +2944,7 @@ function saveProfile() {
   };
   localStorage.setItem('mahsoob_profile', JSON.stringify(data));
   updateSidebarAvatar(data);
+  cloudBackup();
 
   // Update display card
   document.getElementById('prof-name-display').textContent  = data.name  || '—';
@@ -3060,7 +3065,7 @@ function changePassword() {
 
 // ── Products / Services ────────────────
 let products = JSON.parse(localStorage.getItem('mahsoob_products')||'[]');
-function saveProducts(){ localStorage.setItem('mahsoob_products', JSON.stringify(products)); }
+function saveProducts(){ localStorage.setItem('mahsoob_products', JSON.stringify(products)); cloudBackup(); }
 
 function toggleAddProduct(){
   const f=document.getElementById('prod-form');
@@ -3186,6 +3191,14 @@ async function ask(text){
   addMsg(msg,'u');
   const tid=addTyping();
   cH.push({role:'user',content:msg});
+  // Inject financial context as priming exchange on first real message
+  if(cH.length===1){
+    const ctx=getFinancialContext();
+    cH.unshift(
+      {role:'user',content:`فيما يلي البيانات الفعلية لمشروعي في محسوب:\n${ctx}\nاستخدم هذه البيانات الدقيقة في كل إجاباتك.`},
+      {role:'assistant',content:'مفهوم، اطلعت على بيانات مشروعك بالكامل وسأبني تحليلي عليها.'}
+    );
+  }
   try{
     const{data:{session}}=await _sb.auth.getSession();
     if(!session){removeTyping(tid);addMsg(getFB(msg),'ai');return;}
@@ -3266,6 +3279,52 @@ function getFinancialContext() {
   ].filter(Boolean);
 
   return 'بيانات مشروعك الفعلية في محسوب:\n' + lines.map(l=>`• ${l}`).join('\n');
+}
+
+// ── Cloud Sync (Supabase user_metadata backup) ────
+const _SYNC_KEYS = {
+  user:     'mahsoob_user',
+  profile:  'mahsoob_profile',
+  clients:  'mahsoob_clients',
+  products: 'mahsoob_products',
+  channels: 'mahsoob_channels',
+  entries:  'mahsoob_ch_entries',
+  daily:    'mahsoob_daily',
+};
+
+async function cloudBackup() {
+  try {
+    const payload = {};
+    Object.entries(_SYNC_KEYS).forEach(([k, lsKey]) => {
+      const v = localStorage.getItem(lsKey);
+      if (v) payload[k] = v;
+    });
+    payload.ts = Date.now();
+    await _sb.auth.updateUser({ data: { mb: payload } });
+  } catch(e) { /* silent — backup is best-effort */ }
+}
+
+async function cloudRestore() {
+  try {
+    const { data: { user } } = await _sb.auth.getUser();
+    const backup = user?.user_metadata?.mb;
+    if (!backup?.ts) return;
+    Object.entries(_SYNC_KEYS).forEach(([k, lsKey]) => {
+      if (!localStorage.getItem(lsKey) && backup[k]) {
+        localStorage.setItem(lsKey, backup[k]);
+      }
+    });
+    // Reload runtime arrays from restored localStorage
+    clClients  = JSON.parse(localStorage.getItem('mahsoob_clients')    || '[]');
+    products   = JSON.parse(localStorage.getItem('mahsoob_products')   || '[]');
+    posSales   = JSON.parse(localStorage.getItem('mahsoob_pos_sales')  || '[]');
+    chChannels = JSON.parse(localStorage.getItem('mahsoob_channels')   || '[]');
+    chEntries  = JSON.parse(localStorage.getItem('mahsoob_ch_entries') || '{}');
+    dailyData  = JSON.parse(localStorage.getItem('mahsoob_daily')      || '{}');
+    if (backup.user && !localStorage.getItem('mahsoob_user')) {
+      userData = JSON.parse(backup.user);
+    }
+  } catch(e) { /* silent */ }
 }
 
 // ── Dashboard AI Insights ─────────────────────────
@@ -3776,6 +3835,20 @@ function closeRoleModal(){document.getElementById('roleModal').classList.remove(
 async function bootApp() {
   const ok = await Auth.boot();
   if (!ok) return; // redirected to login
+
+  // Restore any data that was in cloud backup but missing locally
+  await cloudRestore();
+
+  // If mahsoob_user is missing (new device / cleared cache), bootstrap from tenant
+  // so the user never sees the onboarding screen again after first setup
+  if (!localStorage.getItem('mahsoob_user') && Auth.tenant) {
+    const t = Auth.tenant;
+    userData = { name: t.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
+    localStorage.setItem('mahsoob_user', JSON.stringify(userData));
+    document.getElementById('obWrap').style.display = 'none';
+    document.getElementById('appLayout').style.display = 'flex';
+    initApp(); // safe — guarded by _appInited flag
+  }
 
   const t = Auth.tenant;
   const p = Auth.profile;
