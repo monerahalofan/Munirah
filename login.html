@@ -319,11 +319,30 @@ function checkPasswordStrength(pw) {
 
 // ── Google OAuth ──────────────────────────────────────
 async function doGoogle() {
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin + '/index.html' }
+  // Show loading on both Google buttons
+  document.querySelectorAll('.btn-social').forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.innerHTML = btn.innerHTML.replace(/متابعة|إنشاء حساب/, 'جاري الاتصال...');
   });
-  if (error) showErr(translateError(error.message));
+  try {
+    const { error } = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/index.html' }
+    });
+    if (error) {
+      document.querySelectorAll('.btn-social').forEach(btn => {
+        btn.disabled = false; btn.style.opacity = '';
+      });
+      showErr(translateError(error.message));
+    }
+    // If no error: page redirects to Google — buttons stay disabled intentionally
+  } catch(e) {
+    document.querySelectorAll('.btn-social').forEach(btn => {
+      btn.disabled = false; btn.style.opacity = '';
+    });
+    showErr('تعذّر الاتصال بـ Google، حاول مجدداً');
+  }
 }
 
 // ── Email Login ───────────────────────────────────────
@@ -534,6 +553,7 @@ async function doReset() {
 }
 
 function translateError(msg) {
+  if (!msg) return 'حدث خطأ غير معروف';
   if (msg.includes('Invalid login'))        return 'البريد أو كلمة المرور غير صحيحة';
   if (msg.includes('already registered'))   return 'هذا البريد مسجّل مسبقاً، جرّب تسجيل الدخول';
   if (msg.includes('Email not confirmed'))  return 'يرجى تأكيد بريدك الإلكتروني أولاً';
@@ -541,6 +561,10 @@ function translateError(msg) {
   if (msg.includes('Phone'))               return 'تأكد من رقم الجوال أو انتظر قبل إعادة المحاولة';
   if (msg.includes('Token has expired'))   return 'انتهت صلاحية الرمز، اطلب رمزاً جديداً';
   if (msg.includes('Invalid OTP'))         return 'الرمز غير صحيح، تحقق وأعد المحاولة';
+  if (msg.includes('provider') || msg.includes('OAuth') || msg.includes('not enabled'))
+    return 'تسجيل الدخول عبر Google غير مفعّل — تواصل مع الدعم';
+  if (msg.includes('redirect') || msg.includes('Redirect'))
+    return 'خطأ في إعداد الـ Redirect URL — تحقق من إعدادات Supabase';
   return msg;
 }
 
