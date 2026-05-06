@@ -1878,16 +1878,27 @@ function obFinish(){
 
 // ── Init ───────────────────────────────
 window.onload=()=>{
-  const saved=localStorage.getItem('mahsoob_user');
-  const savedKey=localStorage.getItem('mk');
-  if(savedKey)aKey=savedKey;
+  const saved    = localStorage.getItem('mahsoob_user');
+  const savedKey = localStorage.getItem('mk');
+  if(savedKey) aKey = savedKey;
+
+  // Check for an active Supabase session in localStorage (survives across tabs/pages)
+  const sbKey = 'sb-icmpdgayzwwgbaqqcfnr-auth-token';
+  const hasSbSession = !!localStorage.getItem(sbKey);
+
   if(saved){
-    userData=JSON.parse(saved);
+    userData = JSON.parse(saved);
     document.getElementById('obWrap').style.display='none';
     document.getElementById('appLayout').style.display='flex';
     initApp();
+  } else if(hasSbSession){
+    // Logged-in user but mahsoob_user is missing (new device / cleared cache).
+    // Hide onboarding immediately — bootApp() will restore data + call initApp()
+    document.getElementById('obWrap').style.display='none';
+    document.getElementById('appLayout').style.display='flex';
   }
-  const d=document.getElementById('tDate');if(d)d.value=new Date().toISOString().split('T')[0];
+
+  const d=document.getElementById('tDate'); if(d) d.value=new Date().toISOString().split('T')[0];
 };
 
 function initApp(){
