@@ -38,13 +38,12 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Always go to network for Supabase API and auth
+  // Only handle same-origin GET requests — let browser handle everything else
   if (
-    url.hostname.includes('supabase.co') ||
-    url.hostname.includes('supabase.io') ||
+    url.origin !== self.location.origin ||
     e.request.method !== 'GET'
   ) {
-    return; // let browser handle it normally
+    return;
   }
 
   e.respondWith(
@@ -59,10 +58,10 @@ self.addEventListener('fetch', e => {
         }
         return response;
       }).catch(() => {
-        // Offline fallback for navigation requests
         if (e.request.mode === 'navigate') {
           return caches.match('/index.html');
         }
+        return new Response('', { status: 503 });
       });
     })
   );
