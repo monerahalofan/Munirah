@@ -13,7 +13,7 @@ const Auth = {
     try {
       const { data: { session }, error } = await _sb.auth.getSession();
       if (error || !session) {
-        window.location.href = 'login.html';
+        window.location.href = '/login';
         return false;
       }
       this.session = session;
@@ -23,7 +23,7 @@ const Auth = {
       return true;
     } catch(e) {
       console.error('Auth.boot error:', e);
-      window.location.href = 'login.html';
+      window.location.href = '/login';
       return false;
     }
   },
@@ -79,13 +79,13 @@ const Auth = {
 
   _listenAuthChanges() {
     _sb.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT') window.location.href = 'login.html';
+      if (event === 'SIGNED_OUT') window.location.href = '/login';
     });
   },
 
   async signOut() {
     await _sb.auth.signOut();
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   },
 
   // Returns true if current plan allows a feature

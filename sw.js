@@ -1,10 +1,9 @@
-const CACHE = 'mahsoob-v3';
+const CACHE = 'mahsoob-v4';
 
 const PRECACHE = [
   '/',
-  '/index.html',
-  '/login.html',
-  '/pricing.html',
+  '/login',
+  '/pricing',
   '/manifest.json',
   '/js/auth.js',
   '/js/config.js',

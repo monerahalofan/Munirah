@@ -3861,7 +3861,7 @@ async function doSignOut() {
   // Always clear local state and redirect regardless of Supabase response
   localStorage.removeItem('mahsoob_user');
   localStorage.removeItem('mahsoob_profile');
-  window.location.href = 'login.html';
+  window.location.href = '/login';
 }
 
 function hideBootLoader() {
@@ -3873,7 +3873,7 @@ async function bootApp() {
   // Safety net — spinner never runs more than 12 seconds
   const timeout = setTimeout(() => {
     hideBootLoader();
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   }, 12000);
 
   try {
@@ -3944,7 +3944,7 @@ async function bootApp() {
     clearTimeout(timeout);
     console.error('bootApp failed:', err);
     hideBootLoader();
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   }
 }
 
