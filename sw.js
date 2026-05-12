@@ -1,7 +1,8 @@
-const CACHE = 'mahsoob-v4';
+const CACHE = 'mahsoob-v5';
 
 const PRECACHE = [
   '/',
+  '/app',
   '/login',
   '/pricing',
   '/manifest.json',

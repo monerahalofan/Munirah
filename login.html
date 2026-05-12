@@ -246,7 +246,7 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) window.location.href = '/';
+  if (session) window.location.href = '/app';
 });
 
 // ── Tab switching ─────────────────────────────────────
@@ -339,7 +339,7 @@ async function doGoogle() {
   try {
     const { error } = await sb.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin + '/' }
+      options: { redirectTo: window.location.origin + '/app' }
     });
     if (error) {
       resetBtns();
@@ -382,7 +382,7 @@ async function doLogin() {
   }
 
   RateLimit.reset();
-  window.location.href = '/';
+  window.location.href = '/app';
 }
 
 // ── Cascading address dropdowns ───────────────────────
@@ -539,7 +539,7 @@ async function doVerifyOtp() {
   const { error } = await sb.auth.verifyOtp({ phone, token: digits, type: 'sms' });
   setBtnLoading('otpVerifyBtn', false);
   if (error) { showErr(translateError(error.message)); return; }
-  window.location.href = '/';
+  window.location.href = '/app';
 }
 
 function resetPhone() {
@@ -554,7 +554,7 @@ async function doReset() {
   const email = document.getElementById('resetEmail').value.trim();
   if (!email) { showErr('يرجى إدخال بريدك الإلكتروني'); return; }
   const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + '/'
+    redirectTo: window.location.origin + '/app'
   });
   if (error) { showErr(translateError(error.message)); return; }
   showSuc('تم إرسال رابط الاستعادة! تفقد بريدك.');
