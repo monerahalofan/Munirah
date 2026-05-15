@@ -322,9 +322,85 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   .md{padding:16px}
   .role-box{padding:16px}
 }
+
+/* ═══════════ TOAST NOTIFICATIONS ═══════════ */
+#toastWrap{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:90%}
+.toast{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 8px 32px rgba(22,40,32,.15);display:flex;align-items:center;gap:12px;min-width:280px;animation:toastIn .35s cubic-bezier(.18,.89,.32,1.28);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;pointer-events:auto;border:1px solid var(--b)}
+.toast.out{animation:toastOut .25s forwards}
+body.dark .toast{background:#1e2535}
+.toast-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.toast.success .toast-icon{background:rgba(22,163,114,.15);color:#16a372}
+.toast.error   .toast-icon{background:rgba(220,38,38,.15);color:#dc2626}
+.toast.info    .toast-icon{background:rgba(37,99,235,.15);color:#2563eb}
+.toast.warn    .toast-icon{background:rgba(245,158,11,.15);color:#f59e0b}
+.toast-content{flex:1}
+.toast-title{font-size:14px;font-weight:700;color:var(--t)}
+.toast-msg{font-size:12px;color:var(--t2);margin-top:2px}
+.toast-close{cursor:pointer;color:var(--t3);font-size:18px;padding:0 4px;line-height:1}
+@keyframes toastIn{0%{opacity:0;transform:translateY(-20px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-20px) scale(.9)}}
+
+/* ═══════════ FAB (Floating Action Button) ═══════════ */
+#fab{display:none;position:fixed;bottom:24px;left:24px;z-index:90;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(69,170,110,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
+#fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(69,170,110,.55)}
+#fab:active{transform:scale(.95)}
+#fab svg{transition:transform .3s}
+#fab.open svg{transform:rotate(135deg)}
+.fab-menu{position:fixed;bottom:96px;left:24px;z-index:89;display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;transition:all .25s}
+.fab-menu.open{opacity:1;pointer-events:auto}
+.fab-item{background:#fff;border:1px solid var(--b);border-radius:12px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 14px rgba(22,40,32,.1);font-family:inherit;font-size:13px;font-weight:600;color:var(--t);transition:all .15s;transform:translateX(20px);opacity:0;animation:fabSlide .3s forwards;direction:rtl}
+.fab-menu.open .fab-item:nth-child(1){animation-delay:.05s}
+.fab-menu.open .fab-item:nth-child(2){animation-delay:.1s}
+.fab-menu.open .fab-item:nth-child(3){animation-delay:.15s}
+.fab-menu.open .fab-item:nth-child(4){animation-delay:.2s}
+.fab-item:hover{transform:translateX(0) scale(1.05);border-color:#45aa6e}
+body.dark .fab-item{background:#1e2535}
+@keyframes fabSlide{to{transform:translateX(0);opacity:1}}
+@media(max-width:700px){#fab{display:flex}}
+
+/* ═══════════ Page transitions ═══════════ */
+.pg{animation:pgFadeIn .35s ease}
+@keyframes pgFadeIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+
+/* ═══════════ Card hover lift (generic) ═══════════ */
+.card{transition:transform .2s,box-shadow .2s}
+
+/* ═══════════ Animated empty state ═══════════ */
+.empty-state{text-align:center;padding:40px 20px;color:var(--t3)}
+.empty-state-icon{width:72px;height:72px;border-radius:50%;background:rgba(69,170,110,.08);color:#16a372;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:emptyPulse 2.5s ease-in-out infinite}
+@keyframes emptyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.empty-state-title{font-size:15px;font-weight:700;color:var(--t);margin-bottom:6px}
+.empty-state-msg{font-size:12px;color:var(--t2);line-height:1.7;max-width:300px;margin:0 auto 14px}
+.empty-state-cta{padding:9px 22px;background:#45aa6e;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.empty-state-cta:hover{background:#22c98a;transform:translateY(-2px);box-shadow:0 6px 16px rgba(69,170,110,.3)}
+
+/* ═══════════ Ripple effect ═══════════ */
+.ripple{position:relative;overflow:hidden}
+.ripple::after{content:'';position:absolute;width:5px;height:5px;background:rgba(255,255,255,.5);border-radius:50%;opacity:0;transform:scale(1);transition:.5s}
+.ripple:active::after{opacity:1;transform:scale(30);transition:0s}
+
+/* ═══════════ Number counter animation ═══════════ */
+.kv{transition:color .3s}
+
+/* ═══════════ Smooth progress bars ═══════════ */
+[style*="background:var(--g)"][style*="width:"]{transition:width 1.2s cubic-bezier(.18,.89,.32,1.28)}
 </style>
 </head>
 <body>
+
+<!-- TOAST NOTIFICATIONS CONTAINER -->
+<div id="toastWrap"></div>
+
+<!-- FLOATING ACTION BUTTON (mobile only) -->
+<button id="fab" onclick="toggleFab()" aria-label="إضافة سريعة">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+<div class="fab-menu" id="fabMenu">
+  <button class="fab-item" onclick="go('zt',null);closeFab()">📄 فاتورة جديدة</button>
+  <button class="fab-item" onclick="go('scan',null);closeFab()">📷 مسح فاتورة</button>
+  <button class="fab-item" onclick="go('pos',null);closeFab()">🛒 نقطة البيع</button>
+  <button class="fab-item" onclick="go('tx',null);closeFab()">💸 تسجيل مصروف</button>
+</div>
 
 <!-- BOOT LOADER — shown until bootApp resolves -->
 <div id="bootLoader" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
@@ -2010,10 +2086,10 @@ function obFinish(){
   // Update UI
   document.getElementById('userName').textContent=name;
   document.getElementById('userAv').textContent=name.charAt(0)||'م';
-  document.getElementById('kRevenue').textContent=rev.toLocaleString('ar-SA')+' ر.س';
-  document.getElementById('kExpense').textContent=exp.toLocaleString('ar-SA')+' ر.س';
-  document.getElementById('kNet').textContent=(rev-exp).toLocaleString('ar-SA')+' ر.س';
-  document.getElementById('kLiq').textContent=bal.toLocaleString('ar-SA')+' ر.س';
+  animateCounter(document.getElementById('kRevenue'), rev);
+  animateCounter(document.getElementById('kExpense'), exp);
+  animateCounter(document.getElementById('kNet'), rev-exp);
+  animateCounter(document.getElementById('kLiq'), bal);
   const days=Math.floor(bal/(exp/30));
   document.getElementById('kDays').textContent=days;
   document.getElementById('cfBal').textContent=bal.toLocaleString('ar-SA')+' ر.س';
@@ -2178,6 +2254,70 @@ function toggleLang() {
 
 // ── Navigation ─────────────────────────
 const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي'};
+// ═══════════ TOAST SYSTEM ═══════════
+window.toast = function(opts) {
+  if (typeof opts === 'string') opts = { msg: opts, type: 'info' };
+  const { type='info', title, msg, duration=3500 } = opts;
+  const icons = {
+    success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    error:   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    info:    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+    warn:    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  };
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `
+    <div class="toast-icon">${icons[type]}</div>
+    <div class="toast-content">
+      ${title ? `<div class="toast-title">${title}</div>` : ''}
+      <div class="toast-msg">${msg}</div>
+    </div>
+    <div class="toast-close" onclick="this.parentElement.classList.add('out');setTimeout(()=>this.parentElement.remove(),250)">×</div>
+  `;
+  document.getElementById('toastWrap').appendChild(t);
+  setTimeout(() => {
+    t.classList.add('out');
+    setTimeout(() => t.remove(), 250);
+  }, duration);
+};
+
+// ═══════════ FAB ═══════════
+function toggleFab() {
+  document.getElementById('fab').classList.toggle('open');
+  document.getElementById('fabMenu').classList.toggle('open');
+}
+function closeFab() {
+  document.getElementById('fab').classList.remove('open');
+  document.getElementById('fabMenu').classList.remove('open');
+}
+// Close FAB on outside click
+document.addEventListener('click', (e) => {
+  const fab = document.getElementById('fab');
+  const menu = document.getElementById('fabMenu');
+  if (fab && menu && !fab.contains(e.target) && !menu.contains(e.target)) {
+    closeFab();
+  }
+});
+
+// ═══════════ ANIMATED COUNTERS ═══════════
+function animateCounter(el, target, suffix=' ر.س', duration=900) {
+  if (!el) return;
+  const start = parseFloat(el.dataset.currentVal || '0');
+  const change = target - start;
+  if (Math.abs(change) < 0.01) return;
+  const startTime = performance.now();
+  const tick = (now) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = start + change * eased;
+    el.textContent = Math.round(current).toLocaleString('ar-SA') + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.dataset.currentVal = target;
+  };
+  requestAnimationFrame(tick);
+}
+
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -2533,7 +2673,7 @@ async function coaSaveNew() {
   let code = document.getElementById('coaNewCode').value.trim();
   const name = document.getElementById('coaNewName').value.trim();
   const type = document.getElementById('coaNewType').value;
-  if (!name) { alert('اكتب اسم التصنيف'); return; }
+  if (!name) { toast({type:'warn',msg:'اكتب اسم التصنيف'}); return; }
 
   // Auto-generate code from type prefix + next number
   if (!code) {
@@ -2551,8 +2691,9 @@ async function coaSaveNew() {
     if (error) throw error;
     coaToggleAdd();
     await coaLoad();
+    toast({type:'success',title:'تم!',msg:'أُضيف التصنيف بنجاح'});
   } catch (e) {
-    alert('فشل الحفظ: ' + e.message);
+    toast({type:'error',title:'فشل الحفظ',msg:e.message});
   }
 }
 
@@ -2564,8 +2705,9 @@ async function coaRename(id, currentName) {
       .update({ name_ar: newName }).eq('id', id).eq('tenant_id', Auth.tenant.id);
     if (error) throw error;
     await coaLoad();
+    toast({type:'success',msg:'تم تحديث الاسم'});
   } catch (e) {
-    alert('فشل التعديل: ' + e.message);
+    toast({type:'error',title:'فشل التعديل',msg:e.message});
   }
 }
 
@@ -2651,8 +2793,9 @@ async function coaDeactivate(id) {
       .update({ is_active: false }).eq('id', id).eq('tenant_id', Auth.tenant.id);
     if (error) throw error;
     await coaLoad();
+    toast({type:'success',msg:'تم حذف التصنيف'});
   } catch (e) {
-    alert('فشل الحذف: ' + e.message);
+    toast({type:'error',title:'فشل الحذف',msg:e.message});
   }
 }
 function togSB(){document.getElementById('sbEl').classList.toggle('open');document.getElementById('ovB').classList.toggle('vis');}
@@ -2836,7 +2979,17 @@ function renderAlerts(){
 function renderTopClients(){
   const el = document.getElementById('topClients');
   if(!el) return;
-  if(!clClients.length){ el.innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد بيانات عملاء بعد</div>`; return; }
+  if(!clClients.length){
+    el.innerHTML = `
+      <div class="empty-state" style="padding:18px 14px">
+        <div class="empty-state-icon" style="width:48px;height:48px;margin-bottom:10px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="empty-state-msg" style="margin-bottom:10px">لم تُضف أي عميل بعد</div>
+        <button class="empty-state-cta" style="padding:7px 16px;font-size:12px" onclick="go('cp',null)">أضف عميل ←</button>
+      </div>`;
+    return;
+  }
   const sorted = clClients.map(c=>{
     const rev = getClientTx(c.name).filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
     return {...c,rev};
@@ -2848,7 +3001,14 @@ function renderTopClients(){
     </div>`).join('');
 }
 function renderDbGoals(){
-  document.getElementById('dbGoals').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لم تُضف أهدافاً بعد — <span style="color:var(--g);cursor:pointer" onclick="go('gls',null)">أضف هدفاً ←</span></div>`;
+  document.getElementById('dbGoals').innerHTML = `
+    <div class="empty-state" style="padding:18px 14px">
+      <div class="empty-state-icon" style="width:48px;height:48px;margin-bottom:10px;background:rgba(245,158,11,.1);color:#f59e0b">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </div>
+      <div class="empty-state-msg" style="margin-bottom:10px">حدّد هدفاً مالياً لتتبّع تقدّمك</div>
+      <button class="empty-state-cta" style="padding:7px 16px;font-size:12px" onclick="go('gls',null)">أضف هدف ←</button>
+    </div>`;
 }
 
 // ── Transactions ───────────────────────
