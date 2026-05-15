@@ -4964,13 +4964,11 @@ async function bootApp() {
     // VAT deadline reminder (non-blocking)
     setTimeout(() => checkVatReminder().catch(()=>{}), 1500);
 
-    // Restore cloud backup silently (with own timeout to never hang)
-    console.log('[bootApp] cloudRestore start');
-    await Promise.race([
-      cloudRestore().catch(() => {}),
-      new Promise(r => setTimeout(r, 3000)),  // 3s max
-    ]);
-    console.log('[bootApp] cloudRestore done');
+    // Restore cloud backup in background — NEVER block boot on this
+    console.log('[bootApp] scheduling cloudRestore (background)');
+    setTimeout(() => {
+      cloudRestore().catch(e => console.warn('cloudRestore failed:', e));
+    }, 100);
 
     // Bootstrap userData
     console.log('[bootApp] bootstrapping userData');
