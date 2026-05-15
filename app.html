@@ -4973,6 +4973,7 @@ async function bootApp() {
     console.log('[bootApp] cloudRestore done');
 
     // Bootstrap userData
+    console.log('[bootApp] bootstrapping userData');
     const saved = localStorage.getItem('mahsoob_user');
     if (saved) {
       try { userData = JSON.parse(saved); } catch(e) { userData = null; }
@@ -4980,13 +4981,21 @@ async function bootApp() {
     if (!userData) {
       userData = { name: Auth.tenant?.name || 'مشروعي', rev: 0, exp: 0, bal: 0, target: 0, net: 0 };
       localStorage.setItem('mahsoob_user', JSON.stringify(userData));
-      cloudBackup().catch(() => {});
+      try { cloudBackup().catch(() => {}); } catch(e) { console.warn('[bootApp] cloudBackup sync err:', e); }
     }
 
     // Show app
+    console.log('[bootApp] hiding boot loader');
     hideBootLoader();
-    document.getElementById('appLayout').style.display = 'flex';
-    initApp();
+    const layout = document.getElementById('appLayout');
+    if (layout) layout.style.display = 'flex';
+    console.log('[bootApp] calling initApp');
+    try {
+      initApp();
+      console.log('[bootApp] initApp done');
+    } catch(e) {
+      console.error('[bootApp] initApp threw:', e);
+    }
 
     // Populate sidebar — non-critical, errors here must not crash boot
     const t = Auth.tenant || {};
