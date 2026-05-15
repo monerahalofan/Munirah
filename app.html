@@ -1811,6 +1811,27 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   <div id="coaTree" style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden">
     <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
   </div>
+
+  <!-- Ledger modal -->
+  <div id="coaLedgerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;padding:20px">
+    <div style="background:#fff;border-radius:14px;max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--t3);font-family:Monaco,monospace" id="ledgerCode">—</div>
+          <div style="font-size:18px;font-weight:900" id="ledgerName">—</div>
+        </div>
+        <button onclick="document.getElementById('coaLedgerModal').style.display='none'" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3)">×</button>
+      </div>
+      <div style="padding:14px 22px;background:rgba(69,170,110,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div><div style="font-size:11px;color:var(--t3)">إجمالي المدين</div><div style="font-size:17px;font-weight:800;color:#16a372" id="ledgerDR">0</div></div>
+        <div><div style="font-size:11px;color:var(--t3)">إجمالي الدائن</div><div style="font-size:17px;font-weight:800;color:#e8394a" id="ledgerCR">0</div></div>
+        <div><div style="font-size:11px;color:var(--t3)">الرصيد الحالي</div><div style="font-size:17px;font-weight:900" id="ledgerBal">0</div></div>
+      </div>
+      <div style="flex:1;overflow:auto" id="ledgerEntries">
+        <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- USERS PAGE -->
@@ -2153,6 +2174,7 @@ function coaRenderTree() {
         <div style="padding-right:${indent}px;font-family:'Monaco',monospace;font-size:12px;color:var(--t3);min-width:60px">${a.code}</div>
         <div style="flex:1;font-size:14px">${a.name_ar}${a.is_zatca ? ' <span style="display:inline-block;background:rgba(69,170,110,.15);color:#16a372;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600;margin-right:4px">ZATCA</span>' : ''}</div>
         <div style="display:inline-block;background:${t.bg};color:${t.color};font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px">${t.label}</div>
+        <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:5px 10px;background:rgba(69,170,110,.08);border:1px solid rgba(69,170,110,.25);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:#16a372;font-weight:600">📒 القيود</button>
         <button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:5px 10px;background:transparent;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>
         ${!a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:5px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
       </div>
@@ -2196,6 +2218,70 @@ async function coaRename(id, currentName) {
     await coaLoad();
   } catch (e) {
     alert('فشل التعديل: ' + e.message);
+  }
+}
+
+async function coaShowLedger(code, name) {
+  document.getElementById('ledgerCode').textContent = code;
+  document.getElementById('ledgerName').textContent = name;
+  document.getElementById('ledgerEntries').innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>`;
+  document.getElementById('coaLedgerModal').style.display = 'flex';
+
+  try {
+    const entries = await Journal.getLedger(code);
+    const totalDR = entries.reduce((s, e) => s + parseFloat(e.debit  || 0), 0);
+    const totalCR = entries.reduce((s, e) => s + parseFloat(e.credit || 0), 0);
+    const bal     = totalDR - totalCR;
+    document.getElementById('ledgerDR').textContent  = totalDR.toLocaleString('ar-SA', {minimumFractionDigits:2});
+    document.getElementById('ledgerCR').textContent  = totalCR.toLocaleString('ar-SA', {minimumFractionDigits:2});
+    document.getElementById('ledgerBal').textContent = bal.toLocaleString('ar-SA', {minimumFractionDigits:2}) + ' ر.س';
+    document.getElementById('ledgerBal').style.color = bal >= 0 ? '#16a372' : '#e8394a';
+
+    if (!entries.length) {
+      document.getElementById('ledgerEntries').innerHTML = `
+        <div style="padding:60px 20px;text-align:center;color:var(--t3)">
+          <div style="font-size:14px">لا توجد قيود محاسبية على هذا الحساب بعد.</div>
+          <div style="font-size:12px;margin-top:6px">القيود تتولّد تلقائياً عند تسجيل معاملة أو فاتورة.</div>
+        </div>
+      `;
+      return;
+    }
+
+    let runBal = 0;
+    const rows = entries.map(e => {
+      const dr = parseFloat(e.debit  || 0);
+      const cr = parseFloat(e.credit || 0);
+      runBal += (dr - cr);
+      const refLabel = { transaction:'معاملة', invoice:'فاتورة', manual:'يدوي', opening:'افتتاحي' }[e.ref_type] || '—';
+      return `
+        <tr>
+          <td style="padding:9px 14px;font-size:12px;color:var(--t3);font-family:Monaco,monospace">${e.entry_date}</td>
+          <td style="padding:9px 14px;font-size:13px">${e.description || '—'}</td>
+          <td style="padding:9px 14px"><span style="display:inline-block;background:rgba(0,0,0,.05);font-size:10px;padding:2px 7px;border-radius:8px">${refLabel}</span></td>
+          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:#16a372">${dr ? dr.toLocaleString('ar-SA',{minimumFractionDigits:2}) : ''}</td>
+          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:#e8394a">${cr ? cr.toLocaleString('ar-SA',{minimumFractionDigits:2}) : ''}</td>
+          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#16a372' : '#e8394a'}">${runBal.toLocaleString('ar-SA',{minimumFractionDigits:2})}</td>
+        </tr>
+      `;
+    }).join('');
+
+    document.getElementById('ledgerEntries').innerHTML = `
+      <table style="width:100%;border-collapse:collapse">
+        <thead style="background:rgba(0,0,0,.03);position:sticky;top:0">
+          <tr>
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">التاريخ</th>
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">الوصف</th>
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">المصدر</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">مدين</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">دائن</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">الرصيد</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  } catch (e) {
+    document.getElementById('ledgerEntries').innerHTML = `<div style="padding:40px;text-align:center;color:#e8394a">فشل التحميل: ${e.message}</div>`;
   }
 }
 

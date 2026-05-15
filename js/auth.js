@@ -118,6 +118,8 @@ const DB = {
       created_by: Auth.session.user.id,
     }).select().single();
     if (error) throw error;
+    // Auto-post journal entries
+    await Journal.postFromTransaction(data).catch(e => console.warn('JE post failed', e));
     return data;
   },
 
@@ -143,6 +145,8 @@ const DB = {
       created_by: Auth.session.user.id,
     }).select().single();
     if (error) throw error;
+    // Auto-post journal entries
+    await Journal.postFromInvoice(data).catch(e => console.warn('JE post failed', e));
     return data;
   },
 
@@ -213,5 +217,121 @@ const DB = {
       .select('*')
       .eq('tenant_id', Auth.tenant.id);
     return data || [];
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// Journal — Double-entry bookkeeping service
+// ═══════════════════════════════════════════════════════════════════════
+const Journal = {
+
+  // Post a balanced journal entry (multiple lines, debit total = credit total)
+  async post(lines, opts = {}) {
+    if (!Array.isArray(lines) || lines.length < 2)
+      throw new Error('Journal entry needs at least 2 lines');
+
+    const debit  = lines.reduce((s, l) => s + (parseFloat(l.debit)  || 0), 0);
+    const credit = lines.reduce((s, l) => s + (parseFloat(l.credit) || 0), 0);
+    if (Math.abs(debit - credit) > 0.001)
+      throw new Error(`Unbalanced entry: DR=${debit} CR=${credit}`);
+
+    const rows = lines.map(l => ({
+      tenant_id:    Auth.tenant.id,
+      account_code: l.account_code,
+      entry_date:   opts.date || new Date().toISOString().slice(0, 10),
+      debit:        parseFloat(l.debit)  || 0,
+      credit:       parseFloat(l.credit) || 0,
+      description:  l.description || opts.description || '',
+      ref_type:     opts.ref_type || 'manual',
+      ref_id:       opts.ref_id  || null,
+      cost_center:  l.cost_center || opts.cost_center || null,
+      created_by:   Auth.session.user.id,
+    }));
+
+    const { data, error } = await _sb.from('journal_entries').insert(rows).select();
+    if (error) throw error;
+    return data;
+  },
+
+  // Auto-post from a transaction (income/expense)
+  async postFromTransaction(tx) {
+    const isIncome = tx.type === 'income';
+    const amount   = parseFloat(tx.amount);
+    if (!amount || amount <= 0) return null;
+
+    // Income (cash):  DR 1101 Cash      CR 4101 Sales Revenue
+    // Expense (cash): DR 6107 Expense   CR 1101 Cash
+    const cashAccount = '1101';                  // الصندوق
+    const incomeAcct  = '4101';                  // إيرادات المبيعات
+    const expenseAcct = tx.category_account || '6107'; // مصاريف أخرى افتراضي
+
+    let lines;
+    if (isIncome) {
+      lines = [
+        { account_code: cashAccount, debit:  amount, credit: 0 },
+        { account_code: incomeAcct,  debit:  0,      credit: amount },
+      ];
+    } else {
+      lines = [
+        { account_code: expenseAcct, debit:  amount, credit: 0 },
+        { account_code: cashAccount, debit:  0,      credit: amount },
+      ];
+    }
+    return this.post(lines, {
+      ref_type:    'transaction',
+      ref_id:      tx.id,
+      date:        tx.date || tx.created_at?.slice(0,10),
+      description: tx.party ? `${tx.category || ''} — ${tx.party}` : (tx.category || ''),
+    });
+  },
+
+  // Auto-post from an invoice
+  async postFromInvoice(inv) {
+    const total    = parseFloat(inv.total || inv.amount || 0);
+    const vat      = parseFloat(inv.vat   || 0);
+    const subtotal = total - vat;
+    if (total <= 0) return null;
+
+    // Sales Invoice:
+    //   DR 1103 Receivables       (total inc. VAT)
+    //   CR 4101 Sales Revenue     (subtotal)
+    //   CR 2103 VAT Output        (vat) — if exists
+    const lines = [
+      { account_code: '1103', debit:  total,    credit: 0 },
+      { account_code: '4101', debit:  0,        credit: subtotal },
+    ];
+    if (vat > 0) {
+      lines.push({ account_code: '2103', debit: 0, credit: vat });
+    }
+    return this.post(lines, {
+      ref_type:    'invoice',
+      ref_id:      inv.id,
+      date:        inv.invoice_date || inv.created_at?.slice(0,10),
+      description: `فاتورة ${inv.invoice_number || ''} — ${inv.client_name || ''}`.trim(),
+    });
+  },
+
+  // Fetch ledger entries for a specific account
+  async getLedger(accountCode, opts = {}) {
+    let q = _sb.from('journal_entries')
+      .select('*')
+      .eq('tenant_id', Auth.tenant.id)
+      .eq('account_code', accountCode)
+      .order('entry_date', { ascending: true });
+    if (opts.from) q = q.gte('entry_date', opts.from);
+    if (opts.to)   q = q.lte('entry_date', opts.to);
+    const { data, error } = await q;
+    if (error) throw error;
+    return data || [];
+  },
+
+  // Fetch current balance for an account
+  async getBalance(accountCode) {
+    const { data } = await _sb.from('account_balances')
+      .select('*')
+      .eq('tenant_id', Auth.tenant.id)
+      .eq('account_code', accountCode)
+      .maybeSingle();
+    return data || { total_debit: 0, total_credit: 0, balance: 0 };
   },
 };
