@@ -177,7 +177,7 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
         <span class="plan-currency">ر.س</span><span class="plan-price" id="priceS">99</span>
       </div>
       <div class="plan-period" id="periodS">/ شهر</div>
-      <button class="plan-btn plan-btn-out" onclick="window.location.href='login.html#signup'">ابدأ التجربة المجانية</button>
+      <button class="plan-btn plan-btn-out" id="btnStarter" onclick="subscribe('starter')">اشترك الآن</button>
       <div class="feat-title">ما يشمله</div>
       <div class="feat"><span class="feat-check">✓</span>لوحة تحكم مالية كاملة</div>
       <div class="feat"><span class="feat-check">✓</span>تسجيل المعاملات والفواتير</div>
@@ -199,7 +199,7 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
         <span class="plan-currency">ر.س</span><span class="plan-price" id="priceP">199</span>
       </div>
       <div class="plan-period" id="periodP">/ شهر</div>
-      <button class="plan-btn plan-btn-fill" onclick="window.location.href='login.html#signup'">ابدأ التجربة المجانية ←</button>
+      <button class="plan-btn plan-btn-fill" id="btnPro" onclick="subscribe('pro')">اشترك الآن ←</button>
       <div class="feat-title">كل ما في Starter، بالإضافة إلى</div>
       <div class="feat"><span class="feat-check">✓</span>فاتورة ZATCA الإلكترونية (مرحلة 2)</div>
       <div class="feat"><span class="feat-check">✓</span>حتى 5 مستخدمين بصلاحيات مختلفة</div>
@@ -219,7 +219,7 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
         <span class="plan-currency">ر.س</span><span class="plan-price" id="priceBiz">499</span>
       </div>
       <div class="plan-period" id="periodBiz">/ شهر</div>
-      <button class="plan-btn plan-btn-out" onclick="window.location.href='mailto:hello@mahsob.sa'">تواصل مع فريق المبيعات</button>
+      <button class="plan-btn plan-btn-out" id="btnBiz" onclick="subscribe('business')">اشترك الآن</button>
       <div class="feat-title">كل ما في Pro، بالإضافة إلى</div>
       <div class="feat"><span class="feat-check">✓</span>مستخدمون غير محدودون</div>
       <div class="feat"><span class="feat-check">✓</span>فروع متعددة وتقارير موحدة</div>
@@ -355,6 +355,57 @@ function toggleFaq(el) {
   icon.classList.toggle('open');
 }
 if (localStorage.getItem('mahsoob_theme') === 'dark') document.body.classList.add('dark');
+
+// ──────────── Tap Subscribe Flow ─────────────────────────────────────────
+const SB_URL = 'https://icmpdgayzwwgbaqqcfnr.supabase.co';
+
+async function subscribe(plan) {
+  // Get current session (user must be logged in)
+  const tokenData = JSON.parse(localStorage.getItem('sb-icmpdgayzwwgbaqqcfnr-auth-token') || 'null');
+  if (!tokenData?.access_token) {
+    // Not logged in → send to login then back here
+    localStorage.setItem('mahsoob_pending_plan', JSON.stringify({ plan, cycle: freq }));
+    window.location.href = '/login';
+    return;
+  }
+
+  const btnId = { starter:'btnStarter', pro:'btnPro', business:'btnBiz' }[plan];
+  const btn   = document.getElementById(btnId);
+  const orig  = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'جاري التحويل...';
+
+  try {
+    const res = await fetch(`${SB_URL}/functions/v1/tap-create-charge`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${tokenData.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ plan, cycle: freq }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.redirect_url) throw new Error(data.error || 'فشل إنشاء الدفعة');
+
+    // Redirect to Tap hosted checkout
+    window.location.href = data.redirect_url;
+  } catch (err) {
+    alert('فشل: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+}
+
+// Auto-resume subscription after login
+(function () {
+  const pending = JSON.parse(localStorage.getItem('mahsoob_pending_plan') || 'null');
+  const tokenData = JSON.parse(localStorage.getItem('sb-icmpdgayzwwgbaqqcfnr-auth-token') || 'null');
+  if (pending && tokenData?.access_token) {
+    localStorage.removeItem('mahsoob_pending_plan');
+    if (pending.cycle) { freq = pending.cycle; setFreq(freq); }
+    setTimeout(() => subscribe(pending.plan), 500);
+  }
+})();
 </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
 </body>

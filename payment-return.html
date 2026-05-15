@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>محسوب — نتيجة الدفع</title>
+<link rel="manifest" href="manifest.json">
+<style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PingARLT',sans-serif;background:#fff;color:#162820;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{max-width:480px;width:100%;background:#fff;border:1px solid rgba(22,40,32,.09);border-radius:16px;padding:36px;text-align:center;box-shadow:0 4px 24px rgba(22,40,32,.06)}
+.icon{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.icon.ok{background:rgba(69,170,110,.12);color:#16a372}
+.icon.fail{background:rgba(232,57,74,.12);color:#dc2626}
+.icon.wait{background:rgba(245,158,11,.12);color:#f59e0b}
+h1{font-size:22px;font-weight:900;margin-bottom:8px}
+.desc{font-size:14px;color:#456050;line-height:1.7;margin-bottom:22px}
+.amt{background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:10px;padding:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.amt b{font-size:18px;color:#16a372;direction:ltr;font-weight:900}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;margin-bottom:8px}
+.btn-p{background:#45aa6e;color:#fff}
+.btn-p:hover{background:#4eba7a}
+.btn-o{background:transparent;border:1px solid rgba(22,40,32,.15);color:#456050}
+.spinner{width:48px;height:48px;border:3px solid rgba(69,170,110,.15);border-top-color:#45aa6e;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 22px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.logo{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:22px}
+.logo img{width:32px;height:32px}
+.logo span{font-size:19px;font-weight:900}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="logo">
+    <img src="img/logo-icon.png" alt="">
+    <span>محسوب</span>
+  </div>
+  <div class="spinner"></div>
+  <h1>جاري التحقق من الدفع...</h1>
+  <div class="desc">لا تغلق هذه الصفحة، نتأكد من حالة الدفعة الآن.</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script>
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const params = new URLSearchParams(window.location.search);
+const subId    = params.get('sub');
+const tapId    = params.get('tap_id') || params.get('charge_id');
+const tapStat  = (params.get('status') || '').toUpperCase();
+
+function render(state, ctx = {}) {
+  const card = document.getElementById('card');
+  const logo = `<div class="logo"><img src="img/logo-icon.png" alt=""><span>محسوب</span></div>`;
+
+  if (state === 'success') {
+    card.innerHTML = `
+      ${logo}
+      <div class="icon ok">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1>تم الدفع بنجاح ✓</h1>
+      <div class="desc">اشتراكك مفعّل الآن. شكراً لاختيارك محسوب!</div>
+      ${ctx.amount ? `<div class="amt"><span>المبلغ المدفوع</span><b>${ctx.amount} ر.س</b></div>` : ''}
+      <a href="/app" class="btn btn-p">ابدأ استخدام محسوب ←</a>
+    `;
+  } else if (state === 'pending') {
+    card.innerHTML = `
+      ${logo}
+      <div class="icon wait">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h1>الدفعة قيد المعالجة</h1>
+      <div class="desc">نستقبل تأكيد البنك حالياً. سيتم تفعيل اشتراكك خلال دقائق وستصلك رسالة تأكيد.</div>
+      <a href="/app" class="btn btn-p">الدخول للتطبيق</a>
+      <a href="/pricing" class="btn btn-o">العودة للأسعار</a>
+    `;
+  } else {
+    card.innerHTML = `
+      ${logo}
+      <div class="icon fail">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <h1>لم يتم إتمام الدفع</h1>
+      <div class="desc">${ctx.reason || 'حدث خلل في معالجة الدفعة. لم يتم خصم أي مبلغ من بطاقتك.'}</div>
+      <a href="/pricing" class="btn btn-p">حاول مجدداً</a>
+      <a href="/app" class="btn btn-o">العودة للتطبيق</a>
+    `;
+  }
+}
+
+(async () => {
+  // If status came back in URL → use it quickly
+  if (tapStat === 'CAPTURED') return render('success');
+  if (tapStat === 'FAILED' || tapStat === 'CANCELLED' || tapStat === 'VOID') return render('fail');
+
+  // Otherwise poll subscription status (webhook may need a few seconds)
+  if (!subId) return render('fail', { reason: 'مرجع الدفعة غير موجود' });
+
+  let attempts = 0;
+  const poll = async () => {
+    attempts++;
+    const { data: sub } = await sb.from('subscriptions').select('*').eq('id', subId).maybeSingle();
+    if (!sub) {
+      if (attempts < 10) return setTimeout(poll, 1500);
+      return render('fail', { reason: 'لم نعثر على الاشتراك' });
+    }
+    if (sub.status === 'active') return render('success', { amount: sub.amount_sar });
+    if (sub.status === 'failed') return render('fail');
+    if (attempts < 12) return setTimeout(poll, 1500);
+    render('pending');
+  };
+  poll();
+})();
+</script>
+
+</body>
+</html>
