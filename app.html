@@ -4931,19 +4931,32 @@ function hideBootLoader() {
 }
 
 async function bootApp() {
-  // Safety net — spinner never runs more than 12 seconds
+  console.log('[bootApp] start');
+  // Safety net — spinner never runs more than 7 seconds
   const timeout = setTimeout(() => {
+    console.warn('[bootApp] TIMEOUT — forcing login redirect');
     hideBootLoader();
     window.location.href = '/login';
-  }, 12000);
+  }, 7000);
 
   try {
+    console.log('[bootApp] calling Auth.boot...');
     const ok = await Auth.boot();
+    console.log('[bootApp] Auth.boot returned:', ok, 'tenant:', Auth.tenant, 'profile:', Auth.profile);
     clearTimeout(timeout);
-    if (!ok) { hideBootLoader(); return; } // Auth.boot() redirected to login already
+    if (!ok) { hideBootLoader(); return; }
 
-    // Redirect to onboarding if first-time user
-    if (Auth.tenant && Auth.tenant.onboarded === false) {
+    // Tenant must exist
+    if (!Auth.tenant) {
+      console.error('[bootApp] No tenant after boot!');
+      hideBootLoader();
+      window.location.href = '/login';
+      return;
+    }
+
+    // Redirect to onboarding if first-time user (onboarded is false or null)
+    if (!Auth.tenant.onboarded) {
+      console.log('[bootApp] tenant not onboarded → /onboarding');
       window.location.href = '/onboarding';
       return;
     }
@@ -4951,8 +4964,13 @@ async function bootApp() {
     // VAT deadline reminder (non-blocking)
     setTimeout(() => checkVatReminder().catch(()=>{}), 1500);
 
-    // Restore cloud backup silently
-    await cloudRestore().catch(() => {});
+    // Restore cloud backup silently (with own timeout to never hang)
+    console.log('[bootApp] cloudRestore start');
+    await Promise.race([
+      cloudRestore().catch(() => {}),
+      new Promise(r => setTimeout(r, 3000)),  // 3s max
+    ]);
+    console.log('[bootApp] cloudRestore done');
 
     // Bootstrap userData
     const saved = localStorage.getItem('mahsoob_user');

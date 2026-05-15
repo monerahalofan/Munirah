@@ -11,18 +11,24 @@ const Auth = {
   // Boot: called once on app load — redirects to login if no session
   async boot() {
     try {
+      console.log('[Auth.boot] getSession...');
       const { data: { session }, error } = await _sb.auth.getSession();
+      console.log('[Auth.boot] session:', !!session, 'err:', error?.message);
       if (error || !session) {
         window.location.href = '/login';
         return false;
       }
       this.session = session;
+      console.log('[Auth.boot] _loadTenant...');
       await this._loadTenant();
+      console.log('[Auth.boot] tenant ok:', this.tenant?.id);
+      console.log('[Auth.boot] _loadProfile...');
       await this._loadProfile();
+      console.log('[Auth.boot] profile ok:', this.profile?.id);
       this._listenAuthChanges();
       return true;
     } catch(e) {
-      console.error('Auth.boot error:', e);
+      console.error('[Auth.boot] error:', e);
       window.location.href = '/login';
       return false;
     }
@@ -30,24 +36,34 @@ const Auth = {
 
   // Load the tenant (business) associated with this user
   async _loadTenant() {
-    const { data } = await _sb
+    const { data, error: selErr } = await _sb
       .from('tenants')
       .select('*')
       .eq('owner_id', this.session.user.id)
       .maybeSingle();
 
+    if (selErr) {
+      console.error('[_loadTenant] select err:', selErr);
+      throw selErr;
+    }
+
     if (!data) {
+      console.log('[_loadTenant] creating new tenant...');
       // First login — create tenant from signup metadata
       const meta = this.session.user.user_metadata || {};
-      const { data: newTenant } = await _sb.from('tenants').insert({
-        owner_id:   this.session.user.id,
-        name:       meta.business_name || meta.full_name || 'مشروعي',
-        plan:       'free',
-        vat_number: meta.vat_number  || null,
-        cr_number:  meta.cr_number   || null,
-        city:       meta.city        || 'الرياض',
-        address:    meta.address     || null,
-      }).select().single();
+      // Minimal required fields only — extras update later from profile page
+      const payload = {
+        owner_id: this.session.user.id,
+        name:     meta.business_name || meta.full_name || meta.name || 'مشروعي',
+        plan:     'free',
+      };
+      const { data: newTenant, error: insErr } = await _sb.from('tenants')
+        .insert(payload).select().single();
+      if (insErr) {
+        console.error('[_loadTenant] insert err:', insErr);
+        throw insErr;
+      }
+      console.log('[_loadTenant] created:', newTenant.id);
       this.tenant = newTenant;
     } else {
       this.tenant = data;
