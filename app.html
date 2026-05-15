@@ -2653,6 +2653,87 @@ function animateGauge(elementId, score) {
   setTimeout(() => { el.style.strokeDashoffset = offset; }, 100);
 }
 
+// ═══════════ TRIAL BANNER & PAYWALL ═══════════
+function showTrialBanner() {
+  const status = Auth.subscriptionStatus?.();
+  if (status !== 'trial_active') return;
+  const days = Auth.trialDaysLeft();
+  // Dismiss banner if user closed it today
+  const lastDismiss = parseInt(localStorage.getItem('mahsoob_trial_banner_dismiss') || '0', 10);
+  if (Date.now() - lastDismiss < 12 * 3600000) return;  // 12h snooze
+
+  // Don't show if more than 10 days left (user still has plenty of time)
+  if (days > 10) return;
+
+  const isUrgent = days <= 3;
+  const banner = document.createElement('div');
+  banner.id = 'trialBanner';
+  banner.style.cssText = `
+    position:fixed;top:14px;right:50%;transform:translateX(50%);z-index:95;
+    background:${isUrgent ? 'linear-gradient(135deg,#dc2626,#ef4444)' : 'linear-gradient(135deg,#f59e0b,#fbbf24)'};
+    color:#fff;border-radius:12px;padding:12px 20px;font-family:inherit;
+    box-shadow:0 8px 28px ${isUrgent ? 'rgba(220,38,38,.4)' : 'rgba(245,158,11,.4)'};
+    display:flex;align-items:center;gap:14px;max-width:560px;width:calc(100% - 28px);
+    animation:toastIn .4s cubic-bezier(.18,.89,.32,1.28);
+  `;
+  banner.innerHTML = `
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+    <div style="flex:1">
+      <div style="font-weight:800;font-size:14px">
+        ${isUrgent
+          ? `⚠️ تبقّى ${days} ${days === 1 ? 'يوم' : 'أيام'} على انتهاء التجربة`
+          : `تجربتك المجانية تنتهي خلال ${days} يوم`}
+      </div>
+      <div style="font-size:12px;opacity:.95;margin-top:2px">رقّ الباقة الآن لتستمر بدون انقطاع</div>
+    </div>
+    <a href="/pricing" style="background:#fff;color:${isUrgent ? '#dc2626' : '#f59e0b'};padding:8px 18px;border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;white-space:nowrap">رقّ الآن</a>
+    <button onclick="dismissTrialBanner()" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:18px;line-height:1;padding:4px 6px;opacity:.85" aria-label="إغلاق">×</button>
+  `;
+  document.body.appendChild(banner);
+}
+
+function dismissTrialBanner() {
+  localStorage.setItem('mahsoob_trial_banner_dismiss', Date.now());
+  document.getElementById('trialBanner')?.remove();
+}
+
+function showTrialExpiredPaywall(status) {
+  const t = Auth.tenant || {};
+  const isExpired = status === 'trial_expired';
+  const title = isExpired ? 'انتهت تجربتك المجانية' : 'الاشتراك غير فعّال';
+  const msg = isExpired
+    ? `استخدمت محسوب لمدة 14 يوماً مجاناً. للاستمرار وحفظ بياناتك، اختر باقة الآن.`
+    : `لا يوجد اشتراك فعّال. اختر باقة لتفعيل حسابك.`;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'paywallOverlay';
+  overlay.style.cssText = `
+    position:fixed;inset:0;background:rgba(22,40,32,.85);backdrop-filter:blur(8px);
+    z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;
+    animation:toastIn .4s ease;
+  `;
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:480px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.4)">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#dc2626);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 22px">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2 style="font-size:22px;font-weight:900;margin:0 0 10px;color:#162820">${title}</h2>
+      <p style="font-size:14px;color:#5a6080;line-height:1.7;margin:0 0 28px">${msg}</p>
+      <div style="background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:10px;padding:14px;margin-bottom:24px">
+        <div style="font-size:11px;color:#5a6080;margin-bottom:4px">المنشأة</div>
+        <div style="font-size:15px;font-weight:700;color:#162820">${t.name || '—'}</div>
+      </div>
+      <a href="/pricing" style="display:block;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;padding:14px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(69,170,110,.4);transition:all .2s">
+        شاهد الباقات واشترك ←
+      </a>
+      <button onclick="doSignOut()" style="margin-top:14px;background:transparent;border:none;color:#9aa0b8;cursor:pointer;font-size:13px;font-family:inherit;text-decoration:underline">تسجيل الخروج</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
 // ═══════════ NOTIFICATIONS ═══════════
 let _notifLoaded = false;
 let _notifData = [];
@@ -5739,12 +5820,26 @@ async function bootApp() {
       return;
     }
 
-    // Redirect to onboarding if first-time user (onboarded is false or null)
-    if (!Auth.tenant.onboarded) {
-      console.log('[bootApp] tenant not onboarded → /onboarding');
+    // Redirect to onboarding ONLY if explicitly not onboarded (boolean false)
+    // Once `onboarded = true` is set, this never fires again for the user
+    if (Auth.tenant.onboarded === false) {
+      console.log('[bootApp] first-time user → /onboarding');
       window.location.href = '/onboarding';
       return;
     }
+
+    // Check subscription status — block app if trial expired
+    const subStatus = Auth.subscriptionStatus?.();
+    console.log('[bootApp] subscription status:', subStatus);
+    if (subStatus === 'trial_expired' || subStatus === 'inactive') {
+      console.log('[bootApp] subscription not active → paywall');
+      hideBootLoader();
+      showTrialExpiredPaywall(subStatus);
+      return;
+    }
+
+    // Trial countdown banner (non-blocking)
+    setTimeout(() => showTrialBanner(), 600);
 
     // VAT deadline reminder (non-blocking)
     setTimeout(() => checkVatReminder().catch(()=>{}), 1500);

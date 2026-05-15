@@ -137,6 +137,29 @@ const Auth = {
   planName() {
     return PLANS[this.tenant?.plan || 'free']?.name || 'تجريبي';
   },
+
+  // Returns subscription state: 'active_paid' | 'trial_active' | 'trial_expired' | 'inactive'
+  subscriptionStatus() {
+    const t = this.tenant;
+    if (!t) return 'inactive';
+    const now = new Date();
+    if (['starter','pro','business'].includes(t.plan)) {
+      if (!t.plan_expires_at || new Date(t.plan_expires_at) > now) return 'active_paid';
+      return 'inactive';
+    }
+    if (t.plan === 'free') {
+      if (t.trial_ends_at && new Date(t.trial_ends_at) > now) return 'trial_active';
+      return 'trial_expired';
+    }
+    return 'inactive';
+  },
+
+  // Days left in trial (0 if expired)
+  trialDaysLeft() {
+    const t = this.tenant;
+    if (!t?.trial_ends_at) return 0;
+    return Math.max(0, Math.ceil((new Date(t.trial_ends_at) - new Date()) / 86400000));
+  },
 };
 
 // ─── DB helpers — all queries are tenant-scoped ───────────────────────────
