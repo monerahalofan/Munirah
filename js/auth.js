@@ -26,6 +26,8 @@ const Auth = {
       await this._loadProfile();
       console.log('[Auth.boot] profile ok:', this.profile?.id);
       this._listenAuthChanges();
+      // Track activity & detect inactivity in background (non-blocking)
+      setTimeout(() => this._touchActivity().catch(()=>{}), 100);
       return true;
     } catch(e) {
       console.error('[Auth.boot] error:', e);
@@ -97,6 +99,28 @@ const Auth = {
     _sb.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_OUT') window.location.href = '/login';
     });
+  },
+
+  // Update last_seen_at + check if user was inactive — for welcome-back toast
+  async _touchActivity() {
+    if (!this.tenant?.id) return;
+    const prevSeen = this.tenant.last_seen_at ? new Date(this.tenant.last_seen_at) : null;
+    const now = new Date();
+    const daysAway = prevSeen ? Math.floor((now - prevSeen) / 86400000) : 0;
+
+    // Touch the timestamp
+    await _sb.rpc('touch_tenant_activity', { tid: this.tenant.id }).catch(() => {});
+
+    // If user was away 3+ days AND completed onboarding, show welcome-back toast
+    if (daysAway >= 3 && this.tenant.onboarded && typeof window.toast === 'function') {
+      const firstName = (this.tenant.name || '').split(' ')[0] || 'صديقنا';
+      const msg = daysAway >= 14
+        ? `وحشتنا يا ${firstName}! مر ${daysAway} يوم — حدّث سجلاتك المالية الآن.`
+        : daysAway >= 7
+          ? `أهلاً بعودتك ${firstName}! 🎉 شو فاتك من معاملات هذا الأسبوع؟`
+          : `أهلاً بعودتك ${firstName}! 👋 سجّل معاملات هذه الفترة لتبقى محاسبتك دقيقة.`;
+      setTimeout(() => window.toast({ type:'info', title:'مرحباً بعودتك', msg, duration:8000 }), 1500);
+    }
   },
 
   async signOut() {
