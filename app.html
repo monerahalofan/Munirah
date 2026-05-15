@@ -3881,6 +3881,12 @@ async function bootApp() {
     clearTimeout(timeout);
     if (!ok) { hideBootLoader(); return; } // Auth.boot() redirected to login already
 
+    // Redirect to onboarding if first-time user
+    if (Auth.tenant && Auth.tenant.onboarded === false) {
+      window.location.href = '/onboarding';
+      return;
+    }
+
     // Restore cloud backup silently
     await cloudRestore().catch(() => {});
 

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>محسوب — إعداد حسابك</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#45aa6e">
+<style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:900;font-display:swap}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PingARLT',sans-serif;background:#fff;color:#162820;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+:root{--g:#45aa6e;--g2:#4eba7a;--gd:rgba(69,170,110,.1);--gb:rgba(69,170,110,.28);--t:#162820;--t2:#456050;--b:rgba(22,40,32,.09)}
+
+.wrap{width:100%;max-width:680px}
+.progress{display:flex;gap:6px;margin-bottom:32px}
+.dot{flex:1;height:4px;background:#e8edd6;border-radius:2px;transition:all .3s}
+.dot.on{background:var(--g)}
+.dot.done{background:var(--g2)}
+
+.card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:36px;box-shadow:0 4px 24px rgba(22,40,32,.06)}
+.step-label{font-size:13px;color:var(--g);font-weight:700;margin-bottom:8px}
+.step-title{font-size:24px;font-weight:900;line-height:1.3;margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.7}
+
+.options{display:grid;gap:10px;margin-bottom:24px}
+.opt{background:#fff;border:1.5px solid var(--b);border-radius:11px;padding:14px 16px;cursor:pointer;transition:all .2s;text-align:right;display:flex;align-items:center;gap:14px;width:100%;font-family:inherit;font-size:15px;color:var(--t)}
+.opt:hover{border-color:var(--gb);background:var(--gd)}
+.opt.sel{border-color:var(--g);background:var(--gd)}
+.opt-icon{width:34px;height:34px;flex-shrink:0;background:var(--gd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--g)}
+.opt-text{flex:1}
+.opt-name{font-weight:700;font-size:15px}
+.opt-desc{font-size:12px;color:var(--t2);margin-top:2px}
+
+.input-grp{margin-bottom:24px}
+.input-grp label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.input{width:100%;padding:12px 14px;border:1.5px solid var(--b);border-radius:10px;font-family:inherit;font-size:15px;color:var(--t);background:#fff;transition:border-color .2s;direction:rtl}
+.input:focus{outline:none;border-color:var(--g)}
+
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.yn-btn{padding:14px;border:1.5px solid var(--b);border-radius:11px;background:#fff;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;color:var(--t);transition:all .2s}
+.yn-btn:hover{border-color:var(--gb)}
+.yn-btn.sel{border-color:var(--g);background:var(--gd);color:var(--g)}
+
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chk{padding:10px 16px;border:1.5px solid var(--b);border-radius:20px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;color:var(--t);transition:all .2s}
+.chk:hover{border-color:var(--gb)}
+.chk.sel{border-color:var(--g);background:var(--gd);color:var(--g);font-weight:700}
+
+.actions{display:flex;gap:10px;justify-content:space-between}
+.btn{padding:13px 28px;border-radius:11px;border:none;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-back{background:transparent;color:var(--t2);border:1.5px solid var(--b)}
+.btn-back:hover{border-color:var(--g);color:var(--g)}
+.btn-next{background:var(--g);color:#fff}
+.btn-next:hover{background:var(--g2);transform:translateY(-1px)}
+.btn-next:disabled{background:#cfdcc8;cursor:not-allowed;transform:none}
+
+.summary{background:var(--gd);border:1px solid var(--gb);border-radius:11px;padding:18px;margin-bottom:20px}
+.sum-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+.sum-row span:first-child{color:var(--t2)}
+.sum-row span:last-child{font-weight:700;color:var(--t)}
+
+.loading{text-align:center;padding:40px 0}
+.spinner{width:48px;height:48px;border:3px solid var(--gd);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.success{text-align:center;padding:20px 0}
+.success-icon{width:72px;height:72px;background:var(--gd);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.success-icon svg{color:var(--g)}
+.success-title{font-size:22px;font-weight:900;margin-bottom:8px}
+.success-desc{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:24px}
+
+.logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px}
+.logo img{width:36px;height:36px}
+.logo span{font-size:22px;font-weight:900}
+
+@media(max-width:600px){
+  .card{padding:24px 20px}
+  .step-title{font-size:20px}
+  .yn{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="logo">
+    <img src="img/logo-icon.png" alt="محسوب">
+    <span>محسوب</span>
+  </div>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="card" id="card">
+    <!-- Steps render here -->
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/onboarding-data.js"></script>
+<script>
+const TOTAL_STEPS = 7;
+let step = 0;
+const answers = {
+  business_type: null,
+  branch_count: 1,
+  vat_registered: null,
+  has_inventory: null,
+  has_employees: null,
+  fiscal_year_start: 1,
+  goals: [],
+};
+
+// ─── Auth boot — only proceed if authenticated and NOT onboarded ──────────
+(async () => {
+  const ok = await Auth.boot();
+  if (!ok) return;
+  if (Auth.tenant?.onboarded) {
+    window.location.href = '/app';
+    return;
+  }
+  render();
+})();
+
+function renderProgress() {
+  const el = document.getElementById('progress');
+  el.innerHTML = Array.from({length: TOTAL_STEPS}, (_, i) =>
+    `<div class="dot ${i < step ? 'done' : (i === step ? 'on' : '')}"></div>`
+  ).join('');
+}
+
+function render() {
+  renderProgress();
+  const c = document.getElementById('card');
+
+  if (step === 0) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 1 من ${TOTAL_STEPS}</div>
+      <div class="step-title">وش نوع نشاطك؟</div>
+      <div class="step-desc">نختار شجرة الحسابات المناسبة لنشاطك تلقائياً.</div>
+      <div class="options" id="opts">
+        ${BUSINESS_TYPES.map(t => `
+          <button class="opt ${answers.business_type === t.id ? 'sel' : ''}" data-id="${t.id}">
+            <div class="opt-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="opt-text">
+              <div class="opt-name">${t.name}</div>
+              <div class="opt-desc">${t.desc}</div>
+            </div>
+          </button>
+        `).join('')}
+      </div>
+      <div class="actions">
+        <span></span>
+        <button class="btn btn-next" onclick="next()" ${!answers.business_type ? 'disabled' : ''}>التالي</button>
+      </div>
+    `;
+    document.querySelectorAll('.opt').forEach(el => {
+      el.onclick = () => { answers.business_type = el.dataset.id; render(); };
+    });
+  }
+
+  else if (step === 1) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 2 من ${TOTAL_STEPS}</div>
+      <div class="step-title">كم فرع عندك؟</div>
+      <div class="step-desc">ننشئ مركز تكلفة لكل فرع — يعطيك تقارير منفصلة.</div>
+      <div class="input-grp">
+        <label>عدد الفروع</label>
+        <input class="input" type="number" min="1" max="50" value="${answers.branch_count}" id="branches">
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="
+          answers.branch_count = parseInt(document.getElementById('branches').value) || 1;
+          next();
+        ">التالي</button>
+      </div>
+    `;
+  }
+
+  else if (step === 2) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 3 من ${TOTAL_STEPS}</div>
+      <div class="step-title">مسجل في ضريبة القيمة المضافة (VAT)؟</div>
+      <div class="step-desc">إذا نعم، نضيف حسابات الضريبة (مدخلات/مخرجات) متوافقة مع ZATCA.</div>
+      <div class="yn">
+        <button class="yn-btn ${answers.vat_registered === true ? 'sel' : ''}" onclick="answers.vat_registered = true; render();">نعم، مسجّل</button>
+        <button class="yn-btn ${answers.vat_registered === false ? 'sel' : ''}" onclick="answers.vat_registered = false; render();">لا، غير مسجل</button>
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="next()" ${answers.vat_registered === null ? 'disabled' : ''}>التالي</button>
+      </div>
+    `;
+  }
+
+  else if (step === 3) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 4 من ${TOTAL_STEPS}</div>
+      <div class="step-title">عندك مخزون أو منتجات؟</div>
+      <div class="step-desc">إذا نعم، نضيف حسابات المخزون وتكلفة البضاعة المباعة.</div>
+      <div class="yn">
+        <button class="yn-btn ${answers.has_inventory === true ? 'sel' : ''}" onclick="answers.has_inventory = true; render();">نعم</button>
+        <button class="yn-btn ${answers.has_inventory === false ? 'sel' : ''}" onclick="answers.has_inventory = false; render();">لا</button>
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="next()" ${answers.has_inventory === null ? 'disabled' : ''}>التالي</button>
+      </div>
+    `;
+  }
+
+  else if (step === 4) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 5 من ${TOTAL_STEPS}</div>
+      <div class="step-title">عندك موظفين؟</div>
+      <div class="step-desc">إذا نعم، نضيف حسابات الرواتب والتأمينات (GOSI).</div>
+      <div class="yn">
+        <button class="yn-btn ${answers.has_employees === true ? 'sel' : ''}" onclick="answers.has_employees = true; render();">نعم</button>
+        <button class="yn-btn ${answers.has_employees === false ? 'sel' : ''}" onclick="answers.has_employees = false; render();">لا</button>
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="next()" ${answers.has_employees === null ? 'disabled' : ''}>التالي</button>
+      </div>
+    `;
+  }
+
+  else if (step === 5) {
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    c.innerHTML = `
+      <div class="step-label">السؤال 6 من ${TOTAL_STEPS}</div>
+      <div class="step-title">بداية سنتك المالية؟</div>
+      <div class="step-desc">معظم الشركات في السعودية تبدأ من يناير (هجري أو ميلادي).</div>
+      <div class="input-grp">
+        <label>الشهر</label>
+        <select class="input" id="fy">
+          ${months.map((m, i) => `<option value="${i+1}" ${answers.fiscal_year_start === i+1 ? 'selected' : ''}>${m}</option>`).join('')}
+        </select>
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="
+          answers.fiscal_year_start = parseInt(document.getElementById('fy').value);
+          next();
+        ">التالي</button>
+      </div>
+    `;
+  }
+
+  else if (step === 6) {
+    const goalOpts = [
+      'زيادة الإيرادات', 'تقليل المصاريف', 'تحسين التدفق النقدي',
+      'متابعة الفروع', 'الامتثال الضريبي', 'إدارة المخزون',
+      'التوسع والنمو', 'تقارير دقيقة',
+    ];
+    c.innerHTML = `
+      <div class="step-label">السؤال 7 من ${TOTAL_STEPS}</div>
+      <div class="step-title">أهم 3 أهداف ماليّة عندك؟</div>
+      <div class="step-desc">نخصص لوحة المتابعة و KPIs بناءً على أهدافك.</div>
+      <div class="checks" id="goals">
+        ${goalOpts.map(g => `
+          <button class="chk ${answers.goals.includes(g) ? 'sel' : ''}" onclick="toggleGoal('${g}')">${g}</button>
+        `).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="finish()" ${answers.goals.length === 0 ? 'disabled' : ''}>إنشاء حسابي ←</button>
+      </div>
+    `;
+  }
+}
+
+function toggleGoal(g) {
+  const i = answers.goals.indexOf(g);
+  if (i >= 0) answers.goals.splice(i, 1);
+  else if (answers.goals.length < 3) answers.goals.push(g);
+  render();
+}
+
+function next() { if (step < TOTAL_STEPS - 1) { step++; render(); } }
+function back() { if (step > 0) { step--; render(); } }
+
+async function finish() {
+  const c = document.getElementById('card');
+  c.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">جاري إعداد حسابك...</div>
+      <div style="font-size:13px;color:var(--t2)">ننشئ شجرة الحسابات، مراكز التكلفة، والإعدادات</div>
+    </div>
+  `;
+
+  try {
+    const tenantId = Auth.tenant.id;
+    const coa = buildChartOfAccounts(answers);
+    const cc  = buildCostCenters(answers.branch_count, Auth.tenant.name);
+
+    // 1) Insert chart of accounts
+    const coaRows = coa.map(a => ({ ...a, tenant_id: tenantId }));
+    const { error: e1 } = await _sb.from('chart_of_accounts').insert(coaRows);
+    if (e1) throw e1;
+
+    // 2) Insert cost centers
+    const ccRows = cc.map(x => ({ ...x, tenant_id: tenantId }));
+    const { error: e2 } = await _sb.from('cost_centers').insert(ccRows);
+    if (e2) throw e2;
+
+    // 3) Update tenant profile + mark onboarded
+    const { error: e3 } = await _sb.from('tenants').update({
+      business_type:     answers.business_type,
+      branch_count:      answers.branch_count,
+      vat_registered:    answers.vat_registered,
+      has_inventory:     answers.has_inventory,
+      has_employees:     answers.has_employees,
+      fiscal_year_start: answers.fiscal_year_start,
+      goals:             answers.goals,
+      onboarded:         true,
+    }).eq('id', tenantId);
+    if (e3) throw e3;
+
+    // Success!
+    c.innerHTML = `
+      <div class="success">
+        <div class="success-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="success-title">تم إعداد حسابك بنجاح!</div>
+        <div class="success-desc">
+          أنشأنا لك ${coa.length} حساب في شجرة الحسابات،<br>
+          و ${cc.length} مركز تكلفة لفروعك.
+        </div>
+        <button class="btn btn-next" onclick="window.location.href='/app'">ابدأ استخدام محسوب ←</button>
+      </div>
+    `;
+    document.getElementById('progress').innerHTML = Array.from({length:TOTAL_STEPS}, ()=>'<div class="dot done"></div>').join('');
+
+  } catch (err) {
+    console.error('Onboarding error:', err);
+    c.innerHTML = `
+      <div class="step-title" style="color:#c0392b">حدث خطأ</div>
+      <div class="step-desc">${err.message || 'فشل إعداد الحساب. حاول مجدداً.'}</div>
+      <button class="btn btn-next" onclick="render()">المحاولة مجدداً</button>
+    `;
+  }
+}
+</script>
+</body>
+</html>
