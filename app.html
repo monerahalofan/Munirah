@@ -797,7 +797,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <button class="btn bg2" onclick="showSt('balance',this)">الميزانية العمومية</button>
     <button class="btn bg2" onclick="showSt('cf',this)">التدفقات النقدية</button>
   </div>
-  <div class="card"><div class="sh"><div class="st" id="stT">قائمة الدخل — أبريل 2026</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="alert('تصدير PDF...')">PDF ↓</button></div><div id="stC"></div></div>
+  <div class="card"><div class="sh"><div class="st" id="stT">قائمة الدخل — الشهر الحالي</div><button class="btn bg2" style="font-size:12px;padding:5px 12px" onclick="exportStatement()">⬇ تصدير CSV</button></div><div id="stC"></div></div>
 </div>
 
 <!-- INVOICE -->
@@ -1328,11 +1328,13 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 </div>
 <div class="pg" id="pg-vat">
 
-  <div class="tax-tab">
+  <div class="tax-tab" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
     <button class="btn bp" id="vatQ1" onclick="showVat('q1',this)">ربع أول 2026</button>
     <button class="btn bg2" onclick="showVat('q2',this)">ربع ثاني 2026</button>
     <button class="btn bg2" onclick="showVat('q3',this)">ربع ثالث 2026</button>
     <button class="btn bg2" onclick="showVat('q4',this)">ربع رابع 2026</button>
+    <div style="flex:1"></div>
+    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير إقرار ZATCA (CSV)</button>
   </div>
 
   <div class="g4">
@@ -2618,8 +2620,209 @@ const SCD={
 function showSt(t,el){
   document.querySelectorAll('#pg-st .btn').forEach(b=>b.className='btn bg2');
   if(el)el.className='btn bp';
-  document.getElementById('stT').textContent=SCD[t].t;
-  document.getElementById('stC').innerHTML=SCD[t].h;
+  // Try live data; fallback to placeholder if not loaded
+  if (typeof Auth !== 'undefined' && Auth.tenant?.id) {
+    renderStatement(t).catch(err => {
+      console.warn('Statement live error, fallback:', err);
+      document.getElementById('stT').textContent = SCD[t].t;
+      document.getElementById('stC').innerHTML   = SCD[t].h;
+    });
+  } else {
+    document.getElementById('stT').textContent = SCD[t].t;
+    document.getElementById('stC').innerHTML   = SCD[t].h;
+  }
+}
+
+// ──────────── Financial Statements (live from journal_entries) ──────────
+function _stFmt(n) {
+  const v = parseFloat(n) || 0;
+  return v.toLocaleString('ar-SA', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+async function _stLoadData() {
+  const [{ data: accounts }, { data: bals }] = await Promise.all([
+    _sb.from('chart_of_accounts').select('*').eq('tenant_id', Auth.tenant.id).eq('is_active', true),
+    _sb.from('account_balances').select('*').eq('tenant_id', Auth.tenant.id),
+  ]);
+  const balMap = {};
+  (bals || []).forEach(b => balMap[b.account_code] = parseFloat(b.balance) || 0);
+  return { accounts: accounts || [], balMap };
+}
+
+async function renderStatement(type) {
+  const { accounts, balMap } = await _stLoadData();
+  if (type === 'income')  return _stRenderIncome(accounts, balMap);
+  if (type === 'balance') return _stRenderBalance(accounts, balMap);
+  if (type === 'cf')      return _stRenderCashFlow(accounts, balMap);
+}
+
+function _stRenderIncome(accounts, balMap) {
+  const now = new Date();
+  const monthName = now.toLocaleDateString('ar-SA', { month: 'long', year: 'numeric' });
+  document.getElementById('stT').textContent = 'قائمة الدخل — ' + monthName;
+
+  // Revenue (CR-normal): balance = credit - debit (negative of DR-balance)
+  const revenue = accounts.filter(a => a.type === 'revenue').map(a => ({
+    name: a.name_ar, val: -(balMap[a.code] || 0)
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  const cogs = accounts.filter(a => a.type === 'cogs').map(a => ({
+    name: a.name_ar, val: balMap[a.code] || 0
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  const expense = accounts.filter(a => a.type === 'expense').map(a => ({
+    name: a.name_ar, val: balMap[a.code] || 0
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  const totalRev = revenue.reduce((s, x) => s + x.val, 0);
+  const totalCogs = cogs.reduce((s, x) => s + x.val, 0);
+  const totalExp = expense.reduce((s, x) => s + x.val, 0);
+  const grossProfit = totalRev - totalCogs;
+  const netIncome = grossProfit - totalExp;
+
+  const row = (label, val, opts = {}) => `
+    <div class="sr ${opts.cls || ''}" style="${opts.style || ''}">
+      <span style="${opts.lblStyle || ''}">${label}</span>
+      <span class="sv ${val >= 0 ? 'pos' : 'neg'}" style="direction:ltr;${opts.valStyle || ''}">${val >= 0 ? '+' : ''}${_stFmt(val)}</span>
+    </div>
+  `;
+
+  let html = '<div class="stmt">';
+  html += '<div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>';
+
+  if (revenue.length) {
+    html += '<div class="sr" style="background:rgba(22,163,114,.06);font-weight:700"><span>📈 الإيرادات (يدخل لي)</span><span></span></div>';
+    revenue.forEach(x => html += row(x.name, x.val, { cls:'ind' }));
+    html += row('إجمالي الإيرادات', totalRev, { cls:'tot', style:'background:rgba(22,163,114,.1);font-weight:700' });
+  }
+
+  if (cogs.length) {
+    html += '<div class="sr" style="background:rgba(245,158,11,.06);font-weight:700;margin-top:8px"><span>📦 تكلفة البضاعة</span><span></span></div>';
+    cogs.forEach(x => html += row(x.name, -x.val, { cls:'ind' }));
+    html += row('إجمالي التكلفة', -totalCogs, { cls:'tot', style:'background:rgba(245,158,11,.1);font-weight:700' });
+    html += row('مجمل الربح', grossProfit, { cls:'tot', style:`background:${grossProfit>=0?'rgba(22,163,114,.15)':'rgba(232,57,74,.1)'};font-weight:800;font-size:14px;padding:11px 13px` });
+  }
+
+  if (expense.length) {
+    html += '<div class="sr" style="background:rgba(220,38,38,.06);font-weight:700;margin-top:8px"><span>📉 المصروفات (يخرج مني)</span><span></span></div>';
+    expense.forEach(x => html += row(x.name, -x.val, { cls:'ind' }));
+    html += row('إجمالي المصروفات', -totalExp, { cls:'tot', style:'background:rgba(220,38,38,.1);font-weight:700' });
+  }
+
+  html += row(netIncome >= 0 ? '✅ صافي الربح' : '⚠️ صافي الخسارة', netIncome, {
+    cls:'tot',
+    style:`background:${netIncome>=0?'linear-gradient(135deg,rgba(22,163,114,.2),rgba(22,163,114,.1))':'linear-gradient(135deg,rgba(232,57,74,.2),rgba(232,57,74,.1))'};font-weight:900;font-size:16px;padding:14px 16px;margin-top:8px;border-radius:9px;border:1px solid ${netIncome>=0?'rgba(22,163,114,.3)':'rgba(232,57,74,.3)'}`,
+  });
+
+  if (!revenue.length && !expense.length && !cogs.length) {
+    html += '<div style="text-align:center;padding:28px;color:var(--t3)">لا توجد حركات هذا الشهر بعد</div>';
+  }
+
+  html += '</div>';
+  document.getElementById('stC').innerHTML = html;
+}
+
+function _stRenderBalance(accounts, balMap) {
+  document.getElementById('stT').textContent = 'الميزانية العمومية — اليوم';
+
+  const assets = accounts.filter(a => a.type === 'asset' && a.parent_code).map(a => ({
+    name: a.name_ar, val: balMap[a.code] || 0
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  const liabilities = accounts.filter(a => a.type === 'liability' && a.parent_code).map(a => ({
+    name: a.name_ar, val: -(balMap[a.code] || 0)
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  const equity = accounts.filter(a => a.type === 'equity' && a.parent_code).map(a => ({
+    name: a.name_ar, val: -(balMap[a.code] || 0)
+  })).filter(a => Math.abs(a.val) > 0.001);
+
+  // Net income (current period) flows into equity
+  const revBal = accounts.filter(a => a.type === 'revenue').reduce((s, a) => s + (-(balMap[a.code] || 0)), 0);
+  const expBal = accounts.filter(a => a.type === 'expense' || a.type === 'cogs').reduce((s, a) => s + (balMap[a.code] || 0), 0);
+  const currentNI = revBal - expBal;
+  if (Math.abs(currentNI) > 0.001) equity.push({ name: 'صافي ربح/خسارة الفترة الحالية', val: currentNI });
+
+  const totA = assets.reduce((s, x) => s + x.val, 0);
+  const totL = liabilities.reduce((s, x) => s + x.val, 0);
+  const totE = equity.reduce((s, x) => s + x.val, 0);
+  const totLE = totL + totE;
+  const diff = Math.abs(totA - totLE);
+
+  const row = (label, val, color, indent) => `
+    <div class="sr ${indent ? 'ind' : ''}">
+      <span>${label}</span>
+      <span class="sv" style="direction:ltr;color:${color};font-weight:${indent?500:700}">${_stFmt(val)}</span>
+    </div>
+  `;
+
+  let html = '<div class="stmt">';
+  html += '<div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>';
+
+  html += '<div class="sr" style="background:rgba(37,99,235,.06);font-weight:700"><span>💰 ما أملكه (الأصول)</span><span></span></div>';
+  assets.forEach(x => html += row(x.name, x.val, '#2563eb', true));
+  html += `<div class="sr tot" style="background:rgba(37,99,235,.1);font-weight:800"><span>إجمالي ما أملكه</span><span class="sv" style="direction:ltr;color:#2563eb">${_stFmt(totA)}</span></div>`;
+
+  html += '<div class="sr" style="background:rgba(232,57,74,.06);font-weight:700;margin-top:10px"><span>💸 ما عليّ (الخصوم)</span><span></span></div>';
+  if (liabilities.length) liabilities.forEach(x => html += row(x.name, x.val, '#e8394a', true));
+  else html += '<div class="sr ind"><span style="color:var(--t3)">ما عليك أي مستحقات</span><span></span></div>';
+  html += `<div class="sr tot" style="background:rgba(232,57,74,.1);font-weight:700"><span>إجمالي ما عليّ</span><span class="sv" style="direction:ltr;color:#e8394a">${_stFmt(totL)}</span></div>`;
+
+  html += '<div class="sr" style="background:rgba(124,58,237,.06);font-weight:700;margin-top:10px"><span>🏛️ حقي في المشروع (حقوق الملكية)</span><span></span></div>';
+  if (equity.length) equity.forEach(x => html += row(x.name, x.val, '#7c3aed', true));
+  else html += '<div class="sr ind"><span style="color:var(--t3)">لم يتم تسجيل رأس مال بعد</span><span></span></div>';
+  html += `<div class="sr tot" style="background:rgba(124,58,237,.1);font-weight:700"><span>إجمالي حقي</span><span class="sv" style="direction:ltr;color:#7c3aed">${_stFmt(totE)}</span></div>`;
+
+  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(232,57,74,.15),rgba(124,58,237,.15));font-weight:900;font-size:14px;padding:12px;margin-top:8px"><span>إجمالي (ما عليّ + حقي)</span><span class="sv" style="direction:ltr">${_stFmt(totLE)}</span></div>`;
+
+  if (diff < 0.01) {
+    html += '<div style="text-align:center;padding:12px;color:#16a372;font-size:12px;font-weight:700">✓ الميزانية متوازنة</div>';
+  } else {
+    html += `<div style="text-align:center;padding:12px;color:#e8394a;font-size:12px">⚠️ فرق ${_stFmt(diff)} — تحقق من الحركات</div>`;
+  }
+
+  if (!assets.length && !liabilities.length && !equity.length) {
+    html = '<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">لا توجد بيانات بعد. أضف معاملاتك الأولى.</div></div>';
+  } else {
+    html += '</div>';
+  }
+
+  document.getElementById('stC').innerHTML = html;
+}
+
+function exportStatement() {
+  const title = document.getElementById('stT').textContent.trim();
+  const rows = Array.from(document.querySelectorAll('#stC .sr')).map(r => {
+    const cells = r.querySelectorAll('span');
+    return [cells[0]?.textContent.trim() || '', (cells[1]?.textContent || '').trim()];
+  });
+  const lines = [title, '', ...rows.map(([a, b]) => `${a},${b}`)];
+  const csv = '﻿' + lines.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${title.replace(/\s+/g, '_')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function _stRenderCashFlow(accounts, balMap) {
+  document.getElementById('stT').textContent = 'قائمة التدفقات النقدية';
+  // Simplified: show cash + bank balances
+  const cashAccts = accounts.filter(a => ['1101','1102'].includes(a.code));
+  const totalCash = cashAccts.reduce((s, a) => s + (balMap[a.code] || 0), 0);
+
+  let html = '<div class="stmt">';
+  html += '<div class="sr hd"><span>الحساب النقدي</span><span class="sv">الرصيد (ر.س)</span></div>';
+  cashAccts.forEach(a => {
+    const v = balMap[a.code] || 0;
+    html += `<div class="sr"><span>${a.name_ar}</span><span class="sv" style="direction:ltr;color:${v>=0?'#16a372':'#e8394a'};font-weight:700">${_stFmt(v)}</span></div>`;
+  });
+  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(22,163,114,.15),rgba(22,163,114,.08));font-weight:900;font-size:15px;padding:13px"><span>إجمالي السيولة المتاحة</span><span class="sv" style="direction:ltr;color:#16a372">${_stFmt(totalCash)}</span></div>`;
+  html += '<div style="padding:14px;background:rgba(0,0,0,.02);border-radius:8px;margin-top:12px;font-size:12px;color:var(--t2);line-height:1.7"><strong>ملاحظة:</strong> النسخة الكاملة من قائمة التدفقات (تشغيلية/استثمارية/تمويلية) ستضاف قريباً.</div>';
+  html += '</div>';
+  document.getElementById('stC').innerHTML = html;
 }
 
 // ── ZATCA ──────────────────────────────
@@ -4002,7 +4205,20 @@ const vatData = {
 
 function showVat(q, el) {
   document.querySelectorAll('.tax-tab .btn').forEach(b => b.className = 'btn bg2');
-  el.className = 'btn bp';
+  if (el) el.className = 'btn bp';
+
+  // Always try live data (from journal_entries); fallback to mock vatData if unavailable
+  if (typeof Auth !== 'undefined' && Auth.tenant?.id) {
+    _vatLive(q).catch(err => {
+      console.warn('VAT live error, fallback:', err);
+      _vatMock(q);
+    });
+  } else {
+    _vatMock(q);
+  }
+}
+
+function _vatMock(q) {
   const d = vatData[q];
   document.getElementById('v-out').textContent = d.out + ' ر.س';
   document.getElementById('v-in').textContent = d.i + ' ر.س';
@@ -4012,6 +4228,105 @@ function showVat(q, el) {
     const isLast = i === arr.length - 1;
     return `<tr><td ${isLast ? 'style="font-weight:600;color:var(--t)"' : ''}>${m[0]}</td><td style="direction:ltr${isLast ? ';font-weight:600' : ''}">${m[1]}</td><td style="direction:ltr;color:var(--g)${isLast ? ';font-weight:600' : ''}">${m[2]}</td></tr>`;
   }).join('');
+}
+
+// Real-data VAT (ZATCA-aware)
+async function _vatLive(q) {
+  const year = new Date().getFullYear();
+  const quarters = { q1: [1,3], q2: [4,6], q3: [7,9], q4: [10,12] };
+  const [m1, m2] = quarters[q] || [1, 3];
+  const from = `${year}-${String(m1).padStart(2,'0')}-01`;
+  const lastDay = new Date(year, m2, 0).getDate();
+  const to   = `${year}-${m2.toString().padStart(2,'0')}-${lastDay}`;
+  const dueMonth = m2 === 12 ? 1 : m2 + 1;
+  const dueDate = `30 ${['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'][dueMonth-1]}`;
+
+  // Output VAT: account 2103 (CR balance), Input VAT: account 1104 (DR balance)
+  // We compute per-period from journal_entries
+  const { data: entries, error } = await _sb
+    .from('journal_entries')
+    .select('account_code,entry_date,debit,credit')
+    .eq('tenant_id', Auth.tenant.id)
+    .in('account_code', ['2103', '1104', '4101'])
+    .gte('entry_date', from)
+    .lte('entry_date', to);
+  if (error) throw error;
+
+  const list = entries || [];
+  const vatOut = list.filter(e => e.account_code === '2103').reduce((s, e) => s + ((+e.credit||0) - (+e.debit||0)), 0);
+  const vatIn  = list.filter(e => e.account_code === '1104').reduce((s, e) => s + ((+e.debit ||0) - (+e.credit||0)), 0);
+  const sales  = list.filter(e => e.account_code === '4101').reduce((s, e) => s + ((+e.credit||0) - (+e.debit||0)), 0);
+  const net = vatOut - vatIn;
+
+  document.getElementById('v-out').textContent = _stFmt(vatOut) + ' ر.س';
+  document.getElementById('v-in').textContent  = _stFmt(vatIn)  + ' ر.س';
+  document.getElementById('v-net').textContent = _stFmt(net)    + ' ر.س';
+  document.getElementById('v-due').textContent = dueDate;
+
+  // Detailed statement
+  if (document.getElementById('vatSales'))    document.getElementById('vatSales').textContent = _stFmt(sales);
+  if (document.getElementById('vatOut'))      document.getElementById('vatOut').textContent   = '+' + _stFmt(vatOut);
+  if (document.getElementById('vatPurch'))    document.getElementById('vatPurch').textContent = _stFmt(vatIn / 0.15); // approx base
+  if (document.getElementById('vatIn'))       document.getElementById('vatIn').textContent    = '-' + _stFmt(vatIn);
+  if (document.getElementById('vatNet'))      document.getElementById('vatNet').textContent   = _stFmt(net);
+
+  // Monthly breakdown
+  const monthly = {};
+  list.filter(e => e.account_code === '4101').forEach(e => {
+    const mo = e.entry_date.slice(0, 7);
+    if (!monthly[mo]) monthly[mo] = { sales: 0, vat: 0 };
+    monthly[mo].sales += ((+e.credit||0) - (+e.debit||0));
+  });
+  list.filter(e => e.account_code === '2103').forEach(e => {
+    const mo = e.entry_date.slice(0, 7);
+    if (!monthly[mo]) monthly[mo] = { sales: 0, vat: 0 };
+    monthly[mo].vat += ((+e.credit||0) - (+e.debit||0));
+  });
+  const monthNames = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const rows = Object.keys(monthly).sort().map(k => {
+    const m = parseInt(k.slice(5,7), 10);
+    return [monthNames[m-1], _stFmt(monthly[k].sales), _stFmt(monthly[k].vat)];
+  });
+  if (rows.length) {
+    rows.push(['الإجمالي', _stFmt(sales), _stFmt(vatOut)]);
+    document.getElementById('vatMonthly').innerHTML = rows.map((m, i, arr) => {
+      const isLast = i === arr.length - 1;
+      return `<tr><td ${isLast ? 'style="font-weight:700"' : ''}>${m[0]}</td><td style="direction:ltr${isLast ? ';font-weight:700' : ''}">${m[1]}</td><td style="direction:ltr;color:var(--g)${isLast ? ';font-weight:700' : ''}">${m[2]}</td></tr>`;
+    }).join('');
+  } else {
+    document.getElementById('vatMonthly').innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--t3);padding:20px">لا توجد مبيعات في هذا الربع</td></tr>';
+  }
+
+  // Save current quarter context for export
+  window._vatExportCtx = { quarter:q, year, from, to, vatOut, vatIn, net, sales };
+}
+
+// Export ZATCA quarterly VAT return (CSV)
+function exportZatcaVat() {
+  const ctx = window._vatExportCtx;
+  if (!ctx) { alert('افتح ربع سنوي أولاً'); return; }
+  const business = Auth.tenant?.name || '—';
+  const vatNum   = Auth.tenant?.vat_number || '—';
+  const lines = [
+    `اسم المنشأة,${business}`,
+    `الرقم الضريبي,${vatNum}`,
+    `الفترة,${ctx.from} إلى ${ctx.to}`,
+    `الربع,${ctx.quarter.toUpperCase()} - ${ctx.year}`,
+    '',
+    'البند,المبلغ (ر.س)',
+    `إجمالي المبيعات الخاضعة للضريبة,${ctx.sales.toFixed(2)}`,
+    `ضريبة المخرجات (15%),${ctx.vatOut.toFixed(2)}`,
+    `ضريبة المدخلات القابلة للخصم,${ctx.vatIn.toFixed(2)}`,
+    `صافي الضريبة المستحقة,${ctx.net.toFixed(2)}`,
+  ];
+  const csv = '﻿' + lines.join('\n'); // BOM for Arabic Excel
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ZATCA_VAT_${ctx.quarter.toUpperCase()}_${ctx.year}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ── ZAKAT ────────────────────────────────────────
