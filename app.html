@@ -65,8 +65,12 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .csm{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:12px}
 /* KPI */
 .kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.kc{background:#fff;border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(22,40,32,.04)}
+.kc{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(22,40,32,.04)}
 .kc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(22,40,32,.07)}
+body.dark .kc{background:#161b27;box-shadow:none}
+body.dark .kc:hover{box-shadow:0 8px 20px rgba(0,0,0,.4)}
+body.dark .db-hero{background:linear-gradient(135deg,rgba(34,201,138,.12),rgba(34,201,138,.04));border-color:rgba(34,201,138,.25)}
+body.dark .qab-new{background:#161b27 !important}
 .kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
 .kc.G::before{background:linear-gradient(90deg,#16a372,#22c98a)}
 .kc.R::before{background:linear-gradient(90deg,#dc2626,#ef4444)}
@@ -109,14 +113,16 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .bdg-b{background:var(--blb);color:var(--bl);border:1px solid var(--blB)}
 .bdg-p{background:var(--pb);color:var(--p);border:1px solid var(--pB)}
 /* Invoice stepper */
-.inv-step{display:flex;align-items:center;gap:7px;flex:1;justify-content:center}
-.inv-step-num{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
-.inv-step-label{font-size:12px;color:var(--t3);white-space:nowrap;transition:.2s}
-.inv-step.on .inv-step-num{background:var(--g);border-color:var(--g);color:#fff}
-.inv-step.on .inv-step-label{color:var(--t1);font-weight:600}
-.inv-step.done .inv-step-num{background:var(--gb);border-color:var(--g);color:var(--g)}
-.inv-step.done .inv-step-num::after{content:'✓'}
+.inv-step{display:flex;align-items:center;gap:10px;flex:1;justify-content:center}
+.inv-step-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
+.inv-step-label{font-size:13px;color:var(--t3);white-space:nowrap;transition:.2s;font-weight:500}
+.inv-step.on .inv-step-num{background:linear-gradient(135deg,#45aa6e,#22c98a);border-color:#45aa6e;color:#fff;box-shadow:0 0 0 4px rgba(69,170,110,.2)}
+.inv-step.on .inv-step-label{color:var(--t);font-weight:700}
+.inv-step.done .inv-step-num{background:rgba(69,170,110,.15);border-color:#45aa6e;color:#16a372}
+.inv-step.done .inv-step-num::after{content:'✓';font-size:15px}
 .inv-step.done .inv-step-num span{display:none}
+.inv-step-line{flex:0 0 32px;height:2px;background:var(--b)}
+.inv-step.done + .inv-step-line{background:linear-gradient(90deg,#45aa6e,#22c98a)}
 .inv-step-line{flex:1;height:2px;background:var(--b);max-width:60px;border-radius:2px}
 /* Form */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -284,6 +290,13 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 .qab{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px 12px;cursor:pointer;font-family:'Tajawal',sans-serif;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .15s}
 .uc-role{font-size:10px;margin-top:1px}
 .kg{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}}
+/* POS responsive */
+@media(max-width:800px){
+  #pg-pos > div:first-child{grid-template-columns:1fr !important}
+  #pg-pos .card[style*="sticky"]{position:static !important}
+  #pos-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr)) !important}
+}
+
 @media(max-width:700px){
   .sb{position:fixed;right:0;top:0;bottom:0;z-index:50;transform:translateX(110%);width:280px;box-shadow:-4px 0 20px rgba(0,0,0,.2)}
   .sb.open{transform:translateX(0)}
@@ -481,7 +494,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   </div>
 
   <!-- Hero greeting -->
-  <div style="background:linear-gradient(135deg,rgba(69,170,110,.08),rgba(69,170,110,.02));border:1px solid rgba(69,170,110,.18);border-radius:14px;padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+  <div class="db-hero" style="background:linear-gradient(135deg,rgba(69,170,110,.08),rgba(69,170,110,.02));border:1px solid rgba(69,170,110,.18);border-radius:14px;padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
     <div>
       <div style="font-size:22px;font-weight:800;color:var(--t)">أهلاً، <span id="greetName">—</span> 👋</div>
       <div style="font-size:13px;color:var(--t2);margin-top:4px" id="greetDate"></div>
@@ -839,16 +852,19 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 <div class="pg" id="pg-zt">
 
   <!-- AI Invoice Builder -->
-  <div style="background:linear-gradient(135deg,var(--blb),var(--gb));border:1px solid var(--blB);border-radius:var(--R);padding:13px 16px;margin-bottom:16px">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="font-size:22px">✨</div>
+  <div style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(37,99,235,.06));border:1px solid rgba(139,92,246,.25);border-radius:14px;padding:16px 20px;margin-bottom:18px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(139,92,246,.15) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
         <div>
-          <div style="font-size:13px;font-weight:700">إنشاء فاتورة بالذكاء الاصطناعي</div>
-          <div style="font-size:11px;color:var(--t3);margin-top:1px">صف فاتورتك بالعربي وسيملأ النظام الحقول تلقائياً</div>
+          <div style="font-size:14px;font-weight:800;color:var(--t)">إنشاء فاتورة بالذكاء الاصطناعي</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:3px">صف فاتورتك بالعربي وسيملأ النظام الحقول تلقائياً</div>
         </div>
       </div>
-      <button class="btn bg2" style="font-size:12px;padding:6px 13px;white-space:nowrap" onclick="toggleAIInvoice()">إنشاء ✨</button>
+      <button style="padding:9px 18px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(139,92,246,.3)" onclick="toggleAIInvoice()">جرّب ←</button>
     </div>
     <div id="ai-inv-form" style="display:none;margin-top:12px">
       <textarea id="ai-inv-text" class="fi" rows="2" placeholder="مثال: فاتورة لأحمد عن تصميم موقع 5000 ريال مع ضريبة" style="resize:vertical;font-family:inherit;line-height:1.6;width:100%;box-sizing:border-box"></textarea>
@@ -3467,16 +3483,23 @@ function renderPosProducts() {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--t3);font-size:13px">${products.length ? 'لا توجد نتائج' : 'أضف منتجات من صفحة "خدماتي ومنتجاتي" أولاً'}</div>`;
     return;
   }
+  const serviceIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
+  const productIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+
   grid.innerHTML = filtered.map(p => {
     const outOfStock = p.type === 'product' && p.stock != null && p.stock <= 0;
+    const isService = p.type === 'service';
+    const accentColor = isService ? '#7c3aed' : '#16a372';
+    const accentBg    = isService ? 'rgba(124,58,237,.1)' : 'rgba(22,163,114,.1)';
     return `<div onclick="${outOfStock ? '' : `addToCart(${p.id})`}"
-      style="background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:.15s"
-      onmouseenter="if(!${outOfStock})this.style.borderColor='var(--g)'" onmouseleave="this.style.borderColor='var(--b)'">
-      <div style="font-size:26px;margin-bottom:6px">${p.type === 'service' ? '⚙️' : '📦'}</div>
-      <div style="font-size:13px;font-weight:600;margin-bottom:3px;line-height:1.3">${p.name}</div>
-      <div style="font-size:13px;font-weight:700;color:var(--g)">${p.price.toLocaleString('ar-SA')} ر.س</div>
-      ${outOfStock ? `<div style="font-size:10px;color:var(--r);margin-top:3px">نفد المخزون</div>` : ''}
-      ${p.type === 'product' && p.stock != null && p.stock > 0 ? `<div style="font-size:10px;color:var(--t3);margin-top:3px">مخزون: ${p.stock}</div>` : ''}
+      style="background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:all .15s;box-shadow:0 1px 3px rgba(22,40,32,.04)"
+      onmouseenter="if(!${outOfStock}){this.style.borderColor='${accentColor}';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px ${accentBg}'}"
+      onmouseleave="this.style.borderColor='var(--b)';this.style.transform='';this.style.boxShadow='0 1px 3px rgba(22,40,32,.04)'">
+      <div style="width:44px;height:44px;border-radius:10px;background:${accentBg};color:${accentColor};display:flex;align-items:center;justify-content:center;margin:0 auto 8px">${isService ? serviceIcon : productIcon}</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.3;color:var(--t)">${p.name}</div>
+      <div style="font-size:14px;font-weight:800;color:${accentColor};direction:ltr">${p.price.toLocaleString('ar-SA')} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
+      ${outOfStock ? `<div style="font-size:10px;color:#dc2626;margin-top:5px;font-weight:600">نفد المخزون</div>` : ''}
+      ${p.type === 'product' && p.stock != null && p.stock > 0 ? `<div style="font-size:10px;color:var(--t3);margin-top:5px">المخزون: ${p.stock}</div>` : ''}
     </div>`;
   }).join('');
 }
@@ -4908,8 +4931,8 @@ function renderQuickActions(role){
 
   el.style.gridTemplateColumns = window.innerWidth < 600 ? 'repeat(2,1fr)' : 'repeat(6,1fr)';
   el.innerHTML = QUICK.map(a => `
-    <button onclick="go('${a.page}',null)" style="
-      background:#fff;
+    <button onclick="go('${a.page}',null)" class="qab-new" style="
+      background:var(--bg2);
       border:1px solid ${a.border};
       border-radius:14px;
       padding:18px 12px;
