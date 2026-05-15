@@ -337,19 +337,32 @@ async function doGoogle() {
   });
 
   try {
-    const { error } = await sb.auth.signInWithOAuth({
+    console.log('[Google OAuth] starting…');
+    const result = await sb.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin + '/app' }
+      options: {
+        redirectTo: window.location.origin + '/app',
+        queryParams: { access_type: 'offline', prompt: 'consent' },
+      }
     });
-    if (error) {
+    console.log('[Google OAuth] result:', result);
+    if (result.error) {
+      console.error('[Google OAuth] supabase error:', result.error);
       resetBtns();
-      showErr(translateError(error.message));
+      showErr(translateError(result.error.message));
+      return;
     }
-    // If no error: page redirects to Google
+    if (result.data?.url) {
+      // Force navigation manually (safer than relying on library)
+      window.location.href = result.data.url;
+    } else {
+      resetBtns();
+      showErr('Google OAuth غير مفعّل في Supabase. تواصل مع المدير.');
+    }
   } catch(e) {
-    console.error('Google OAuth error:', e);
+    console.error('[Google OAuth] thrown:', e);
     resetBtns();
-    showErr('تعذّر الاتصال بـ Google، حاول مجدداً');
+    showErr('تعذّر الاتصال بـ Google: ' + (e.message || 'خطأ غير معروف'));
   }
 }
 

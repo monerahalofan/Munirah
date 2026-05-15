@@ -418,6 +418,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk">💼</span><span data-i18n="nav_coa">أين أموالي؟</span></div>
+    <div class="ni" onclick="go('sub',this)"><span class="nk">💎</span><span data-i18n="nav_sub">اشتراكي</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk">⚙️</span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1860,6 +1861,27 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   </div>
 </div>
 
+<!-- SUBSCRIPTION PAGE -->
+<div class="pg" id="pg-sub">
+  <div style="margin-bottom:18px">
+    <div style="font-size:20px;font-weight:900;margin-bottom:4px">اشتراكي</div>
+    <div style="font-size:13px;color:var(--t3)">حالة باقتك، تاريخ التجديد، والفواتير</div>
+  </div>
+
+  <!-- Current plan card -->
+  <div id="subCurrent" style="background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px">
+    <div style="text-align:center;padding:30px;color:var(--t3)">جاري التحميل...</div>
+  </div>
+
+  <!-- Payments history -->
+  <div class="card">
+    <div class="sh">
+      <div class="st">سجل الفواتير</div>
+    </div>
+    <div id="subPayments" style="min-height:80px"></div>
+  </div>
+</div>
+
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
   <div class="g3" style="margin-bottom:16px">
@@ -2110,7 +2132,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -2119,6 +2141,197 @@ function go(id,el){
   document.getElementById('pt').textContent = t('pgn_'+id) || PGN[id] || '';
   closeSB();
   if (id === 'coa') coaLoad();
+  if (id === 'sub') subLoad();
+}
+
+// ──────────── SUBSCRIPTION PAGE ─────────────────────────────────────────
+const PLAN_INFO = {
+  free:     { name:'تجريبي',   price:0,   color:'#6b7280', desc:'الباقة المجانية' },
+  starter:  { name:'مبتدئ',    price:99,  color:'#2563eb', desc:'للمستقلين والمشاريع الصغيرة' },
+  pro:      { name:'احترافي',  price:249, color:'#45aa6e', desc:'للمشاريع المتنامية' },
+  business: { name:'أعمال',    price:499, color:'#7c3aed', desc:'للشركات والفرق الكبيرة' },
+};
+
+async function subLoad() {
+  document.getElementById('subCurrent').innerHTML = `<div style="text-align:center;padding:30px;color:var(--t3)">جاري التحميل...</div>`;
+  document.getElementById('subPayments').innerHTML = `<div style="text-align:center;padding:30px;color:var(--t3)">جاري التحميل...</div>`;
+
+  try {
+    const tenantId = Auth.tenant.id;
+    const currentPlan = Auth.tenant.plan || 'free';
+    const planInfo = PLAN_INFO[currentPlan] || PLAN_INFO.free;
+    const expiresAt = Auth.tenant.plan_expires_at;
+
+    // Active subscription if any
+    const { data: subs } = await _sb.from('subscriptions')
+      .select('*').eq('tenant_id', tenantId)
+      .order('created_at', { ascending: false }).limit(1);
+    const activeSub = subs?.[0];
+
+    let expHtml = '';
+    if (expiresAt) {
+      const exp = new Date(expiresAt);
+      const days = Math.ceil((exp - new Date()) / (1000*60*60*24));
+      expHtml = `<div style="font-size:12px;color:${days < 7 ? '#dc2626' : 'var(--t2)'};margin-top:4px">يتجدد في ${exp.toLocaleDateString('ar-SA')} — متبقي ${days} يوم</div>`;
+    }
+
+    document.getElementById('subCurrent').innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:18px">
+        <div>
+          <div style="font-size:11px;color:var(--t3);font-weight:600;margin-bottom:6px">الباقة الحالية</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:24px;font-weight:900;color:${planInfo.color}">${planInfo.name}</div>
+            <span style="background:${planInfo.color}20;color:${planInfo.color};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">${currentPlan.toUpperCase()}</span>
+          </div>
+          <div style="font-size:13px;color:var(--t2);margin-top:4px">${planInfo.desc}</div>
+          ${expHtml}
+        </div>
+        <div style="text-align:left">
+          <div style="font-size:11px;color:var(--t3)">السعر</div>
+          <div style="direction:ltr;font-size:22px;font-weight:900;color:${planInfo.color}">${planInfo.price} <span style="font-size:11px;color:var(--t3);font-weight:500">ر.س / شهر</span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
+        ${currentPlan === 'free' ?
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#45aa6e);color:#fff;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(69,170,110,.1);color:#16a372;border:1px solid rgba(69,170,110,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
+           ${activeSub && activeSub.status === 'active' ? `<button onclick="subCancel('${activeSub.id}')" style="flex:1;min-width:140px;padding:11px;background:transparent;color:#dc2626;border:1px solid rgba(232,57,74,.3);border-radius:9px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">إلغاء الاشتراك</button>` : ''}`
+        }
+      </div>
+    `;
+
+    // Payments history
+    const { data: payments } = await _sb.from('payments')
+      .select('*').eq('tenant_id', tenantId)
+      .order('created_at', { ascending: false }).limit(20);
+
+    if (!payments || !payments.length) {
+      document.getElementById('subPayments').innerHTML = `<div style="text-align:center;padding:36px;color:var(--t3);font-size:13px">لا توجد دفعات حتى الآن</div>`;
+      return;
+    }
+
+    document.getElementById('subPayments').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:rgba(0,0,0,.03)">
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">التاريخ</th>
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">الوصف</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">المبلغ</th>
+            <th style="padding:11px 14px;text-align:center;font-size:11px;color:var(--t3);font-weight:700">الحالة</th>
+            <th style="padding:11px 14px;text-align:center;font-size:11px;color:var(--t3);font-weight:700">الفاتورة</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${payments.map(p => {
+            const d = new Date(p.paid_at || p.created_at);
+            const status = ({ CAPTURED:['#16a372','مدفوع'], AUTHORIZED:['#f59e0b','معلّق'], FAILED:['#dc2626','فاشل'], CANCELLED:['#6b7280','ملغي'], INITIATED:['#f59e0b','قيد المعالجة'], IN_PROGRESS:['#f59e0b','قيد المعالجة'] })[p.status] || ['#6b7280', p.status];
+            const meta = p.metadata || {};
+            return `
+              <tr style="border-top:1px solid var(--bd)">
+                <td style="padding:11px 14px">${d.toLocaleDateString('ar-SA')}</td>
+                <td style="padding:11px 14px">باقة ${PLAN_INFO[meta.plan]?.name || meta.plan || '—'} ${meta.cycle === 'yearly' ? '(سنوي)' : '(شهري)'}</td>
+                <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700">${parseFloat(p.amount_sar).toFixed(2)} ر.س</td>
+                <td style="padding:11px 14px;text-align:center"><span style="background:${status[0]}20;color:${status[0]};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">${status[1]}</span></td>
+                <td style="padding:11px 14px;text-align:center">
+                  ${p.status === 'CAPTURED' ? `<button onclick="subDownloadInvoice('${p.id}')" style="padding:5px 11px;background:rgba(69,170,110,.1);color:#16a372;border:1px solid rgba(69,170,110,.3);border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">⬇ PDF</button>` : '—'}
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (e) {
+    console.error(e);
+    document.getElementById('subCurrent').innerHTML = `<div style="padding:30px;text-align:center;color:#dc2626">فشل التحميل: ${e.message}</div>`;
+  }
+}
+
+async function subCancel(subId) {
+  if (!confirm('هل أنت متأكد من إلغاء الاشتراك؟\nستبقى الباقة فعّالة حتى نهاية الفترة المدفوعة.')) return;
+  try {
+    const { error } = await _sb.from('subscriptions').update({
+      status: 'cancelled', cancelled_at: new Date().toISOString(),
+    }).eq('id', subId);
+    if (error) throw error;
+    alert('تم إلغاء الاشتراك. يستمر فعّالاً حتى ' + new Date(Auth.tenant.plan_expires_at).toLocaleDateString('ar-SA'));
+    subLoad();
+  } catch (e) {
+    alert('فشل الإلغاء: ' + e.message);
+  }
+}
+
+async function subDownloadInvoice(paymentId) {
+  try {
+    const { data: p } = await _sb.from('payments').select('*').eq('id', paymentId).maybeSingle();
+    if (!p) throw new Error('الدفعة غير موجودة');
+    const t = Auth.tenant || {};
+    const meta = p.metadata || {};
+    const planName = PLAN_INFO[meta.plan]?.name || meta.plan || '—';
+    const dt = new Date(p.paid_at || p.created_at);
+    const subtotal = parseFloat(p.amount_sar) / 1.15;
+    const vat = parseFloat(p.amount_sar) - subtotal;
+
+    // Build simple HTML invoice and open print dialog (generates PDF via browser)
+    const w = window.open('', '_blank');
+    w.document.write(`
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"><title>فاتورة ${paymentId.slice(0,8)}</title>
+<style>
+@page { size: A4; margin: 20mm }
+body { font-family: 'Tajawal', sans-serif; color: #162820; padding: 0; margin: 0 }
+.wrap { max-width: 700px; margin: 0 auto; padding: 30px }
+.header { display: flex; justify-content: space-between; border-bottom: 2px solid #45aa6e; padding-bottom: 18px; margin-bottom: 24px }
+.brand { font-size: 26px; font-weight: 900; color: #45aa6e }
+.brand-sub { font-size: 12px; color: #888; margin-top: 4px }
+.title { font-size: 20px; font-weight: 700; text-align: left }
+.title-sub { font-size: 12px; color: #888 }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px }
+.box { background: #f7f9f5; padding: 14px; border-radius: 8px; font-size: 13px }
+.box .lbl { font-size: 11px; color: #888; margin-bottom: 4px }
+.box .val { font-weight: 700 }
+table { width: 100%; border-collapse: collapse; margin-bottom: 18px }
+th, td { padding: 11px 12px; text-align: right; font-size: 13px; border-bottom: 1px solid #e5e5e5 }
+th { background: #45aa6e; color: #fff; font-weight: 700 }
+.totals { float: left; width: 280px; font-size: 14px }
+.totals .row { display: flex; justify-content: space-between; padding: 7px 0 }
+.totals .total { border-top: 2px solid #45aa6e; padding-top: 10px; margin-top: 6px; font-weight: 900; font-size: 16px; color: #45aa6e }
+.footer { clear: both; text-align: center; font-size: 11px; color: #888; margin-top: 40px; padding-top: 18px; border-top: 1px solid #e5e5e5 }
+.print-btn { position: fixed; top: 20px; left: 20px; background: #45aa6e; color: #fff; padding: 10px 18px; border-radius: 9px; border: none; font-weight: 700; cursor: pointer; font-family: inherit }
+@media print { .print-btn { display: none } }
+</style>
+</head><body>
+<button class="print-btn" onclick="window.print()">⬇ تنزيل PDF / طباعة</button>
+<div class="wrap">
+<div class="header">
+  <div><div class="brand">محسوب</div><div class="brand-sub">mahsob.sa</div></div>
+  <div><div class="title">فاتورة ضريبية</div><div class="title-sub">رقم #${paymentId.slice(0,8).toUpperCase()}</div></div>
+</div>
+<div class="grid">
+  <div class="box"><div class="lbl">صادرة إلى</div><div class="val">${t.name || '—'}</div>${t.vat_number ? `<div style="font-size:11px;color:#888;margin-top:3px">الرقم الضريبي: ${t.vat_number}</div>` : ''}</div>
+  <div class="box"><div class="lbl">تاريخ الإصدار</div><div class="val">${dt.toLocaleDateString('ar-SA')}</div><div style="font-size:11px;color:#888;margin-top:3px">طريقة الدفع: ${p.payment_method || 'Tap'}</div></div>
+</div>
+<table>
+  <thead><tr><th>الوصف</th><th style="text-align:left">المبلغ</th></tr></thead>
+  <tbody>
+    <tr><td>اشتراك محسوب — باقة ${planName} (${meta.cycle === 'yearly' ? 'سنوي' : 'شهري'})</td><td style="text-align:left;direction:ltr">${subtotal.toFixed(2)} ر.س</td></tr>
+  </tbody>
+</table>
+<div class="totals">
+  <div class="row"><span>المجموع قبل الضريبة</span><span style="direction:ltr">${subtotal.toFixed(2)} ر.س</span></div>
+  <div class="row"><span>ضريبة القيمة المضافة (15%)</span><span style="direction:ltr">${vat.toFixed(2)} ر.س</span></div>
+  <div class="row total"><span>الإجمالي</span><span style="direction:ltr">${parseFloat(p.amount_sar).toFixed(2)} ر.س</span></div>
+</div>
+<div class="footer">شكراً لاختيارك محسوب — محاسبك المالي الذكي<br>محسوب · mahsob.sa</div>
+</div>
+<script>setTimeout(()=>window.print(),500)</script>
+</body></html>
+    `);
+    w.document.close();
+  } catch (e) {
+    alert('فشل توليد الفاتورة: ' + e.message);
+  }
 }
 
 const PGN_coa = 'أين أموالي؟';
