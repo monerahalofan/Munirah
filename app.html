@@ -462,6 +462,17 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 
 <!-- DASHBOARD -->
 <div class="pg on" id="pg-db">
+  <!-- VAT deadline reminder banner (auto-shows when due) -->
+  <div id="vatReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));border:1px solid rgba(245,158,11,.35);border-radius:11px;padding:14px 18px;margin-bottom:14px;display:none;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="font-size:24px">⏰</div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-weight:700;font-size:14px;color:#a16207" id="vatReminderTitle">تذكير: إقرار الضريبة قريب</div>
+      <div style="font-size:12px;color:var(--t2);margin-top:3px" id="vatReminderDesc">—</div>
+    </div>
+    <button onclick="go('vat',document.querySelector('[onclick*=\\'vat,\\']'))" style="padding:8px 18px;background:#f59e0b;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">افتح التقرير</button>
+    <button onclick="this.parentElement.style.display='none';localStorage.setItem('vatRemDismissed',Date.now())" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:4px 8px">✕</button>
+  </div>
+
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div>
       <div style="font-size:18px;font-weight:700">أهلاً، <span id="greetName">—</span> 👋</div>
@@ -797,7 +808,17 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <button class="btn bg2" onclick="showSt('balance',this)">الميزانية العمومية</button>
     <button class="btn bg2" onclick="showSt('cf',this)">التدفقات النقدية</button>
   </div>
-  <div class="card"><div class="sh"><div class="st" id="stT">قائمة الدخل — الشهر الحالي</div><button class="btn bg2" style="font-size:12px;padding:5px 12px" onclick="exportStatement()">⬇ تصدير CSV</button></div><div id="stC"></div></div>
+  <div class="card">
+    <div class="sh">
+      <div class="st" id="stT">قائمة الدخل — الشهر الحالي</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="shareStatement('email')">📧 إيميل</button>
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px;background:rgba(37,211,102,.1);color:#25d366;border-color:rgba(37,211,102,.3)" onclick="shareStatement('whatsapp')">واتساب</button>
+        <button class="btn bg2" style="font-size:12px;padding:5px 12px" onclick="exportStatement()">⬇ CSV</button>
+      </div>
+    </div>
+    <div id="stC"></div>
+  </div>
 </div>
 
 <!-- INVOICE -->
@@ -1334,7 +1355,9 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <button class="btn bg2" onclick="showVat('q3',this)">ربع ثالث 2026</button>
     <button class="btn bg2" onclick="showVat('q4',this)">ربع رابع 2026</button>
     <div style="flex:1"></div>
-    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير إقرار ZATCA (CSV)</button>
+    <button onclick="shareVatReport('email')" style="padding:8px 14px;background:transparent;color:var(--t);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">📧 إيميل</button>
+    <button onclick="shareVatReport('whatsapp')" style="padding:8px 14px;background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">واتساب</button>
+    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
   </div>
 
   <div class="g4">
@@ -2651,9 +2674,74 @@ async function _stLoadData() {
 
 async function renderStatement(type) {
   const { accounts, balMap } = await _stLoadData();
-  if (type === 'income')  return _stRenderIncome(accounts, balMap);
+  if (type === 'income')  { await _stRenderIncome(accounts, balMap); await _stRenderMonthlyChart(); return; }
   if (type === 'balance') return _stRenderBalance(accounts, balMap);
   if (type === 'cf')      return _stRenderCashFlow(accounts, balMap);
+}
+
+async function _stRenderMonthlyChart() {
+  // Fetch last 6 months of revenue & expense entries
+  const today = new Date();
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    months.push({
+      key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,
+      label: d.toLocaleDateString('ar-SA', { month: 'short' }),
+      rev: 0, exp: 0,
+    });
+  }
+  const from = months[0].key + '-01';
+  try {
+    const { data: accts } = await _sb.from('chart_of_accounts')
+      .select('code,type').eq('tenant_id', Auth.tenant.id);
+    const acctType = {};
+    (accts || []).forEach(a => acctType[a.code] = a.type);
+
+    const { data: entries } = await _sb.from('journal_entries')
+      .select('account_code,entry_date,debit,credit')
+      .eq('tenant_id', Auth.tenant.id)
+      .gte('entry_date', from);
+
+    (entries || []).forEach(e => {
+      const t = acctType[e.account_code];
+      const mo = e.entry_date.slice(0, 7);
+      const m = months.find(x => x.key === mo);
+      if (!m) return;
+      const dr = +e.debit || 0, cr = +e.credit || 0;
+      if (t === 'revenue') m.rev += (cr - dr);
+      else if (t === 'expense' || t === 'cogs') m.exp += (dr - cr);
+    });
+
+    const max = Math.max(1, ...months.flatMap(m => [m.rev, m.exp]));
+    const bars = months.map(m => {
+      const rh = Math.max(2, (m.rev / max) * 100);
+      const eh = Math.max(2, (m.exp / max) * 100);
+      return `
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+          <div style="height:120px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px">
+            <div title="إيرادات: ${_stFmt(m.rev)}" style="width:18px;height:${rh}%;background:linear-gradient(to top,#16a372,#22c98a);border-radius:4px 4px 0 0;transition:all .3s"></div>
+            <div title="مصروفات: ${_stFmt(m.exp)}" style="width:18px;height:${eh}%;background:linear-gradient(to top,#dc2626,#ef4444);border-radius:4px 4px 0 0;transition:all .3s"></div>
+          </div>
+          <div style="font-size:11px;color:var(--t3)">${m.label}</div>
+        </div>
+      `;
+    }).join('');
+
+    const chartHtml = `
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px;margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="font-weight:700;font-size:14px">آخر 6 أشهر</div>
+          <div style="display:flex;gap:14px;font-size:11px">
+            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#16a372;border-radius:2px"></span>إيرادات</span>
+            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#dc2626;border-radius:2px"></span>مصروفات</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px">${bars}</div>
+      </div>
+    `;
+    document.getElementById('stC').insertAdjacentHTML('beforeend', chartHtml);
+  } catch (e) { console.warn('chart skipped', e); }
 }
 
 function _stRenderIncome(accounts, balMap) {
@@ -2790,6 +2878,58 @@ function _stRenderBalance(accounts, balMap) {
   document.getElementById('stC').innerHTML = html;
 }
 
+// ──────────── VAT Deadline Reminder ─────────────────────────────────────
+async function checkVatReminder() {
+  // Only show if tenant is VAT-registered
+  if (!Auth.tenant?.vat_registered) return;
+
+  // Don't re-nag if dismissed within last 3 days
+  const dismissed = parseInt(localStorage.getItem('vatRemDismissed') || '0', 10);
+  if (Date.now() - dismissed < 3 * 24 * 60 * 60 * 1000) return;
+
+  // VAT returns are due by end of month following each quarter:
+  // Q1 (Jan-Mar) → due Apr 30
+  // Q2 (Apr-Jun) → due Jul 31
+  // Q3 (Jul-Sep) → due Oct 31
+  // Q4 (Oct-Dec) → due Jan 31 (next year)
+  const today = new Date();
+  const y = today.getFullYear();
+  const dueDates = [
+    { q: 'q1', label: 'الربع الأول',  date: new Date(y, 3, 30) },
+    { q: 'q2', label: 'الربع الثاني', date: new Date(y, 6, 31) },
+    { q: 'q3', label: 'الربع الثالث', date: new Date(y, 9, 31) },
+    { q: 'q4', label: 'الربع الرابع', date: new Date(y + 1, 0, 31) },
+  ];
+
+  // Find the next upcoming deadline
+  const upcoming = dueDates.find(d => d.date > today);
+  if (!upcoming) return;
+
+  const daysLeft = Math.ceil((upcoming.date - today) / (1000 * 60 * 60 * 24));
+
+  // Show banner if within 21 days
+  if (daysLeft <= 21) {
+    const banner = document.getElementById('vatReminderBanner');
+    if (!banner) return;
+    banner.style.display = 'flex';
+
+    const urgent = daysLeft <= 7;
+    const title = urgent
+      ? `⚠️ عاجل: متبقي ${daysLeft} ${daysLeft === 1 ? 'يوم' : 'أيام'} على إقرار ${upcoming.label}`
+      : `إقرار ضريبة ${upcoming.label} يستحق خلال ${daysLeft} يوماً`;
+    const formattedDate = upcoming.date.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('vatReminderTitle').textContent = title;
+    document.getElementById('vatReminderDesc').textContent =
+      `موعد الاستحقاق: ${formattedDate} — اضغط "افتح التقرير" لمراجعة الأرقام وتصدير الإقرار.`;
+
+    if (urgent) {
+      banner.style.background = 'linear-gradient(135deg,rgba(232,57,74,.15),rgba(232,57,74,.05))';
+      banner.style.borderColor = 'rgba(232,57,74,.35)';
+      document.getElementById('vatReminderTitle').style.color = '#dc2626';
+    }
+  }
+}
+
 function exportStatement() {
   const title = document.getElementById('stT').textContent.trim();
   const rows = Array.from(document.querySelectorAll('#stC .sr')).map(r => {
@@ -2805,6 +2945,55 @@ function exportStatement() {
   a.download = `${title.replace(/\s+/g, '_')}.csv`;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function _statementSummaryText() {
+  const title = document.getElementById('stT').textContent.trim();
+  const business = Auth.tenant?.name || 'مشروعي';
+  const rows = Array.from(document.querySelectorAll('#stC .sr')).slice(0, 12)
+    .map(r => {
+      const cells = r.querySelectorAll('span');
+      const a = cells[0]?.textContent.trim() || '';
+      const b = (cells[1]?.textContent || '').trim();
+      return a && b ? `• ${a}: ${b}` : (a ? `\n${a}` : '');
+    }).filter(Boolean).join('\n');
+  return `${title}\nمن: ${business}\n\n${rows}\n\n— أُرسلت عبر محسوب (mahsob.sa)`;
+}
+
+function shareStatement(via) {
+  const text = _statementSummaryText();
+  const title = document.getElementById('stT').textContent.trim();
+  if (via === 'email') {
+    const url = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text)}`;
+    window.location.href = url;
+  } else if (via === 'whatsapp') {
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  }
+}
+
+function shareVatReport(via) {
+  const ctx = window._vatExportCtx;
+  if (!ctx) { alert('افتح ربع سنوي أولاً'); return; }
+  const business = Auth.tenant?.name || 'مشروعي';
+  const vatNum = Auth.tenant?.vat_number || '—';
+  const text = `إقرار ضريبة القيمة المضافة — ${ctx.quarter.toUpperCase()} ${ctx.year}
+المنشأة: ${business}
+الرقم الضريبي: ${vatNum}
+الفترة: ${ctx.from} إلى ${ctx.to}
+
+• إجمالي المبيعات: ${_stFmt(ctx.sales)} ر.س
+• ضريبة المخرجات: ${_stFmt(ctx.vatOut)} ر.س
+• ضريبة المدخلات: ${_stFmt(ctx.vatIn)} ر.س
+• صافي المستحق: ${_stFmt(ctx.net)} ر.س
+
+— أُرسل عبر محسوب (mahsob.sa)`;
+
+  if (via === 'email') {
+    window.location.href = `mailto:?subject=${encodeURIComponent('إقرار VAT - ' + ctx.quarter.toUpperCase())}&body=${encodeURIComponent(text)}`;
+  } else if (via === 'whatsapp') {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }
 }
 
 function _stRenderCashFlow(accounts, balMap) {
@@ -4545,6 +4734,9 @@ async function bootApp() {
       window.location.href = '/onboarding';
       return;
     }
+
+    // VAT deadline reminder (non-blocking)
+    setTimeout(() => checkVatReminder().catch(()=>{}), 1500);
 
     // Restore cloud backup silently
     await cloudRestore().catch(() => {});
