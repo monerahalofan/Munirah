@@ -417,6 +417,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div class="ni" onclick="go('products',this)"><span class="nk">📦</span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
     <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
+    <div class="ni" onclick="go('coa',this)"><span class="nk">🌳</span><span data-i18n="nav_coa">شجرة الحسابات</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk">⚙️</span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1769,6 +1770,49 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 
 </div>
 
+<!-- CHART OF ACCOUNTS PAGE -->
+<div class="pg" id="pg-coa">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:4px">شجرة الحسابات</div>
+      <div style="font-size:13px;color:var(--t3)">جميع الحسابات المحاسبية لمشروعك (متوافقة مع ZATCA)</div>
+    </div>
+    <button onclick="coaToggleAdd()" style="padding:9px 18px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">+ حساب جديد</button>
+  </div>
+
+  <!-- Add form -->
+  <div id="coaAddForm" style="display:none;background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:11px;padding:16px;margin-bottom:16px">
+    <div style="font-weight:700;margin-bottom:12px">إضافة حساب جديد</div>
+    <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:10px">
+      <input id="coaNewCode" placeholder="الرمز (مثل 6112)" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit;direction:ltr">
+      <input id="coaNewName" placeholder="اسم الحساب" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
+      <select id="coaNewType" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
+        <option value="asset">أصل</option>
+        <option value="liability">خصم</option>
+        <option value="equity">حقوق ملكية</option>
+        <option value="revenue">إيراد</option>
+        <option value="cogs">تكلفة بضاعة</option>
+        <option value="expense">مصروف</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="coaToggleAdd()" style="padding:8px 16px;background:transparent;border:1px solid var(--bd);border-radius:8px;font-family:inherit;cursor:pointer">إلغاء</button>
+      <button onclick="coaSaveNew()" style="padding:8px 16px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">حفظ</button>
+    </div>
+  </div>
+
+  <!-- Stats summary -->
+  <div id="coaStats" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px"></div>
+
+  <!-- Filter tabs -->
+  <div id="coaTabs" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;overflow-x:auto;padding-bottom:4px"></div>
+
+  <!-- Tree -->
+  <div id="coaTree" style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden">
+    <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
+  </div>
+</div>
+
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
   <div class="g3" style="margin-bottom:16px">
@@ -2019,7 +2063,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'شجرة الحسابات'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -2027,6 +2071,144 @@ function go(id,el){
   if(el)el.classList.add('on');
   document.getElementById('pt').textContent = t('pgn_'+id) || PGN[id] || '';
   closeSB();
+  if (id === 'coa') coaLoad();
+}
+
+// ──────────── CHART OF ACCOUNTS ─────────────────────────────────────────
+let _coaData = [];
+let _coaFilter = 'all';
+
+const COA_TYPES = {
+  asset:     { label:'الأصول',          color:'#2563eb', bg:'rgba(37,99,235,.08)' },
+  liability: { label:'الخصوم',          color:'#e8394a', bg:'rgba(232,57,74,.08)' },
+  equity:    { label:'حقوق الملكية',    color:'#7c3aed', bg:'rgba(124,58,237,.08)' },
+  revenue:   { label:'الإيرادات',       color:'#16a372', bg:'rgba(22,163,114,.08)' },
+  cogs:      { label:'تكلفة البضاعة',   color:'#f59e0b', bg:'rgba(245,158,11,.08)' },
+  expense:   { label:'المصروفات',       color:'#dc2626', bg:'rgba(220,38,38,.08)' },
+};
+
+async function coaLoad() {
+  const tree = document.getElementById('coaTree');
+  tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>`;
+  try {
+    const { data, error } = await _sb
+      .from('chart_of_accounts')
+      .select('*')
+      .eq('tenant_id', Auth.tenant.id)
+      .eq('is_active', true)
+      .order('code');
+    if (error) throw error;
+    _coaData = data || [];
+    coaRenderStats();
+    coaRenderTabs();
+    coaRenderTree();
+  } catch (e) {
+    console.error(e);
+    tree.innerHTML = `<div style="padding:40px;text-align:center;color:#e8394a">فشل تحميل الحسابات: ${e.message}</div>`;
+  }
+}
+
+function coaRenderStats() {
+  const el = document.getElementById('coaStats');
+  const counts = {};
+  Object.keys(COA_TYPES).forEach(t => counts[t] = 0);
+  _coaData.forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
+
+  el.innerHTML = Object.entries(COA_TYPES).map(([key, t]) => `
+    <div style="background:${t.bg};border:1px solid ${t.color}33;border-radius:10px;padding:14px;text-align:center">
+      <div style="font-size:24px;font-weight:900;color:${t.color}">${counts[key] || 0}</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:2px">${t.label}</div>
+    </div>
+  `).join('');
+}
+
+function coaRenderTabs() {
+  const el = document.getElementById('coaTabs');
+  const tabs = [['all', 'الكل', _coaData.length]];
+  Object.entries(COA_TYPES).forEach(([key, t]) => {
+    const c = _coaData.filter(a => a.type === key).length;
+    if (c > 0) tabs.push([key, t.label, c]);
+  });
+  el.innerHTML = tabs.map(([k, label, count]) => `
+    <button onclick="coaSetFilter('${k}')" style="padding:7px 16px;background:${_coaFilter === k ? 'var(--g)' : 'rgba(0,0,0,.04)'};color:${_coaFilter === k ? '#fff' : 'var(--t)'};border:none;border-radius:18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">${label} <span style="opacity:.7">(${count})</span></button>
+  `).join('');
+}
+
+function coaSetFilter(f) { _coaFilter = f; coaRenderTabs(); coaRenderTree(); }
+
+function coaRenderTree() {
+  const tree = document.getElementById('coaTree');
+  const filtered = _coaFilter === 'all' ? _coaData : _coaData.filter(a => a.type === _coaFilter);
+  if (!filtered.length) {
+    tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">لا توجد حسابات</div>`;
+    return;
+  }
+
+  tree.innerHTML = filtered.map((a, i) => {
+    const t = COA_TYPES[a.type];
+    const indent = a.parent_code ? 24 : 0;
+    const isParent = !a.parent_code;
+    return `
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:${i === filtered.length-1 ? 'none' : '1px solid var(--bd)'};${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}">
+        <div style="padding-right:${indent}px;font-family:'Monaco',monospace;font-size:12px;color:var(--t3);min-width:60px">${a.code}</div>
+        <div style="flex:1;font-size:14px">${a.name_ar}${a.is_zatca ? ' <span style="display:inline-block;background:rgba(69,170,110,.15);color:#16a372;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600;margin-right:4px">ZATCA</span>' : ''}</div>
+        <div style="display:inline-block;background:${t.bg};color:${t.color};font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px">${t.label}</div>
+        <button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:5px 10px;background:transparent;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>
+        ${!a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:5px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function coaToggleAdd() {
+  const f = document.getElementById('coaAddForm');
+  f.style.display = f.style.display === 'block' ? 'none' : 'block';
+  if (f.style.display === 'block') {
+    document.getElementById('coaNewCode').value = '';
+    document.getElementById('coaNewName').value = '';
+  }
+}
+
+async function coaSaveNew() {
+  const code = document.getElementById('coaNewCode').value.trim();
+  const name = document.getElementById('coaNewName').value.trim();
+  const type = document.getElementById('coaNewType').value;
+  if (!code || !name) { alert('أدخل الرمز والاسم'); return; }
+  try {
+    const { error } = await _sb.from('chart_of_accounts').insert({
+      tenant_id: Auth.tenant.id, code, name_ar: name, type, is_active: true,
+    });
+    if (error) throw error;
+    coaToggleAdd();
+    await coaLoad();
+  } catch (e) {
+    alert('فشل الحفظ: ' + e.message);
+  }
+}
+
+async function coaRename(id, currentName) {
+  const newName = prompt('اسم الحساب الجديد:', currentName);
+  if (!newName || newName === currentName) return;
+  try {
+    const { error } = await _sb.from('chart_of_accounts')
+      .update({ name_ar: newName }).eq('id', id).eq('tenant_id', Auth.tenant.id);
+    if (error) throw error;
+    await coaLoad();
+  } catch (e) {
+    alert('فشل التعديل: ' + e.message);
+  }
+}
+
+async function coaDeactivate(id) {
+  if (!confirm('حذف هذا الحساب؟ (يتم تعطيله، يمكن استرجاعه لاحقاً)')) return;
+  try {
+    const { error } = await _sb.from('chart_of_accounts')
+      .update({ is_active: false }).eq('id', id).eq('tenant_id', Auth.tenant.id);
+    if (error) throw error;
+    await coaLoad();
+  } catch (e) {
+    alert('فشل الحذف: ' + e.message);
+  }
 }
 function togSB(){document.getElementById('sbEl').classList.toggle('open');document.getElementById('ovB').classList.toggle('vis');}
 function closeSB(){document.getElementById('sbEl').classList.remove('open');document.getElementById('ovB').classList.remove('vis');}
