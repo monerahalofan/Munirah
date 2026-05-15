@@ -1,4 +1,4 @@
-const CACHE = 'mahsoob-v5';
+const CACHE = 'mahsoob-v6';
 
 const PRECACHE = [
   '/',
@@ -6,6 +6,9 @@ const PRECACHE = [
   '/login',
   '/pricing',
   '/manifest.json',
+  '/fonts/PingARLT-Light.otf',
+  '/fonts/PingARLT-Medium.otf',
+  '/fonts/PingARLT-Bold.otf',
   '/js/auth.js',
   '/js/config.js',
   '/js/geo-data.js',

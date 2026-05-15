@@ -8,11 +8,17 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c98a">
 <link rel="apple-touch-icon" href="img/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:900;font-style:normal;font-display:swap}
+</style>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Tajawal',sans-serif;background:#ffffff;color:#162820;overflow-x:hidden}
+body{font-family:'PingARLT',sans-serif;background:#ffffff;color:#162820;overflow-x:hidden}
 
 /* ── Variables ── */
 :root{
@@ -31,7 +37,7 @@ nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255
 .nav-links{display:flex;align-items:center;gap:8px}
 .nav-link{color:var(--t2);text-decoration:none;font-size:14px;padding:7px 14px;border-radius:8px;transition:all .2s}
 .nav-link:hover{color:var(--t);background:var(--b)}
-.btn-nav{background:var(--g);color:#fff;padding:8px 20px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:600;transition:all .2s;border:none;cursor:pointer;font-family:'Tajawal',sans-serif}
+.btn-nav{background:var(--g);color:#fff;padding:8px 20px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:600;transition:all .2s;border:none;cursor:pointer;font-family:'PingARLT',sans-serif}
 .btn-nav:hover{background:var(--g2);transform:translateY(-1px)}
 .btn-nav-out{background:transparent;border:1px solid rgba(22,40,32,.2);color:var(--t2);padding:8px 18px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s}
 .btn-nav-out:hover{border-color:var(--g);color:var(--g)}
@@ -47,7 +53,7 @@ nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255
 .hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:clamp(16px,2vw,20px);color:var(--t2);max-width:600px;line-height:1.8;margin-bottom:40px;animation:fadeUp .8s .2s ease both}
 .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;animation:fadeUp .8s .3s ease both}
-.btn-hero{background:var(--g);color:#fff;padding:14px 32px;border-radius:12px;text-decoration:none;font-size:17px;font-weight:700;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:'Tajawal',sans-serif}
+.btn-hero{background:var(--g);color:#fff;padding:14px 32px;border-radius:12px;text-decoration:none;font-size:17px;font-weight:700;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:'PingARLT',sans-serif}
 .btn-hero:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(22,163,114,.35)}
 .btn-hero-out{background:transparent;border:1px solid rgba(22,40,32,.22);color:var(--t);padding:14px 28px;border-radius:12px;text-decoration:none;font-size:16px;font-weight:600;transition:all .3s}
 .btn-hero-out:hover{border-color:var(--g);color:var(--g);background:var(--gd)}
@@ -137,7 +143,7 @@ section{padding:80px 5%}
 .plan-features li::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
 .plan-features li.off{color:var(--t3);opacity:.6}
 .plan-features li.off::before{content:'✗';color:var(--t3)}
-.plan-btn{width:100%;padding:11px;background:var(--gd);border:1px solid var(--gb);color:var(--g);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center}
+.plan-btn{width:100%;padding:11px;background:var(--gd);border:1px solid var(--gb);color:var(--g);border-radius:9px;font-family:'PingARLT',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center}
 .plan-btn:hover{background:var(--g);color:#fff}
 .plan-card.featured .plan-btn{background:var(--g);color:#fff}
 .plan-card.featured .plan-btn:hover{background:var(--g2)}
