@@ -2007,16 +2007,25 @@ window.onload=()=>{
 
 function initApp(){
   if(_appInited)return; _appInited=true;
-  if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild);
-  calcZakat();
-  renderAlerts();renderDbGoals();renderTopClients();renderClients();renderProducts();
-  renderPosProducts();renderPosSales();renderChannels();
-  const dd = document.getElementById('daily-date');
-  if (dd) { dd.value = new Date().toISOString().split('T')[0]; loadDailyBalance(); }
-  loadProfilePage();
-  applyLang();
-  showSt('income',document.getElementById('stB1'));
-  usersInit();
+  const safe = (label, fn) => { try { fn(); } catch(e) { console.warn('[initApp]', label, 'failed:', e); } };
+  safe('vat',           () => { if(document.getElementById("vatTabs"))showVat("q1",document.getElementById("vatTabs").firstElementChild); });
+  safe('calcZakat',     calcZakat);
+  safe('renderAlerts',  renderAlerts);
+  safe('renderDbGoals', renderDbGoals);
+  safe('renderTopClients', renderTopClients);
+  safe('renderClients', renderClients);
+  safe('renderProducts',renderProducts);
+  safe('renderPosProducts', renderPosProducts);
+  safe('renderPosSales',renderPosSales);
+  safe('renderChannels',renderChannels);
+  safe('daily', () => {
+    const dd = document.getElementById('daily-date');
+    if (dd) { dd.value = new Date().toISOString().split('T')[0]; loadDailyBalance(); }
+  });
+  safe('loadProfilePage', loadProfilePage);
+  safe('applyLang',     applyLang);
+  safe('showSt',        () => showSt('income',document.getElementById('stB1')));
+  safe('usersInit',     usersInit);
 }
 
 // ── i18n ───────────────────────────────
