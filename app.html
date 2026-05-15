@@ -417,7 +417,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div class="ni" onclick="go('products',this)"><span class="nk">📦</span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
     <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
-    <div class="ni" onclick="go('coa',this)"><span class="nk">🌳</span><span data-i18n="nav_coa">شجرة الحسابات</span></div>
+    <div class="ni" onclick="go('coa',this)"><span class="nk">💼</span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk">⚙️</span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1772,37 +1772,38 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 
 <!-- CHART OF ACCOUNTS PAGE -->
 <div class="pg" id="pg-coa">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:10px">
     <div>
-      <div style="font-size:20px;font-weight:900;margin-bottom:4px">شجرة الحسابات</div>
-      <div style="font-size:13px;color:var(--t3)">جميع الحسابات المحاسبية لمشروعك (متوافقة مع ZATCA)</div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:4px">أين أموالي؟</div>
+      <div style="font-size:13px;color:var(--t3)">نظرة سريعة على كل ما تملكه وما عليك من أموال</div>
     </div>
-    <button onclick="coaToggleAdd()" style="padding:9px 18px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">+ حساب جديد</button>
+    <div style="display:flex;gap:8px">
+      <button onclick="coaToggleAdvanced()" style="padding:9px 14px;background:transparent;color:var(--t2);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer" id="coaAdvBtn">عرض محاسبي ⚙</button>
+      <button onclick="coaToggleAdd()" style="padding:9px 18px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">+ تصنيف جديد</button>
+    </div>
   </div>
 
   <!-- Add form -->
-  <div id="coaAddForm" style="display:none;background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:11px;padding:16px;margin-bottom:16px">
-    <div style="font-weight:700;margin-bottom:12px">إضافة حساب جديد</div>
-    <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:10px">
-      <input id="coaNewCode" placeholder="الرمز (مثل 6112)" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit;direction:ltr">
-      <input id="coaNewName" placeholder="اسم الحساب" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
-      <select id="coaNewType" style="padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
-        <option value="asset">أصل</option>
-        <option value="liability">خصم</option>
-        <option value="equity">حقوق ملكية</option>
-        <option value="revenue">إيراد</option>
-        <option value="cogs">تكلفة بضاعة</option>
-        <option value="expense">مصروف</option>
+  <div id="coaAddForm" style="display:none;background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:11px;padding:16px;margin:14px 0">
+    <div style="font-weight:700;margin-bottom:12px">تصنيف مالي جديد</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px">
+      <input id="coaNewName" placeholder="مثال: مصاريف الديزل، إيرادات التوصيل" style="padding:10px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
+      <select id="coaNewType" style="padding:10px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
+        <option value="expense">مصروف (شيء يخرج من المشروع)</option>
+        <option value="revenue">إيراد (شيء يدخل للمشروع)</option>
+        <option value="asset">أملكه (نقد، معدات، مخزون)</option>
+        <option value="liability">عليّ (دفعات مستحقة)</option>
       </select>
     </div>
+    <input id="coaNewCode" placeholder="رمز اختياري (يُولّد تلقائياً)" style="width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;font-family:inherit;direction:ltr;margin-bottom:10px;font-size:12px;display:none" class="coa-adv-only">
     <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="coaToggleAdd()" style="padding:8px 16px;background:transparent;border:1px solid var(--bd);border-radius:8px;font-family:inherit;cursor:pointer">إلغاء</button>
-      <button onclick="coaSaveNew()" style="padding:8px 16px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">حفظ</button>
+      <button onclick="coaToggleAdd()" style="padding:9px 18px;background:transparent;border:1px solid var(--bd);border-radius:8px;font-family:inherit;cursor:pointer">إلغاء</button>
+      <button onclick="coaSaveNew()" style="padding:9px 18px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:700;cursor:pointer">حفظ</button>
     </div>
   </div>
 
-  <!-- Stats summary -->
-  <div id="coaStats" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px"></div>
+  <!-- 4 friendly cards -->
+  <div id="coaStats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 18px"></div>
 
   <!-- Filter tabs -->
   <div id="coaTabs" style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;overflow-x:auto;padding-bottom:4px"></div>
@@ -1812,20 +1813,20 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
     <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
   </div>
 
-  <!-- Ledger modal -->
+  <!-- Ledger modal (friendly: "حركة الحساب") -->
   <div id="coaLedgerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;padding:20px">
     <div style="background:#fff;border-radius:14px;max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column">
       <div style="padding:18px 22px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:11px;color:var(--t3);font-family:Monaco,monospace" id="ledgerCode">—</div>
+          <div style="font-size:11px;color:var(--t3)" id="ledgerCode">حركة</div>
           <div style="font-size:18px;font-weight:900" id="ledgerName">—</div>
         </div>
         <button onclick="document.getElementById('coaLedgerModal').style.display='none'" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3)">×</button>
       </div>
       <div style="padding:14px 22px;background:rgba(69,170,110,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-        <div><div style="font-size:11px;color:var(--t3)">إجمالي المدين</div><div style="font-size:17px;font-weight:800;color:#16a372" id="ledgerDR">0</div></div>
-        <div><div style="font-size:11px;color:var(--t3)">إجمالي الدائن</div><div style="font-size:17px;font-weight:800;color:#e8394a" id="ledgerCR">0</div></div>
-        <div><div style="font-size:11px;color:var(--t3)">الرصيد الحالي</div><div style="font-size:17px;font-weight:900" id="ledgerBal">0</div></div>
+        <div><div style="font-size:11px;color:var(--t3)" id="lblIn">داخل</div><div style="font-size:17px;font-weight:800;color:#16a372" id="ledgerDR">0</div></div>
+        <div><div style="font-size:11px;color:var(--t3)" id="lblOut">خارج</div><div style="font-size:17px;font-weight:800;color:#e8394a" id="ledgerCR">0</div></div>
+        <div><div style="font-size:11px;color:var(--t3)">الرصيد الآن</div><div style="font-size:17px;font-weight:900" id="ledgerBal">0</div></div>
       </div>
       <div style="flex:1;overflow:auto" id="ledgerEntries">
         <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
@@ -2084,7 +2085,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'شجرة الحسابات'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟'};
 function go(id,el){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+id).classList.add('on');
@@ -2095,63 +2096,105 @@ function go(id,el){
   if (id === 'coa') coaLoad();
 }
 
-// ──────────── CHART OF ACCOUNTS ─────────────────────────────────────────
-let _coaData = [];
-let _coaFilter = 'all';
+const PGN_coa = 'أين أموالي؟';
 
+// ──────────── CHART OF ACCOUNTS (شجرة مبسطة للتاجر) ─────────────────────
+let _coaData = [];
+let _coaBalances = {};
+let _coaFilter = 'all';
+let _coaAdvanced = false;
+
+// User-friendly labels instead of accounting jargon
 const COA_TYPES = {
-  asset:     { label:'الأصول',          color:'#2563eb', bg:'rgba(37,99,235,.08)' },
-  liability: { label:'الخصوم',          color:'#e8394a', bg:'rgba(232,57,74,.08)' },
-  equity:    { label:'حقوق الملكية',    color:'#7c3aed', bg:'rgba(124,58,237,.08)' },
-  revenue:   { label:'الإيرادات',       color:'#16a372', bg:'rgba(22,163,114,.08)' },
-  cogs:      { label:'تكلفة البضاعة',   color:'#f59e0b', bg:'rgba(245,158,11,.08)' },
-  expense:   { label:'المصروفات',       color:'#dc2626', bg:'rgba(220,38,38,.08)' },
+  asset:     { label:'ما أملكه',       short:'أملكه',  color:'#2563eb', bg:'rgba(37,99,235,.08)',  icon:'💰', hint:'النقد، الجهاز، المخزون، مالي عند الناس' },
+  liability: { label:'ما عليّ',        short:'عليّ',   color:'#e8394a', bg:'rgba(232,57,74,.08)',  icon:'💸', hint:'موردين، ضرائب، رواتب لم تُدفع بعد' },
+  equity:    { label:'حقي في المشروع', short:'ملكيتي', color:'#7c3aed', bg:'rgba(124,58,237,.08)', icon:'🏛️', hint:'رأس المال + الأرباح المتراكمة' },
+  revenue:   { label:'الإيرادات',      short:'إيراد',  color:'#16a372', bg:'rgba(22,163,114,.08)', icon:'📈', hint:'كل ما يدخل للمشروع' },
+  cogs:      { label:'تكلفة البضاعة',  short:'تكلفة',  color:'#f59e0b', bg:'rgba(245,158,11,.08)', icon:'📦', hint:'كم كلّفتك البضاعة المباعة' },
+  expense:   { label:'المصروفات',      short:'مصروف',  color:'#dc2626', bg:'rgba(220,38,38,.08)',  icon:'📉', hint:'إيجار، رواتب، كهرباء، وقود...' },
 };
+
+function _coaFmt(n) {
+  const num = parseFloat(n) || 0;
+  return num.toLocaleString('ar-SA', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+function coaToggleAdvanced() {
+  _coaAdvanced = !_coaAdvanced;
+  document.getElementById('coaAdvBtn').textContent = _coaAdvanced ? 'عرض مبسّط 👁' : 'عرض محاسبي ⚙';
+  document.querySelectorAll('.coa-adv-only').forEach(el => el.style.display = _coaAdvanced ? '' : 'none');
+  coaRenderTree();
+}
 
 async function coaLoad() {
   const tree = document.getElementById('coaTree');
   tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>`;
   try {
-    const { data, error } = await _sb
-      .from('chart_of_accounts')
-      .select('*')
-      .eq('tenant_id', Auth.tenant.id)
-      .eq('is_active', true)
-      .order('code');
+    const [{ data, error }, balsResp] = await Promise.all([
+      _sb.from('chart_of_accounts').select('*').eq('tenant_id', Auth.tenant.id).eq('is_active', true).order('code'),
+      _sb.from('account_balances').select('*').eq('tenant_id', Auth.tenant.id),
+    ]);
     if (error) throw error;
     _coaData = data || [];
+    _coaBalances = {};
+    (balsResp.data || []).forEach(b => _coaBalances[b.account_code] = b);
     coaRenderStats();
     coaRenderTabs();
     coaRenderTree();
   } catch (e) {
     console.error(e);
-    tree.innerHTML = `<div style="padding:40px;text-align:center;color:#e8394a">فشل تحميل الحسابات: ${e.message}</div>`;
+    tree.innerHTML = `<div style="padding:40px;text-align:center;color:#e8394a">فشل تحميل البيانات: ${e.message}</div>`;
   }
+}
+
+function coaBalanceFor(code, type) {
+  const b = _coaBalances[code];
+  if (!b) return 0;
+  // For assets/expenses: balance = debit - credit (DR-normal)
+  // For liability/equity/revenue: balance = credit - debit (CR-normal)
+  const raw = parseFloat(b.balance) || 0;
+  if (type === 'liability' || type === 'equity' || type === 'revenue') return -raw;
+  return raw;
 }
 
 function coaRenderStats() {
   const el = document.getElementById('coaStats');
-  const counts = {};
-  Object.keys(COA_TYPES).forEach(t => counts[t] = 0);
-  _coaData.forEach(a => counts[a.type] = (counts[a.type] || 0) + 1);
-
-  el.innerHTML = Object.entries(COA_TYPES).map(([key, t]) => `
-    <div style="background:${t.bg};border:1px solid ${t.color}33;border-radius:10px;padding:14px;text-align:center">
-      <div style="font-size:24px;font-weight:900;color:${t.color}">${counts[key] || 0}</div>
-      <div style="font-size:11px;color:var(--t3);margin-top:2px">${t.label}</div>
-    </div>
-  `).join('');
+  // 4 main cards only: ما أملكه / ما عليّ / يدخل لي / يخرج مني
+  const groups = [
+    { key:'asset',     label:'ما أملكه',  icon:'💰', color:'#2563eb', bg:'rgba(37,99,235,.06)'  },
+    { key:'liability', label:'ما عليّ',   icon:'💸', color:'#e8394a', bg:'rgba(232,57,74,.06)'  },
+    { key:'revenue',   label:'يدخل لي',   icon:'📈', color:'#16a372', bg:'rgba(22,163,114,.06)' },
+    { key:'expense',   label:'يخرج مني',  icon:'📉', color:'#dc2626', bg:'rgba(220,38,38,.06)'  },
+  ];
+  el.innerHTML = groups.map(g => {
+    const accounts = _coaData.filter(a => a.type === g.key);
+    const total = accounts.reduce((s, a) => s + coaBalanceFor(a.code, a.type), 0);
+    return `
+      <div onclick="coaSetFilter('${g.key}')" style="background:#fff;border:1px solid ${g.color}33;border-radius:14px;padding:16px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='${g.color}'" onmouseout="this.style.borderColor='${g.color}33'">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div style="font-size:18px">${g.icon}</div>
+          <div style="font-size:12px;color:var(--t3);font-weight:600">${g.label}</div>
+        </div>
+        <div style="font-size:22px;font-weight:900;color:${g.color};direction:ltr;text-align:right">${_coaFmt(total)} <span style="font-size:11px;color:var(--t3);font-weight:500">ر.س</span></div>
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">${accounts.length} تصنيف</div>
+      </div>
+    `;
+  }).join('');
 }
 
 function coaRenderTabs() {
   const el = document.getElementById('coaTabs');
-  const tabs = [['all', 'الكل', _coaData.length]];
+  const tabs = [['all', 'الكل', '🔍', _coaData.length]];
   Object.entries(COA_TYPES).forEach(([key, t]) => {
     const c = _coaData.filter(a => a.type === key).length;
-    if (c > 0) tabs.push([key, t.label, c]);
+    if (c > 0) tabs.push([key, t.label, t.icon, c]);
   });
-  el.innerHTML = tabs.map(([k, label, count]) => `
-    <button onclick="coaSetFilter('${k}')" style="padding:7px 16px;background:${_coaFilter === k ? 'var(--g)' : 'rgba(0,0,0,.04)'};color:${_coaFilter === k ? '#fff' : 'var(--t)'};border:none;border-radius:18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">${label} <span style="opacity:.7">(${count})</span></button>
+  el.innerHTML = tabs.map(([k, label, icon, count]) => `
+    <button onclick="coaSetFilter('${k}')" style="padding:8px 16px;background:${_coaFilter === k ? 'var(--g)' : '#fff'};color:${_coaFilter === k ? '#fff' : 'var(--t)'};border:1px solid ${_coaFilter === k ? 'var(--g)' : 'var(--bd)'};border-radius:18px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px">
+      <span>${icon}</span>
+      <span>${label}</span>
+      <span style="opacity:.6;font-size:11px">(${count})</span>
+    </button>
   `).join('');
 }
 
@@ -2161,22 +2204,34 @@ function coaRenderTree() {
   const tree = document.getElementById('coaTree');
   const filtered = _coaFilter === 'all' ? _coaData : _coaData.filter(a => a.type === _coaFilter);
   if (!filtered.length) {
-    tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">لا توجد حسابات</div>`;
+    tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">لا توجد بيانات في هذا التصنيف</div>`;
     return;
   }
 
-  tree.innerHTML = filtered.map((a, i) => {
+  // Hide parent-only header rows in simple view (they have no balance/movement)
+  const rows = _coaAdvanced ? filtered : filtered.filter(a => a.parent_code);
+
+  if (!rows.length) {
+    tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">لا توجد بيانات</div>`;
+    return;
+  }
+
+  tree.innerHTML = rows.map((a, i) => {
     const t = COA_TYPES[a.type];
-    const indent = a.parent_code ? 24 : 0;
+    const bal = coaBalanceFor(a.code, a.type);
+    const balColor = bal > 0 ? t.color : (bal < 0 ? '#e8394a' : 'var(--t3)');
     const isParent = !a.parent_code;
     return `
-      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:${i === filtered.length-1 ? 'none' : '1px solid var(--bd)'};${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}">
-        <div style="padding-right:${indent}px;font-family:'Monaco',monospace;font-size:12px;color:var(--t3);min-width:60px">${a.code}</div>
-        <div style="flex:1;font-size:14px">${a.name_ar}${a.is_zatca ? ' <span style="display:inline-block;background:rgba(69,170,110,.15);color:#16a372;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600;margin-right:4px">ZATCA</span>' : ''}</div>
-        <div style="display:inline-block;background:${t.bg};color:${t.color};font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px">${t.label}</div>
-        <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:5px 10px;background:rgba(69,170,110,.08);border:1px solid rgba(69,170,110,.25);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:#16a372;font-weight:600">📒 القيود</button>
-        <button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:5px 10px;background:transparent;border:1px solid var(--bd);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>
-        ${!a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:5px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
+      <div onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:${i === rows.length-1 ? 'none' : '1px solid var(--bd)'};cursor:pointer;transition:background .15s;${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}" onmouseover="this.style.background='rgba(69,170,110,.04)'" onmouseout="this.style.background='${isParent ? 'rgba(0,0,0,.02)' : '#fff'}'">
+        ${_coaAdvanced ? `<div style="font-family:Monaco,monospace;font-size:11px;color:var(--t3);min-width:54px">${a.code}</div>` : ''}
+        <div style="width:32px;height:32px;border-radius:8px;background:${t.bg};color:${t.color};display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">${t.icon}</div>
+        <div style="flex:1;font-size:14px">${a.name_ar}</div>
+        <div style="font-size:15px;font-weight:800;color:${balColor};direction:ltr;min-width:100px;text-align:left">${_coaFmt(bal)} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
+        <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
+          <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="padding:6px 10px;background:rgba(69,170,110,.08);border:1px solid rgba(69,170,110,.25);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#16a372;font-weight:600">الحركة</button>
+          ${_coaAdvanced ? `<button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:6px 10px;background:transparent;border:1px solid var(--bd);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>` : ''}
+          ${_coaAdvanced && !a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:6px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
+        </div>
       </div>
     `;
   }).join('');
@@ -2192,13 +2247,23 @@ function coaToggleAdd() {
 }
 
 async function coaSaveNew() {
-  const code = document.getElementById('coaNewCode').value.trim();
+  let code = document.getElementById('coaNewCode').value.trim();
   const name = document.getElementById('coaNewName').value.trim();
   const type = document.getElementById('coaNewType').value;
-  if (!code || !name) { alert('أدخل الرمز والاسم'); return; }
+  if (!name) { alert('اكتب اسم التصنيف'); return; }
+
+  // Auto-generate code from type prefix + next number
+  if (!code) {
+    const prefix = { asset:'1', liability:'2', equity:'3', revenue:'4', cogs:'5', expense:'6' }[type];
+    const existing = _coaData.filter(a => a.code.startsWith(prefix)).map(a => parseInt(a.code, 10)).filter(n => !isNaN(n));
+    const next = existing.length ? Math.max(...existing) + 1 : parseInt(prefix + '000', 10) + 1;
+    code = String(next);
+  }
+
   try {
     const { error } = await _sb.from('chart_of_accounts').insert({
       tenant_id: Auth.tenant.id, code, name_ar: name, type, is_active: true,
+      parent_code: { asset:'1100', liability:'2100', equity:'3000', revenue:'4000', cogs:'5000', expense:'6000' }[type] || null,
     });
     if (error) throw error;
     coaToggleAdd();
@@ -2221,9 +2286,16 @@ async function coaRename(id, currentName) {
   }
 }
 
-async function coaShowLedger(code, name) {
-  document.getElementById('ledgerCode').textContent = code;
+async function coaShowLedger(code, name, type) {
+  // Determine if it's a DR-normal account (asset/expense/cogs) or CR-normal (liability/equity/revenue)
+  const drNormal = (type === 'asset' || type === 'expense' || type === 'cogs');
+  const inLabel  = drNormal ? 'إجمالي ما دخل' : 'إجمالي ما خرج';
+  const outLabel = drNormal ? 'إجمالي ما خرج' : 'إجمالي ما دخل';
+
+  document.getElementById('ledgerCode').textContent = _coaAdvanced ? `حركة الحساب ${code}` : 'حركة';
   document.getElementById('ledgerName').textContent = name;
+  document.getElementById('lblIn').textContent  = inLabel;
+  document.getElementById('lblOut').textContent = outLabel;
   document.getElementById('ledgerEntries').innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>`;
   document.getElementById('coaLedgerModal').style.display = 'flex';
 
@@ -2231,17 +2303,20 @@ async function coaShowLedger(code, name) {
     const entries = await Journal.getLedger(code);
     const totalDR = entries.reduce((s, e) => s + parseFloat(e.debit  || 0), 0);
     const totalCR = entries.reduce((s, e) => s + parseFloat(e.credit || 0), 0);
-    const bal     = totalDR - totalCR;
-    document.getElementById('ledgerDR').textContent  = totalDR.toLocaleString('ar-SA', {minimumFractionDigits:2});
-    document.getElementById('ledgerCR').textContent  = totalCR.toLocaleString('ar-SA', {minimumFractionDigits:2});
-    document.getElementById('ledgerBal').textContent = bal.toLocaleString('ar-SA', {minimumFractionDigits:2}) + ' ر.س';
+    const incoming = drNormal ? totalDR : totalCR;
+    const outgoing = drNormal ? totalCR : totalDR;
+    const bal = incoming - outgoing;
+
+    document.getElementById('ledgerDR').textContent  = _coaFmt(incoming);
+    document.getElementById('ledgerCR').textContent  = _coaFmt(outgoing);
+    document.getElementById('ledgerBal').textContent = _coaFmt(bal) + ' ر.س';
     document.getElementById('ledgerBal').style.color = bal >= 0 ? '#16a372' : '#e8394a';
 
     if (!entries.length) {
       document.getElementById('ledgerEntries').innerHTML = `
         <div style="padding:60px 20px;text-align:center;color:var(--t3)">
-          <div style="font-size:14px">لا توجد قيود محاسبية على هذا الحساب بعد.</div>
-          <div style="font-size:12px;margin-top:6px">القيود تتولّد تلقائياً عند تسجيل معاملة أو فاتورة.</div>
+          <div style="font-size:14px">ما فيه حركة على هذا التصنيف لحد الحين</div>
+          <div style="font-size:12px;margin-top:6px;line-height:1.7">الحركة تظهر تلقائياً لما تسجل معاملة أو فاتورة مرتبطة فيه.</div>
         </div>
       `;
       return;
@@ -2251,16 +2326,18 @@ async function coaShowLedger(code, name) {
     const rows = entries.map(e => {
       const dr = parseFloat(e.debit  || 0);
       const cr = parseFloat(e.credit || 0);
-      runBal += (dr - cr);
+      const change = drNormal ? (dr - cr) : (cr - dr);
+      runBal += change;
       const refLabel = { transaction:'معاملة', invoice:'فاتورة', manual:'يدوي', opening:'افتتاحي' }[e.ref_type] || '—';
+      const sign = change >= 0 ? '+' : '';
+      const changeColor = change >= 0 ? '#16a372' : '#e8394a';
       return `
         <tr>
-          <td style="padding:9px 14px;font-size:12px;color:var(--t3);font-family:Monaco,monospace">${e.entry_date}</td>
-          <td style="padding:9px 14px;font-size:13px">${e.description || '—'}</td>
-          <td style="padding:9px 14px"><span style="display:inline-block;background:rgba(0,0,0,.05);font-size:10px;padding:2px 7px;border-radius:8px">${refLabel}</span></td>
-          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:#16a372">${dr ? dr.toLocaleString('ar-SA',{minimumFractionDigits:2}) : ''}</td>
-          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:#e8394a">${cr ? cr.toLocaleString('ar-SA',{minimumFractionDigits:2}) : ''}</td>
-          <td style="padding:9px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#16a372' : '#e8394a'}">${runBal.toLocaleString('ar-SA',{minimumFractionDigits:2})}</td>
+          <td style="padding:11px 14px;font-size:12px;color:var(--t3)">${e.entry_date}</td>
+          <td style="padding:11px 14px;font-size:13px">${e.description || '—'}</td>
+          <td style="padding:11px 14px"><span style="display:inline-block;background:rgba(0,0,0,.05);font-size:10px;padding:2px 8px;border-radius:8px;color:var(--t2)">${refLabel}</span></td>
+          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${changeColor};font-size:14px">${sign}${_coaFmt(change)}</td>
+          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#16a372' : '#e8394a'};font-size:14px">${_coaFmt(runBal)}</td>
         </tr>
       `;
     }).join('');
@@ -2270,11 +2347,10 @@ async function coaShowLedger(code, name) {
         <thead style="background:rgba(0,0,0,.03);position:sticky;top:0">
           <tr>
             <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">التاريخ</th>
-            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">الوصف</th>
+            <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">العملية</th>
             <th style="padding:11px 14px;text-align:right;font-size:11px;color:var(--t3);font-weight:700">المصدر</th>
-            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">مدين</th>
-            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">دائن</th>
-            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">الرصيد</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">المبلغ</th>
+            <th style="padding:11px 14px;text-align:left;font-size:11px;color:var(--t3);font-weight:700">الرصيد بعدها</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>

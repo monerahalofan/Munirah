@@ -190,8 +190,8 @@ function render() {
   else if (step === 2) {
     c.innerHTML = `
       <div class="step-label">السؤال 3 من ${TOTAL_STEPS}</div>
-      <div class="step-title">مسجل في ضريبة القيمة المضافة (VAT)؟</div>
-      <div class="step-desc">إذا نعم، نضيف حسابات الضريبة (مدخلات/مخرجات) متوافقة مع ZATCA.</div>
+      <div class="step-title">عندك ضريبة قيمة مضافة (VAT 15%)؟</div>
+      <div class="step-desc">إذا كنت مسجّل في الضريبة، نضيف لك تصنيفات الضريبة تلقائياً ونساعدك بإعداد إقراراتك.</div>
       <div class="yn">
         <button class="yn-btn ${answers.vat_registered === true ? 'sel' : ''}" onclick="answers.vat_registered = true; render();">نعم، مسجّل</button>
         <button class="yn-btn ${answers.vat_registered === false ? 'sel' : ''}" onclick="answers.vat_registered = false; render();">لا، غير مسجل</button>
@@ -206,8 +206,8 @@ function render() {
   else if (step === 3) {
     c.innerHTML = `
       <div class="step-label">السؤال 4 من ${TOTAL_STEPS}</div>
-      <div class="step-title">عندك مخزون أو منتجات؟</div>
-      <div class="step-desc">إذا نعم، نضيف حسابات المخزون وتكلفة البضاعة المباعة.</div>
+      <div class="step-title">تبيع بضاعة أو منتجات؟</div>
+      <div class="step-desc">يعني تشتري بضاعة وتبيعها. لو نعم، نضيف لك متابعة المخزون وتكلفة البضاعة المباعة.</div>
       <div class="yn">
         <button class="yn-btn ${answers.has_inventory === true ? 'sel' : ''}" onclick="answers.has_inventory = true; render();">نعم</button>
         <button class="yn-btn ${answers.has_inventory === false ? 'sel' : ''}" onclick="answers.has_inventory = false; render();">لا</button>
@@ -222,8 +222,8 @@ function render() {
   else if (step === 4) {
     c.innerHTML = `
       <div class="step-label">السؤال 5 من ${TOTAL_STEPS}</div>
-      <div class="step-title">عندك موظفين؟</div>
-      <div class="step-desc">إذا نعم، نضيف حسابات الرواتب والتأمينات (GOSI).</div>
+      <div class="step-title">عندك موظفين أو عاملين؟</div>
+      <div class="step-desc">لو عندك موظفين، نضيف لك متابعة الرواتب والتأمينات الاجتماعية (GOSI).</div>
       <div class="yn">
         <button class="yn-btn ${answers.has_employees === true ? 'sel' : ''}" onclick="answers.has_employees = true; render();">نعم</button>
         <button class="yn-btn ${answers.has_employees === false ? 'sel' : ''}" onclick="answers.has_employees = false; render();">لا</button>
