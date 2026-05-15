@@ -340,13 +340,30 @@ body.dark .toast{background:#1e2535}
 @keyframes toastIn{0%{opacity:0;transform:translateY(-20px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes toastOut{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-20px) scale(.9)}}
 
+/* ═══════════ BOTTOM NAV (mobile) ═══════════ */
+#bottomNav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--b);z-index:80;padding:6px 4px 8px;box-shadow:0 -4px 16px rgba(22,40,32,.06)}
+body.dark #bottomNav{background:#161b27}
+.bnav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;max-width:600px;margin:0 auto}
+.bnav-item{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;cursor:pointer;color:var(--t3);transition:.15s;font-family:inherit;border-radius:10px}
+.bnav-item:hover{background:rgba(69,170,110,.05)}
+.bnav-item.on{color:#16a372}
+.bnav-item.on .bnav-icon{background:rgba(69,170,110,.12);transform:translateY(-2px)}
+.bnav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.bnav-label{font-size:10px;font-weight:600}
+.bnav-fab{position:relative}
+.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#45aa6e,#22c98a) !important;color:#fff !important;box-shadow:0 4px 12px rgba(69,170,110,.35);margin-top:-12px}
+@media(max-width:700px){
+  #bottomNav{display:block}
+  .main{padding-bottom:78px !important}
+}
+
 /* ═══════════ FAB (Floating Action Button) ═══════════ */
-#fab{display:none;position:fixed;bottom:24px;left:24px;z-index:90;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(69,170,110,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
+#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(69,170,110,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
 #fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(69,170,110,.55)}
 #fab:active{transform:scale(.95)}
 #fab svg{transition:transform .3s}
 #fab.open svg{transform:rotate(135deg)}
-.fab-menu{position:fixed;bottom:96px;left:24px;z-index:89;display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;transition:all .25s}
+.fab-menu{position:fixed;bottom:152px;left:18px;z-index:89;display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;transition:all .25s}
 .fab-menu.open{opacity:1;pointer-events:auto}
 .fab-item{background:#fff;border:1px solid var(--b);border-radius:12px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 14px rgba(22,40,32,.1);font-family:inherit;font-size:13px;font-weight:600;color:var(--t);transition:all .15s;transform:translateX(20px);opacity:0;animation:fabSlide .3s forwards;direction:rtl}
 .fab-menu.open .fab-item:nth-child(1){animation-delay:.05s}
@@ -384,6 +401,33 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Smooth progress bars ═══════════ */
 [style*="background:var(--g)"][style*="width:"]{transition:width 1.2s cubic-bezier(.18,.89,.32,1.28)}
+
+/* ═══════════ Skeleton loader ═══════════ */
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skel 1.4s linear infinite;border-radius:6px}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--b)}
+.skel-circle{width:32px;height:32px;border-radius:50%}
+.skel-line{height:14px;flex:1}
+.skel-line.short{flex:.4}
+
+/* ═══════════ Hover pulse on clickable cards ═══════════ */
+.card-clickable{cursor:pointer;transition:all .2s}
+.card-clickable:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(22,40,32,.08);border-color:rgba(69,170,110,.3) !important}
+
+/* ═══════════ Smooth scroll for the whole app ═══════════ */
+html{scroll-behavior:smooth}
+
+/* ═══════════ Ripple click feedback ═══════════ */
+button,.qab,.bnav-item,.ni{position:relative;overflow:hidden}
+button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
+
+/* ═══════════ Input focus glow ═══════════ */
+.fi:focus,input:focus,textarea:focus,select:focus{
+  outline:none;
+  border-color:#45aa6e;
+  box-shadow:0 0 0 3px rgba(69,170,110,.12);
+  transition:all .15s;
+}
 </style>
 </head>
 <body>
@@ -401,6 +445,32 @@ body.dark .fab-item{background:#1e2535}
   <button class="fab-item" onclick="go('pos',null);closeFab()">🛒 نقطة البيع</button>
   <button class="fab-item" onclick="go('tx',null);closeFab()">💸 تسجيل مصروف</button>
 </div>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav id="bottomNav">
+  <div class="bnav-grid">
+    <button class="bnav-item on" data-bnav="db" onclick="bnavGo('db')">
+      <div class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <span class="bnav-label">البداية</span>
+    </button>
+    <button class="bnav-item" data-bnav="pos" onclick="bnavGo('pos')">
+      <div class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+      <span class="bnav-label">بيع</span>
+    </button>
+    <button class="bnav-item bnav-fab" data-bnav="scan" onclick="bnavGo('scan')">
+      <div class="bnav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+      <span class="bnav-label">مسح</span>
+    </button>
+    <button class="bnav-item" data-bnav="inv" onclick="bnavGo('inv')">
+      <div class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <span class="bnav-label">فواتيري</span>
+    </button>
+    <button class="bnav-item" data-bnav="st" onclick="bnavGo('st')">
+      <div class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <span class="bnav-label">تقارير</span>
+    </button>
+  </div>
+</nav>
 
 <!-- BOOT LOADER — shown until bootApp resolves -->
 <div id="bootLoader" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
@@ -874,10 +944,31 @@ body.dark .fab-item{background:#1e2535}
   </div>
   <div class="card">
     <div class="sh"><div class="st">سجل المعاملات</div><button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="document.getElementById('addTxW').style.display='block'">＋ إضافة</button></div>
+
+    <!-- Search + Filter bar -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px;position:relative">
+        <svg style="position:absolute;top:50%;right:11px;transform:translateY(-50%);color:var(--t3);pointer-events:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="fi" id="txSearch" placeholder="ابحث بالوصف، الجهة، أو التصنيف…" oninput="filterTxTable()" style="padding-right:36px;width:100%">
+      </div>
+      <select class="fi" id="txTypeFilter" onchange="filterTxTable()" style="width:130px">
+        <option value="all">كل الأنواع</option>
+        <option value="income">إيرادات فقط</option>
+        <option value="expense">مصروفات فقط</option>
+      </select>
+      <select class="fi" id="txDateFilter" onchange="filterTxTable()" style="width:130px">
+        <option value="all">كل التواريخ</option>
+        <option value="today">اليوم</option>
+        <option value="week">آخر 7 أيام</option>
+        <option value="month">هذا الشهر</option>
+      </select>
+    </div>
+
     <table class="tbl"><thead><tr><th>الوصف</th><th>الجهة</th><th>التصنيف</th><th>التاريخ</th><th>المبلغ</th></tr></thead>
     <tbody id="txTb">
       <tr id="txEmpty"><td colspan="5" style="text-align:center;padding:28px;color:var(--t3)">لا توجد معاملات بعد — اضغط <b>＋ إضافة</b> لتسجيل أول معاملة</td></tr>
     </tbody></table>
+    <div id="txNoResults" style="display:none;text-align:center;padding:24px;color:var(--t3);font-size:13px">لا توجد نتائج تطابق بحثك</div>
   </div>
 </div>
 
@@ -2325,8 +2416,51 @@ function go(id,el){
   if(el)el.classList.add('on');
   document.getElementById('pt').textContent = t('pgn_'+id) || PGN[id] || '';
   closeSB();
+  // Sync bottom nav
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.toggle('on', b.dataset.bnav === id));
+  // Scroll to top on page change
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'coa') coaLoad();
   if (id === 'sub') subLoad();
+}
+function bnavGo(id) {
+  // Find the matching sidebar nav item to also activate it
+  const el = document.querySelector(`.ni[onclick*="'${id}'"]`);
+  go(id, el);
+}
+
+// ═══════════ TX TABLE SEARCH/FILTER ═══════════
+function filterTxTable() {
+  const q = (document.getElementById('txSearch')?.value || '').toLowerCase().trim();
+  const tf = document.getElementById('txTypeFilter')?.value || 'all';
+  const df = document.getElementById('txDateFilter')?.value || 'all';
+  const rows = document.querySelectorAll('#txTb tr:not(#txEmpty)');
+  const now = new Date();
+  let visible = 0;
+  rows.forEach(r => {
+    const txt = r.textContent.toLowerCase();
+    const matchQ = !q || txt.includes(q);
+    // Detect income vs expense from row color (pos=income)
+    const isIncome = r.innerHTML.includes('+') && !r.innerHTML.includes('-');
+    const matchT = tf === 'all' || (tf === 'income' && isIncome) || (tf === 'expense' && !isIncome);
+    // Date filter
+    let matchD = true;
+    if (df !== 'all') {
+      const dateCell = r.querySelector('td:nth-child(4)');
+      if (dateCell) {
+        const d = new Date(dateCell.textContent.trim());
+        if (!isNaN(d)) {
+          if (df === 'today')      matchD = d.toDateString() === now.toDateString();
+          else if (df === 'week')  matchD = (now - d) <= 7*86400000;
+          else if (df === 'month') matchD = d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        }
+      }
+    }
+    const show = matchQ && matchT && matchD;
+    r.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('txNoResults').style.display = (rows.length > 0 && visible === 0) ? 'block' : 'none';
 }
 
 // ──────────── SUBSCRIPTION PAGE ─────────────────────────────────────────
@@ -2551,7 +2685,15 @@ function coaToggleAdvanced() {
 
 async function coaLoad() {
   const tree = document.getElementById('coaTree');
-  tree.innerHTML = `<div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>`;
+  // Skeleton loader instead of plain text
+  tree.innerHTML = Array.from({length: 6}, () => `
+    <div class="skel-row" style="padding:14px 16px">
+      <div class="skel skel-circle"></div>
+      <div class="skel skel-line short"></div>
+      <div class="skel skel-line" style="max-width:200px"></div>
+      <div class="skel skel-line" style="max-width:90px;flex:0 0 90px"></div>
+    </div>
+  `).join('');
   try {
     const [{ data, error }, balsResp] = await Promise.all([
       _sb.from('chart_of_accounts').select('*').eq('tenant_id', Auth.tenant.id).eq('is_active', true).order('code'),
