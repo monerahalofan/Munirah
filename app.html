@@ -2325,9 +2325,9 @@ th { background: #45aa6e; color: #fff; font-weight: 700 }
 </div>
 <div class="footer">شكراً لاختيارك محسوب — محاسبك المالي الذكي<br>محسوب · mahsob.sa</div>
 </div>
-<script>setTimeout(()=>window.print(),500)</script>
-</body></html>
+<\/body><\/html>
     `);
+    w.document.write('<scr'+'ipt>setTimeout(function(){window.print()},500)<\/scr'+'ipt>');
     w.document.close();
   } catch (e) {
     alert('فشل توليد الفاتورة: ' + e.message);
