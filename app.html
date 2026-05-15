@@ -41,9 +41,10 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--t);font-s
 .li{width:32px;height:32px;background:var(--gb);border:1px solid var(--gB);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
 .ln{font-size:16px;font-weight:700}.lt{font-size:10px;color:var(--t3);margin-top:1px}
 nav{padding:8px 6px;flex:1;overflow-y:auto}
-.ns{font-size:10px;color:var(--t3);padding:8px 8px 3px;font-weight:600;letter-spacing:.5px}
-.ni{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:var(--Rs);cursor:pointer;color:var(--t2);font-size:13px;margin-bottom:1px;transition:all .15s}
-.ni:hover{background:var(--bg3);color:var(--t)}.ni.on{background:var(--gb);color:var(--g);border:1px solid var(--gB)}
+.ns{font-size:10px;color:var(--t3);padding:14px 12px 4px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.7}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;margin:1px 4px;transition:all .15s;font-weight:500}
+.ni:hover{background:rgba(69,170,110,.06);color:var(--t)}
+.ni.on{background:linear-gradient(135deg,rgba(69,170,110,.12),rgba(69,170,110,.06));color:#16a372;font-weight:700;box-shadow:inset 3px 0 0 #45aa6e}
 .nk{font-size:15px;width:18px;text-align:center}
 .nb{margin-right:auto;background:var(--rb);color:var(--r);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--rB)}
 .nbg{margin-right:auto;background:var(--gb);color:var(--g);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--gB)}
@@ -63,14 +64,19 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .card{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:16px}
 .csm{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:12px}
 /* KPI */
-.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px}
-.kc{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px;position:relative;overflow:hidden}
-.kc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
-.kc.G::after{background:var(--g)}.kc.R::after{background:var(--r)}.kc.B::after{background:var(--bl)}.kc.A::after{background:var(--a)}.kc.P::after{background:var(--p)}
-.kl{font-size:11px;color:var(--t3);margin-bottom:5px}
-.kv{font-size:19px;font-weight:700}
-.kv.G{color:var(--g)}.kv.R{color:var(--r)}.kv.B{color:var(--bl)}.kv.A{color:var(--a)}.kv.P{color:var(--p)}
-.kch{font-size:11px;color:var(--t3);margin-top:3px}.kch.up{color:var(--g)}.kch.dn{color:var(--r)}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kc{background:#fff;border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(22,40,32,.04)}
+.kc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(22,40,32,.07)}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
+.kc.G::before{background:linear-gradient(90deg,#16a372,#22c98a)}
+.kc.R::before{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.kc.B::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
+.kc.A::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.kc.P::before{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+.kl{font-size:12px;color:var(--t3);margin-bottom:8px;font-weight:600}
+.kv{font-size:22px;font-weight:800;direction:ltr;text-align:right}
+.kv.G{color:#16a372}.kv.R{color:#dc2626}.kv.B{color:#2563eb}.kv.A{color:#f59e0b}.kv.P{color:#7c3aed}
+.kch{font-size:11px;color:var(--t3);margin-top:6px;font-weight:500}.kch.up{color:#16a372}.kch.dn{color:#dc2626}
 /* Grid */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px}
@@ -2806,7 +2812,9 @@ function closeClientDetail(){
 
 // ── Render helpers ─────────────────────
 function renderAlerts(){
-  document.getElementById('smA').innerHTML=`<div style="color:var(--t3);font-size:13px;padding:8px">لا توجد تنبيهات حالياً</div>`;
+  // Hide the small alerts when empty (clean dashboard)
+  const el = document.getElementById('smA');
+  if (el) el.style.display = 'none';
   loadDashboardInsights();
 }
 function renderTopClients(){
