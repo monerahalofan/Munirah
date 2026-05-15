@@ -402,6 +402,33 @@ body.dark .fab-item{background:#1e2535}
 /* ═══════════ Smooth progress bars ═══════════ */
 [style*="background:var(--g)"][style*="width:"]{transition:width 1.2s cubic-bezier(.18,.89,.32,1.28)}
 
+/* ═══════════ Date Range Picker ═══════════ */
+.dr-opt{padding:11px 16px;cursor:pointer;font-size:13px;color:var(--t);transition:.15s;font-weight:500}
+.dr-opt:hover{background:rgba(69,170,110,.08);color:#16a372}
+.dr-opt.on{background:rgba(69,170,110,.12);color:#16a372;font-weight:700}
+
+/* ═══════════ Animated charts ═══════════ */
+.chart-bar{position:relative;cursor:pointer;transition:all .2s}
+.chart-bar:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.chart-bar-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#162820;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10}
+.chart-bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#162820}
+.chart-bar:hover .chart-bar-tooltip{opacity:1}
+@keyframes barGrow{0%{height:0}100%{height:var(--bar-h)}}
+.bar-anim{animation:barGrow 1s cubic-bezier(.18,.89,.32,1.28) both}
+
+/* Animated SVG gauge */
+@keyframes dashOffset{from{stroke-dashoffset:264}to{stroke-dashoffset:var(--target-offset)}}
+.gauge-circle{transition:stroke-dashoffset 1.4s cubic-bezier(.18,.89,.32,1.28)}
+
+/* Sparkline */
+.sparkline{display:inline-block;vertical-align:middle}
+.sparkline path{stroke-dasharray:200;stroke-dashoffset:200;animation:drawLine 1.6s ease forwards}
+@keyframes drawLine{to{stroke-dashoffset:0}}
+
+/* Pulse animation for "live" indicators */
+@keyframes pulseLive{0%,100%{box-shadow:0 0 0 0 rgba(22,163,114,.5)}50%{box-shadow:0 0 0 8px rgba(22,163,114,0)}}
+.pulse-live{animation:pulseLive 2s ease-in-out infinite}
+
 /* ═══════════ Skeleton loader ═══════════ */
 .skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skel 1.4s linear infinite;border-radius:6px}
 @keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -686,7 +713,14 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <div id="quickActions" style="display:grid;gap:12px;margin-bottom:20px"></div>
   <div id="smA"></div>
   <div class="kg">
-    <div class="kc G"><div class="kl">الإيرادات — هذا الشهر</div><div class="kv G" id="kRevenue">0 ر.س</div><div class="kch up" id="kRevenueChange">—</div></div>
+    <div class="kc G">
+      <div class="kl">الإيرادات — هذا الشهر</div>
+      <div class="kv G" id="kRevenue">0 ر.س</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <div class="kch up" id="kRevenueChange">—</div>
+        <svg class="sparkline" id="sparkRev" width="60" height="20" viewBox="0 0 60 20" fill="none" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
     <div class="kc R"><div class="kl">المصروفات</div><div class="kv R" id="kExpense">0 ر.س</div><div class="kch dn">—</div></div>
     <div class="kc B"><div class="kl">الرصيد الصافي</div><div class="kv B" id="kNet">0 ر.س</div><div class="kch up">—</div></div>
     <div class="kc A"><div class="kl">السيولة المتاحة</div><div class="kv A" id="kLiq">0 ر.س</div><div class="kch">تكفي <span id="kDays">0</span> يوم</div></div>
@@ -1028,10 +1062,35 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 
 <!-- STATEMENTS -->
 <div class="pg" id="pg-st">
-  <div style="display:flex;gap:7px;margin-bottom:14px">
+  <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap">
     <button class="btn bp" id="stB1" onclick="showSt('income',this)">قائمة الدخل</button>
     <button class="btn bg2" onclick="showSt('balance',this)">الميزانية العمومية</button>
     <button class="btn bg2" onclick="showSt('cf',this)">التدفقات النقدية</button>
+    <div style="flex:1"></div>
+    <!-- Date Range Picker -->
+    <div style="position:relative">
+      <button id="dateRangeBtn" onclick="toggleDateRange()" style="padding:8px 14px;background:var(--bg2);border:1px solid var(--b);border-radius:9px;font-family:inherit;font-size:13px;cursor:pointer;color:var(--t);display:inline-flex;align-items:center;gap:8px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="dateRangeLabel">هذا الشهر</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div id="dateRangePanel" style="display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--bg2);border:1px solid var(--b);border-radius:11px;box-shadow:0 10px 30px rgba(22,40,32,.12);min-width:220px;z-index:50;overflow:hidden">
+        <div class="dr-opt" data-range="this_month">هذا الشهر</div>
+        <div class="dr-opt" data-range="last_month">الشهر الماضي</div>
+        <div class="dr-opt" data-range="last_3m">آخر 3 أشهر</div>
+        <div class="dr-opt" data-range="last_6m">آخر 6 أشهر</div>
+        <div class="dr-opt" data-range="ytd">منذ بداية السنة</div>
+        <div class="dr-opt" data-range="last_year">السنة الماضية</div>
+        <div class="dr-opt" data-range="custom" style="border-top:1px solid var(--b)">فترة مخصّصة...</div>
+      </div>
+    </div>
+    <!-- Custom date inputs (hidden by default) -->
+    <div id="customDateWrap" style="display:none;gap:6px;align-items:center;flex-wrap:wrap">
+      <input type="date" id="customDateFrom" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
+      <span style="color:var(--t3);font-size:12px">→</span>
+      <input type="date" id="customDateTo" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
+      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#45aa6e;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
+    </div>
   </div>
   <div class="card">
     <div class="sh">
@@ -2260,6 +2319,11 @@ function initApp(){
       pl.textContent = planNames[Auth.tenant?.plan] || 'الخطة التجريبية';
     }
   });
+  safe('sparkline', () => setTimeout(drawSparkline, 600));
+  safe('gauge',     () => {
+    const score = parseInt(document.getElementById('hrScore')?.textContent || '0', 10) || 79;
+    animateGauge('hrArc', score);
+  });
 }
 
 // ── i18n ───────────────────────────────
@@ -2458,6 +2522,135 @@ function bnavGo(id) {
   // Find the matching sidebar nav item to also activate it
   const el = document.querySelector(`.ni[onclick*="'${id}'"]`);
   go(id, el);
+}
+
+// ═══════════ DATE RANGE PICKER ═══════════
+window._dateRange = { type:'this_month', from:null, to:null, label:'هذا الشهر' };
+
+function _dateRangeFromType(type) {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth();
+  const fmt = d => d.toISOString().slice(0,10);
+  switch(type) {
+    case 'this_month':
+      return { from: fmt(new Date(y, m, 1)), to: fmt(new Date(y, m+1, 0)), label: 'هذا الشهر' };
+    case 'last_month':
+      return { from: fmt(new Date(y, m-1, 1)), to: fmt(new Date(y, m, 0)), label: 'الشهر الماضي' };
+    case 'last_3m':
+      return { from: fmt(new Date(y, m-2, 1)), to: fmt(new Date(y, m+1, 0)), label: 'آخر 3 أشهر' };
+    case 'last_6m':
+      return { from: fmt(new Date(y, m-5, 1)), to: fmt(new Date(y, m+1, 0)), label: 'آخر 6 أشهر' };
+    case 'ytd':
+      return { from: fmt(new Date(y, 0, 1)), to: fmt(now), label: 'منذ بداية السنة' };
+    case 'last_year':
+      return { from: fmt(new Date(y-1, 0, 1)), to: fmt(new Date(y-1, 11, 31)), label: 'السنة الماضية' };
+    default:
+      return { from: fmt(new Date(y, m, 1)), to: fmt(new Date(y, m+1, 0)), label: 'هذا الشهر' };
+  }
+}
+
+function toggleDateRange() {
+  const p = document.getElementById('dateRangePanel');
+  p.style.display = p.style.display === 'block' ? 'none' : 'block';
+}
+
+function applyDateRange(type, label) {
+  if (type === 'custom') {
+    document.getElementById('customDateWrap').style.display = 'flex';
+    document.getElementById('dateRangePanel').style.display = 'none';
+    return;
+  }
+  document.getElementById('customDateWrap').style.display = 'none';
+  const r = _dateRangeFromType(type);
+  window._dateRange = { type, ...r };
+  document.getElementById('dateRangeLabel').textContent = r.label;
+  document.querySelectorAll('.dr-opt').forEach(o => o.classList.toggle('on', o.dataset.range === type));
+  document.getElementById('dateRangePanel').style.display = 'none';
+  // Re-render whatever statement is active
+  const active = document.querySelector('#pg-st .btn.bp');
+  if (active) active.click();
+}
+
+function applyCustomDate() {
+  const from = document.getElementById('customDateFrom').value;
+  const to   = document.getElementById('customDateTo').value;
+  if (!from || !to) { toast({type:'warn',msg:'اختر التاريخين'}); return; }
+  if (new Date(from) > new Date(to)) { toast({type:'error',msg:'البداية يجب أن تكون قبل النهاية'}); return; }
+  const label = `${from} → ${to}`;
+  window._dateRange = { type:'custom', from, to, label };
+  document.getElementById('dateRangeLabel').textContent = label;
+  const active = document.querySelector('#pg-st .btn.bp');
+  if (active) active.click();
+}
+
+// Hook clicks on .dr-opt
+document.addEventListener('click', (e) => {
+  const opt = e.target.closest('.dr-opt');
+  if (opt) applyDateRange(opt.dataset.range, opt.textContent);
+  // Close panel on outside
+  const panel = document.getElementById('dateRangePanel');
+  const btn = document.getElementById('dateRangeBtn');
+  if (panel && btn && panel.style.display === 'block' && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.style.display = 'none';
+  }
+});
+
+// Initialize default range
+applyDateRange('this_month');
+
+// ═══════════ SPARKLINE (last 30 days mini-chart) ═══════════
+async function drawSparkline() {
+  const el = document.getElementById('sparkRev');
+  if (!el || !Auth?.tenant?.id) return;
+  try {
+    const from = new Date(); from.setDate(from.getDate() - 30);
+    const { data } = await _sb.from('journal_entries')
+      .select('entry_date,credit,debit')
+      .eq('tenant_id', Auth.tenant.id)
+      .eq('account_code', '4101')
+      .gte('entry_date', from.toISOString().slice(0,10));
+    // Group by day for last 30 days
+    const days = Array.from({length: 30}, (_, i) => {
+      const d = new Date(); d.setDate(d.getDate() - (29 - i));
+      return { date: d.toISOString().slice(0,10), val: 0 };
+    });
+    (data || []).forEach(e => {
+      const d = days.find(x => x.date === e.entry_date);
+      if (d) d.val += (parseFloat(e.credit) || 0) - (parseFloat(e.debit) || 0);
+    });
+    const max = Math.max(1, ...days.map(d => d.val));
+    const W = 60, H = 20;
+    const points = days.map((d, i) => {
+      const x = (i / (days.length - 1)) * W;
+      const y = H - (d.val / max) * H + 1;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' L');
+    el.innerHTML = `
+      <defs>
+        <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#22c98a" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="#22c98a" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M${points} L${W},${H} L0,${H} Z" fill="url(#sparkGrad)"/>
+      <path d="M${points}" stroke="#16a372" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    `;
+  } catch (e) { /* silent */ }
+}
+
+// ═══════════ ANIMATED HEALTH GAUGE ═══════════
+function animateGauge(elementId, score) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  // SVG circumference = 2 * π * r = 2 * 3.14159 * 42 ≈ 264
+  const total = 264;
+  const offset = total - (score / 100) * total;
+  el.style.strokeDasharray = total;
+  el.style.strokeDashoffset = total;
+  el.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.18,.89,.32,1.28)';
+  // Animate after a tick
+  setTimeout(() => { el.style.strokeDashoffset = offset; }, 100);
 }
 
 // ═══════════ NOTIFICATIONS ═══════════
@@ -3381,13 +3574,25 @@ function _stFmt(n) {
 }
 
 async function _stLoadData() {
-  const [{ data: accounts }, { data: bals }] = await Promise.all([
+  const range = window._dateRange || { from: null, to: null };
+  const [accountsResp, entriesResp] = await Promise.all([
     _sb.from('chart_of_accounts').select('*').eq('tenant_id', Auth.tenant.id).eq('is_active', true),
-    _sb.from('account_balances').select('*').eq('tenant_id', Auth.tenant.id),
+    (() => {
+      let q = _sb.from('journal_entries').select('account_code,debit,credit,entry_date')
+        .eq('tenant_id', Auth.tenant.id);
+      if (range.from) q = q.gte('entry_date', range.from);
+      if (range.to)   q = q.lte('entry_date', range.to);
+      return q;
+    })(),
   ]);
+  // Compute balances for the selected range only
   const balMap = {};
-  (bals || []).forEach(b => balMap[b.account_code] = parseFloat(b.balance) || 0);
-  return { accounts: accounts || [], balMap };
+  (entriesResp.data || []).forEach(e => {
+    const dr = parseFloat(e.debit)  || 0;
+    const cr = parseFloat(e.credit) || 0;
+    balMap[e.account_code] = (balMap[e.account_code] || 0) + (dr - cr);
+  });
+  return { accounts: accountsResp.data || [], balMap };
 }
 
 async function renderStatement(type) {
@@ -3432,16 +3637,32 @@ async function _stRenderMonthlyChart() {
     });
 
     const max = Math.max(1, ...months.flatMap(m => [m.rev, m.exp]));
-    const bars = months.map(m => {
+    const bars = months.map((m, i) => {
       const rh = Math.max(2, (m.rev / max) * 100);
       const eh = Math.max(2, (m.exp / max) * 100);
+      const delay = i * 0.08;
+      const net = m.rev - m.exp;
+      const netColor = net >= 0 ? '#16a372' : '#dc2626';
       return `
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
-          <div style="height:120px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px">
-            <div title="إيرادات: ${_stFmt(m.rev)}" style="width:18px;height:${rh}%;background:linear-gradient(to top,#16a372,#22c98a);border-radius:4px 4px 0 0;transition:all .3s"></div>
-            <div title="مصروفات: ${_stFmt(m.exp)}" style="width:18px;height:${eh}%;background:linear-gradient(to top,#dc2626,#ef4444);border-radius:4px 4px 0 0;transition:all .3s"></div>
+          <div style="height:140px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative">
+            <div class="chart-bar bar-anim" style="--bar-h:${rh}%;width:20px;background:linear-gradient(to top,#16a372,#22c98a);border-radius:5px 5px 0 0;animation-delay:${delay}s">
+              <div class="chart-bar-tooltip">
+                <strong style="color:#22c98a">إيرادات</strong><br>
+                ${_stFmt(m.rev)} ر.س
+              </div>
+            </div>
+            <div class="chart-bar bar-anim" style="--bar-h:${eh}%;width:20px;background:linear-gradient(to top,#dc2626,#ef4444);border-radius:5px 5px 0 0;animation-delay:${delay+0.05}s">
+              <div class="chart-bar-tooltip">
+                <strong style="color:#ef4444">مصروفات</strong><br>
+                ${_stFmt(m.exp)} ر.س
+              </div>
+            </div>
           </div>
-          <div style="font-size:11px;color:var(--t3)">${m.label}</div>
+          <div style="text-align:center">
+            <div style="font-size:11px;font-weight:700;color:var(--t)">${m.label}</div>
+            <div style="font-size:10px;color:${netColor};font-weight:600;margin-top:2px">${net >= 0 ? '+' : ''}${_stFmt(net)}</div>
+          </div>
         </div>
       `;
     }).join('');
@@ -3463,9 +3684,8 @@ async function _stRenderMonthlyChart() {
 }
 
 function _stRenderIncome(accounts, balMap) {
-  const now = new Date();
-  const monthName = now.toLocaleDateString('ar-SA', { month: 'long', year: 'numeric' });
-  document.getElementById('stT').textContent = 'قائمة الدخل — ' + monthName;
+  const label = window._dateRange?.label || 'هذا الشهر';
+  document.getElementById('stT').textContent = 'قائمة الدخل — ' + label;
 
   // Revenue (CR-normal): balance = credit - debit (negative of DR-balance)
   const revenue = accounts.filter(a => a.type === 'revenue').map(a => ({
@@ -3529,7 +3749,7 @@ function _stRenderIncome(accounts, balMap) {
 }
 
 function _stRenderBalance(accounts, balMap) {
-  document.getElementById('stT').textContent = 'الميزانية العمومية — اليوم';
+  document.getElementById('stT').textContent = 'الميزانية العمومية — ' + (window._dateRange?.label || 'اليوم');
 
   const assets = accounts.filter(a => a.type === 'asset' && a.parent_code).map(a => ({
     name: a.name_ar, val: balMap[a.code] || 0
