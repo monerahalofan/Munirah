@@ -1970,145 +1970,289 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 </div>
 <div class="pg" id="pg-taxcal">
 
-  <!-- ── Summary strip ── -->
-  <div class="g3" style="margin-bottom:20px">
-    <div class="kc R">
-      <div class="kl">الموعد القادم</div>
-      <div class="kv R" id="taxNextDate" style="font-size:18px">30 أبريل</div>
-      <div class="kch" id="taxNextCountdown" style="color:var(--r);font-weight:600">جارٍ الحساب…</div>
+  <!-- Header tabs -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+    <div style="display:inline-flex;background:#fff;border:1px solid var(--b);border-radius:11px;padding:4px">
+      <button class="tc-tab on" data-view="month">شهر</button>
+      <button class="tc-tab" data-view="quarter">ربع سنة</button>
+      <button class="tc-tab" data-view="year">سنة</button>
     </div>
-    <div class="kc A">
-      <div class="kl">المتوقع هذا العام</div>
-      <div class="kv A" id="taxTotal" style="font-size:18px">—</div>
-      <div class="kch">يُحسب من معاملاتك</div>
-    </div>
-    <div class="kc G">
-      <div class="kl">مسدَّد حتى الآن</div>
-      <div class="kv G" id="taxPaid" style="font-size:18px">0 ر.س</div>
-      <div class="kch">ربع أول ✓</div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="tc-nav" onclick="taxCalNav(-1)" aria-label="السابق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div style="font-size:16px;font-weight:800;color:#000;min-width:160px;text-align:center" id="tcMonthLabel">—</div>
+      <button class="tc-nav" onclick="taxCalNav(1)" aria-label="التالي"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">اليوم</button>
     </div>
   </div>
 
-  <!-- ── Timeline ── -->
-  <div class="sh" style="margin-bottom:12px">
-    <div class="st">مواعيد 2026</div>
-  </div>
+  <!-- Main grid: calendar (left) + events list (right) -->
+  <div style="display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start">
 
-  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-
-    <!-- Q1 VAT — done -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px;opacity:.7">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">✓</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الأول</div>
-        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 30 يناير 2026</div>
+    <!-- Calendar card -->
+    <div style="background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(44,85,89,.04)">
+      <!-- Weekday headers -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px">
+        <div class="tc-wd">السبت</div>
+        <div class="tc-wd">الأحد</div>
+        <div class="tc-wd">الاثنين</div>
+        <div class="tc-wd">الثلاثاء</div>
+        <div class="tc-wd">الأربعاء</div>
+        <div class="tc-wd">الخميس</div>
+        <div class="tc-wd">الجمعة</div>
       </div>
-      <span class="bdg" style="background:var(--g);color:#fff;font-size:11px">مسدَّدة</span>
-    </div>
+      <!-- Day grid -->
+      <div id="tcGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px"></div>
 
-    <!-- Q2 VAT — urgent -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:2px solid var(--r);border-radius:var(--Rb);padding:14px 16px;box-shadow:0 0 0 3px rgba(220,53,69,.08)">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--r);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الثاني</div>
-        <div style="font-size:12px;color:var(--r);font-weight:600" id="q2Countdown">موعد التقديم: 30 أبريل 2026</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-        <span class="bdg bdg-a" style="font-size:11px">قيد الإعداد</span>
-        <button class="btn bg2" style="font-size:11px;padding:3px 10px" onclick="go('vat',null)">عرض التقرير ←</button>
+      <!-- Legend -->
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--b);font-size:11px;color:var(--t2)">
+        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#c93545"></span> عاجل</div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#a8854a"></span> قريب</div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#86BA72"></span> مُسدّد</div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#2C5559"></span> لاحق</div>
       </div>
     </div>
 
-    <!-- Q3 VAT — upcoming -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الثالث</div>
-        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 يوليو 2026</div>
+    <!-- Events panel -->
+    <div style="background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(44,85,89,.04)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:16px;font-weight:800;color:#000">المواعيد الضريبية</div>
+        <select id="tcFilter" onchange="renderTaxEvents()" style="background:transparent;border:1px solid var(--b);border-radius:8px;font-family:inherit;font-size:12px;padding:5px 10px;color:var(--t)">
+          <option value="all">الكل</option>
+          <option value="urgent">عاجل</option>
+          <option value="soon">قريب</option>
+          <option value="paid">مسدّد</option>
+          <option value="later">لاحق</option>
+        </select>
       </div>
-      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
-    </div>
-
-    <!-- Q4 VAT — upcoming -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧾</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:14px;margin-bottom:2px">ض.ق.م — الربع الرابع</div>
-        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 أكتوبر 2026</div>
-      </div>
-      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
-    </div>
-
-    <!-- Income tax — upcoming -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📄</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:14px;margin-bottom:2px">إقرار ضريبة الدخل — سنوي</div>
-        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 31 ديسمبر 2026</div>
-      </div>
-      <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
-    </div>
-
-    <!-- Zakat — upcoming -->
-    <div style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:14px 16px">
-      <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">☪️</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:14px;margin-bottom:2px">إقرار الزكاة — سنوي</div>
-        <div style="font-size:12px;color:var(--t3)">موعد التقديم: 30 مارس 2027</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-        <span class="bdg bdg-b" style="font-size:11px">لم يحل</span>
-        <button class="btn bg2" style="font-size:11px;padding:3px 10px" onclick="go('zakat',null)">الحاسبة ←</button>
-      </div>
+      <div id="tcEvents" style="display:flex;flex-direction:column;gap:10px;max-height:560px;overflow-y:auto"></div>
     </div>
 
   </div>
 
-  <!-- ── Tips ── -->
-  <div class="card">
-    <div class="sh" style="margin-bottom:12px"><div class="st">نصائح ضريبية</div></div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
-        <span style="font-size:18px">💡</span>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">خصّص 10% من كل فاتورة</div><div style="font-size:12px;color:var(--t2)">حوّل 10% من كل دفعة لحساب منفصل تلقائياً — لن تفاجأ وقت الاستحقاق.</div></div>
+  <!-- Tips -->
+  <div style="background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px;margin-top:18px">
+    <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:14px">نصائح لإدارة الضرائب</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+      <div style="background:rgba(134,186,114,.05);border:1px solid rgba(134,186,114,.18);border-radius:12px;padding:14px;display:flex;gap:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.15);color:#86BA72;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div><div style="font-size:13px;font-weight:700;color:#000;margin-bottom:4px">خصّص 10% لحساب منفصل</div><div style="font-size:12px;color:var(--t2);line-height:1.6">حوّل 10% من كل دفعة تستلمها لحساب احتياطي ضريبي</div></div>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
-        <span style="font-size:18px">📋</span>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">احتفظ بجميع الفواتير</div><div style="font-size:12px;color:var(--t2)">صوّر كل فاتورة مصروف في محسوب لخصم الضريبة المدفوعة وقت الإقرار.</div></div>
+      <div style="background:rgba(197,168,120,.06);border:1px solid rgba(197,168,120,.2);border-radius:12px;padding:14px;display:flex;gap:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(197,168,120,.2);color:#a8854a;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div><div style="font-size:13px;font-weight:700;color:#000;margin-bottom:4px">احتفظ بالفواتير</div><div style="font-size:12px;color:var(--t2);line-height:1.6">صوّر فواتير المصاريف لخصم ضريبة المدخلات</div></div>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--bg3);border-radius:var(--Rs)">
-        <span style="font-size:18px">⏰</span>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">قدّم 3 أيام مبكراً</div><div style="font-size:12px;color:var(--t2)">غرامات التأخير تبدأ من 5% وتصل 25% — لا تنتظر آخر يوم.</div></div>
+      <div style="background:rgba(201,53,69,.05);border:1px solid rgba(201,53,69,.18);border-radius:12px;padding:14px;display:flex;gap:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(201,53,69,.12);color:#c93545;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div><div style="font-size:13px;font-weight:700;color:#000;margin-bottom:4px">قدّم 3 أيام مبكراً</div><div style="font-size:12px;color:var(--t2);line-height:1.6">غرامات التأخير من 5% إلى 25% — لا تنتظر آخر يوم</div></div>
       </div>
     </div>
   </div>
 
 </div>
+
+<style>
+.tc-tab{padding:8px 18px;background:transparent;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--t2);transition:.15s}
+.tc-tab.on{background:#2C5559;color:#fff}
+.tc-tab:not(.on):hover{background:rgba(0,0,0,.04);color:var(--t)}
+.tc-nav{width:36px;height:36px;border-radius:9px;background:#fff;border:1px solid var(--b);color:var(--t);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+.tc-nav:hover{border-color:#86BA72;color:#86BA72}
+.tc-wd{text-align:center;font-size:11px;font-weight:700;color:var(--t3);padding:8px 0;letter-spacing:.3px}
+.tc-day{aspect-ratio:1;border-radius:10px;background:#fafafa;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:#000;transition:.15s;position:relative;font-weight:500;min-height:50px}
+.tc-day:hover{background:rgba(134,186,114,.08);border-color:rgba(134,186,114,.25)}
+.tc-day.other{color:var(--t3);background:transparent}
+.tc-day.today{background:rgba(134,186,114,.1);border-color:#86BA72;font-weight:800}
+.tc-day.selected{background:#2C5559;color:#fff;font-weight:800}
+.tc-day.selected .tc-dot{background:#fff !important}
+.tc-dot{width:5px;height:5px;border-radius:50%;margin-top:4px}
+.tc-day .tc-dots{display:flex;gap:3px;justify-content:center;position:absolute;bottom:5px;left:0;right:0}
+@media(max-width:900px){
+  #pg-taxcal>div:nth-of-type(2){grid-template-columns:1fr !important}
+}
+</style>
 <script>
+// ═══════════ TAX CALENDAR ═══════════
 (function(){
-  function daysUntil(dateStr){
-    const d = new Date(dateStr);
-    const now = new Date();
-    now.setHours(0,0,0,0);
-    d.setHours(0,0,0,0);
-    return Math.ceil((d - now) / 86400000);
+  const MONTHS_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  let viewDate = new Date();
+  let selectedDate = null;
+
+  // Build all tax events for the year
+  function getTaxEvents() {
+    const y = new Date().getFullYear();
+    const today = new Date(); today.setHours(0,0,0,0);
+    const events = [
+      { type:'vat', title:'ض.ق.م — الربع الأول', date:new Date(y, 3, 30),  cta:'vat',   icon:'invoice', paid:true  },
+      { type:'vat', title:'ض.ق.م — الربع الثاني', date:new Date(y, 6, 31),  cta:'vat',   icon:'invoice', paid:false },
+      { type:'vat', title:'ض.ق.م — الربع الثالث', date:new Date(y, 9, 31),  cta:'vat',   icon:'invoice', paid:false },
+      { type:'vat', title:'ض.ق.م — الربع الرابع', date:new Date(y+1, 0, 31),cta:'vat',   icon:'invoice', paid:false },
+      { type:'inc', title:'إقرار ضريبة الدخل — سنوي', date:new Date(y, 11, 31), cta:'tax',   icon:'file',    paid:false },
+      { type:'zk',  title:'إقرار الزكاة — سنوي',       date:new Date(y+1, 2, 30), cta:'zakat', icon:'moon',    paid:false },
+    ];
+    return events.map(e => {
+      const days = Math.ceil((e.date - today) / 86400000);
+      let status, color;
+      if (e.paid)              { status = 'paid';    color = '#86BA72'; }
+      else if (days < 0)       { status = 'overdue'; color = '#c93545'; }
+      else if (days <= 7)      { status = 'urgent';  color = '#c93545'; }
+      else if (days <= 30)     { status = 'soon';    color = '#a8854a'; }
+      else                     { status = 'later';   color = '#2C5559'; }
+      return { ...e, days, status, color };
+    });
   }
-  function updateTaxCountdowns(){
-    const q2Days = daysUntil('2026-04-30');
-    const q2El = document.getElementById('q2Countdown');
-    const nextEl = document.getElementById('taxNextCountdown');
-    if(q2El){
-      if(q2Days > 0) q2El.textContent = `باقي ${q2Days} يوم على الموعد`;
-      else if(q2Days === 0) q2El.textContent = 'الموعد اليوم!';
-      else q2El.textContent = `تأخّر ${Math.abs(q2Days)} يوم`;
+
+  function iconSvg(name, size=18){
+    const map = {
+      invoice: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>`,
+      file:    `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>`,
+      moon:    `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`,
+    };
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${map[name]||map.file}</svg>`;
+  }
+
+  function statusLabel(s){
+    return {paid:'مُسدّد',overdue:'متأخر',urgent:'عاجل',soon:'قريب',later:'لاحق'}[s] || s;
+  }
+
+  function renderCalendar(){
+    const grid = document.getElementById('tcGrid');
+    if (!grid) return;
+    const monthLabel = document.getElementById('tcMonthLabel');
+    if (monthLabel) monthLabel.textContent = `${MONTHS_AR[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    const firstDay = new Date(y, m, 1);
+    const lastDay  = new Date(y, m+1, 0);
+    // In Arabic calendar week starts on Saturday (6 in JS getDay())
+    const startWeekday = (firstDay.getDay() + 1) % 7; // shift so Saturday=0
+    const today = new Date(); today.setHours(0,0,0,0);
+    const events = getTaxEvents();
+    grid.innerHTML = '';
+
+    // Previous month's trailing days
+    const prevLast = new Date(y, m, 0).getDate();
+    for (let i = startWeekday - 1; i >= 0; i--) {
+      const cell = document.createElement('div');
+      cell.className = 'tc-day other';
+      cell.textContent = prevLast - i;
+      grid.appendChild(cell);
     }
-    if(nextEl){
-      if(q2Days > 0) nextEl.textContent = `باقي ${q2Days} يوم`;
-      else if(q2Days === 0) nextEl.textContent = 'الموعد اليوم!';
-      else nextEl.textContent = 'فات الموعد';
+    // Current month
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const date = new Date(y, m, d);
+      const cell = document.createElement('div');
+      cell.className = 'tc-day';
+      if (date.getTime() === today.getTime()) cell.classList.add('today');
+      if (selectedDate && date.getTime() === selectedDate.getTime()) cell.classList.add('selected');
+      const dayEvents = events.filter(e => e.date.getFullYear()===y && e.date.getMonth()===m && e.date.getDate()===d);
+      const dots = dayEvents.map(e => `<span class="tc-dot" style="background:${e.color}"></span>`).join('');
+      cell.innerHTML = `<span>${d}</span>${dots ? `<div class="tc-dots">${dots}</div>` : ''}`;
+      cell.onclick = () => {
+        selectedDate = date;
+        renderCalendar();
+        renderTaxEvents();
+      };
+      grid.appendChild(cell);
+    }
+    // Next month's leading days (fill to 6 rows = 42)
+    const totalCells = startWeekday + lastDay.getDate();
+    const remainder = (7 - totalCells % 7) % 7;
+    for (let i = 1; i <= remainder; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'tc-day other';
+      cell.textContent = i;
+      grid.appendChild(cell);
     }
   }
-  updateTaxCountdowns();
+
+  window.taxCalNav = function(delta){
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + delta, 1);
+    renderCalendar();
+  };
+  window.taxCalToday = function(){
+    viewDate = new Date();
+    selectedDate = new Date(); selectedDate.setHours(0,0,0,0);
+    renderCalendar();
+    renderTaxEvents();
+  };
+
+  window.renderTaxEvents = function(){
+    const list = document.getElementById('tcEvents');
+    if (!list) return;
+    const filter = document.getElementById('tcFilter')?.value || 'all';
+    let events = getTaxEvents();
+    if (filter === 'urgent') events = events.filter(e => e.status === 'urgent' || e.status === 'overdue');
+    else if (filter === 'soon')   events = events.filter(e => e.status === 'soon');
+    else if (filter === 'paid')   events = events.filter(e => e.status === 'paid');
+    else if (filter === 'later')  events = events.filter(e => e.status === 'later');
+
+    // If a date is selected, prefer events on that date
+    if (selectedDate) {
+      const sameDay = events.filter(e => e.date.getTime() === selectedDate.getTime());
+      if (sameDay.length) events = sameDay;
+    }
+    events.sort((a,b) => a.date - b.date);
+
+    if (!events.length) {
+      list.innerHTML = `<div style="text-align:center;padding:30px 12px;color:var(--t3);font-size:13px">لا توجد مواعيد مطابقة</div>`;
+      return;
+    }
+    list.innerHTML = events.map(e => {
+      const dateStr = `${MONTHS_AR[e.date.getMonth()]} ${e.date.getDate()}, ${e.date.getFullYear()}`;
+      const ctaLabel = e.cta === 'zakat' ? 'الحاسبة ←' : 'عرض التقرير ←';
+      const daysText = e.paid ? 'مسدّد' : e.days < 0 ? `تأخر ${Math.abs(e.days)} يوم` : e.days === 0 ? 'اليوم' : `بعد ${e.days} يوم`;
+      const bgAlpha = e.color === '#86BA72' ? '.06' : e.color === '#c93545' ? '.05' : e.color === '#a8854a' ? '.06' : '.04';
+      return `
+        <div style="background:#fff;border:1px solid ${e.color}33;border-radius:12px;padding:14px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:${e.color}"></div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:48px;text-align:center;background:rgba(${hexToRgb(e.color)},${bgAlpha});border-radius:10px;padding:8px 4px;flex-shrink:0">
+              <div style="font-size:18px;font-weight:900;color:${e.color};line-height:1">${e.date.getDate()}</div>
+              <div style="font-size:10px;color:${e.color};font-weight:600;margin-top:2px">${MONTHS_AR[e.date.getMonth()].slice(0,3)}</div>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;color:#000;margin-bottom:4px">${e.title}</div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(${hexToRgb(e.color)},.1);color:${e.color};font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${statusLabel(e.status)}</div>
+              <div style="font-size:11px;color:var(--t3);margin-top:6px">${dateStr} · <b style="color:${e.color}">${daysText}</b></div>
+              <button onclick="go('${e.cta}',null)" style="margin-top:8px;padding:6px 12px;background:transparent;color:${e.color};border:1px solid ${e.color}44;border-radius:8px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">${ctaLabel}</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  };
+
+  function hexToRgb(hex){
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  }
+
+  // Tab switching
+  document.querySelectorAll('.tc-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tc-tab').forEach(t => t.classList.remove('on'));
+      tab.classList.add('on');
+      // For now, all views show monthly. Could expand to quarter/year later.
+      renderCalendar();
+    });
+  });
+
+  // Initial render when page is shown
+  const _origGo2 = window.go;
+  if (typeof _origGo2 === 'function') {
+    window.go = function(id, el) {
+      _origGo2(id, el);
+      if (id === 'taxcal') {
+        setTimeout(() => { renderCalendar(); renderTaxEvents(); }, 50);
+      }
+    };
+  }
+  // Also render on first load if user lands there
+  setTimeout(() => { if (document.getElementById('tcGrid')) { renderCalendar(); renderTaxEvents(); } }, 800);
 })();
 </script>
 <!-- PROFILE / ACCOUNT SETTINGS -->
