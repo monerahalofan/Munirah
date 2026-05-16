@@ -76,7 +76,12 @@ nav{padding:6px 10px 10px;flex:1;overflow-y:auto}
 nav::-webkit-scrollbar{width:3px}
 nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 
-.ns{font-size:10px;color:var(--t3);padding:14px 12px 6px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;opacity:.55}
+.ns{font-size:11px;color:var(--t3);padding:11px 12px;margin-top:6px;font-weight:700;letter-spacing:.4px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:9px;transition:.15s;user-select:none}
+.ns:hover{background:rgba(134,186,114,.05);color:var(--t)}
+.ns-chev{transition:transform .25s;color:var(--t3);display:inline-flex;align-items:center}
+.ns.collapsed .ns-chev{transform:rotate(-90deg)}
+.nav-group{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);max-height:1000px}
+.nav-group.collapsed{max-height:0}
 
 .ni{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;cursor:pointer;color:#5a7060;font-size:13px;margin:1px 0;transition:all .15s;font-weight:500;position:relative}
 .ni:hover{background:rgba(134,186,114,.08);color:#000}
@@ -2706,6 +2711,96 @@ function bnavGo(id) {
   // Find the matching sidebar nav item to also activate it
   const el = document.querySelector(`.ni[onclick*="'${id}'"]`);
   go(id, el);
+}
+
+// ═══════════ COLLAPSIBLE SIDEBAR SECTIONS ═══════════
+function initSidebarGroups() {
+  const nav = document.querySelector('aside.sb nav');
+  if (!nav) return;
+  if (nav.dataset.grouped === '1') return;
+  nav.dataset.grouped = '1';
+
+  // Wrap each section's items in a .nav-group
+  const sections = Array.from(nav.querySelectorAll('.ns'));
+  sections.forEach((header, idx) => {
+    // Make header collapsible
+    if (!header.querySelector('.ns-chev')) {
+      const chev = document.createElement('span');
+      chev.className = 'ns-chev';
+      chev.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      header.appendChild(chev);
+    }
+
+    // Create a group and move sibling .ni items into it
+    const group = document.createElement('div');
+    group.className = 'nav-group';
+    let sibling = header.nextElementSibling;
+    while (sibling && !sibling.classList.contains('ns')) {
+      const next = sibling.nextElementSibling;
+      group.appendChild(sibling);
+      sibling = next;
+    }
+    header.after(group);
+    header.dataset.groupIdx = idx;
+
+    // Click handler
+    header.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const collapsed = header.classList.toggle('collapsed');
+      group.classList.toggle('collapsed', collapsed);
+      // Save state
+      const states = JSON.parse(localStorage.getItem('mahsoob_nav_collapsed') || '[]');
+      const key = idx;
+      if (collapsed && !states.includes(key)) states.push(key);
+      else if (!collapsed) {
+        const i = states.indexOf(key); if (i >= 0) states.splice(i, 1);
+      }
+      localStorage.setItem('mahsoob_nav_collapsed', JSON.stringify(states));
+    });
+  });
+
+  // Restore saved collapsed state (default: all collapsed except section with active item)
+  let states;
+  try { states = JSON.parse(localStorage.getItem('mahsoob_nav_collapsed') || 'null'); } catch(e) { states = null; }
+
+  if (states === null) {
+    // First time: collapse all EXCEPT the section containing the active page (db = first)
+    states = sections.map((_, i) => i).filter(i => i !== 0); // keep first open
+  }
+
+  sections.forEach((header, idx) => {
+    const group = header.nextElementSibling;
+    if (states.includes(idx)) {
+      header.classList.add('collapsed');
+      group.classList.add('collapsed');
+    }
+  });
+}
+
+// Initialize after page is ready
+window.addEventListener('load', () => setTimeout(initSidebarGroups, 200));
+
+// When user navigates to a section, auto-expand it
+const _origGo = window.go;
+if (typeof _origGo === 'function') {
+  window.go = function(id, el) {
+    _origGo(id, el);
+    // Find the item's parent group and expand it
+    setTimeout(() => {
+      const item = document.querySelector(`.ni[onclick*="'${id}'"]`);
+      const group = item?.closest('.nav-group');
+      const header = group?.previousElementSibling;
+      if (header?.classList.contains('ns') && header.classList.contains('collapsed')) {
+        header.classList.remove('collapsed');
+        group.classList.remove('collapsed');
+        // Update saved state
+        const states = JSON.parse(localStorage.getItem('mahsoob_nav_collapsed') || '[]');
+        const idx = parseInt(header.dataset.groupIdx, 10);
+        const i = states.indexOf(idx); if (i >= 0) states.splice(i, 1);
+        localStorage.setItem('mahsoob_nav_collapsed', JSON.stringify(states));
+      }
+    }, 0);
+  };
 }
 
 // ═══════════ DATE RANGE PICKER ═══════════
