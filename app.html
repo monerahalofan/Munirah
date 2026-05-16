@@ -1591,38 +1591,80 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <!-- PRODUCTS / SERVICES -->
 <div class="pg" id="pg-products">
 
-  <!-- Summary strip -->
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
-      <div>
-        <div style="font-size:11px;color:var(--t3)">إجمالي البنود</div>
-        <div style="font-size:22px;font-weight:700;color:var(--t1)" id="prod-total">0</div>
+  <!-- Header: stats cards + actions -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px">
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
       </div>
-      <div style="width:1px;height:32px;background:var(--b)"></div>
       <div>
-        <div style="font-size:11px;color:var(--t3)">خدمات</div>
-        <div style="font-size:22px;font-weight:700;color:var(--bl)" id="prod-services">0</div>
-      </div>
-      <div style="width:1px;height:32px;background:var(--b)"></div>
-      <div>
-        <div style="font-size:11px;color:var(--t3)">منتجات</div>
-        <div style="font-size:22px;font-weight:700;color:var(--g)" id="prod-items">0</div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600">إجمالي البنود</div>
+        <div style="font-size:24px;font-weight:900;color:#000;line-height:1.2" id="prod-total">0</div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <select class="fi" id="prod-filter" onchange="renderProducts()" style="width:130px">
-        <option value="all">الكل</option>
-        <option value="service">خدمات فقط</option>
-        <option value="product">منتجات فقط</option>
-      </select>
-      <input class="fi" id="prod-search" placeholder="🔍  ابحث…" oninput="renderProducts()" style="width:180px"/>
-      <button class="btn bp" onclick="toggleAddProduct()">＋ إضافة</button>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(166,137,181,.14);color:#8b6ea0;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600">خدمات</div>
+        <div style="font-size:24px;font-weight:900;color:#000;line-height:1.2" id="prod-services">0</div>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(197,168,120,.18);color:#a8854a;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l-4 4-4-4M16 8l-4-4-4 4"/><line x1="12" y1="20" x2="12" y2="4"/></svg>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600">منتجات</div>
+        <div style="font-size:24px;font-weight:900;color:#000;line-height:1.2" id="prod-items">0</div>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(44,85,89,.1);color:#2C5559;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600">قيمة المخزون</div>
+        <div style="font-size:18px;font-weight:900;color:#000;line-height:1.2;direction:ltr" id="prod-value">0 ر.س</div>
+      </div>
     </div>
   </div>
 
+  <!-- Actions toolbar -->
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;padding:14px;background:#fff;border:1px solid var(--b);border-radius:12px">
+    <div style="flex:1;min-width:200px;position:relative">
+      <svg style="position:absolute;top:50%;right:11px;transform:translateY(-50%);color:var(--t3);pointer-events:none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="fi" id="prod-search" placeholder="ابحث عن منتج أو خدمة…" oninput="renderProducts()" style="width:100%;padding-right:36px">
+    </div>
+    <select class="fi" id="prod-filter" onchange="renderProducts()" style="width:140px">
+      <option value="all">الكل</option>
+      <option value="service">خدمات فقط</option>
+      <option value="product">منتجات فقط</option>
+    </select>
+    <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 16px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s" onmouseover="this.style.borderColor='#86BA72';this.style.color='#86BA72'" onmouseout="this.style.borderColor='rgba(44,85,89,.2)';this.style.color='#2C5559'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      رفع Excel/CSV
+    </button>
+    <input type="file" id="prod-import-file" accept=".csv,.xlsx,.xls" style="display:none" onchange="importProductsFile(this)"/>
+    <button onclick="downloadProductTemplate()" style="padding:9px 16px;background:transparent;color:var(--t2);border:1px solid var(--b);border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px" title="نموذج Excel جاهز">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      نموذج
+    </button>
+    <button class="btn bp" onclick="toggleAddProduct()" style="display:inline-flex;align-items:center;gap:6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      إضافة
+    </button>
+  </div>
+
   <!-- Add / Edit form -->
-  <div id="prod-form" style="display:none;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);padding:16px;margin-bottom:16px">
-    <div class="st" style="margin-bottom:12px" id="prod-form-title">منتج / خدمة جديدة</div>
+  <div id="prod-form" style="display:none;background:#fff;border:1px solid rgba(134,186,114,.3);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(134,186,114,.08)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="st" id="prod-form-title">منتج / خدمة جديدة</div>
+    </div>
     <input type="hidden" id="prod-edit-id"/>
     <div class="fg">
       <div class="ff full"><label class="fl">الاسم *</label><input class="fi" id="prod-name" placeholder="مثال: استشارة مالية / تيشيرت أسود"/></div>
@@ -1638,14 +1680,14 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="ff" id="prod-stock-row" style="display:none"><label class="fl">الكمية في المخزون</label><input class="fi" id="prod-stock" type="number" placeholder="0" inputmode="numeric"/></div>
       <div class="ff full"><label class="fl">ملاحظات</label><input class="fi" id="prod-notes" placeholder="وصف مختصر اختياري…"/></div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn bp" onclick="saveProduct()">حفظ</button>
+    <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
       <button class="btn bg2" onclick="toggleAddProduct()">إلغاء</button>
+      <button class="btn bp" onclick="saveProduct()">حفظ</button>
     </div>
   </div>
 
   <!-- List -->
-  <div id="prod-list" style="display:flex;flex-direction:column;gap:8px"></div>
+  <div id="prod-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
 
 </div>
 
@@ -5368,40 +5410,201 @@ function renderProducts(){
   const q=(document.getElementById('prod-search')?.value||'').toLowerCase();
   const filter=document.getElementById('prod-filter')?.value||'all';
   const list=document.getElementById('prod-list');
+  if (!list) return;
   let filtered=products.filter(p=>{
     const matchQ=p.name.toLowerCase().includes(q);
     const matchF=filter==='all'||(filter==='service'&&p.type==='service')||(filter==='product'&&p.type==='product');
     return matchQ&&matchF;
   });
-  document.getElementById('prod-total').textContent=products.length;
-  document.getElementById('prod-services').textContent=products.filter(p=>p.type==='service').length;
-  document.getElementById('prod-items').textContent=products.filter(p=>p.type==='product').length;
+  // Stats
+  const totalEl = document.getElementById('prod-total');
+  const svcEl   = document.getElementById('prod-services');
+  const itmEl   = document.getElementById('prod-items');
+  const valEl   = document.getElementById('prod-value');
+  if (totalEl) totalEl.textContent = products.length;
+  if (svcEl)   svcEl.textContent   = products.filter(p=>p.type==='service').length;
+  if (itmEl)   itmEl.textContent   = products.filter(p=>p.type==='product').length;
+  if (valEl) {
+    const totalValue = products.reduce((s,p) => s + (p.price * (p.stock || 1)), 0);
+    valEl.textContent = totalValue.toLocaleString('en-US') + ' ر.س';
+  }
+
+  // Empty states
   if(!filtered.length){
-    list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--t3)">${products.length===0?'لا يوجد بنود — اضغط <b>＋ إضافة</b> لإضافة خدمة أو منتج':'لا توجد نتائج'}</div>`;
+    if (products.length === 0) {
+      list.innerHTML = `
+        <div style="grid-column:1/-1;background:#fff;border:2px dashed rgba(134,186,114,.3);border-radius:18px;padding:48px 24px;text-align:center">
+          <div style="width:80px;height:80px;border-radius:50%;background:rgba(134,186,114,.1);color:#86BA72;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:emptyPulse 2.5s ease infinite">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div style="font-size:18px;font-weight:800;color:#000;margin-bottom:8px">ابدأ بإضافة منتجاتك وخدماتك</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7;max-width:420px;margin:0 auto 20px">
+            أضفها يدوياً واحدة بواحدة، أو ارفع ملف Excel/CSV فيها كل بنودك دفعة واحدة
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn bp" onclick="toggleAddProduct()" style="display:inline-flex;align-items:center;gap:6px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              إضافة منتج
+            </button>
+            <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 18px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.25);border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              رفع Excel
+            </button>
+          </div>
+          <div style="font-size:11px;color:var(--t3);margin-top:14px;cursor:pointer;text-decoration:underline" onclick="downloadProductTemplate()">حمّل نموذج Excel جاهز ←</div>
+        </div>`;
+    } else {
+      list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--t3)">لا توجد نتائج تطابق بحثك</div>`;
+    }
     return;
   }
-  list.innerHTML=filtered.map(p=>{
-    const isService=p.type==='service';
-    const stockBadge=!isService&&p.stock!=null
-      ?`<span class="bdg ${p.stock>5?'bdg-g':p.stock>0?'bdg-a':'bdg-r'}" style="font-size:10px">${p.stock>0?'مخزون: '+p.stock:'نفد المخزون'}</span>`
-      :`<span class="bdg bdg-b" style="font-size:10px">${isService?'خدمة':'منتج'}</span>`;
-    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--Rb);transition:.15s" onmouseenter="this.style.borderColor='var(--g)'" onmouseleave="this.style.borderColor='var(--b)'">
-      <div style="width:40px;height:40px;border-radius:10px;background:${isService?'var(--blb)':'var(--gb)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${isService?'⚙️':'📦'}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:14px">${p.name}</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:2px">${p.unit}${p.notes?' · '+p.notes:''}</div>
-      </div>
-      <div style="text-align:center;min-width:80px">
-        <div style="font-size:15px;font-weight:700;color:var(--g)">${p.price.toLocaleString('en-US')} ر.س</div>
-        ${stockBadge}
-      </div>
-      <div style="display:flex;gap:6px">
-        <button class="btn bg2" style="font-size:11px;padding:5px 9px" onclick="addProdToInvoice(${p.id})">＋ فاتورة</button>
-        <button class="btn bg2" style="font-size:11px;padding:5px 8px" onclick="editProduct(${p.id})">✏️</button>
-        <button class="btn bg2" style="font-size:11px;padding:5px 8px;color:var(--r)" onclick="deleteProduct(${p.id})">🗑️</button>
-      </div>
-    </div>`;
+
+  // Card grid
+  list.innerHTML = filtered.map(p => {
+    const isService = p.type === 'service';
+    const accentColor = isService ? '#8b6ea0' : '#86BA72';
+    const accentBg    = isService ? 'rgba(166,137,181,.12)' : 'rgba(134,186,114,.12)';
+    const stockStatus = !isService && p.stock != null
+      ? p.stock > 5
+        ? { color:'#86BA72', bg:'rgba(134,186,114,.1)', text:`المخزون: ${p.stock}` }
+        : p.stock > 0
+          ? { color:'#a8854a', bg:'rgba(197,168,120,.15)', text:`متبقي: ${p.stock}` }
+          : { color:'#c93545', bg:'rgba(201,53,69,.1)', text:'نفد المخزون' }
+      : null;
+    return `
+      <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:18px;transition:all .2s;position:relative;display:flex;flex-direction:column;gap:12px"
+           onmouseenter="this.style.borderColor='${accentColor}';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px ${accentBg}'"
+           onmouseleave="this.style.borderColor='var(--b)';this.style.transform='';this.style.boxShadow=''">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="width:44px;height:44px;border-radius:12px;background:${accentBg};color:${accentColor};display:flex;align-items:center;justify-content:center">
+            ${isService
+              ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
+              : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`}
+          </div>
+          <span style="background:${accentBg};color:${accentColor};font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px;letter-spacing:.3px">${isService ? 'خدمة' : 'منتج'}</span>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:800;color:#000;line-height:1.4;margin-bottom:4px">${p.name}</div>
+          ${p.unit ? `<div style="font-size:11px;color:var(--t3);margin-bottom:6px">${p.unit}</div>` : ''}
+          ${p.notes ? `<div style="font-size:12px;color:var(--t2);line-height:1.5">${p.notes}</div>` : ''}
+        </div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-top:10px;border-top:1px solid var(--b)">
+          <div>
+            <div style="font-size:11px;color:var(--t3)">السعر</div>
+            <div style="font-size:18px;font-weight:900;color:#000;direction:ltr;text-align:right">${p.price.toLocaleString('en-US')} <span style="font-size:11px;color:var(--t3);font-weight:500">ر.س</span></div>
+          </div>
+          ${stockStatus ? `<span style="background:${stockStatus.bg};color:${stockStatus.color};font-size:10px;font-weight:700;padding:4px 10px;border-radius:10px;white-space:nowrap">${stockStatus.text}</span>` : ''}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="addProdToInvoice(${p.id})" style="flex:1;padding:8px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.25);border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            فاتورة
+          </button>
+          <button onclick="editProduct(${p.id})" style="padding:8px 12px;background:transparent;color:var(--t2);border:1px solid var(--b);border-radius:8px;font-family:inherit;font-size:12px;cursor:pointer" title="تعديل">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button onclick="deleteProduct(${p.id})" style="padding:8px 12px;background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.2);border-radius:8px;font-family:inherit;font-size:12px;cursor:pointer" title="حذف">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+          </button>
+        </div>
+      </div>`;
   }).join('');
+}
+
+// ═══════════ CSV/EXCEL IMPORT ═══════════
+function downloadProductTemplate() {
+  const headers = ['الاسم', 'النوع (service/product)', 'السعر', 'الوحدة', 'المخزون', 'ملاحظات'];
+  const sample = [
+    ['استشارة ساعة', 'service', '500', 'ساعة', '', 'استشارة مالية ساعة واحدة'],
+    ['تيشيرت أسود', 'product', '120', 'قطعة', '50', 'مقاس متوسط'],
+    ['تصميم لوغو', 'service', '1500', 'مشروع', '', ''],
+  ];
+  const rows = [headers, ...sample];
+  const csv = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'نموذج_منتجات_محسوب.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast({ type:'success', title:'تم التنزيل', msg:'افتحه في Excel، عبّيه، ثم ارفعه' });
+}
+
+function importProductsFile(input) {
+  const file = input.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    try {
+      const text = new TextDecoder('utf-8').decode(e.target.result);
+      const rows = parseCSV(text);
+      if (rows.length < 2) {
+        toast({ type:'error', msg:'الملف فارغ أو لا يحتوي بيانات' });
+        return;
+      }
+      // Skip header row
+      const dataRows = rows.slice(1).filter(r => r.some(c => c && c.trim()));
+      let imported = 0;
+      let skipped = 0;
+      dataRows.forEach(r => {
+        const [name, type, price, unit, stock, notes] = r;
+        if (!name || !price) { skipped++; return; }
+        const cleanType = (type || '').toLowerCase().trim();
+        products.push({
+          id: Date.now() + Math.random(),
+          name: name.trim(),
+          type: (cleanType === 'product' || cleanType === 'منتج') ? 'product' : 'service',
+          price: parseFloat(price) || 0,
+          unit: (unit || '').trim(),
+          stock: stock && stock.trim() ? parseInt(stock, 10) : null,
+          notes: (notes || '').trim(),
+        });
+        imported++;
+      });
+      saveProductsStore();
+      renderProducts();
+      input.value = '';
+      toast({
+        type: 'success',
+        title: `تم استيراد ${imported} بند`,
+        msg: skipped > 0 ? `(تم تجاهل ${skipped} سطر فارغ)` : 'كل البنود أُضيفت بنجاح',
+        duration: 5000,
+      });
+    } catch (err) {
+      console.error(err);
+      toast({ type:'error', title:'فشل القراءة', msg:'تأكد إن الملف CSV أو Excel سليم' });
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// Simple CSV parser (handles quoted fields with commas/newlines)
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], n = text[i + 1];
+    if (inQuotes) {
+      if (c === '"' && n === '"') { field += '"'; i++; }
+      else if (c === '"') inQuotes = false;
+      else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && n === '\n') i++;
+        row.push(field); rows.push(row); row = []; field = '';
+      } else field += c;
+    }
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function saveProductsStore() {
+  localStorage.setItem('mahsoob_products', JSON.stringify(products));
+  if (typeof cloudBackup === 'function') cloudBackup().catch(()=>{});
 }
 function addProdToInvoice(id){
   const p=products.find(x=>x.id===id);
