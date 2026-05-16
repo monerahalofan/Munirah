@@ -60,26 +60,39 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:'PingARLT','Tajawal',sans-serif;background:var(--bg);color:var(--t);font-size:15px}
 .layout{display:flex;height:100vh;overflow:hidden}
-.sb{width:230px;background:var(--bg2);border-left:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s,transform .25s,opacity .2s}
+.sb{width:248px;background:#fff;border-left:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s,transform .25s,opacity .2s}
+body.dark .sb{background:#161b27}
 .layout.sb-hidden .sb{width:0;opacity:0;overflow:hidden;border:none}
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .main::-webkit-scrollbar{width:3px}.main::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
-/* Sidebar */
-.lw{padding:18px 14px;border-bottom:1px solid var(--b)}
-.lg{display:flex;align-items:center;gap:9px}
-.li{width:32px;height:32px;background:var(--gb);border:1px solid var(--gB);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
-.ln{font-size:16px;font-weight:700}.lt{font-size:10px;color:var(--t3);margin-top:1px}
-nav{padding:8px 6px;flex:1;overflow-y:auto}
-.ns{font-size:10px;color:var(--t3);padding:14px 12px 4px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.7}
-.ni{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;margin:1px 4px;transition:all .15s;font-weight:500}
-.ni:hover{background:rgba(134,186,114,.06);color:var(--t)}
-.ni.on{background:linear-gradient(135deg,rgba(134,186,114,.12),rgba(134,186,114,.06));color:#86BA72;font-weight:700;box-shadow:inset 3px 0 0 #86BA72}
-.nk{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.85}
-.ni.on .nk{opacity:1;color:#86BA72}
-.nb{margin-right:auto;background:var(--rb);color:var(--r);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--rB)}
-.nbg{margin-right:auto;background:var(--gb);color:var(--g);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--gB)}
-.us{padding:10px;border-top:1px solid var(--b)}
-.uc{display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:var(--Rs);border:1px solid var(--b)}
+/* Sidebar header */
+.lw{padding:18px 16px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lg{display:flex;align-items:center;gap:10px}
+.li{width:36px;height:36px;background:#2C5559;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;object-fit:contain}
+.ln{font-size:15px;font-weight:800;color:#000}.lt{font-size:11px;color:var(--t3);margin-top:1px}
+.logo-text-img{height:24px;object-fit:contain;display:block}
+
+nav{padding:6px 10px 10px;flex:1;overflow-y:auto}
+nav::-webkit-scrollbar{width:3px}
+nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+
+.ns{font-size:10px;color:var(--t3);padding:14px 12px 6px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;opacity:.55}
+
+.ni{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;cursor:pointer;color:#5a7060;font-size:13px;margin:1px 0;transition:all .15s;font-weight:500;position:relative}
+.ni:hover{background:rgba(134,186,114,.08);color:#000}
+.ni.on{background:#2C5559;color:#fff;font-weight:700;box-shadow:0 4px 10px rgba(44,85,89,.18)}
+.ni.on .nk{color:#86BA72}
+
+.nk{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.8;transition:.15s}
+.ni:hover .nk{opacity:1}
+.ni.on .nk{opacity:1}
+
+.nb{margin-right:auto;background:#86BA72;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800;min-width:20px;text-align:center}
+.nbg{margin-right:auto;background:rgba(134,186,114,.15);color:#86BA72;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.ni.on .nbg{background:rgba(255,255,255,.18);color:#fff}
+.us{padding:12px;border-top:1px solid var(--b)}
+.uc{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(134,186,114,.05);border-radius:11px;border:1px solid rgba(134,186,114,.15);transition:.15s}
+.uc:hover{background:rgba(134,186,114,.1);border-color:rgba(134,186,114,.3)}
 .ua{width:28px;height:28px;border-radius:50%;background:var(--blb);border:1px solid var(--blB);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bl);flex-shrink:0}
 .un{font-size:12px;font-weight:500}.up{font-size:10px;color:var(--g)}
 /* Top bar */
@@ -659,7 +672,18 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <!-- APP -->
 <div class="layout" id="appLayout" style="display:none">
 <aside class="sb" id="sbEl">
-  <div class="lw"><div class="lg"><img src="img/logo-icon.png" class="li" style="width:36px;height:36px;object-fit:contain"><div><img src="img/logo-text.png" class="logo-text-img" style="height:26px;object-fit:contain;display:block"><div class="lt">محاسبك المالي الذكي</div></div></div></div>
+  <div class="lw">
+    <div class="lg">
+      <img src="img/logo-icon.png" class="li" alt="">
+      <div>
+        <img src="img/logo-text.png" class="logo-text-img" alt="محسوب">
+        <div class="lt">محاسبك المالي الذكي</div>
+      </div>
+    </div>
+    <button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;color:var(--t3);padding:6px;border-radius:7px;display:flex;align-items:center;transition:.15s" onmouseover="this.style.background='rgba(0,0,0,.04)';this.style.color='#000'" onmouseout="this.style.background='transparent';this.style.color='var(--t3)'" title="إخفاء القائمة">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
   <nav>
     <div class="ns" data-i18n="ns_home">البداية</div>
     <div class="ni on" onclick="go('db',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span data-i18n="nav_db">البداية</span></div>
