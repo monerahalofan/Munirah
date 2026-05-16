@@ -81,9 +81,6 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 .ns:hover .ns-chev{color:#86BA72;background:rgba(134,186,114,.15)}
 .ns-chev{transition:all .25s;color:var(--t2);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:rgba(0,0,0,.04)}
 .ns.collapsed .ns-chev{transform:rotate(-90deg)}
-.ns-count{font-size:10px;color:var(--t3);font-weight:700;background:rgba(0,0,0,.04);padding:2px 8px;border-radius:10px;min-width:22px;text-align:center;transition:.15s}
-.ns:hover .ns-count{background:rgba(134,186,114,.15);color:#86BA72}
-.ns.collapsed .ns-count{display:inline-block}
 .nav-group{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);max-height:1000px;padding:2px 0 6px}
 .nav-group.collapsed{max-height:0;padding:0}
 
@@ -2804,12 +2801,6 @@ function initSidebarGroups() {
     labelSpan.dataset.i18n = header.dataset.i18n || '';
     labelSpan.style.flex = '1';
     header.appendChild(labelSpan);
-
-    // Item count badge
-    const count = document.createElement('span');
-    count.className = 'ns-count';
-    count.textContent = itemCount;
-    header.appendChild(count);
 
     // Chevron arrow
     const chev = document.createElement('span');
