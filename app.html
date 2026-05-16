@@ -83,7 +83,14 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .ua{width:28px;height:28px;border-radius:50%;background:var(--blb);border:1px solid var(--blB);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bl);flex-shrink:0}
 .un{font-size:12px;font-weight:500}.up{font-size:10px;color:var(--g)}
 /* Top bar */
-.tb{padding:13px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10}
+.tb{padding:14px 22px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:10}
+.hdr-icon{width:38px;height:38px;border-radius:10px;background:transparent;border:1px solid var(--b);color:var(--t2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;transition:all .15s;flex-shrink:0;position:relative}
+.hdr-icon:hover{background:rgba(134,186,114,.08);border-color:rgba(134,186,114,.3);color:#86BA72}
+.hdr-badge{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#dc2f3b;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
+.hdr-btn-out{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:transparent;border:1px solid rgba(44,85,89,.2);color:#2C5559;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .15s}
+.hdr-btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.06)}
+.hdr-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#86BA72;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;box-shadow:0 2px 8px rgba(134,186,114,.3)}
+.hdr-btn-primary:hover{background:#7AA866;transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.4)}
 .pt{font-size:17px;font-weight:700}
 .btn{padding:7px 13px;border-radius:var(--Rs);border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
 .bp{background:var(--g);color:#0d1117}.bp:hover{opacity:.9}
@@ -94,23 +101,24 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .card{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:16px}
 .csm{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:12px}
 /* KPI */
-.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.kc{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(44,85,89,.04)}
-.kc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(44,85,89,.07)}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kc{background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px 22px;position:relative;overflow:hidden;transition:all .25s;box-shadow:0 1px 3px rgba(44,85,89,.04)}
+.kc:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(44,85,89,.08);border-color:rgba(134,186,114,.3)}
 body.dark .kc{background:#161b27;box-shadow:none}
 body.dark .kc:hover{box-shadow:0 8px 20px rgba(0,0,0,.4)}
-body.dark .db-hero{background:linear-gradient(135deg,rgba(157,199,138,.12),rgba(157,199,138,.04));border-color:rgba(157,199,138,.25)}
 body.dark .qab-new{background:#161b27 !important}
-.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
-.kc.G::before{background:linear-gradient(90deg,#86BA72,#9DC78A)}
-.kc.R::before{background:linear-gradient(90deg,#dc2626,#ef4444)}
-.kc.B::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
-.kc.A::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
-.kc.P::before{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
-.kl{font-size:12px;color:var(--t3);margin-bottom:8px;font-weight:600}
-.kv{font-size:22px;font-weight:800;direction:ltr;text-align:right}
-.kv.G{color:#86BA72}.kv.R{color:#dc2626}.kv.B{color:#2563eb}.kv.A{color:#f59e0b}.kv.P{color:#7c3aed}
-.kch{font-size:11px;color:var(--t3);margin-top:6px;font-weight:500}.kch.up{color:#86BA72}.kch.dn{color:#dc2626}
+.kc-icon{position:absolute;top:18px;left:22px;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.kc.G .kc-icon{background:rgba(134,186,114,.14);color:#86BA72}
+.kc.R .kc-icon{background:rgba(201,53,69,.1);color:#c93545}
+.kc.B .kc-icon{background:rgba(44,85,89,.1);color:#2C5559}
+.kc.A .kc-icon{background:rgba(197,168,120,.18);color:#a8854a}
+.kc.P .kc-icon{background:rgba(166,137,181,.14);color:#8b6ea0}
+.kl{font-size:12px;color:var(--t3);margin-bottom:4px;font-weight:600;letter-spacing:.2px}
+.kv{font-size:26px;font-weight:900;direction:ltr;text-align:right;color:#000;line-height:1.2;margin-top:6px}
+.kv.G,.kv.R,.kv.B,.kv.A,.kv.P{color:#000}
+.kch{font-size:11px;color:var(--t3);margin-top:8px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.kch.up{color:#86BA72}.kch.dn{color:#c93545}
+.kc::before{display:none}
 /* Grid */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px}
@@ -699,18 +707,47 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 
 <main class="main">
 <div class="tb">
-  <div style="display:flex;align-items:center;gap:9px"><span class="hbg" onclick="togSB()">☰</span><button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;font-size:17px;color:var(--t3);padding:4px 6px;border-radius:6px;transition:all .15s" title="إخفاء/إظهار القائمة">⇄</button><div class="pt" id="pt">لوحة التحكم</div></div>
-  <div style="display:flex;gap:7px;align-items:center">
-    <!-- NOTIFICATION BELL -->
-    <button id="notifBtn" onclick="toggleNotifPanel()" style="position:relative;width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s" title="الإشعارات">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--t)"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      <span id="notifBadge" style="display:none;position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;border-radius:9px;background:#dc2626;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg2)">0</span>
+  <!-- Left side: title -->
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="hbg" onclick="togSB()" style="background:transparent;border:none;cursor:pointer;color:var(--t2);padding:6px;border-radius:8px;display:none;align-items:center" aria-label="القائمة">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;color:var(--t2);padding:6px;border-radius:8px;display:flex;align-items:center;transition:.15s" onmouseover="this.style.background='var(--bg3)';this.style.color='#86BA72'" onmouseout="this.style.background='transparent';this.style.color='var(--t2)'" title="القائمة">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="pt" id="pt" style="font-size:18px;font-weight:800;color:#000">لوحة التحكم</div>
+  </div>
+
+  <!-- Right side: actions -->
+  <div style="display:flex;gap:8px;align-items:center">
+    <!-- Notification bell -->
+    <button id="notifBtn" onclick="toggleNotifPanel()" class="hdr-icon" title="الإشعارات">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span id="notifBadge" class="hdr-badge">0</span>
     </button>
 
-    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
-    <button id="lang-toggle" onclick="toggleLang()" style="background:var(--bg3);border:1px solid var(--b);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--t1);font-family:'PingARLT','Tajawal',sans-serif;letter-spacing:.5px">EN</button>
-    <button class="btn bg2" id="tb-consult" onclick="go('ai',null)" data-i18n="tb_consult">🤖 استشر</button>
-    <button class="btn bp"  id="tb-invoice" onclick="go('zt',null)"  data-i18n="tb_invoice">＋ فاتورة</button>
+    <!-- Theme toggle -->
+    <button class="hdr-icon" id="themeBtn" onclick="toggleTheme()" title="الوضع الداكن">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+
+    <!-- Language -->
+    <button id="lang-toggle" onclick="toggleLang()" class="hdr-icon" style="width:auto;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.6px">EN</button>
+
+    <!-- Vertical separator -->
+    <div style="width:1px;height:24px;background:var(--b);margin:0 4px"></div>
+
+    <!-- Consult AI -->
+    <button id="tb-consult" onclick="go('ai',null)" class="hdr-btn-out">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span data-i18n="tb_consult">استشر</span>
+    </button>
+
+    <!-- New Invoice (primary CTA) -->
+    <button id="tb-invoice" onclick="go('zt',null)" class="hdr-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span data-i18n="tb_invoice">فاتورة</span>
+    </button>
   </div>
 </div>
 
@@ -775,16 +812,40 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <div id="smA"></div>
   <div class="kg">
     <div class="kc G">
+      <div class="kc-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      </div>
       <div class="kl">الإيرادات — هذا الشهر</div>
       <div class="kv G" id="kRevenue">0 ر.س</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
         <div class="kch up" id="kRevenueChange">—</div>
         <svg class="sparkline" id="sparkRev" width="60" height="20" viewBox="0 0 60 20" fill="none" preserveAspectRatio="none"></svg>
       </div>
     </div>
-    <div class="kc R"><div class="kl">المصروفات</div><div class="kv R" id="kExpense">0 ر.س</div><div class="kch dn">—</div></div>
-    <div class="kc B"><div class="kl">الرصيد الصافي</div><div class="kv B" id="kNet">0 ر.س</div><div class="kch up">—</div></div>
-    <div class="kc A"><div class="kl">السيولة المتاحة</div><div class="kv A" id="kLiq">0 ر.س</div><div class="kch">تكفي <span id="kDays">0</span> يوم</div></div>
+    <div class="kc R">
+      <div class="kc-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+      </div>
+      <div class="kl">المصروفات</div>
+      <div class="kv R" id="kExpense">0 ر.س</div>
+      <div class="kch dn">—</div>
+    </div>
+    <div class="kc B">
+      <div class="kc-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="kl">الرصيد الصافي</div>
+      <div class="kv B" id="kNet">0 ر.س</div>
+      <div class="kch up">—</div>
+    </div>
+    <div class="kc A">
+      <div class="kc-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      </div>
+      <div class="kl">السيولة المتاحة</div>
+      <div class="kv A" id="kLiq">0 ر.س</div>
+      <div class="kch">تكفي <span id="kDays">0</span> يوم</div>
+    </div>
   </div>
   <div class="g2">
     <div class="card">
