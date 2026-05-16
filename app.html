@@ -2707,9 +2707,10 @@ function showTrialExpiredPaywall(status) {
   overlay.id = 'paywallOverlay';
   overlay.style.cssText = `
     position:fixed;inset:0;background:linear-gradient(135deg,#162820 0%,#1a3429 100%);
-    z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;
+    z-index:9999;padding:40px 20px;
     overflow-y:auto;font-family:'PingARLT','Tajawal',sans-serif;
     animation:fadeIn .4s ease;
+    display:block;
   `;
 
   overlay.innerHTML = `
@@ -2732,7 +2733,7 @@ function showTrialExpiredPaywall(status) {
       .pw-logo{animation:float 3s ease-in-out infinite}
     </style>
 
-    <div style="max-width:920px;width:100%;color:#fff">
+    <div style="max-width:920px;width:100%;color:#fff;margin:0 auto">
 
       <!-- Header -->
       <div style="text-align:center;margin-bottom:40px">
