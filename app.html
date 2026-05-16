@@ -2702,33 +2702,139 @@ function dismissTrialBanner() {
 function showTrialExpiredPaywall(status) {
   const t = Auth.tenant || {};
   const isExpired = status === 'trial_expired';
-  const title = isExpired ? 'انتهت تجربتك المجانية' : 'الاشتراك غير فعّال';
-  const msg = isExpired
-    ? `استخدمت محسوب لمدة 14 يوماً مجاناً. للاستمرار وحفظ بياناتك، اختر باقة الآن.`
-    : `لا يوجد اشتراك فعّال. اختر باقة لتفعيل حسابك.`;
 
   const overlay = document.createElement('div');
   overlay.id = 'paywallOverlay';
   overlay.style.cssText = `
-    position:fixed;inset:0;background:rgba(22,40,32,.85);backdrop-filter:blur(8px);
+    position:fixed;inset:0;background:linear-gradient(135deg,#162820 0%,#1a3429 100%);
     z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;
-    animation:toastIn .4s ease;
+    overflow-y:auto;font-family:'PingARLT','Tajawal',sans-serif;
+    animation:fadeIn .4s ease;
   `;
+
   overlay.innerHTML = `
-    <div style="background:#fff;border-radius:18px;max-width:480px;width:100%;padding:36px 32px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.4)">
-      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#dc2626);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 22px">
-        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <style>
+      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+      @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+      @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+      .pw-card{animation:slideUp .5s .1s cubic-bezier(.18,.89,.32,1.28) both}
+      .pw-plan{animation:slideUp .5s cubic-bezier(.18,.89,.32,1.28) both}
+      .pw-plan:nth-child(1){animation-delay:.2s}
+      .pw-plan:nth-child(2){animation-delay:.3s}
+      .pw-plan:nth-child(3){animation-delay:.4s}
+      .pw-plan:hover{transform:translateY(-4px) !important;border-color:#45aa6e !important;box-shadow:0 12px 32px rgba(69,170,110,.25) !important}
+      .pw-plan.featured{position:relative}
+      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
+      .pw-feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#456050;margin:6px 0}
+      .pw-feat svg{flex-shrink:0;color:#45aa6e}
+      .pw-cta-main{transition:all .25s}
+      .pw-cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(69,170,110,.5) !important}
+      .pw-logo{animation:float 3s ease-in-out infinite}
+    </style>
+
+    <div style="max-width:920px;width:100%;color:#fff">
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:40px">
+        <div class="pw-logo" style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#45aa6e,#22c98a);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 36px rgba(69,170,110,.4)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+        </div>
+        <h1 style="font-size:32px;font-weight:900;margin:0 0 12px;letter-spacing:-.5px">
+          ${isExpired ? 'انتهت تجربتك المجانية 🎉' : 'فعّل اشتراكك للمتابعة'}
+        </h1>
+        <p style="font-size:15px;color:#8aa090;line-height:1.7;max-width:560px;margin:0 auto">
+          ${isExpired
+            ? 'استخدمت <b style="color:#fff">محسوب</b> لمدة 14 يوماً بكامل الميزات. بياناتك محفوظة، اختر الباقة المناسبة لتستمر بدون انقطاع.'
+            : 'اشتراكك غير فعّال حالياً. اختر باقة لتفعيل حسابك واستعادة الوصول الكامل.'}
+        </p>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(69,170,110,.15);border:1px solid rgba(69,170,110,.35);border-radius:20px;padding:6px 16px;margin-top:18px;font-size:12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+          <span style="color:#22c98a;font-weight:700">المنشأة: ${t.name || '—'}</span>
+          <span style="color:#8aa090">· بياناتك محفوظة ومحمية</span>
+        </div>
       </div>
-      <h2 style="font-size:22px;font-weight:900;margin:0 0 10px;color:#162820">${title}</h2>
-      <p style="font-size:14px;color:#5a6080;line-height:1.7;margin:0 0 28px">${msg}</p>
-      <div style="background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:10px;padding:14px;margin-bottom:24px">
-        <div style="font-size:11px;color:#5a6080;margin-bottom:4px">المنشأة</div>
-        <div style="font-size:15px;font-weight:700;color:#162820">${t.name || '—'}</div>
+
+      <!-- Plans grid -->
+      <div class="pw-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:30px">
+
+        <!-- Starter -->
+        <div class="pw-plan" style="background:#fff;color:#162820;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:6px">مبتدئ</div>
+          <div style="margin:18px 0">
+            <span style="font-size:36px;font-weight:900;color:#162820">99</span>
+            <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
+          </div>
+          <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> فواتير إلكترونية</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 50 مسح ذكي / شهر</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> تقرير VAT تلقائي</div>
+          </div>
+        </div>
+
+        <!-- Pro (featured) -->
+        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#162820;border:2px solid #45aa6e;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(69,170,110,.25)" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:6px">احترافي</div>
+          <div style="margin:18px 0">
+            <span style="font-size:36px;font-weight:900;color:#45aa6e">249</span>
+            <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
+          </div>
+          <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> كل ما في Starter</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> مسح غير محدود</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> المستشار الذكي AI</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 5 مستخدمين</div>
+          </div>
+        </div>
+
+        <!-- Business -->
+        <div class="pw-plan" style="background:#fff;color:#162820;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:6px">أعمال</div>
+          <div style="margin:18px 0">
+            <span style="font-size:36px;font-weight:900;color:#162820">499</span>
+            <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
+          </div>
+          <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> كل ما في Pro</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> مستخدمين غير محدود</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> دعم أولوية 24/7</div>
+            <div class="pw-feat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> API كامل</div>
+          </div>
+        </div>
+
       </div>
-      <a href="/pricing" style="display:block;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;padding:14px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;box-shadow:0 8px 24px rgba(69,170,110,.4);transition:all .2s">
-        شاهد الباقات واشترك ←
-      </a>
-      <button onclick="doSignOut()" style="margin-top:14px;background:transparent;border:none;color:#9aa0b8;cursor:pointer;font-size:13px;font-family:inherit;text-decoration:underline">تسجيل الخروج</button>
+
+      <!-- CTA + footer -->
+      <div style="text-align:center">
+        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(69,170,110,.4)">
+          اختر باقتك واشترك ←
+        </a>
+        <div style="margin-top:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:12px;color:#8aa090">
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            دفع آمن عبر Tap
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            إلغاء في أي وقت
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            متوافق مع ZATCA
+          </div>
+        </div>
+        <button onclick="doSignOut()" style="margin-top:24px;background:transparent;border:none;color:#5a7060;cursor:pointer;font-size:13px;font-family:inherit;text-decoration:underline">
+          تسجيل الخروج
+        </button>
+      </div>
+
     </div>
   `;
   document.body.appendChild(overlay);
