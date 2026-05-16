@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>محسوب — محاسبك المالي الذكي</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#22c98a">
+<meta name="theme-color" content="#9DC78A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="محسوب">
@@ -26,14 +26,34 @@
 <script src="js/geo-data.js"></script>
 <style>
 :root{
-  --bg:#f5f6fa;--bg2:#ffffff;--bg3:#f0f2f7;--bg4:#e8ebf2;
-  --b:rgba(0,0,0,.07);--b2:rgba(0,0,0,.12);
-  --t:#1a1d2e;--t2:#5a6080;--t3:#9aa0b8;
-  --g:#16a372;--gb:rgba(22,163,114,.08);--gB:rgba(22,163,114,.2);
-  --r:#e8394a;--rb:rgba(232,57,74,.08);--rB:rgba(232,57,74,.2);
-  --bl:#2563eb;--blb:rgba(37,99,235,.08);--blB:rgba(37,99,235,.2);
-  --a:#d97706;--ab:rgba(217,119,6,.08);--aB:rgba(217,119,6,.2);
-  --p:#7c3aed;--pb:rgba(124,58,237,.08);--pB:rgba(124,58,237,.2);
+  /* ─── Brand identity palette ─── */
+  --brand-green:#86BA72;     /* أخضر أساسي */
+  --brand-green-h:#7AA866;   /* أخضر أعمق للـ hover */
+  --brand-dark:#2C5559;      /* داكن — أزرق رمادي */
+  --brand-khaki:#C5A878;     /* خاكي */
+  --brand-purple:#A689B5;    /* بنفسجي */
+  --brand-sky:#82B0C7;       /* أزرق سماوي */
+  --brand-olive:#C7CB80;     /* ليموني */
+  --brand-light:#D5DDE0;     /* رمادي فاتح ثانوي */
+
+  /* ─── Backgrounds ─── */
+  --bg:#ffffff;--bg2:#ffffff;--bg3:#f6f7f8;--bg4:#eef0f2;
+
+  /* ─── Borders ─── */
+  --b:rgba(44,85,89,.08);--b2:rgba(44,85,89,.14);
+
+  /* ─── Text (titles BLACK as requested) ─── */
+  --t:#000000;--t2:#2C5559;--t3:#7a8a8d;
+  --t1:#000000;
+
+  /* ─── Semantic mapping (kept for backwards compat) ─── */
+  --g:#86BA72;--gb:rgba(134,186,114,.1);--gB:rgba(134,186,114,.28);
+  --r:#dc2f3b;--rb:rgba(220,47,59,.08);--rB:rgba(220,47,59,.2);
+  --bl:#82B0C7;--blb:rgba(130,176,199,.12);--blB:rgba(130,176,199,.3);
+  --a:#C5A878;--ab:rgba(197,168,120,.14);--aB:rgba(197,168,120,.32);
+  --p:#A689B5;--pb:rgba(166,137,181,.14);--pB:rgba(166,137,181,.32);
+  --o:#C7CB80;--ob:rgba(199,203,128,.18);--oB:rgba(199,203,128,.4);
+
   --R:14px;--Rs:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -52,10 +72,10 @@ body{font-family:'PingARLT','Tajawal',sans-serif;background:var(--bg);color:var(
 nav{padding:8px 6px;flex:1;overflow-y:auto}
 .ns{font-size:10px;color:var(--t3);padding:14px 12px 4px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.7}
 .ni{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;margin:1px 4px;transition:all .15s;font-weight:500}
-.ni:hover{background:rgba(69,170,110,.06);color:var(--t)}
-.ni.on{background:linear-gradient(135deg,rgba(69,170,110,.12),rgba(69,170,110,.06));color:#16a372;font-weight:700;box-shadow:inset 3px 0 0 #45aa6e}
+.ni:hover{background:rgba(134,186,114,.06);color:var(--t)}
+.ni.on{background:linear-gradient(135deg,rgba(134,186,114,.12),rgba(134,186,114,.06));color:#86BA72;font-weight:700;box-shadow:inset 3px 0 0 #86BA72}
 .nk{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.85}
-.ni.on .nk{opacity:1;color:#16a372}
+.ni.on .nk{opacity:1;color:#86BA72}
 .nb{margin-right:auto;background:var(--rb);color:var(--r);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--rB)}
 .nbg{margin-right:auto;background:var(--gb);color:var(--g);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--gB)}
 .us{padding:10px;border-top:1px solid var(--b)}
@@ -75,22 +95,22 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .csm{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:12px}
 /* KPI */
 .kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.kc{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(22,40,32,.04)}
-.kc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(22,40,32,.07)}
+.kc{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:all .2s;box-shadow:0 1px 3px rgba(44,85,89,.04)}
+.kc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(44,85,89,.07)}
 body.dark .kc{background:#161b27;box-shadow:none}
 body.dark .kc:hover{box-shadow:0 8px 20px rgba(0,0,0,.4)}
-body.dark .db-hero{background:linear-gradient(135deg,rgba(34,201,138,.12),rgba(34,201,138,.04));border-color:rgba(34,201,138,.25)}
+body.dark .db-hero{background:linear-gradient(135deg,rgba(157,199,138,.12),rgba(157,199,138,.04));border-color:rgba(157,199,138,.25)}
 body.dark .qab-new{background:#161b27 !important}
 .kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
-.kc.G::before{background:linear-gradient(90deg,#16a372,#22c98a)}
+.kc.G::before{background:linear-gradient(90deg,#86BA72,#9DC78A)}
 .kc.R::before{background:linear-gradient(90deg,#dc2626,#ef4444)}
 .kc.B::before{background:linear-gradient(90deg,#2563eb,#3b82f6)}
 .kc.A::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
 .kc.P::before{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
 .kl{font-size:12px;color:var(--t3);margin-bottom:8px;font-weight:600}
 .kv{font-size:22px;font-weight:800;direction:ltr;text-align:right}
-.kv.G{color:#16a372}.kv.R{color:#dc2626}.kv.B{color:#2563eb}.kv.A{color:#f59e0b}.kv.P{color:#7c3aed}
-.kch{font-size:11px;color:var(--t3);margin-top:6px;font-weight:500}.kch.up{color:#16a372}.kch.dn{color:#dc2626}
+.kv.G{color:#86BA72}.kv.R{color:#dc2626}.kv.B{color:#2563eb}.kv.A{color:#f59e0b}.kv.P{color:#7c3aed}
+.kch{font-size:11px;color:var(--t3);margin-top:6px;font-weight:500}.kch.up{color:#86BA72}.kch.dn{color:#dc2626}
 /* Grid */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px}
@@ -126,13 +146,13 @@ body.dark .qab-new{background:#161b27 !important}
 .inv-step{display:flex;align-items:center;gap:10px;flex:1;justify-content:center}
 .inv-step-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
 .inv-step-label{font-size:13px;color:var(--t3);white-space:nowrap;transition:.2s;font-weight:500}
-.inv-step.on .inv-step-num{background:linear-gradient(135deg,#45aa6e,#22c98a);border-color:#45aa6e;color:#fff;box-shadow:0 0 0 4px rgba(69,170,110,.2)}
+.inv-step.on .inv-step-num{background:linear-gradient(135deg,#86BA72,#9DC78A);border-color:#86BA72;color:#fff;box-shadow:0 0 0 4px rgba(134,186,114,.2)}
 .inv-step.on .inv-step-label{color:var(--t);font-weight:700}
-.inv-step.done .inv-step-num{background:rgba(69,170,110,.15);border-color:#45aa6e;color:#16a372}
+.inv-step.done .inv-step-num{background:rgba(134,186,114,.15);border-color:#86BA72;color:#86BA72}
 .inv-step.done .inv-step-num::after{content:'✓';font-size:15px}
 .inv-step.done .inv-step-num span{display:none}
 .inv-step-line{flex:0 0 32px;height:2px;background:var(--b)}
-.inv-step.done + .inv-step-line{background:linear-gradient(90deg,#45aa6e,#22c98a)}
+.inv-step.done + .inv-step-line{background:linear-gradient(90deg,#86BA72,#9DC78A)}
 .inv-step-line{flex:1;height:2px;background:var(--b);max-width:60px;border-radius:2px}
 /* Form */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -248,7 +268,7 @@ body.dark{
   --bg:#0d1117;--bg2:#161b27;--bg3:#1e2535;--bg4:#252d3d;
   --b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
   --t:#f0f2f8;--t2:#8892a4;--t3:#4a5568;
-  --g:#22c98a;--gb:rgba(34,201,138,.1);--gB:rgba(34,201,138,.2);
+  --g:#9DC78A;--gb:rgba(157,199,138,.1);--gB:rgba(157,199,138,.2);
   --r:#ff5e6b;--rb:rgba(255,94,107,.1);--rB:rgba(255,94,107,.2);
   --bl:#4e8cff;--blb:rgba(78,140,255,.1);--blB:rgba(78,140,255,.2);
   --a:#ffaa33;--ab:rgba(255,170,51,.1);--aB:rgba(255,170,51,.2);
@@ -335,11 +355,11 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 
 /* ═══════════ TOAST NOTIFICATIONS ═══════════ */
 #toastWrap{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:90%}
-.toast{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 8px 32px rgba(22,40,32,.15);display:flex;align-items:center;gap:12px;min-width:280px;animation:toastIn .35s cubic-bezier(.18,.89,.32,1.28);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;pointer-events:auto;border:1px solid var(--b)}
+.toast{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 8px 32px rgba(44,85,89,.15);display:flex;align-items:center;gap:12px;min-width:280px;animation:toastIn .35s cubic-bezier(.18,.89,.32,1.28);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;pointer-events:auto;border:1px solid var(--b)}
 .toast.out{animation:toastOut .25s forwards}
 body.dark .toast{background:#1e2535}
 .toast-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
-.toast.success .toast-icon{background:rgba(22,163,114,.15);color:#16a372}
+.toast.success .toast-icon{background:rgba(134,186,114,.15);color:#86BA72}
 .toast.error   .toast-icon{background:rgba(220,38,38,.15);color:#dc2626}
 .toast.info    .toast-icon{background:rgba(37,99,235,.15);color:#2563eb}
 .toast.warn    .toast-icon{background:rgba(245,158,11,.15);color:#f59e0b}
@@ -351,36 +371,36 @@ body.dark .toast{background:#1e2535}
 @keyframes toastOut{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-20px) scale(.9)}}
 
 /* ═══════════ BOTTOM NAV (mobile) ═══════════ */
-#bottomNav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--b);z-index:80;padding:6px 4px 8px;box-shadow:0 -4px 16px rgba(22,40,32,.06)}
+#bottomNav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--b);z-index:80;padding:6px 4px 8px;box-shadow:0 -4px 16px rgba(44,85,89,.06)}
 body.dark #bottomNav{background:#161b27}
 .bnav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;max-width:600px;margin:0 auto}
 .bnav-item{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;cursor:pointer;color:var(--t3);transition:.15s;font-family:inherit;border-radius:10px}
-.bnav-item:hover{background:rgba(69,170,110,.05)}
-.bnav-item.on{color:#16a372}
-.bnav-item.on .bnav-icon{background:rgba(69,170,110,.12);transform:translateY(-2px)}
+.bnav-item:hover{background:rgba(134,186,114,.05)}
+.bnav-item.on{color:#86BA72}
+.bnav-item.on .bnav-icon{background:rgba(134,186,114,.12);transform:translateY(-2px)}
 .bnav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .bnav-label{font-size:10px;font-weight:600}
 .bnav-fab{position:relative}
-.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#45aa6e,#22c98a) !important;color:#fff !important;box-shadow:0 4px 12px rgba(69,170,110,.35);margin-top:-12px}
+.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#86BA72,#9DC78A) !important;color:#fff !important;box-shadow:0 4px 12px rgba(134,186,114,.35);margin-top:-12px}
 @media(max-width:700px){
   #bottomNav{display:block}
   .main{padding-bottom:78px !important}
 }
 
 /* ═══════════ FAB (Floating Action Button) ═══════════ */
-#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(69,170,110,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
-#fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(69,170,110,.55)}
+#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(134,186,114,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
+#fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(134,186,114,.55)}
 #fab:active{transform:scale(.95)}
 #fab svg{transition:transform .3s}
 #fab.open svg{transform:rotate(135deg)}
 .fab-menu{position:fixed;bottom:152px;left:18px;z-index:89;display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;transition:all .25s}
 .fab-menu.open{opacity:1;pointer-events:auto}
-.fab-item{background:#fff;border:1px solid var(--b);border-radius:12px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 14px rgba(22,40,32,.1);font-family:inherit;font-size:13px;font-weight:600;color:var(--t);transition:all .15s;transform:translateX(20px);opacity:0;animation:fabSlide .3s forwards;direction:rtl}
+.fab-item{background:#fff;border:1px solid var(--b);border-radius:12px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 14px rgba(44,85,89,.1);font-family:inherit;font-size:13px;font-weight:600;color:var(--t);transition:all .15s;transform:translateX(20px);opacity:0;animation:fabSlide .3s forwards;direction:rtl}
 .fab-menu.open .fab-item:nth-child(1){animation-delay:.05s}
 .fab-menu.open .fab-item:nth-child(2){animation-delay:.1s}
 .fab-menu.open .fab-item:nth-child(3){animation-delay:.15s}
 .fab-menu.open .fab-item:nth-child(4){animation-delay:.2s}
-.fab-item:hover{transform:translateX(0) scale(1.05);border-color:#45aa6e}
+.fab-item:hover{transform:translateX(0) scale(1.05);border-color:#86BA72}
 body.dark .fab-item{background:#1e2535}
 @keyframes fabSlide{to{transform:translateX(0);opacity:1}}
 @media(max-width:700px){#fab{display:flex}}
@@ -394,12 +414,12 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Animated empty state ═══════════ */
 .empty-state{text-align:center;padding:40px 20px;color:var(--t3)}
-.empty-state-icon{width:72px;height:72px;border-radius:50%;background:rgba(69,170,110,.08);color:#16a372;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:emptyPulse 2.5s ease-in-out infinite}
+.empty-state-icon{width:72px;height:72px;border-radius:50%;background:rgba(134,186,114,.08);color:#86BA72;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:emptyPulse 2.5s ease-in-out infinite}
 @keyframes emptyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .empty-state-title{font-size:15px;font-weight:700;color:var(--t);margin-bottom:6px}
 .empty-state-msg{font-size:12px;color:var(--t2);line-height:1.7;max-width:300px;margin:0 auto 14px}
-.empty-state-cta{padding:9px 22px;background:#45aa6e;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
-.empty-state-cta:hover{background:#22c98a;transform:translateY(-2px);box-shadow:0 6px 16px rgba(69,170,110,.3)}
+.empty-state-cta{padding:9px 22px;background:#86BA72;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.empty-state-cta:hover{background:#9DC78A;transform:translateY(-2px);box-shadow:0 6px 16px rgba(134,186,114,.3)}
 
 /* ═══════════ Ripple effect ═══════════ */
 .ripple{position:relative;overflow:hidden}
@@ -414,14 +434,14 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Date Range Picker ═══════════ */
 .dr-opt{padding:11px 16px;cursor:pointer;font-size:13px;color:var(--t);transition:.15s;font-weight:500}
-.dr-opt:hover{background:rgba(69,170,110,.08);color:#16a372}
-.dr-opt.on{background:rgba(69,170,110,.12);color:#16a372;font-weight:700}
+.dr-opt:hover{background:rgba(134,186,114,.08);color:#86BA72}
+.dr-opt.on{background:rgba(134,186,114,.12);color:#86BA72;font-weight:700}
 
 /* ═══════════ Animated charts ═══════════ */
 .chart-bar{position:relative;cursor:pointer;transition:all .2s}
 .chart-bar:hover{filter:brightness(1.1);transform:translateY(-2px)}
-.chart-bar-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#162820;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10}
-.chart-bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#162820}
+.chart-bar-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2C5559;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10}
+.chart-bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#2C5559}
 .chart-bar:hover .chart-bar-tooltip{opacity:1}
 @keyframes barGrow{0%{height:0}100%{height:var(--bar-h)}}
 .bar-anim{animation:barGrow 1s cubic-bezier(.18,.89,.32,1.28) both}
@@ -436,7 +456,7 @@ body.dark .fab-item{background:#1e2535}
 @keyframes drawLine{to{stroke-dashoffset:0}}
 
 /* Pulse animation for "live" indicators */
-@keyframes pulseLive{0%,100%{box-shadow:0 0 0 0 rgba(22,163,114,.5)}50%{box-shadow:0 0 0 8px rgba(22,163,114,0)}}
+@keyframes pulseLive{0%,100%{box-shadow:0 0 0 0 rgba(134,186,114,.5)}50%{box-shadow:0 0 0 8px rgba(134,186,114,0)}}
 .pulse-live{animation:pulseLive 2s ease-in-out infinite}
 
 /* ═══════════ Skeleton loader ═══════════ */
@@ -449,7 +469,7 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Hover pulse on clickable cards ═══════════ */
 .card-clickable{cursor:pointer;transition:all .2s}
-.card-clickable:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(22,40,32,.08);border-color:rgba(69,170,110,.3) !important}
+.card-clickable:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(44,85,89,.08);border-color:rgba(134,186,114,.3) !important}
 
 /* ═══════════ Smooth scroll for the whole app ═══════════ */
 html{scroll-behavior:smooth}
@@ -461,8 +481,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 /* ═══════════ Input focus glow ═══════════ */
 .fi:focus,input:focus,textarea:focus,select:focus{
   outline:none;
-  border-color:#45aa6e;
-  box-shadow:0 0 0 3px rgba(69,170,110,.12);
+  border-color:#86BA72;
+  box-shadow:0 0 0 3px rgba(134,186,114,.12);
   transition:all .15s;
 }
 </style>
@@ -478,7 +498,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 </button>
 <div class="fab-menu" id="fabMenu">
   <button class="fab-item" onclick="go('zt',null);closeFab()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a372" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86BA72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     فاتورة جديدة
   </button>
   <button class="fab-item" onclick="go('scan',null);closeFab()">
@@ -496,10 +516,10 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 </div>
 
 <!-- NOTIFICATIONS PANEL -->
-<div id="notifPanel" style="display:none;position:fixed;top:60px;left:14px;width:360px;max-width:calc(100% - 28px);max-height:70vh;background:var(--bg2);border:1px solid var(--b);border-radius:14px;box-shadow:0 12px 40px rgba(22,40,32,.18);z-index:120;overflow:hidden;flex-direction:column;animation:notifIn .25s cubic-bezier(.18,.89,.32,1.28)">
+<div id="notifPanel" style="display:none;position:fixed;top:60px;left:14px;width:360px;max-width:calc(100% - 28px);max-height:70vh;background:var(--bg2);border:1px solid var(--b);border-radius:14px;box-shadow:0 12px 40px rgba(44,85,89,.18);z-index:120;overflow:hidden;flex-direction:column;animation:notifIn .25s cubic-bezier(.18,.89,.32,1.28)">
   <div style="padding:14px 18px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
     <div style="font-weight:800;font-size:15px">الإشعارات</div>
-    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#16a372;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600">قراءة الكل</button>
+    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#86BA72;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600">قراءة الكل</button>
   </div>
   <div id="notifList" style="flex:1;overflow-y:auto;max-height:60vh">
     <div style="padding:40px 20px;text-align:center;color:var(--t3);font-size:13px">جاري التحميل...</div>
@@ -508,14 +528,14 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <style>
 @keyframes notifIn{0%{opacity:0;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
 .notif-item{padding:14px 18px;border-bottom:1px solid var(--b);cursor:pointer;transition:.15s;position:relative}
-.notif-item:hover{background:rgba(69,170,110,.04)}
-.notif-item.unread{background:rgba(69,170,110,.05)}
-.notif-item.unread::before{content:'';position:absolute;right:6px;top:18px;width:8px;height:8px;border-radius:50%;background:#16a372}
+.notif-item:hover{background:rgba(134,186,114,.04)}
+.notif-item.unread{background:rgba(134,186,114,.05)}
+.notif-item.unread::before{content:'';position:absolute;right:6px;top:18px;width:8px;height:8px;border-radius:50%;background:#86BA72}
 .notif-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:4px;line-height:1.4}
 .notif-body{font-size:12px;color:var(--t2);line-height:1.6}
 .notif-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
 .notif-time{font-size:11px;color:var(--t3)}
-.notif-cta{font-size:12px;color:#16a372;font-weight:700;cursor:pointer}
+.notif-cta{font-size:12px;color:#86BA72;font-weight:700;cursor:pointer}
 .notif-prio-high{border-right:3px solid #f59e0b}
 .notif-prio-urgent{border-right:3px solid #dc2626}
 </style>
@@ -720,10 +740,10 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 
   <!-- Hero greeting (premium design inspired) -->
-  <div class="db-hero" style="background:linear-gradient(135deg,#162820 0%,#1a3429 100%);color:#fff;border-radius:18px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;position:relative;overflow:hidden">
+  <div class="db-hero" style="background:linear-gradient(135deg,#2C5559 0%,#2C5559 100%);color:#fff;border-radius:18px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;position:relative;overflow:hidden">
     <!-- Decorative blobs -->
-    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(69,170,110,.4) 0%,transparent 70%);pointer-events:none"></div>
-    <div style="position:absolute;bottom:-30px;left:30%;width:120px;height:120px;background:radial-gradient(circle,rgba(34,201,138,.25) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(134,186,114,.4) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:30%;width:120px;height:120px;background:radial-gradient(circle,rgba(157,199,138,.25) 0%,transparent 70%);pointer-events:none"></div>
 
     <div style="position:relative;display:flex;align-items:center;gap:18px;flex:1;min-width:240px">
       <!-- Logo / Avatar -->
@@ -733,17 +753,17 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       </div>
       <div>
         <div style="font-size:13px;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:6px" id="greetDate">—</div>
-        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2">أهلاً، <span id="greetName" style="background:linear-gradient(135deg,#22c98a,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
+        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2">أهلاً، <span id="greetName" style="background:linear-gradient(135deg,#9DC78A,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
         <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px">دعنا نلقي نظرة سريعة على نشاطك المالي اليوم</div>
       </div>
     </div>
 
     <div style="position:relative;display:flex;gap:10px;flex-wrap:wrap">
       <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:8px;font-size:12px;color:#fff">
-        <span style="width:8px;height:8px;border-radius:50%;background:#22c98a;box-shadow:0 0 0 0 rgba(34,201,138,.5);animation:pulseLive 2s ease infinite"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#9DC78A;box-shadow:0 0 0 0 rgba(157,199,138,.5);animation:pulseLive 2s ease infinite"></span>
         <span id="greetPlan">الخطة التجريبية</span>
       </div>
-      <button onclick="go('ai',null)" style="background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(69,170,110,.4)">
+      <button onclick="go('ai',null)" style="background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(134,186,114,.4)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         استشر AI
       </button>
@@ -771,7 +791,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="sh"><div class="st">الصحة المالية</div><div class="sl" onclick="go('hl',null)">تفاصيل ←</div></div>
       <div style="display:flex;align-items:center;gap:18px">
         <div class="hr">
-          <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1e2535" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#22c98a" stroke-width="11" stroke-dasharray="209 264" id="hrArc"/></svg>
+          <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1e2535" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#9DC78A" stroke-width="11" stroke-dasharray="209 264" id="hrArc"/></svg>
           <div class="hrc"><div class="hrn" style="color:var(--g)" id="hrScore">79</div><div class="hrl">من 100</div></div>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:7px">
@@ -1115,7 +1135,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         <span id="dateRangeLabel">هذا الشهر</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <div id="dateRangePanel" style="display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--bg2);border:1px solid var(--b);border-radius:11px;box-shadow:0 10px 30px rgba(22,40,32,.12);min-width:220px;z-index:50;overflow:hidden">
+      <div id="dateRangePanel" style="display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--bg2);border:1px solid var(--b);border-radius:11px;box-shadow:0 10px 30px rgba(44,85,89,.12);min-width:220px;z-index:50;overflow:hidden">
         <div class="dr-opt" data-range="this_month">هذا الشهر</div>
         <div class="dr-opt" data-range="last_month">الشهر الماضي</div>
         <div class="dr-opt" data-range="last_3m">آخر 3 أشهر</div>
@@ -1130,7 +1150,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <input type="date" id="customDateFrom" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
       <span style="color:var(--t3);font-size:12px">→</span>
       <input type="date" id="customDateTo" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
-      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#45aa6e;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
+      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#86BA72;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
     </div>
   </div>
   <div class="card">
@@ -1685,7 +1705,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div style="flex:1"></div>
     <button onclick="shareVatReport('email')" style="padding:8px 14px;background:transparent;color:var(--t);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">📧 إيميل</button>
     <button onclick="shareVatReport('whatsapp')" style="padding:8px 14px;background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">واتساب</button>
-    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#16a372;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
+    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
   </div>
 
   <div class="g4">
@@ -1978,11 +1998,11 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="sh"><div class="st">شعار النشاط التجاري</div></div>
     <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:6px">
       <div style="position:relative;flex-shrink:0">
-        <div id="brand-logo-wrap" style="width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,#45aa6e,#22c98a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:900;overflow:hidden;border:2px solid var(--b);box-shadow:0 8px 24px rgba(69,170,110,.2)">
+        <div id="brand-logo-wrap" style="width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,#86BA72,#9DC78A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:900;overflow:hidden;border:2px solid var(--b);box-shadow:0 8px 24px rgba(134,186,114,.2)">
           <span id="brand-logo-fallback">M</span>
           <img id="brand-logo-preview" style="display:none;width:100%;height:100%;object-fit:contain;background:#fff" alt=""/>
         </div>
-        <label for="brand-logo-input" style="position:absolute;bottom:-4px;left:-4px;width:32px;height:32px;background:#16a372;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid var(--bg2);color:#fff" title="تغيير الشعار">
+        <label for="brand-logo-input" style="position:absolute;bottom:-4px;left:-4px;width:32px;height:32px;background:#86BA72;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid var(--bg2);color:#fff" title="تغيير الشعار">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         </label>
         <input type="file" id="brand-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" style="display:none" onchange="handleBrandLogo(this)"/>
@@ -2002,7 +2022,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
           PNG / JPG / SVG · حد أقصى 2MB · يفضّل بخلفية شفافة
         </div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <label for="brand-logo-input" style="padding:8px 16px;background:#45aa6e;color:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
+          <label for="brand-logo-input" style="padding:8px 16px;background:#86BA72;color:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
           <button class="btn bg2" id="brand-logo-remove-btn" style="font-size:12px;padding:8px 14px;color:#dc2626;display:none" onclick="removeBrandLogo()">حذف الشعار</button>
         </div>
       </div>
@@ -2173,7 +2193,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 
   <!-- Add form -->
-  <div id="coaAddForm" style="display:none;background:rgba(69,170,110,.06);border:1px solid rgba(69,170,110,.2);border-radius:11px;padding:16px;margin:14px 0">
+  <div id="coaAddForm" style="display:none;background:rgba(134,186,114,.06);border:1px solid rgba(134,186,114,.2);border-radius:11px;padding:16px;margin:14px 0">
     <div style="font-weight:700;margin-bottom:12px">تصنيف مالي جديد</div>
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px">
       <input id="coaNewName" placeholder="مثال: مصاريف الديزل، إيرادات التوصيل" style="padding:10px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
@@ -2212,8 +2232,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         </div>
         <button onclick="document.getElementById('coaLedgerModal').style.display='none'" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3)">×</button>
       </div>
-      <div style="padding:14px 22px;background:rgba(69,170,110,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-        <div><div style="font-size:11px;color:var(--t3)" id="lblIn">داخل</div><div style="font-size:17px;font-weight:800;color:#16a372" id="ledgerDR">0</div></div>
+      <div style="padding:14px 22px;background:rgba(134,186,114,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div><div style="font-size:11px;color:var(--t3)" id="lblIn">داخل</div><div style="font-size:17px;font-weight:800;color:#86BA72" id="ledgerDR">0</div></div>
         <div><div style="font-size:11px;color:var(--t3)" id="lblOut">خارج</div><div style="font-size:17px;font-weight:800;color:#e8394a" id="ledgerCR">0</div></div>
         <div><div style="font-size:11px;color:var(--t3)">الرصيد الآن</div><div style="font-size:17px;font-weight:900" id="ledgerBal">0</div></div>
       </div>
@@ -2709,12 +2729,12 @@ async function drawSparkline() {
     el.innerHTML = `
       <defs>
         <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#22c98a" stop-opacity=".25"/>
-          <stop offset="100%" stop-color="#22c98a" stop-opacity="0"/>
+          <stop offset="0%" stop-color="#9DC78A" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="#9DC78A" stop-opacity="0"/>
         </linearGradient>
       </defs>
       <path d="M${points} L${W},${H} L0,${H} Z" fill="url(#sparkGrad)"/>
-      <path d="M${points}" stroke="#16a372" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M${points}" stroke="#86BA72" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     `;
   } catch (e) { /* silent */ }
 }
@@ -2857,7 +2877,7 @@ function showTrialExpiredPaywall(status) {
   const overlay = document.createElement('div');
   overlay.id = 'paywallOverlay';
   overlay.style.cssText = `
-    position:fixed;inset:0;background:linear-gradient(135deg,#162820 0%,#1a3429 100%);
+    position:fixed;inset:0;background:linear-gradient(135deg,#2C5559 0%,#2C5559 100%);
     z-index:9999;padding:40px 20px;
     overflow-y:auto;font-family:'PingARLT','Tajawal',sans-serif;
     animation:fadeIn .4s ease;
@@ -2874,13 +2894,13 @@ function showTrialExpiredPaywall(status) {
       .pw-plan:nth-child(1){animation-delay:.2s}
       .pw-plan:nth-child(2){animation-delay:.3s}
       .pw-plan:nth-child(3){animation-delay:.4s}
-      .pw-plan:hover{transform:translateY(-4px) !important;border-color:#45aa6e !important;box-shadow:0 12px 32px rgba(69,170,110,.25) !important}
+      .pw-plan:hover{transform:translateY(-4px) !important;border-color:#86BA72 !important;box-shadow:0 12px 32px rgba(134,186,114,.25) !important}
       .pw-plan.featured{position:relative}
-      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
+      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
       .pw-feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#456050;margin:6px 0}
-      .pw-feat svg{flex-shrink:0;color:#45aa6e}
+      .pw-feat svg{flex-shrink:0;color:#86BA72}
       .pw-cta-main{transition:all .25s}
-      .pw-cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(69,170,110,.5) !important}
+      .pw-cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(134,186,114,.5) !important}
       .pw-logo{animation:float 3s ease-in-out infinite}
     </style>
 
@@ -2889,7 +2909,7 @@ function showTrialExpiredPaywall(status) {
       <!-- Header -->
       <div style="text-align:center;margin-bottom:40px">
         <div class="pw-logo" style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px">
-          <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#45aa6e,#22c98a);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 36px rgba(69,170,110,.4)">
+          <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#86BA72,#9DC78A);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 36px rgba(134,186,114,.4)">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9z"/>
               <path d="M12 6v6l4 2"/>
@@ -2904,9 +2924,9 @@ function showTrialExpiredPaywall(status) {
             ? 'استخدمت <b style="color:#fff">محسوب</b> لمدة 14 يوماً بكامل الميزات. بياناتك محفوظة، اختر الباقة المناسبة لتستمر بدون انقطاع.'
             : 'اشتراكك غير فعّال حالياً. اختر باقة لتفعيل حسابك واستعادة الوصول الكامل.'}
         </p>
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(69,170,110,.15);border:1px solid rgba(69,170,110,.35);border-radius:20px;padding:6px 16px;margin-top:18px;font-size:12px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
-          <span style="color:#22c98a;font-weight:700">المنشأة: ${t.name || '—'}</span>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(134,186,114,.15);border:1px solid rgba(134,186,114,.35);border-radius:20px;padding:6px 16px;margin-top:18px;font-size:12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+          <span style="color:#9DC78A;font-weight:700">المنشأة: ${t.name || '—'}</span>
           <span style="color:#8aa090">· بياناتك محفوظة ومحمية</span>
         </div>
       </div>
@@ -2915,11 +2935,11 @@ function showTrialExpiredPaywall(status) {
       <div class="pw-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:30px">
 
         <!-- Starter -->
-        <div class="pw-plan" style="background:#fff;color:#162820;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
+        <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">مبتدئ</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#162820">99</span>
+            <span style="font-size:36px;font-weight:900;color:#2C5559">99</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -2930,11 +2950,11 @@ function showTrialExpiredPaywall(status) {
         </div>
 
         <!-- Pro (featured) -->
-        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#162820;border:2px solid #45aa6e;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(69,170,110,.25)" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
+        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#2C5559;border:2px solid #86BA72;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(134,186,114,.25)" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">احترافي</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#45aa6e">249</span>
+            <span style="font-size:36px;font-weight:900;color:#86BA72">249</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -2946,11 +2966,11 @@ function showTrialExpiredPaywall(status) {
         </div>
 
         <!-- Business -->
-        <div class="pw-plan" style="background:#fff;color:#162820;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#45aa6e;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
+        <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">أعمال</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#162820">499</span>
+            <span style="font-size:36px;font-weight:900;color:#2C5559">499</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -2965,20 +2985,20 @@ function showTrialExpiredPaywall(status) {
 
       <!-- CTA + footer -->
       <div style="text-align:center">
-        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(69,170,110,.4)">
+        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(134,186,114,.4)">
           اختر باقتك واشترك ←
         </a>
         <div style="margin-top:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:12px;color:#8aa090">
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             دفع آمن عبر Tap
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             إلغاء في أي وقت
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c98a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             متوافق مع ZATCA
           </div>
         </div>
@@ -3155,7 +3175,7 @@ function filterTxTable() {
 const PLAN_INFO = {
   free:     { name:'تجريبي',   price:0,   color:'#6b7280', desc:'الباقة المجانية' },
   starter:  { name:'مبتدئ',    price:99,  color:'#2563eb', desc:'للمستقلين والمشاريع الصغيرة' },
-  pro:      { name:'احترافي',  price:249, color:'#45aa6e', desc:'للمشاريع المتنامية' },
+  pro:      { name:'احترافي',  price:249, color:'#86BA72', desc:'للمشاريع المتنامية' },
   business: { name:'أعمال',    price:499, color:'#7c3aed', desc:'للشركات والفرق الكبيرة' },
 };
 
@@ -3200,8 +3220,8 @@ async function subLoad() {
       </div>
       <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
         ${currentPlan === 'free' ?
-          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#45aa6e);color:#fff;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
-          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(69,170,110,.1);color:#16a372;border:1px solid rgba(69,170,110,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#86BA72);color:#fff;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
            ${activeSub && activeSub.status === 'active' ? `<button onclick="subCancel('${activeSub.id}')" style="flex:1;min-width:140px;padding:11px;background:transparent;color:#dc2626;border:1px solid rgba(232,57,74,.3);border-radius:9px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">إلغاء الاشتراك</button>` : ''}`
         }
       </div>
@@ -3231,7 +3251,7 @@ async function subLoad() {
         <tbody>
           ${payments.map(p => {
             const d = new Date(p.paid_at || p.created_at);
-            const status = ({ CAPTURED:['#16a372','مدفوع'], AUTHORIZED:['#f59e0b','معلّق'], FAILED:['#dc2626','فاشل'], CANCELLED:['#6b7280','ملغي'], INITIATED:['#f59e0b','قيد المعالجة'], IN_PROGRESS:['#f59e0b','قيد المعالجة'] })[p.status] || ['#6b7280', p.status];
+            const status = ({ CAPTURED:['#86BA72','مدفوع'], AUTHORIZED:['#f59e0b','معلّق'], FAILED:['#dc2626','فاشل'], CANCELLED:['#6b7280','ملغي'], INITIATED:['#f59e0b','قيد المعالجة'], IN_PROGRESS:['#f59e0b','قيد المعالجة'] })[p.status] || ['#6b7280', p.status];
             const meta = p.metadata || {};
             return `
               <tr style="border-top:1px solid var(--bd)">
@@ -3240,7 +3260,7 @@ async function subLoad() {
                 <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700">${parseFloat(p.amount_sar).toFixed(2)} ر.س</td>
                 <td style="padding:11px 14px;text-align:center"><span style="background:${status[0]}20;color:${status[0]};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">${status[1]}</span></td>
                 <td style="padding:11px 14px;text-align:center">
-                  ${p.status === 'CAPTURED' ? `<button onclick="subDownloadInvoice('${p.id}')" style="padding:5px 11px;background:rgba(69,170,110,.1);color:#16a372;border:1px solid rgba(69,170,110,.3);border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">⬇ PDF</button>` : '—'}
+                  ${p.status === 'CAPTURED' ? `<button onclick="subDownloadInvoice('${p.id}')" style="padding:5px 11px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.3);border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">⬇ PDF</button>` : '—'}
                 </td>
               </tr>
             `;
@@ -3287,10 +3307,10 @@ async function subDownloadInvoice(paymentId) {
 <head><meta charset="UTF-8"><title>فاتورة ${paymentId.slice(0,8)}</title>
 <style>
 @page { size: A4; margin: 20mm }
-body { font-family: 'Tajawal', sans-serif; color: #162820; padding: 0; margin: 0 }
+body { font-family: 'Tajawal', sans-serif; color: #2C5559; padding: 0; margin: 0 }
 .wrap { max-width: 700px; margin: 0 auto; padding: 30px }
-.header { display: flex; justify-content: space-between; border-bottom: 2px solid #45aa6e; padding-bottom: 18px; margin-bottom: 24px }
-.brand { font-size: 26px; font-weight: 900; color: #45aa6e }
+.header { display: flex; justify-content: space-between; border-bottom: 2px solid #86BA72; padding-bottom: 18px; margin-bottom: 24px }
+.brand { font-size: 26px; font-weight: 900; color: #86BA72 }
 .brand-sub { font-size: 12px; color: #888; margin-top: 4px }
 .title { font-size: 20px; font-weight: 700; text-align: left }
 .title-sub { font-size: 12px; color: #888 }
@@ -3300,12 +3320,12 @@ body { font-family: 'Tajawal', sans-serif; color: #162820; padding: 0; margin: 0
 .box .val { font-weight: 700 }
 table { width: 100%; border-collapse: collapse; margin-bottom: 18px }
 th, td { padding: 11px 12px; text-align: right; font-size: 13px; border-bottom: 1px solid #e5e5e5 }
-th { background: #45aa6e; color: #fff; font-weight: 700 }
+th { background: #86BA72; color: #fff; font-weight: 700 }
 .totals { float: left; width: 280px; font-size: 14px }
 .totals .row { display: flex; justify-content: space-between; padding: 7px 0 }
-.totals .total { border-top: 2px solid #45aa6e; padding-top: 10px; margin-top: 6px; font-weight: 900; font-size: 16px; color: #45aa6e }
+.totals .total { border-top: 2px solid #86BA72; padding-top: 10px; margin-top: 6px; font-weight: 900; font-size: 16px; color: #86BA72 }
 .footer { clear: both; text-align: center; font-size: 11px; color: #888; margin-top: 40px; padding-top: 18px; border-top: 1px solid #e5e5e5 }
-.print-btn { position: fixed; top: 20px; left: 20px; background: #45aa6e; color: #fff; padding: 10px 18px; border-radius: 9px; border: none; font-weight: 700; cursor: pointer; font-family: inherit }
+.print-btn { position: fixed; top: 20px; left: 20px; background: #86BA72; color: #fff; padding: 10px 18px; border-radius: 9px; border: none; font-weight: 700; cursor: pointer; font-family: inherit }
 @media print { .print-btn { display: none } }
 </style>
 </head><body>
@@ -3354,7 +3374,7 @@ const COA_TYPES = {
   asset:     { label:'ما أملكه',       short:'أملكه',  color:'#2563eb', bg:'rgba(37,99,235,.08)',  icon:'💰', hint:'النقد، الجهاز، المخزون، مالي عند الناس' },
   liability: { label:'ما عليّ',        short:'عليّ',   color:'#e8394a', bg:'rgba(232,57,74,.08)',  icon:'💸', hint:'موردين، ضرائب، رواتب لم تُدفع بعد' },
   equity:    { label:'حقي في المشروع', short:'ملكيتي', color:'#7c3aed', bg:'rgba(124,58,237,.08)', icon:'🏛️', hint:'رأس المال + الأرباح المتراكمة' },
-  revenue:   { label:'الإيرادات',      short:'إيراد',  color:'#16a372', bg:'rgba(22,163,114,.08)', icon:'📈', hint:'كل ما يدخل للمشروع' },
+  revenue:   { label:'الإيرادات',      short:'إيراد',  color:'#86BA72', bg:'rgba(134,186,114,.08)', icon:'📈', hint:'كل ما يدخل للمشروع' },
   cogs:      { label:'تكلفة البضاعة',  short:'تكلفة',  color:'#f59e0b', bg:'rgba(245,158,11,.08)', icon:'📦', hint:'كم كلّفتك البضاعة المباعة' },
   expense:   { label:'المصروفات',      short:'مصروف',  color:'#dc2626', bg:'rgba(220,38,38,.08)',  icon:'📉', hint:'إيجار، رواتب، كهرباء، وقود...' },
 };
@@ -3416,7 +3436,7 @@ function coaRenderStats() {
   const groups = [
     { key:'asset',     label:'ما أملكه',  icon:'💰', color:'#2563eb', bg:'rgba(37,99,235,.06)'  },
     { key:'liability', label:'ما عليّ',   icon:'💸', color:'#e8394a', bg:'rgba(232,57,74,.06)'  },
-    { key:'revenue',   label:'يدخل لي',   icon:'📈', color:'#16a372', bg:'rgba(22,163,114,.06)' },
+    { key:'revenue',   label:'يدخل لي',   icon:'📈', color:'#86BA72', bg:'rgba(134,186,114,.06)' },
     { key:'expense',   label:'يخرج مني',  icon:'📉', color:'#dc2626', bg:'rgba(220,38,38,.06)'  },
   ];
   el.innerHTML = groups.map(g => {
@@ -3475,13 +3495,13 @@ function coaRenderTree() {
     const balColor = bal > 0 ? t.color : (bal < 0 ? '#e8394a' : 'var(--t3)');
     const isParent = !a.parent_code;
     return `
-      <div onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:${i === rows.length-1 ? 'none' : '1px solid var(--bd)'};cursor:pointer;transition:background .15s;${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}" onmouseover="this.style.background='rgba(69,170,110,.04)'" onmouseout="this.style.background='${isParent ? 'rgba(0,0,0,.02)' : '#fff'}'">
+      <div onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:${i === rows.length-1 ? 'none' : '1px solid var(--bd)'};cursor:pointer;transition:background .15s;${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}" onmouseover="this.style.background='rgba(134,186,114,.04)'" onmouseout="this.style.background='${isParent ? 'rgba(0,0,0,.02)' : '#fff'}'">
         ${_coaAdvanced ? `<div style="font-family:Monaco,monospace;font-size:11px;color:var(--t3);min-width:54px">${a.code}</div>` : ''}
         <div style="width:32px;height:32px;border-radius:8px;background:${t.bg};color:${t.color};display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">${t.icon}</div>
         <div style="flex:1;font-size:14px">${a.name_ar}</div>
         <div style="font-size:15px;font-weight:800;color:${balColor};direction:ltr;min-width:100px;text-align:left">${_coaFmt(bal)} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
         <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
-          <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="padding:6px 10px;background:rgba(69,170,110,.08);border:1px solid rgba(69,170,110,.25);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#16a372;font-weight:600">الحركة</button>
+          <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="padding:6px 10px;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.25);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#86BA72;font-weight:600">الحركة</button>
           ${_coaAdvanced ? `<button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:6px 10px;background:transparent;border:1px solid var(--bd);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>` : ''}
           ${_coaAdvanced && !a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:6px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
         </div>
@@ -3565,7 +3585,7 @@ async function coaShowLedger(code, name, type) {
     document.getElementById('ledgerDR').textContent  = _coaFmt(incoming);
     document.getElementById('ledgerCR').textContent  = _coaFmt(outgoing);
     document.getElementById('ledgerBal').textContent = _coaFmt(bal) + ' ر.س';
-    document.getElementById('ledgerBal').style.color = bal >= 0 ? '#16a372' : '#e8394a';
+    document.getElementById('ledgerBal').style.color = bal >= 0 ? '#86BA72' : '#e8394a';
 
     if (!entries.length) {
       document.getElementById('ledgerEntries').innerHTML = `
@@ -3585,14 +3605,14 @@ async function coaShowLedger(code, name, type) {
       runBal += change;
       const refLabel = { transaction:'معاملة', invoice:'فاتورة', manual:'يدوي', opening:'افتتاحي' }[e.ref_type] || '—';
       const sign = change >= 0 ? '+' : '';
-      const changeColor = change >= 0 ? '#16a372' : '#e8394a';
+      const changeColor = change >= 0 ? '#86BA72' : '#e8394a';
       return `
         <tr>
           <td style="padding:11px 14px;font-size:12px;color:var(--t3)">${e.entry_date}</td>
           <td style="padding:11px 14px;font-size:13px">${e.description || '—'}</td>
           <td style="padding:11px 14px"><span style="display:inline-block;background:rgba(0,0,0,.05);font-size:10px;padding:2px 8px;border-radius:8px;color:var(--t2)">${refLabel}</span></td>
           <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${changeColor};font-size:14px">${sign}${_coaFmt(change)}</td>
-          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#16a372' : '#e8394a'};font-size:14px">${_coaFmt(runBal)}</td>
+          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#86BA72' : '#e8394a'};font-size:14px">${_coaFmt(runBal)}</td>
         </tr>
       `;
     }).join('');
@@ -3981,13 +4001,13 @@ async function _stRenderMonthlyChart() {
       const eh = Math.max(2, (m.exp / max) * 100);
       const delay = i * 0.08;
       const net = m.rev - m.exp;
-      const netColor = net >= 0 ? '#16a372' : '#dc2626';
+      const netColor = net >= 0 ? '#86BA72' : '#dc2626';
       return `
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
           <div style="height:140px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative">
-            <div class="chart-bar bar-anim" style="--bar-h:${rh}%;width:20px;background:linear-gradient(to top,#16a372,#22c98a);border-radius:5px 5px 0 0;animation-delay:${delay}s">
+            <div class="chart-bar bar-anim" style="--bar-h:${rh}%;width:20px;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;animation-delay:${delay}s">
               <div class="chart-bar-tooltip">
-                <strong style="color:#22c98a">إيرادات</strong><br>
+                <strong style="color:#9DC78A">إيرادات</strong><br>
                 ${_stFmt(m.rev)} ر.س
               </div>
             </div>
@@ -4011,7 +4031,7 @@ async function _stRenderMonthlyChart() {
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="font-weight:700;font-size:14px">آخر 6 أشهر</div>
           <div style="display:flex;gap:14px;font-size:11px">
-            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#16a372;border-radius:2px"></span>إيرادات</span>
+            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#86BA72;border-radius:2px"></span>إيرادات</span>
             <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#dc2626;border-radius:2px"></span>مصروفات</span>
           </div>
         </div>
@@ -4056,16 +4076,16 @@ function _stRenderIncome(accounts, balMap) {
   html += '<div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>';
 
   if (revenue.length) {
-    html += '<div class="sr" style="background:rgba(22,163,114,.06);font-weight:700"><span>📈 الإيرادات (يدخل لي)</span><span></span></div>';
+    html += '<div class="sr" style="background:rgba(134,186,114,.06);font-weight:700"><span>📈 الإيرادات (يدخل لي)</span><span></span></div>';
     revenue.forEach(x => html += row(x.name, x.val, { cls:'ind' }));
-    html += row('إجمالي الإيرادات', totalRev, { cls:'tot', style:'background:rgba(22,163,114,.1);font-weight:700' });
+    html += row('إجمالي الإيرادات', totalRev, { cls:'tot', style:'background:rgba(134,186,114,.1);font-weight:700' });
   }
 
   if (cogs.length) {
     html += '<div class="sr" style="background:rgba(245,158,11,.06);font-weight:700;margin-top:8px"><span>📦 تكلفة البضاعة</span><span></span></div>';
     cogs.forEach(x => html += row(x.name, -x.val, { cls:'ind' }));
     html += row('إجمالي التكلفة', -totalCogs, { cls:'tot', style:'background:rgba(245,158,11,.1);font-weight:700' });
-    html += row('مجمل الربح', grossProfit, { cls:'tot', style:`background:${grossProfit>=0?'rgba(22,163,114,.15)':'rgba(232,57,74,.1)'};font-weight:800;font-size:14px;padding:11px 13px` });
+    html += row('مجمل الربح', grossProfit, { cls:'tot', style:`background:${grossProfit>=0?'rgba(134,186,114,.15)':'rgba(232,57,74,.1)'};font-weight:800;font-size:14px;padding:11px 13px` });
   }
 
   if (expense.length) {
@@ -4076,7 +4096,7 @@ function _stRenderIncome(accounts, balMap) {
 
   html += row(netIncome >= 0 ? '✅ صافي الربح' : '⚠️ صافي الخسارة', netIncome, {
     cls:'tot',
-    style:`background:${netIncome>=0?'linear-gradient(135deg,rgba(22,163,114,.2),rgba(22,163,114,.1))':'linear-gradient(135deg,rgba(232,57,74,.2),rgba(232,57,74,.1))'};font-weight:900;font-size:16px;padding:14px 16px;margin-top:8px;border-radius:9px;border:1px solid ${netIncome>=0?'rgba(22,163,114,.3)':'rgba(232,57,74,.3)'}`,
+    style:`background:${netIncome>=0?'linear-gradient(135deg,rgba(134,186,114,.2),rgba(134,186,114,.1))':'linear-gradient(135deg,rgba(232,57,74,.2),rgba(232,57,74,.1))'};font-weight:900;font-size:16px;padding:14px 16px;margin-top:8px;border-radius:9px;border:1px solid ${netIncome>=0?'rgba(134,186,114,.3)':'rgba(232,57,74,.3)'}`,
   });
 
   if (!revenue.length && !expense.length && !cogs.length) {
@@ -4141,7 +4161,7 @@ function _stRenderBalance(accounts, balMap) {
   html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(232,57,74,.15),rgba(124,58,237,.15));font-weight:900;font-size:14px;padding:12px;margin-top:8px"><span>إجمالي (ما عليّ + حقي)</span><span class="sv" style="direction:ltr">${_stFmt(totLE)}</span></div>`;
 
   if (diff < 0.01) {
-    html += '<div style="text-align:center;padding:12px;color:#16a372;font-size:12px;font-weight:700">✓ الميزانية متوازنة</div>';
+    html += '<div style="text-align:center;padding:12px;color:#86BA72;font-size:12px;font-weight:700">✓ الميزانية متوازنة</div>';
   } else {
     html += `<div style="text-align:center;padding:12px;color:#e8394a;font-size:12px">⚠️ فرق ${_stFmt(diff)} — تحقق من الحركات</div>`;
   }
@@ -4283,9 +4303,9 @@ function _stRenderCashFlow(accounts, balMap) {
   html += '<div class="sr hd"><span>الحساب النقدي</span><span class="sv">الرصيد (ر.س)</span></div>';
   cashAccts.forEach(a => {
     const v = balMap[a.code] || 0;
-    html += `<div class="sr"><span>${a.name_ar}</span><span class="sv" style="direction:ltr;color:${v>=0?'#16a372':'#e8394a'};font-weight:700">${_stFmt(v)}</span></div>`;
+    html += `<div class="sr"><span>${a.name_ar}</span><span class="sv" style="direction:ltr;color:${v>=0?'#86BA72':'#e8394a'};font-weight:700">${_stFmt(v)}</span></div>`;
   });
-  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(22,163,114,.15),rgba(22,163,114,.08));font-weight:900;font-size:15px;padding:13px"><span>إجمالي السيولة المتاحة</span><span class="sv" style="direction:ltr;color:#16a372">${_stFmt(totalCash)}</span></div>`;
+  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(134,186,114,.08));font-weight:900;font-size:15px;padding:13px"><span>إجمالي السيولة المتاحة</span><span class="sv" style="direction:ltr;color:#86BA72">${_stFmt(totalCash)}</span></div>`;
   html += '<div style="padding:14px;background:rgba(0,0,0,.02);border-radius:8px;margin-top:12px;font-size:12px;color:var(--t2);line-height:1.7"><strong>ملاحظة:</strong> النسخة الكاملة من قائمة التدفقات (تشغيلية/استثمارية/تمويلية) ستضاف قريباً.</div>';
   html += '</div>';
   document.getElementById('stC').innerHTML = html;
@@ -4354,7 +4374,7 @@ async function issueZ(){
 
     const inv = data.invoice;
     const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '🔧 مسودة (بانتظار شهادة زاتكا)';
-    const statusColor = inv.onboarded ? '#22c98a' : '#f59e0b';
+    const statusColor = inv.onboarded ? '#9DC78A' : '#f59e0b';
 
     // Build QR image from Base64
     const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(inv.qr)}`;
@@ -4406,7 +4426,7 @@ async function issueZ(){
       <div style="background:#f8f9fa;border-radius:8px;padding:11px;flex:1;font-size:13px">
         <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">قبل الضريبة</span><span style="direction:ltr">${inv.subtotal.toFixed(2)} ر.س</span></div>
         <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">الضريبة 15%</span><span style="direction:ltr">${inv.vatTotal.toFixed(2)} ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-weight:700;font-size:14px;border-top:1px solid #ddd;margin-top:5px"><span>الإجمالي</span><span style="direction:ltr;color:#22c98a">${inv.total.toFixed(2)} ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-weight:700;font-size:14px;border-top:1px solid #ddd;margin-top:5px"><span>الإجمالي</span><span style="direction:ltr;color:#9DC78A">${inv.total.toFixed(2)} ر.س</span></div>
       </div>
       <div style="text-align:center">
         <img src="${qrDataUrl}" width="80" height="80" style="border-radius:6px;border:1px solid #e2e8f0" alt="QR زاتكا" onerror="this.style.display='none'"/>
@@ -4506,12 +4526,12 @@ function renderPosProducts() {
   grid.innerHTML = filtered.map(p => {
     const outOfStock = p.type === 'product' && p.stock != null && p.stock <= 0;
     const isService = p.type === 'service';
-    const accentColor = isService ? '#7c3aed' : '#16a372';
-    const accentBg    = isService ? 'rgba(124,58,237,.1)' : 'rgba(22,163,114,.1)';
+    const accentColor = isService ? '#7c3aed' : '#86BA72';
+    const accentBg    = isService ? 'rgba(124,58,237,.1)' : 'rgba(134,186,114,.1)';
     return `<div onclick="${outOfStock ? '' : `addToCart(${p.id})`}"
-      style="background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:all .15s;box-shadow:0 1px 3px rgba(22,40,32,.04)"
+      style="background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:all .15s;box-shadow:0 1px 3px rgba(44,85,89,.04)"
       onmouseenter="if(!${outOfStock}){this.style.borderColor='${accentColor}';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px ${accentBg}'}"
-      onmouseleave="this.style.borderColor='var(--b)';this.style.transform='';this.style.boxShadow='0 1px 3px rgba(22,40,32,.04)'">
+      onmouseleave="this.style.borderColor='var(--b)';this.style.transform='';this.style.boxShadow='0 1px 3px rgba(44,85,89,.04)'">
       <div style="width:44px;height:44px;border-radius:10px;background:${accentBg};color:${accentColor};display:flex;align-items:center;justify-content:center;margin:0 auto 8px">${isService ? serviceIcon : productIcon}</div>
       <div style="font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.3;color:var(--t)">${p.name}</div>
       <div style="font-size:14px;font-weight:800;color:${accentColor};direction:ltr">${p.price.toLocaleString('ar-SA')} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
@@ -5940,11 +5960,11 @@ function renderQuickActions(role){
   const el=document.getElementById('quickActions');if(!el)return;
 
   // Cohesive green-palette tones — all in brand family
-  const G_MAIN = '#45aa6e';
-  const G_DARK = '#162820';
-  const G_LIGHT_BG = 'rgba(69,170,110,.08)';
-  const G_BORDER   = 'rgba(69,170,110,.18)';
-  const G_BORDER_H = 'rgba(69,170,110,.5)';
+  const G_MAIN = '#86BA72';
+  const G_DARK = '#2C5559';
+  const G_LIGHT_BG = 'rgba(134,186,114,.08)';
+  const G_BORDER   = 'rgba(134,186,114,.18)';
+  const G_BORDER_H = 'rgba(134,186,114,.5)';
 
   const QUICK = [
     {
@@ -5985,7 +6005,7 @@ function renderQuickActions(role){
       font-family:inherit;
       transition:all .2s;
       text-align:center;
-    " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(69,170,110,.15)';this.style.borderColor='${G_BORDER_H}';this.querySelector('.qab-icon').style.background='${G_MAIN}';this.querySelector('.qab-icon').style.color='#fff'"
+    " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(134,186,114,.15)';this.style.borderColor='${G_BORDER_H}';this.querySelector('.qab-icon').style.background='${G_MAIN}';this.querySelector('.qab-icon').style.color='#fff'"
        onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='${G_BORDER}';this.querySelector('.qab-icon').style.background='${G_LIGHT_BG}';this.querySelector('.qab-icon').style.color='${G_MAIN}'">
       <div class="qab-icon" style="width:50px;height:50px;border-radius:14px;background:${G_LIGHT_BG};color:${G_MAIN};display:flex;align-items:center;justify-content:center;transition:all .2s">${a.svg}</div>
       <span style="font-size:13px;font-weight:700;color:var(--t)">${a.title}</span>

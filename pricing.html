@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>محسوب — الخطط والأسعار</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#22c98a">
+<meta name="theme-color" content="#9DC78A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="محسوب">
@@ -24,16 +24,16 @@ body.dark nav{background:#161b27;border-color:rgba(255,255,255,.07)}
 .nav-links{display:flex;gap:10px;align-items:center}
 .btn{padding:9px 18px;border-radius:9px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .btn-out{background:transparent;border:1px solid rgba(0,0,0,.15);color:#5a6080}
-.btn-out:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
-.btn-p{background:#16a372;color:#fff}
+.btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
+.btn-p{background:#86BA72;color:#fff}
 .btn-p:hover{opacity:.9}
 body.dark .btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
 
 /* ── Hero ── */
 .hero{text-align:center;padding:72px 20px 20px}
-.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,114,.08);border:1px solid rgba(22,163,114,.18);color:#16a372;border-radius:20px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:22px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.18);color:#86BA72;border-radius:20px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:22px}
 .hero h1{font-size:44px;font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:-.5px}
-.hero h1 em{font-style:normal;color:#16a372}
+.hero h1 em{font-style:normal;color:#86BA72}
 .hero p{font-size:17px;color:#5a6080;max-width:580px;margin:0 auto 16px;line-height:1.8}
 body.dark .hero p{color:#8892a4}
 .hero-sub{font-size:13px;color:#9aa0b8;margin-bottom:36px}
@@ -44,7 +44,7 @@ body.dark .hero-sub b{color:#f0f2f8}
 .stats{display:flex;justify-content:center;gap:48px;padding:28px 20px;background:#fff;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:48px}
 body.dark .stats{background:#161b27;border-color:rgba(255,255,255,.06)}
 .stat{text-align:center}
-.stat-num{font-size:28px;font-weight:900;color:#16a372}
+.stat-num{font-size:28px;font-weight:900;color:#86BA72}
 .stat-lbl{font-size:12px;color:#9aa0b8;margin-top:2px}
 
 /* ── Toggle ── */
@@ -53,16 +53,16 @@ body.dark .toggle-wrap{background:#1e2535}
 .tgl{padding:9px 24px;border-radius:26px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s;display:flex;align-items:center;gap:6px}
 .tgl.on{background:#fff;color:#1a1d2e;box-shadow:0 1px 5px rgba(0,0,0,.12)}
 body.dark .tgl.on{background:#252d3d;color:#f0f2f8}
-.save-badge{background:#16a372;color:#fff;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
+.save-badge{background:#86BA72;color:#fff;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
 
 /* ── Plans ── */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;padding:0 20px 64px}
 .plan{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:20px;padding:30px;position:relative;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
 .plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.09)}
 body.dark .plan{background:#161b27;border-color:rgba(255,255,255,.08)}
-.plan.pop{border-color:#16a372;border-width:2px;background:linear-gradient(to bottom,rgba(22,163,114,.03),#fff)}
-body.dark .plan.pop{background:linear-gradient(to bottom,rgba(22,163,114,.06),#161b27)}
-.pop-badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:#16a372;color:#fff;font-size:12px;font-weight:700;padding:5px 18px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(22,163,114,.3)}
+.plan.pop{border-color:#86BA72;border-width:2px;background:linear-gradient(to bottom,rgba(134,186,114,.03),#fff)}
+body.dark .plan.pop{background:linear-gradient(to bottom,rgba(134,186,114,.06),#161b27)}
+.pop-badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:#86BA72;color:#fff;font-size:12px;font-weight:700;padding:5px 18px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(134,186,114,.3)}
 .plan-tier{font-size:11px;font-weight:700;letter-spacing:1px;color:#9aa0b8;margin-bottom:8px;text-transform:uppercase}
 .plan-name{font-size:20px;font-weight:800;margin-bottom:6px}
 .plan-desc{font-size:13px;color:#5a6080;margin-bottom:22px;line-height:1.6;flex:1}
@@ -73,14 +73,14 @@ body.dark .plan-desc{color:#8892a4}
 .plan-period{font-size:12px;color:#9aa0b8;margin-bottom:24px}
 .plan-btn{width:100%;padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s;margin-bottom:24px}
 .plan-btn-out{background:transparent;border:1.5px solid rgba(0,0,0,.15);color:#5a6080}
-.plan-btn-out:hover{border-color:#16a372;color:#16a372;background:rgba(22,163,114,.05)}
-.plan-btn-fill{background:#16a372;color:#fff;box-shadow:0 4px 14px rgba(22,163,114,.3)}
+.plan-btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
+.plan-btn-fill{background:#86BA72;color:#fff;box-shadow:0 4px 14px rgba(134,186,114,.3)}
 .plan-btn-fill:hover{opacity:.9}
 body.dark .plan-btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
 .feat-title{font-size:11px;font-weight:700;color:#9aa0b8;margin-bottom:12px;letter-spacing:.5px}
 .feat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#5a6080;margin-bottom:9px;line-height:1.5}
 body.dark .feat{color:#8892a4}
-.feat-check{color:#16a372;font-size:15px;flex-shrink:0;margin-top:1px;font-weight:700}
+.feat-check{color:#86BA72;font-size:15px;flex-shrink:0;margin-top:1px;font-weight:700}
 .feat-x{color:#c8ccd8;font-size:15px;flex-shrink:0;margin-top:1px}
 
 /* ── Vision section ── */
@@ -92,7 +92,7 @@ body.dark .vision-card{background:#161b27;border-color:rgba(255,255,255,.07)}
 .vision-title{font-size:16px;font-weight:700;margin-bottom:8px}
 .vision-text{font-size:13px;color:#5a6080;line-height:1.7}
 body.dark .vision-text{color:#8892a4}
-.section-label{text-align:center;font-size:12px;font-weight:700;color:#16a372;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.section-label{text-align:center;font-size:12px;font-weight:700;color:#86BA72;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
 .section-title{text-align:center;font-size:28px;font-weight:800;margin-bottom:12px}
 .section-sub{text-align:center;font-size:15px;color:#5a6080;margin-bottom:36px;line-height:1.7}
 body.dark .section-sub{color:#8892a4}
@@ -118,11 +118,11 @@ body.dark .faq-a{color:#8892a4;background:#161b27}
 .faq-icon.open{transform:rotate(180deg)}
 
 /* ── CTA ── */
-.cta{background:linear-gradient(135deg,#0f8a5f,#16a372);text-align:center;padding:64px 20px;margin-bottom:0}
+.cta{background:linear-gradient(135deg,#0f8a5f,#86BA72);text-align:center;padding:64px 20px;margin-bottom:0}
 .cta h2{font-size:30px;font-weight:800;color:#fff;margin-bottom:12px}
 .cta p{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:28px}
 .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-white{background:#fff;color:#16a372;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.btn-white{background:#fff;color:#86BA72;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:opacity .2s}
 .btn-white:hover{opacity:.9}
 .btn-ghost-white{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;padding:11px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
 .btn-ghost-white:hover{border-color:#fff}
@@ -327,8 +327,8 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
 
 <footer>
   © 2025 محسوب · صُنع بـ ❤️ للسوق العربي
-  &nbsp;·&nbsp; <a href="login.html" style="color:#16a372;text-decoration:none">تسجيل الدخول</a>
-  &nbsp;·&nbsp; <a href="mailto:hello@mahsob.sa" style="color:#16a372;text-decoration:none">تواصل معنا</a>
+  &nbsp;·&nbsp; <a href="login.html" style="color:#86BA72;text-decoration:none">تسجيل الدخول</a>
+  &nbsp;·&nbsp; <a href="mailto:hello@mahsob.sa" style="color:#86BA72;text-decoration:none">تواصل معنا</a>
 </footer>
 
 <script>
