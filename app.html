@@ -87,13 +87,17 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .hdr-icon{width:38px;height:38px;border-radius:10px;background:transparent;border:1px solid var(--b);color:var(--t2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;transition:all .15s;flex-shrink:0;position:relative}
 .hdr-icon:hover{background:rgba(134,186,114,.08);border-color:rgba(134,186,114,.3);color:#86BA72}
 .hdr-badge{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#dc2f3b;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
-.hdr-btn-out{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:transparent;border:1px solid rgba(44,85,89,.2);color:#2C5559;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .15s}
-.hdr-btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.06)}
+.hdr-btn-out{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(157,199,138,.04));border:1px solid rgba(134,186,114,.28);color:#2C5559;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .25s;position:relative;overflow:hidden}
+.hdr-btn-out svg{transition:transform .35s}
+.hdr-btn-out:hover{border-color:#86BA72;color:#86BA72;background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(157,199,138,.08));box-shadow:0 4px 12px rgba(134,186,114,.18)}
+.hdr-btn-out:hover svg{transform:rotate(72deg) scale(1.1)}
+.hdr-btn-out::before{content:'';position:absolute;inset:-2px;border-radius:12px;padding:1.5px;background:linear-gradient(135deg,#86BA72,transparent,#A689B5,transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .25s;pointer-events:none}
+.hdr-btn-out:hover::before{opacity:1}
 .hdr-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#86BA72;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;box-shadow:0 2px 8px rgba(134,186,114,.3)}
 .hdr-btn-primary:hover{background:#7AA866;transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.4)}
 .pt{font-size:17px;font-weight:700}
-.btn{padding:7px 13px;border-radius:var(--Rs);border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
-.bp{background:var(--g);color:#0d1117}.bp:hover{opacity:.9}
+.btn{padding:8px 16px;border-radius:9px;border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.bp{background:#86BA72;color:#fff;box-shadow:0 2px 6px rgba(134,186,114,.25)}.bp:hover{background:#7AA866;transform:translateY(-1px);box-shadow:0 6px 14px rgba(134,186,114,.35)}
 .bg2{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bg2:hover{background:var(--bg3);color:var(--t)}
 /* Pages */
 .pg{display:none;padding:18px}.pg.on{display:block}
@@ -2431,9 +2435,9 @@ function obFinish(){
   animateCounter(document.getElementById('kLiq'), bal);
   const days=Math.floor(bal/(exp/30));
   document.getElementById('kDays').textContent=days;
-  document.getElementById('cfBal').textContent=bal.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cfBal').textContent=bal.toLocaleString('en-US')+' ر.س';
   document.getElementById('cfDays').textContent=days+' يوم';
-  document.getElementById('gTarget').textContent=target.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('gTarget').textContent=target.toLocaleString('en-US')+' ر.س';
   localStorage.setItem('mahsoob_user',JSON.stringify(userData));
   cloudBackup();
   document.getElementById('obWrap').style.display='none';
@@ -2658,7 +2662,7 @@ function animateCounter(el, target, suffix=' ر.س', duration=900) {
     const progress = Math.min(elapsed / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = start + change * eased;
-    el.textContent = Math.round(current).toLocaleString('ar-SA') + suffix;
+    el.textContent = Math.round(current).toLocaleString('en-US') + suffix;
     if (progress < 1) requestAnimationFrame(tick);
     else el.dataset.currentVal = target;
   };
@@ -3260,7 +3264,7 @@ async function subLoad() {
     if (expiresAt) {
       const exp = new Date(expiresAt);
       const days = Math.ceil((exp - new Date()) / (1000*60*60*24));
-      expHtml = `<div style="font-size:12px;color:${days < 7 ? '#dc2626' : 'var(--t2)'};margin-top:4px">يتجدد في ${exp.toLocaleDateString('ar-SA')} — متبقي ${days} يوم</div>`;
+      expHtml = `<div style="font-size:12px;color:${days < 7 ? '#dc2626' : 'var(--t2)'};margin-top:4px">يتجدد في ${exp.toLocaleDateString('ar-SA-u-nu-latn')} — متبقي ${days} يوم</div>`;
     }
 
     document.getElementById('subCurrent').innerHTML = `
@@ -3316,7 +3320,7 @@ async function subLoad() {
             const meta = p.metadata || {};
             return `
               <tr style="border-top:1px solid var(--bd)">
-                <td style="padding:11px 14px">${d.toLocaleDateString('ar-SA')}</td>
+                <td style="padding:11px 14px">${d.toLocaleDateString('ar-SA-u-nu-latn')}</td>
                 <td style="padding:11px 14px">باقة ${PLAN_INFO[meta.plan]?.name || meta.plan || '—'} ${meta.cycle === 'yearly' ? '(سنوي)' : '(شهري)'}</td>
                 <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700">${parseFloat(p.amount_sar).toFixed(2)} ر.س</td>
                 <td style="padding:11px 14px;text-align:center"><span style="background:${status[0]}20;color:${status[0]};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">${status[1]}</span></td>
@@ -3342,7 +3346,7 @@ async function subCancel(subId) {
       status: 'cancelled', cancelled_at: new Date().toISOString(),
     }).eq('id', subId);
     if (error) throw error;
-    alert('تم إلغاء الاشتراك. يستمر فعّالاً حتى ' + new Date(Auth.tenant.plan_expires_at).toLocaleDateString('ar-SA'));
+    alert('تم إلغاء الاشتراك. يستمر فعّالاً حتى ' + new Date(Auth.tenant.plan_expires_at).toLocaleDateString('ar-SA-u-nu-latn'));
     subLoad();
   } catch (e) {
     alert('فشل الإلغاء: ' + e.message);
@@ -3398,7 +3402,7 @@ th { background: #86BA72; color: #fff; font-weight: 700 }
 </div>
 <div class="grid">
   <div class="box"><div class="lbl">صادرة إلى</div><div class="val">${t.name || '—'}</div>${t.vat_number ? `<div style="font-size:11px;color:#888;margin-top:3px">الرقم الضريبي: ${t.vat_number}</div>` : ''}</div>
-  <div class="box"><div class="lbl">تاريخ الإصدار</div><div class="val">${dt.toLocaleDateString('ar-SA')}</div><div style="font-size:11px;color:#888;margin-top:3px">طريقة الدفع: ${p.payment_method || 'Tap'}</div></div>
+  <div class="box"><div class="lbl">تاريخ الإصدار</div><div class="val">${dt.toLocaleDateString('ar-SA-u-nu-latn')}</div><div style="font-size:11px;color:#888;margin-top:3px">طريقة الدفع: ${p.payment_method || 'Tap'}</div></div>
 </div>
 <table>
   <thead><tr><th>الوصف</th><th style="text-align:left">المبلغ</th></tr></thead>
@@ -3442,7 +3446,7 @@ const COA_TYPES = {
 
 function _coaFmt(n) {
   const num = parseFloat(n) || 0;
-  return num.toLocaleString('ar-SA', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 
 function coaToggleAdvanced() {
@@ -3802,7 +3806,7 @@ function renderClients(){
   });
 
   document.getElementById('cl-total').textContent = clClients.length;
-  document.getElementById('cl-rev').textContent = totalRev.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cl-rev').textContent = totalRev.toLocaleString('en-US')+' ر.س';
   document.getElementById('cl-due').textContent = '—';
 
   if(!filtered.length){
@@ -3839,7 +3843,7 @@ function renderClients(){
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="background:var(--bg3);border-radius:6px;padding:8px;text-align:center">
           <div style="font-size:10px;color:var(--t3);margin-bottom:2px">إجمالي الإيرادات</div>
-          <div style="font-size:13px;font-weight:700;color:var(--g)">${rev>0?rev.toLocaleString('ar-SA')+' ر.س':'—'}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--g)">${rev>0?rev.toLocaleString('en-US')+' ر.س':'—'}</div>
         </div>
         <div style="background:var(--bg3);border-radius:6px;padding:8px;text-align:center">
           <div style="font-size:10px;color:var(--t3);margin-bottom:2px">المعاملات</div>
@@ -3861,14 +3865,14 @@ function openClientDetail(id){
   const rev = tx.filter(t=>t.isIncome).reduce((s,t)=>s+t.amt,0);
   document.getElementById('cd-name').textContent = c.name;
   document.getElementById('cd-meta').textContent = [c.phone,c.email,c.vat?'ض: '+c.vat:''].filter(Boolean).join(' · ')||'لا توجد بيانات تواصل';
-  document.getElementById('cd-rev').textContent = rev.toLocaleString('ar-SA')+' ر.س';
+  document.getElementById('cd-rev').textContent = rev.toLocaleString('en-US')+' ر.س';
   document.getElementById('cd-txcount').textContent = tx.length;
   document.getElementById('cd-last').textContent = tx.length ? tx[0].date : '—';
   document.getElementById('cd-txlist').innerHTML = tx.length
     ? tx.map(t=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px">
         <div><div style="font-size:13px;font-weight:600">${t.desc}</div><div style="font-size:11px;color:var(--t3)">${t.date}</div></div>
         <div style="font-weight:700;color:${t.isIncome?'var(--g)':'var(--r)'}">
-          ${t.isIncome?'+':'−'}${t.amt.toLocaleString('ar-SA')} ر.س
+          ${t.isIncome?'+':'−'}${t.amt.toLocaleString('en-US')} ر.س
         </div>
       </div>`).join('')
     : `<div style="text-align:center;padding:20px;color:var(--t3);font-size:13px">لا توجد معاملات — أضف معاملة وحدّد <b>${c.name}</b> في حقل "الجهة"</div>`;
@@ -3908,7 +3912,7 @@ function renderTopClients(){
   el.innerHTML = sorted.map(c=>`
     <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--b)">
       <span style="font-size:13px;font-weight:600">${c.name}</span>
-      <span style="font-size:13px;color:var(--g);direction:ltr">${c.rev>0?c.rev.toLocaleString('ar-SA')+' ر.س':'—'}</span>
+      <span style="font-size:13px;color:var(--g);direction:ltr">${c.rev>0?c.rev.toLocaleString('en-US')+' ر.س':'—'}</span>
     </div>`).join('');
 }
 function renderDbGoals(){
@@ -3942,7 +3946,7 @@ function saveTx(){
   const bc=txT==='income'?'bdg-b':'bdg-a';
   const tb=document.getElementById('txTb');
   const row=document.createElement('tr');
-  row.innerHTML=`<td class="tm">${desc}</td><td>${party}</td><td><span class="bdg ${bc}">${cat}</span></td><td>${date}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(a).toLocaleString('ar-SA')}</td>`;
+  row.innerHTML=`<td class="tm">${desc}</td><td>${party}</td><td><span class="bdg ${bc}">${cat}</span></td><td>${date}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(a).toLocaleString('en-US')}</td>`;
   tb.insertBefore(row,tb.firstChild);
   document.getElementById('addTxW').style.display='none';
   ['tAmt','tDesc','tParty'].forEach(id=>document.getElementById(id).value='');
@@ -3961,7 +3965,7 @@ function addGoal(){
   const list=document.getElementById('goalsList');
   const div=document.createElement('div');
   div.className='gl';
-  div.innerHTML=`<div class="glh"><div class="gln">${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('ar-SA')} من ${parseFloat(target).toLocaleString('ar-SA')} ر.س</span></div>`;
+  div.innerHTML=`<div class="glh"><div class="gln">${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('en-US')} من ${parseFloat(target).toLocaleString('en-US')} ر.س</span></div>`;
   list.appendChild(div);
 }
 
@@ -3990,7 +3994,7 @@ function showSt(t,el){
 // ──────────── Financial Statements (live from journal_entries) ──────────
 function _stFmt(n) {
   const v = parseFloat(n) || 0;
-  return v.toLocaleString('ar-SA', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return v.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 
 async function _stLoadData() {
@@ -4595,7 +4599,7 @@ function renderPosProducts() {
       onmouseleave="this.style.borderColor='var(--b)';this.style.transform='';this.style.boxShadow='0 1px 3px rgba(44,85,89,.04)'">
       <div style="width:44px;height:44px;border-radius:10px;background:${accentBg};color:${accentColor};display:flex;align-items:center;justify-content:center;margin:0 auto 8px">${isService ? serviceIcon : productIcon}</div>
       <div style="font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.3;color:var(--t)">${p.name}</div>
-      <div style="font-size:14px;font-weight:800;color:${accentColor};direction:ltr">${p.price.toLocaleString('ar-SA')} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
+      <div style="font-size:14px;font-weight:800;color:${accentColor};direction:ltr">${p.price.toLocaleString('en-US')} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
       ${outOfStock ? `<div style="font-size:10px;color:#dc2626;margin-top:5px;font-weight:600">نفد المخزون</div>` : ''}
       ${p.type === 'product' && p.stock != null && p.stock > 0 ? `<div style="font-size:10px;color:var(--t3);margin-top:5px">المخزون: ${p.stock}</div>` : ''}
     </div>`;
@@ -4641,7 +4645,7 @@ function renderCart() {
         <span style="font-size:13px;font-weight:700;min-width:18px;text-align:center">${c.qty}</span>
         <button class="btn bg2" style="width:24px;height:24px;padding:0;font-size:14px;line-height:1" onclick="updateCartQty(${c.id},1)">+</button>
       </div>
-      <div style="font-size:13px;font-weight:700;color:var(--g);direction:ltr;min-width:72px;text-align:left">${line.toLocaleString('ar-SA')} ر.س</div>
+      <div style="font-size:13px;font-weight:700;color:var(--g);direction:ltr;min-width:72px;text-align:left">${line.toLocaleString('en-US')} ر.س</div>
     </div>`;
   }).join('');
   const vat = sub * 0.15;
@@ -4763,9 +4767,9 @@ function updateChannelSummary() {
     const c = g * ch.comm / 100;
     gross += g; comms += c;
   });
-  document.getElementById('ch-today-gross').textContent = gross.toLocaleString('ar-SA') + ' ر.س';
-  document.getElementById('ch-today-net').textContent = (gross - comms).toLocaleString('ar-SA') + ' ر.س';
-  document.getElementById('ch-today-comm').textContent = comms.toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('ch-today-gross').textContent = gross.toLocaleString('en-US') + ' ر.س';
+  document.getElementById('ch-today-net').textContent = (gross - comms).toLocaleString('en-US') + ' ر.س';
+  document.getElementById('ch-today-comm').textContent = comms.toLocaleString('en-US') + ' ر.س';
 }
 
 function renderChannels() {
@@ -4790,7 +4794,7 @@ function renderChannels() {
         style="margin-top:4px;margin-bottom:8px"/>
       <div style="display:flex;justify-content:space-between;font-size:12px">
         <span style="color:var(--t3)">صافي بعد العمولة</span>
-        <span style="font-weight:700;color:var(--g)">${net > 0 ? net.toLocaleString('ar-SA') + ' ر.س' : '—'}</span>
+        <span style="font-weight:700;color:var(--g)">${net > 0 ? net.toLocaleString('en-US') + ' ر.س' : '—'}</span>
       </div>
     </div>`;
   }).join('');
@@ -4810,8 +4814,8 @@ function renderChannelHistory() {
     return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:var(--Rs)">
       <span style="font-size:13px">${d.toLocaleDateString('ar-SA', { weekday:'short', month:'short', day:'numeric' })}</span>
       <div style="display:flex;gap:14px;font-size:13px">
-        <span style="color:var(--t3)">إجمالي: <b style="color:var(--t1)">${gross.toLocaleString('ar-SA')} ر.س</b></span>
-        <span style="color:var(--g)">صافي: <b>${(gross - comms).toLocaleString('ar-SA')} ر.س</b></span>
+        <span style="color:var(--t3)">إجمالي: <b style="color:var(--t1)">${gross.toLocaleString('en-US')} ر.س</b></span>
+        <span style="color:var(--g)">صافي: <b>${(gross - comms).toLocaleString('en-US')} ر.س</b></span>
       </div>
     </div>`;
   }).join('');
@@ -5274,7 +5278,7 @@ function renderProducts(){
         <div style="font-size:12px;color:var(--t3);margin-top:2px">${p.unit}${p.notes?' · '+p.notes:''}</div>
       </div>
       <div style="text-align:center;min-width:80px">
-        <div style="font-size:15px;font-weight:700;color:var(--g)">${p.price.toLocaleString('ar-SA')} ر.س</div>
+        <div style="font-size:15px;font-weight:700;color:var(--g)">${p.price.toLocaleString('en-US')} ر.س</div>
         ${stockBadge}
       </div>
       <div style="display:flex;gap:6px">
@@ -5387,18 +5391,18 @@ function getFinancialContext() {
   const lines = [
     `المشروع: ${prof.bizName||ud.name||'—'}`,
     `الرقم الضريبي: ${prof.vat||'—'}`,
-    `الإيرادات الشهرية المتوقعة: ${(ud.rev||0).toLocaleString('ar-SA')} ر.س`,
-    `المصروفات الشهرية المتوقعة: ${(ud.exp||0).toLocaleString('ar-SA')} ر.س`,
-    `الرصيد المتاح: ${(ud.bal||0).toLocaleString('ar-SA')} ر.س`,
-    `الهدف الشهري: ${(ud.target||0).toLocaleString('ar-SA')} ر.س`,
+    `الإيرادات الشهرية المتوقعة: ${(ud.rev||0).toLocaleString('en-US')} ر.س`,
+    `المصروفات الشهرية المتوقعة: ${(ud.exp||0).toLocaleString('en-US')} ر.س`,
+    `الرصيد المتاح: ${(ud.bal||0).toLocaleString('en-US')} ر.س`,
+    `الهدف الشهري: ${(ud.target||0).toLocaleString('en-US')} ر.س`,
     `عدد العملاء: ${clClients.length}`,
     topCl ? `أبرز العملاء: ${topCl}` : '',
-    `مبيعات نقطة البيع (${thisMonth}): ${posTotalMonth.toLocaleString('ar-SA')} ر.س — ${monthPOS.length} عملية`,
-    chTotal>0 ? `مبيعات التوصيل صافي (${thisMonth}): ${chTotal.toLocaleString('ar-SA')} ر.س` : '',
+    `مبيعات نقطة البيع (${thisMonth}): ${posTotalMonth.toLocaleString('en-US')} ر.س — ${monthPOS.length} عملية`,
+    chTotal>0 ? `مبيعات التوصيل صافي (${thisMonth}): ${chTotal.toLocaleString('en-US')} ر.س` : '',
     `المنتجات والخدمات: ${products.length} بند`,
     lowStock ? `مخزون منخفض يحتاج تعبئة: ${lowStock}` : '',
-    lastDaily ? `آخر توازن يومي (${dailyDates[0]}): فرق ${lastDaily.diff>=0?'+':''}${(lastDaily.diff||0).toLocaleString('ar-SA')} ر.س` : '',
-    `التاريخ اليوم: ${today.toLocaleDateString('ar-SA')}`,
+    lastDaily ? `آخر توازن يومي (${dailyDates[0]}): فرق ${lastDaily.diff>=0?'+':''}${(lastDaily.diff||0).toLocaleString('en-US')} ر.س` : '',
+    `التاريخ اليوم: ${today.toLocaleDateString('ar-SA-u-nu-latn')}`,
   ].filter(Boolean);
 
   return 'بيانات مشروعك الفعلية في محسوب:\n' + lines.map(l=>`• ${l}`).join('\n');
@@ -5682,8 +5686,8 @@ function showExtraction(data) {
     <div class="ex-field"><div class="ex-label">رقم الفاتورة</div><div class="ex-val">${data.invoice_number || '—'}</div></div>
     <div class="ex-field"><div class="ex-label">الرقم الضريبي</div><div class="ex-val">${data.vat_number || '—'}</div></div>
     <div class="ex-field"><div class="ex-label">التاريخ</div><div class="ex-val">${data.date || '—'}</div></div>
-    <div class="ex-field"><div class="ex-label">قبل الضريبة</div><div class="ex-val" style="color:var(--t)">${(data.subtotal||0).toLocaleString('ar-SA')} ر.س</div></div>
-    <div class="ex-field"><div class="ex-label">الضريبة 15%</div><div class="ex-val" style="color:var(--a)">${(data.vat_amount||0).toLocaleString('ar-SA')} ر.س</div></div>`;
+    <div class="ex-field"><div class="ex-label">قبل الضريبة</div><div class="ex-val" style="color:var(--t)">${(data.subtotal||0).toLocaleString('en-US')} ر.س</div></div>
+    <div class="ex-field"><div class="ex-label">الضريبة 15%</div><div class="ex-val" style="color:var(--a)">${(data.vat_amount||0).toLocaleString('en-US')} ر.س</div></div>`;
 
   if (data.items && data.items.length > 0) {
     document.getElementById('extractedItems').innerHTML = `
@@ -5722,12 +5726,12 @@ function saveScanned() {
     <td class="tm">${note || 'فاتورة مُمسوحة'}</td>
     <td>${party || '—'}</td>
     <td>${date}</td>
-    <td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(amount).toLocaleString('ar-SA')} ر.س</td>
+    <td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(amount).toLocaleString('en-US')} ر.س</td>
     <td><span class="bdg bdg-g">مسجّلة ✓</span></td>`;
   tbody.insertBefore(row, tbody.firstChild);
 
   resetScan();
-  alert(`تم حفظ المعاملة بنجاح ✓\n${party} — ${parseFloat(amount).toLocaleString('ar-SA')} ر.س`);
+  alert(`تم حفظ المعاملة بنجاح ✓\n${party} — ${parseFloat(amount).toLocaleString('en-US')} ر.س`);
 }
 function resetScan() {
   currentImg = null;
@@ -5926,8 +5930,8 @@ function calcZakat() {
   const zakat = base >= NISAB ? base * 0.025 : 0;
   const pct = Math.min(100, Math.round((base / NISAB) * 100));
 
-  document.getElementById('zBase').textContent = base.toLocaleString('ar-SA') + ' ر.س';
-  document.getElementById('zAmount').textContent = Math.round(zakat).toLocaleString('ar-SA') + ' ر.س';
+  document.getElementById('zBase').textContent = base.toLocaleString('en-US') + ' ر.س';
+  document.getElementById('zAmount').textContent = Math.round(zakat).toLocaleString('en-US') + ' ر.س';
   document.getElementById('zProg').style.width = pct + '%';
   document.getElementById('zProg').style.background = pct >= 100 ? 'var(--g)' : pct >= 60 ? 'var(--a)' : 'var(--r)';
 
@@ -5935,12 +5939,12 @@ function calcZakat() {
     document.getElementById('zStatus').textContent = '✅';
     document.getElementById('zStatusText').textContent = 'تجب الزكاة';
     document.getElementById('zStatusText').style.color = 'var(--g)';
-    document.getElementById('zStatusSub').textContent = `وعاء الزكاة ${base.toLocaleString('ar-SA')} ر.س تجاوز النصاب`;
+    document.getElementById('zStatusSub').textContent = `وعاء الزكاة ${base.toLocaleString('en-US')} ر.س تجاوز النصاب`;
   } else {
     document.getElementById('zStatus').textContent = '⏳';
     document.getElementById('zStatusText').textContent = 'لا تجب الزكاة بعد';
     document.getElementById('zStatusText').style.color = 'var(--a)';
-    document.getElementById('zStatusSub').textContent = `الوعاء ${base.toLocaleString('ar-SA')} ر.س — لم يبلغ النصاب (${NISAB.toLocaleString('ar-SA')} ر.س)`;
+    document.getElementById('zStatusSub').textContent = `الوعاء ${base.toLocaleString('en-US')} ر.س — لم يبلغ النصاب (${NISAB.toLocaleString('en-US')} ر.س)`;
   }
 }
 
