@@ -66,9 +66,9 @@ body.dark .sb{background:#161b27}
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .main::-webkit-scrollbar{width:3px}.main::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 /* Sidebar header */
-.lw{padding:18px 16px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lw{padding:20px 16px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--b)}
 .lg{display:flex;align-items:center;gap:10px}
-.li{width:36px;height:36px;background:#2C5559;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;object-fit:contain}
+.li{width:38px;height:38px;background:transparent;border:none;border-radius:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;object-fit:contain}
 .ln{font-size:15px;font-weight:800;color:#000}.lt{font-size:11px;color:var(--t3);margin-top:1px}
 .logo-text-img{height:24px;object-fit:contain;display:block}
 
@@ -76,12 +76,16 @@ nav{padding:6px 10px 10px;flex:1;overflow-y:auto}
 nav::-webkit-scrollbar{width:3px}
 nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 
-.ns{font-size:11px;color:var(--t3);padding:11px 12px;margin-top:6px;font-weight:700;letter-spacing:.4px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:9px;transition:.15s;user-select:none}
-.ns:hover{background:rgba(134,186,114,.05);color:var(--t)}
-.ns-chev{transition:transform .25s;color:var(--t3);display:inline-flex;align-items:center}
+.ns{font-size:13px;color:var(--t);padding:12px 14px;margin-top:4px;font-weight:700;letter-spacing:.2px;cursor:pointer;display:flex;align-items:center;gap:10px;border-radius:10px;transition:.15s;user-select:none;position:relative}
+.ns:hover{background:rgba(134,186,114,.06)}
+.ns:hover .ns-chev{color:#86BA72;background:rgba(134,186,114,.15)}
+.ns-chev{transition:all .25s;color:var(--t2);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:rgba(0,0,0,.04)}
 .ns.collapsed .ns-chev{transform:rotate(-90deg)}
-.nav-group{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);max-height:1000px}
-.nav-group.collapsed{max-height:0}
+.ns-count{font-size:10px;color:var(--t3);font-weight:700;background:rgba(0,0,0,.04);padding:2px 8px;border-radius:10px;min-width:22px;text-align:center;transition:.15s}
+.ns:hover .ns-count{background:rgba(134,186,114,.15);color:#86BA72}
+.ns.collapsed .ns-count{display:inline-block}
+.nav-group{overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1);max-height:1000px;padding:2px 0 6px}
+.nav-group.collapsed{max-height:0;padding:0}
 
 .ni{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;cursor:pointer;color:#5a7060;font-size:13px;margin:1px 0;transition:all .15s;font-weight:500;position:relative}
 .ni:hover{background:rgba(134,186,114,.08);color:#000}
@@ -96,8 +100,15 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 .nbg{margin-right:auto;background:rgba(134,186,114,.15);color:#86BA72;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
 .ni.on .nbg{background:rgba(255,255,255,.18);color:#fff}
 .us{padding:12px;border-top:1px solid var(--b)}
-.uc{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(134,186,114,.05);border-radius:11px;border:1px solid rgba(134,186,114,.15);transition:.15s}
+.uc{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(134,186,114,.05);border-radius:11px;border:1px solid rgba(134,186,114,.15);transition:.15s;cursor:pointer}
 .uc:hover{background:rgba(134,186,114,.1);border-color:rgba(134,186,114,.3)}
+
+/* Upgrade + Logout buttons */
+.us-btn{flex:1;padding:10px;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .2s;border:none}
+.us-btn-upgrade{background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;box-shadow:0 2px 8px rgba(134,186,114,.3)}
+.us-btn-upgrade:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(134,186,114,.4);background:linear-gradient(135deg,#7AA866,#86BA72)}
+.us-btn-out{background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.22)}
+.us-btn-out:hover{background:rgba(201,53,69,.08);border-color:rgba(201,53,69,.4)}
 .ua{width:28px;height:28px;border-radius:50%;background:var(--blb);border:1px solid var(--blB);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bl);flex-shrink:0}
 .un{font-size:12px;font-weight:500}.up{font-size:10px;color:var(--g)}
 /* Top bar */
@@ -727,9 +738,15 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       </div>
       <div style="font-size:11px;color:var(--t3)">تبديل</div>
     </div>
-    <div style="margin-top:7px;display:flex;gap:6px">
-      <a href="pricing.html" target="_blank" style="flex:1;text-align:center;padding:6px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:7px;font-size:11px;color:#2563eb;text-decoration:none;cursor:pointer">⬆️ ترقية</a>
-      <button id="signOutBtn" onclick="doSignOut()" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'PingARLT','Tajawal',sans-serif">خروج</button>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <a href="pricing.html" target="_blank" class="us-btn us-btn-upgrade">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>ترقية</span>
+      </a>
+      <button id="signOutBtn" onclick="doSignOut()" class="us-btn us-btn-out">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>خروج</span>
+      </button>
     </div>
   </div>
 </aside>
@@ -2765,25 +2782,43 @@ function initSidebarGroups() {
   // Wrap each section's items in a .nav-group
   const sections = Array.from(nav.querySelectorAll('.ns'));
   sections.forEach((header, idx) => {
-    // Make header collapsible
-    if (!header.querySelector('.ns-chev')) {
-      const chev = document.createElement('span');
-      chev.className = 'ns-chev';
-      chev.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
-      header.appendChild(chev);
-    }
-
     // Create a group and move sibling .ni items into it
     const group = document.createElement('div');
     group.className = 'nav-group';
     let sibling = header.nextElementSibling;
+    let itemCount = 0;
     while (sibling && !sibling.classList.contains('ns')) {
       const next = sibling.nextElementSibling;
+      if (sibling.classList.contains('ni')) itemCount++;
       group.appendChild(sibling);
       sibling = next;
     }
     header.after(group);
     header.dataset.groupIdx = idx;
+
+    // Wrap the section label so we can position count + chevron at the end
+    const labelText = header.textContent.trim();
+    header.innerHTML = '';
+    const labelSpan = document.createElement('span');
+    labelSpan.textContent = labelText;
+    labelSpan.dataset.i18n = header.dataset.i18n || '';
+    labelSpan.style.flex = '1';
+    header.appendChild(labelSpan);
+
+    // Item count badge
+    const count = document.createElement('span');
+    count.className = 'ns-count';
+    count.textContent = itemCount;
+    header.appendChild(count);
+
+    // Chevron arrow
+    const chev = document.createElement('span');
+    chev.className = 'ns-chev';
+    chev.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    header.appendChild(chev);
+
+    // Remove the dot pseudo-element by removing the original data-i18n which it depended on
+    header.removeAttribute('data-i18n');
 
     // Click handler
     header.addEventListener('click', (e) => {
