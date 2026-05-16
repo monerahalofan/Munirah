@@ -45,7 +45,8 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 .ni{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;margin:1px 4px;transition:all .15s;font-weight:500}
 .ni:hover{background:rgba(69,170,110,.06);color:var(--t)}
 .ni.on{background:linear-gradient(135deg,rgba(69,170,110,.12),rgba(69,170,110,.06));color:#16a372;font-weight:700;box-shadow:inset 3px 0 0 #45aa6e}
-.nk{font-size:15px;width:18px;text-align:center}
+.nk{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.85}
+.ni.on .nk{opacity:1;color:#16a372}
 .nb{margin-right:auto;background:var(--rb);color:var(--r);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--rB)}
 .nbg{margin-right:auto;background:var(--gb);color:var(--g);font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--gB)}
 .us{padding:10px;border-top:1px solid var(--b)}
@@ -608,36 +609,36 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <div class="lw"><div class="lg"><img src="img/logo-icon.png" class="li" style="width:36px;height:36px;object-fit:contain"><div><img src="img/logo-text.png" class="logo-text-img" style="height:26px;object-fit:contain;display:block"><div class="lt">محاسبك المالي الذكي</div></div></div></div>
   <nav>
     <div class="ns" data-i18n="ns_home">البداية</div>
-    <div class="ni on" onclick="go('db',this)"><span class="nk">🏠</span><span data-i18n="nav_db">البداية</span></div>
-    <div class="ni" onclick="go('hl',this)"><span class="nk">❤️</span><span data-i18n="nav_hl">صحتي المالية</span></div>
-    <div class="ns" data-i18n="ns_ai">الذكاء المالي ✨</div>
-    <div class="ni" onclick="go('cf',this)"><span class="nk">💧</span><span data-i18n="nav_cf">تدفق الكاش</span><span class="nbg" data-i18n="badge_smart">ذكي</span></div>
-    <div class="ni" onclick="go('ag',this)"><span class="nk">⏳</span><span data-i18n="nav_ag">من يدين لي؟</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
-    <div class="ni" onclick="go('cp',this)"><span class="nk">👥</span><span data-i18n="nav_cp">أرباحي من العملاء</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
-    <div class="ni" onclick="go('gls',this)"><span class="nk">🎯</span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
-    <div class="ni" onclick="go('tax',this)"><span class="nk">🧮</span><span data-i18n="nav_tax">الضرائب والزكاة</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni on" onclick="go('db',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span data-i18n="nav_db">البداية</span></div>
+    <div class="ni" onclick="go('hl',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span data-i18n="nav_hl">صحتي المالية</span></div>
+    <div class="ns" data-i18n="ns_ai">الذكاء المالي</div>
+    <div class="ni" onclick="go('cf',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.5-1.5.5-3 0-4.5C20 4 17 2 12 2 7 2 4 4 3 7.5c-.5 1.5-.5 3 0 4.5"/><path d="M3 12c.5 1.5 1 3 2 4.5C6.5 19 9 21 12 22c3-1 5.5-3 7-5.5 1-1.5 1.5-3 2-4.5"/></svg></span><span data-i18n="nav_cf">تدفق الكاش</span><span class="nbg" data-i18n="badge_smart">ذكي</span></div>
+    <div class="ni" onclick="go('ag',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span data-i18n="nav_ag">من يدين لي؟</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('cp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-i18n="nav_cp">أرباحي من العملاء</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('gls',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('tax',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8l8 8M16 8l-8 8"/></svg></span><span data-i18n="nav_tax">الضرائب والزكاة</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ns" data-i18n="ns_daily">العمليات اليومية</div>
-    <div class="ni" onclick="go('pos',this)"><span class="nk">🏪</span><span data-i18n="nav_pos">نقطة البيع</span></div>
-    <div class="ni" onclick="go('channels',this)"><span class="nk">📡</span><span data-i18n="nav_channels">مصادر المبيعات</span></div>
-    <div class="ni" onclick="go('daily',this)"><span class="nk">⚖️</span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
-    <div class="ni" onclick="go('tx',this)"><span class="nk">💸</span><span data-i18n="nav_tx">سجلي المالي</span></div>
-    <div class="ni" onclick="go('inv',this)"><span class="nk">🧾</span><span data-i18n="nav_inv">فواتيري</span><span class="nb" id="invBadge"></span></div>
-    <div class="ni" onclick="go('bg',this)"><span class="nk">📊</span><span data-i18n="nav_bg">ميزانيتي</span></div>
-    <div class="ns" data-i18n="ns_tax">الضرائب والزكاة 🆕</div>
-    <div class="ni" onclick="go('vat',this)"><span class="nk">🧾</span><span data-i18n="nav_vat">تقرير الضريبة</span></div>
-    <div class="ni" onclick="go('zakat',this)"><span class="nk">☪️</span><span data-i18n="nav_zakat">احسب زكاتي</span></div>
-    <div class="ni" onclick="go('taxcal',this)"><span class="nk">📅</span><span data-i18n="nav_taxcal">مواعيد الضريبة</span></div>
-    <div class="ni" onclick="go('scan',this)"><span class="nk">📷</span><span data-i18n="nav_scan">مسح الفواتير</span><span class="nbg">AI</span></div>
+    <div class="ni" onclick="go('pos',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="nav_pos">نقطة البيع</span></div>
+    <div class="ni" onclick="go('channels',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span><span data-i18n="nav_channels">مصادر المبيعات</span></div>
+    <div class="ni" onclick="go('daily',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
+    <div class="ni" onclick="go('tx',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="nav_tx">سجلي المالي</span></div>
+    <div class="ni" onclick="go('inv',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span data-i18n="nav_inv">فواتيري</span><span class="nb" id="invBadge"></span></div>
+    <div class="ni" onclick="go('bg',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span data-i18n="nav_bg">ميزانيتي</span></div>
+    <div class="ns" data-i18n="ns_tax">الضرائب والزكاة</div>
+    <div class="ni" onclick="go('vat',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></span><span data-i18n="nav_vat">تقرير الضريبة</span></div>
+    <div class="ni" onclick="go('zakat',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span data-i18n="nav_zakat">احسب زكاتي</span></div>
+    <div class="ni" onclick="go('taxcal',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></span><span data-i18n="nav_taxcal">مواعيد الضريبة</span></div>
+    <div class="ni" onclick="go('scan',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span><span data-i18n="nav_scan">مسح الفواتير</span><span class="nbg">AI</span></div>
     <div class="ns" data-i18n="ns_reports">التقارير</div>
-    <div class="ni" onclick="go('st',this)"><span class="nk">📋</span><span data-i18n="nav_st">تقاريري المالية</span></div>
-    <div class="ni" onclick="go('zt',this)"><span class="nk">📄</span><span data-i18n="nav_zt">فاتورة جديدة</span></div>
-    <div class="ni" onclick="go('products',this)"><span class="nk">📦</span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
-    <div class="ni" onclick="go('ai',this)"><span class="nk">🤖</span><span data-i18n="nav_ai">اسأل محسوب</span></div>
+    <div class="ni" onclick="go('st',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H7v9a2 2 0 0 1-2 2H3"/><path d="M9 22h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-7l-1.5 1.5L9 2H5a2 2 0 0 0-2 2v4"/><line x1="13" y1="10" x2="17" y2="10"/><line x1="13" y1="14" x2="17" y2="14"/></svg></span><span data-i18n="nav_st">تقاريري المالية</span></div>
+    <div class="ni" onclick="go('zt',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span><span data-i18n="nav_zt">فاتورة جديدة</span></div>
+    <div class="ni" onclick="go('products',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
+    <div class="ni" onclick="go('ai',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg></span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
-    <div class="ni" onclick="go('coa',this)"><span class="nk">💼</span><span data-i18n="nav_coa">أين أموالي؟</span></div>
-    <div class="ni" onclick="go('sub',this)"><span class="nk">💎</span><span data-i18n="nav_sub">اشتراكي</span></div>
-    <div class="ni" onclick="go('profile',this)"><span class="nk">⚙️</span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
-    <div class="ni" onclick="go('usrs',this)"><span class="nk">👤</span><span data-i18n="nav_usrs">المستخدمون</span></div>
+    <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
+    <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
+    <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
+    <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
   <div class="us">
     <div class="uc" style="cursor:pointer" onclick="go('profile',null)">
@@ -697,15 +698,34 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <button onclick="this.parentElement.style.display='none';localStorage.setItem('vatRemDismissed',Date.now())" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:4px 8px">✕</button>
   </div>
 
-  <!-- Hero greeting -->
-  <div class="db-hero" style="background:linear-gradient(135deg,rgba(69,170,110,.08),rgba(69,170,110,.02));border:1px solid rgba(69,170,110,.18);border-radius:14px;padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-    <div>
-      <div style="font-size:22px;font-weight:800;color:var(--t)">أهلاً، <span id="greetName">—</span> 👋</div>
-      <div style="font-size:13px;color:var(--t2);margin-top:4px" id="greetDate"></div>
+  <!-- Hero greeting (premium design inspired) -->
+  <div class="db-hero" style="background:linear-gradient(135deg,#162820 0%,#1a3429 100%);color:#fff;border-radius:18px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;position:relative;overflow:hidden">
+    <!-- Decorative blobs -->
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(69,170,110,.4) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:30%;width:120px;height:120px;background:radial-gradient(circle,rgba(34,201,138,.25) 0%,transparent 70%);pointer-events:none"></div>
+
+    <div style="position:relative;display:flex;align-items:center;gap:18px;flex:1;min-width:240px">
+      <!-- Logo / Avatar -->
+      <div id="brandLogoBox" style="width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden">
+        <img id="brandLogoImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain">
+        <span id="brandLogoText" style="font-size:24px;font-weight:900;color:#fff">M</span>
+      </div>
+      <div>
+        <div style="font-size:13px;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:6px" id="greetDate">—</div>
+        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2">أهلاً، <span id="greetName" style="background:linear-gradient(135deg,#22c98a,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px">دعنا نلقي نظرة سريعة على نشاطك المالي اليوم</div>
+      </div>
     </div>
-    <div style="font-size:11px;color:var(--t3);text-align:left">
-      <div style="font-weight:600;color:var(--g);font-size:13px" id="greetPlan">الخطة التجريبية</div>
-      <div style="margin-top:2px">جاهز للعمل</div>
+
+    <div style="position:relative;display:flex;gap:10px;flex-wrap:wrap">
+      <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:8px;font-size:12px;color:#fff">
+        <span style="width:8px;height:8px;border-radius:50%;background:#22c98a;box-shadow:0 0 0 0 rgba(34,201,138,.5);animation:pulseLive 2s ease infinite"></span>
+        <span id="greetPlan">الخطة التجريبية</span>
+      </div>
+      <button onclick="go('ai',null)" style="background:linear-gradient(135deg,#45aa6e,#22c98a);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(69,170,110,.4)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        استشر AI
+      </button>
     </div>
   </div>
 
@@ -1932,6 +1952,42 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <button class="btn bg2" style="margin-top:12px;font-size:12px;padding:5px 12px;color:var(--r)" onclick="removeProfilePhoto()">حذف الصورة</button>
   </div>
 
+  <!-- Brand / Business Logo -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="st">شعار النشاط التجاري</div></div>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:6px">
+      <div style="position:relative;flex-shrink:0">
+        <div id="brand-logo-wrap" style="width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,#45aa6e,#22c98a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:900;overflow:hidden;border:2px solid var(--b);box-shadow:0 8px 24px rgba(69,170,110,.2)">
+          <span id="brand-logo-fallback">M</span>
+          <img id="brand-logo-preview" style="display:none;width:100%;height:100%;object-fit:contain;background:#fff" alt=""/>
+        </div>
+        <label for="brand-logo-input" style="position:absolute;bottom:-4px;left:-4px;width:32px;height:32px;background:#16a372;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid var(--bg2);color:#fff" title="تغيير الشعار">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </label>
+        <input type="file" id="brand-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" style="display:none" onchange="handleBrandLogo(this)"/>
+      </div>
+      <div style="flex:1;min-width:240px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px">أضف شعار مشروعك</div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.7">
+          سيظهر الشعار في:
+          <ul style="margin:6px 16px 0;padding:0;color:var(--t2);font-size:12px;line-height:1.8">
+            <li>الفواتير الإلكترونية (PDF + ZATCA)</li>
+            <li>التقارير المالية</li>
+            <li>لوحة التحكم</li>
+            <li>إيصالات نقطة البيع</li>
+          </ul>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:10px">
+          PNG / JPG / SVG · حد أقصى 2MB · يفضّل بخلفية شفافة
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <label for="brand-logo-input" style="padding:8px 16px;background:#45aa6e;color:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
+          <button class="btn bg2" id="brand-logo-remove-btn" style="font-size:12px;padding:8px 14px;color:#dc2626;display:none" onclick="removeBrandLogo()">حذف الشعار</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="g2">
 
     <!-- Personal info -->
@@ -2340,6 +2396,7 @@ const TRANSLATIONS = {
     nav_bg:'ميزانيتي', nav_vat:'تقرير الضريبة', nav_zakat:'احسب زكاتي',
     nav_taxcal:'مواعيد الضريبة', nav_scan:'مسح الفواتير', nav_st:'تقاريري المالية',
     nav_zt:'فاتورة جديدة', nav_products:'خدماتي ومنتجاتي', nav_ai:'اسأل محسوب',
+    nav_coa:'أين أموالي؟', nav_sub:'اشتراكي',
     nav_profile:'إعدادات الحساب', nav_usrs:'المستخدمون',
     // Badges
     badge_new:'جديد', badge_smart:'ذكي',
@@ -2353,6 +2410,7 @@ const TRANSLATIONS = {
     pgn_bg:'الميزانية', pgn_vat:'تقرير ض.ق.م', pgn_zakat:'حاسبة الزكاة',
     pgn_taxcal:'التقويم الضريبي', pgn_scan:'مسح الفواتير', pgn_st:'القوائم المالية',
     pgn_zt:'فاتورة جديدة', pgn_products:'خدماتي ومنتجاتي', pgn_ai:'المستشار الذكي',
+    pgn_coa:'أين أموالي؟', pgn_sub:'اشتراكي',
     pgn_profile:'إعدادات الحساب', pgn_usrs:'المستخدمون والصلاحيات',
   },
   en: {
@@ -2367,6 +2425,7 @@ const TRANSLATIONS = {
     nav_bg:'Budget', nav_vat:'VAT Report', nav_zakat:'Zakat Calculator',
     nav_taxcal:'Tax Calendar', nav_scan:'Scan Invoices', nav_st:'Financial Statements',
     nav_zt:'New Invoice', nav_products:'Products & Services', nav_ai:'Ask Mahsoob',
+    nav_coa:'Where is my money?', nav_sub:'My Subscription',
     nav_profile:'Account Settings', nav_usrs:'Users',
     // Badges
     badge_new:'New', badge_smart:'Smart',
@@ -2652,6 +2711,77 @@ function animateGauge(elementId, score) {
   // Animate after a tick
   setTimeout(() => { el.style.strokeDashoffset = offset; }, 100);
 }
+
+// ═══════════ BRAND LOGO (شعار النشاط) ═══════════
+function applyBrandLogo() {
+  const data = localStorage.getItem('mahsoob_brand_logo');
+  const tenantName = Auth?.tenant?.name || 'M';
+  const firstChar = tenantName.charAt(0) || 'M';
+
+  // Dashboard hero logo
+  const dashImg  = document.getElementById('brandLogoImg');
+  const dashText = document.getElementById('brandLogoText');
+  if (dashImg && dashText) {
+    if (data) {
+      dashImg.src = data; dashImg.style.display = 'block';
+      dashText.style.display = 'none';
+    } else {
+      dashImg.style.display = 'none';
+      dashText.style.display = 'block';
+      dashText.textContent = firstChar;
+    }
+  }
+
+  // Profile preview
+  const profImg  = document.getElementById('brand-logo-preview');
+  const profText = document.getElementById('brand-logo-fallback');
+  const removeBtn = document.getElementById('brand-logo-remove-btn');
+  if (profImg && profText) {
+    if (data) {
+      profImg.src = data; profImg.style.display = 'block';
+      profText.style.display = 'none';
+      if (removeBtn) removeBtn.style.display = 'inline-block';
+    } else {
+      profImg.style.display = 'none';
+      profText.style.display = 'block';
+      profText.textContent = firstChar;
+      if (removeBtn) removeBtn.style.display = 'none';
+    }
+  }
+
+  // Sidebar logo (replace logo-icon.png if user uploaded)
+  const sbLogo = document.querySelector('.lw .lg img.li');
+  if (sbLogo && data) sbLogo.src = data;
+}
+
+function handleBrandLogo(input) {
+  const file = input.files?.[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) {
+    toast({ type:'error', title:'حجم كبير', msg:'الشعار يجب أن يكون أقل من 2MB' });
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    localStorage.setItem('mahsoob_brand_logo', dataUrl);
+    applyBrandLogo();
+    toast({ type:'success', title:'تم!', msg:'تم رفع الشعار وسيظهر في الفواتير والتقارير' });
+    // Backup to cloud silently
+    if (typeof cloudBackup === 'function') cloudBackup().catch(()=>{});
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeBrandLogo() {
+  if (!confirm('حذف الشعار؟')) return;
+  localStorage.removeItem('mahsoob_brand_logo');
+  applyBrandLogo();
+  toast({ type:'info', msg:'تم حذف الشعار' });
+}
+
+// Apply logo on load
+window.addEventListener('load', () => setTimeout(applyBrandLogo, 800));
 
 // ═══════════ TRIAL BANNER & PAYWALL ═══════════
 function showTrialBanner() {
