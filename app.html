@@ -999,7 +999,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         <div><div class="txrn" style="font-weight:700;color:var(--t)">صافي الضريبة المستحقة</div><div class="txrd">للربع الحالي</div></div>
         <div class="txrv" style="color:var(--a);font-size:16px" id="txVatNet">0 ر.س</div>
       </div>
-      <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="alert('جاري تحضير الإقرار...')">تحضير الإقرار الضريبي ←</button>
+      <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="go('vat',null)">تحضير الإقرار الضريبي ←</button>
     </div>
     <div class="card">
       <div class="sh"><div class="st">الزكاة السنوية</div></div>
@@ -1724,7 +1724,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div style="display:flex;gap:8px;margin-top:12px">
         <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير PDF...')">📄 PDF</button>
         <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير Excel...')">📊 Excel</button>
-        <button class="btn bp" style="flex:2;padding:9px" onclick="alert('تحضير الإقرار الإلكتروني...')">تقديم لزاتكا ←</button>
+        <button class="btn bp" style="flex:2;padding:9px" onclick="submitToZatca()">تقديم لزاتكا ←</button>
       </div>
     </div>
   </div>
@@ -4251,7 +4251,7 @@ function shareStatement(via) {
 
 function shareVatReport(via) {
   const ctx = window._vatExportCtx;
-  if (!ctx) { alert('افتح ربع سنوي أولاً'); return; }
+  if (!ctx) { toast({type:'warn',msg:'افتح ربعاً سنوياً أولاً'}); return; }
   const business = Auth.tenant?.name || 'مشروعي';
   const vatNum = Auth.tenant?.vat_number || '—';
   const text = `إقرار ضريبة القيمة المضافة — ${ctx.quarter.toUpperCase()} ${ctx.year}
@@ -5774,10 +5774,37 @@ async function _vatLive(q) {
   window._vatExportCtx = { quarter:q, year, from, to, vatOut, vatIn, net, sales };
 }
 
+// Submit to ZATCA portal (opens the official portal with prepared CSV)
+function submitToZatca() {
+  const ctx = window._vatExportCtx;
+  if (!ctx || ctx.sales === 0) {
+    toast({
+      type:'warn',
+      title:'لا توجد بيانات للإقرار',
+      msg:'لا توجد مبيعات في هذا الربع. أضف فواتيرك أولاً.',
+      duration: 5000,
+    });
+    return;
+  }
+  // 1) Export the CSV file
+  exportZatcaVat();
+  // 2) Show instructions toast
+  toast({
+    type:'success',
+    title:'تم تحضير الملف ✓',
+    msg:'سيُفتح بوابة زاتكا في تبويب جديد — ارفع الملف هناك',
+    duration: 6000,
+  });
+  // 3) Open ZATCA portal
+  setTimeout(() => {
+    window.open('https://zatca.gov.sa/ar/E-Services/Pages/default.aspx', '_blank');
+  }, 1500);
+}
+
 // Export ZATCA quarterly VAT return (CSV)
 function exportZatcaVat() {
   const ctx = window._vatExportCtx;
-  if (!ctx) { alert('افتح ربع سنوي أولاً'); return; }
+  if (!ctx) { toast({type:'warn',msg:'افتح ربعاً سنوياً أولاً'}); return; }
   const business = Auth.tenant?.name || '—';
   const vatNum   = Auth.tenant?.vat_number || '—';
   const lines = [
