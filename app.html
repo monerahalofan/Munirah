@@ -11,6 +11,15 @@
 <meta name="apple-mobile-web-app-title" content="محسوب">
 <link rel="apple-touch-icon" href="img/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:600;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:800;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:900;font-display:swap}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
@@ -29,7 +38,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
-body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--t);font-size:15px}
+body{font-family:'PingARLT','Tajawal',sans-serif;background:var(--bg);color:var(--t);font-size:15px}
 .layout{display:flex;height:100vh;overflow:hidden}
 .sb{width:230px;background:var(--bg2);border-left:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s,transform .25s,opacity .2s}
 .layout.sb-hidden .sb{width:0;opacity:0;overflow:hidden;border:none}
@@ -56,7 +65,7 @@ nav{padding:8px 6px;flex:1;overflow-y:auto}
 /* Top bar */
 .tb{padding:13px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10}
 .pt{font-size:17px;font-weight:700}
-.btn{padding:7px 13px;border-radius:var(--Rs);border:none;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn{padding:7px 13px;border-radius:var(--Rs);border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
 .bp{background:var(--g);color:#0d1117}.bp:hover{opacity:.9}
 .bg2{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bg2:hover{background:var(--bg3);color:var(--t)}
 /* Pages */
@@ -129,7 +138,7 @@ body.dark .qab-new{background:#161b27 !important}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .ff{display:flex;flex-direction:column;gap:4px}.ff.full{grid-column:span 2}
 .fl{font-size:11px;color:var(--t3)}
-.fi{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--Rs);padding:8px 11px;font-size:13px;color:var(--t);font-family:'Tajawal',sans-serif;direction:rtl;outline:none;width:100%}
+.fi{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--Rs);padding:8px 11px;font-size:13px;color:var(--t);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;outline:none;width:100%}
 .fi:focus{border-color:var(--g)}.fi::placeholder{color:var(--t3)}
 /* Health ring */
 .hr{position:relative;width:100px;height:100px;flex-shrink:0}
@@ -171,10 +180,10 @@ body.dark .qab-new{background:#161b27 !important}
 .bbl.u{background:var(--blb);border:1px solid var(--blB);border-radius:12px 12px 4px 12px}
 .cft{padding:12px;border-top:1px solid var(--b)}
 .cps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
-.cp{background:var(--bg3);border:1px solid var(--b2);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--t2);cursor:pointer;font-family:'Tajawal',sans-serif}
+.cp{background:var(--bg3);border:1px solid var(--b2);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--t2);cursor:pointer;font-family:'PingARLT','Tajawal',sans-serif}
 .cp:hover{background:var(--gb);color:var(--g);border-color:var(--gB)}
 .cir{display:flex;gap:7px}
-.cta{flex:1;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:9px 12px;font-size:13px;color:var(--t);font-family:'Tajawal',sans-serif;direction:rtl;outline:none;resize:none;min-height:42px;max-height:100px}
+.cta{flex:1;background:var(--bg2);border:1px solid var(--b2);border-radius:var(--R);padding:9px 12px;font-size:13px;color:var(--t);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;outline:none;resize:none;min-height:42px;max-height:100px}
 .cta:focus{border-color:var(--g)}
 .csnd{width:42px;height:42px;border-radius:11px;background:var(--g);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .ty{display:flex;gap:4px;padding:10px 13px}
@@ -288,7 +297,7 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 .perm-tag{display:inline-flex;padding:2px 8px;border-radius:8px;font-size:11px;background:var(--bg3);color:var(--t2);border:1px solid var(--b);margin:2px}
 .perm-tag.yes{background:var(--gb);color:var(--g);border-color:var(--gB)}
 .perm-tag.no{background:var(--rb);color:var(--r);border-color:var(--rB);text-decoration:line-through;opacity:.6}
-.qab{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px 12px;cursor:pointer;font-family:'Tajawal',sans-serif;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .15s}
+.qab{background:var(--bg2);border:1px solid var(--b);border-radius:var(--R);padding:14px 12px;cursor:pointer;font-family:'PingARLT','Tajawal',sans-serif;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .15s}
 .uc-role{font-size:10px;margin-top:1px}
 .kg{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}}
 /* POS responsive */
@@ -468,10 +477,22 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
 <div class="fab-menu" id="fabMenu">
-  <button class="fab-item" onclick="go('zt',null);closeFab()">📄 فاتورة جديدة</button>
-  <button class="fab-item" onclick="go('scan',null);closeFab()">📷 مسح فاتورة</button>
-  <button class="fab-item" onclick="go('pos',null);closeFab()">🛒 نقطة البيع</button>
-  <button class="fab-item" onclick="go('tx',null);closeFab()">💸 تسجيل مصروف</button>
+  <button class="fab-item" onclick="go('zt',null);closeFab()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a372" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    فاتورة جديدة
+  </button>
+  <button class="fab-item" onclick="go('scan',null);closeFab()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    مسح فاتورة
+  </button>
+  <button class="fab-item" onclick="go('pos',null);closeFab()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    نقطة البيع
+  </button>
+  <button class="fab-item" onclick="go('tx',null);closeFab()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    تسجيل مصروف
+  </button>
 </div>
 
 <!-- NOTIFICATIONS PANEL -->
@@ -651,7 +672,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     </div>
     <div style="margin-top:7px;display:flex;gap:6px">
       <a href="pricing.html" target="_blank" style="flex:1;text-align:center;padding:6px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:7px;font-size:11px;color:#2563eb;text-decoration:none;cursor:pointer">⬆️ ترقية</a>
-      <button id="signOutBtn" onclick="doSignOut()" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'Tajawal',sans-serif">خروج</button>
+      <button id="signOutBtn" onclick="doSignOut()" style="flex:1;padding:6px;background:rgba(232,57,74,.07);border:1px solid rgba(232,57,74,.18);border-radius:7px;font-size:11px;color:#e8394a;cursor:pointer;font-family:'PingARLT','Tajawal',sans-serif">خروج</button>
     </div>
   </div>
 </aside>
@@ -667,7 +688,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     </button>
 
     <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
-    <button id="lang-toggle" onclick="toggleLang()" style="background:var(--bg3);border:1px solid var(--b);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--t1);font-family:'Tajawal',sans-serif;letter-spacing:.5px">EN</button>
+    <button id="lang-toggle" onclick="toggleLang()" style="background:var(--bg3);border:1px solid var(--b);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;color:var(--t1);font-family:'PingARLT','Tajawal',sans-serif;letter-spacing:.5px">EN</button>
     <button class="btn bg2" id="tb-consult" onclick="go('ai',null)" data-i18n="tb_consult">🤖 استشر</button>
     <button class="btn bp"  id="tb-invoice" onclick="go('zt',null)"  data-i18n="tb_invoice">＋ فاتورة</button>
   </div>
@@ -2386,8 +2407,8 @@ function initApp(){
 const TRANSLATIONS = {
   ar: {
     // Nav sections
-    ns_home:'البداية', ns_ai:'الذكاء المالي ✨', ns_daily:'العمليات اليومية',
-    ns_tax:'الضرائب والزكاة 🆕', ns_reports:'التقارير', ns_admin:'الإدارة',
+    ns_home:'البداية', ns_ai:'الذكاء المالي', ns_daily:'العمليات اليومية',
+    ns_tax:'الضرائب والزكاة', ns_reports:'التقارير', ns_admin:'الإدارة',
     // Nav items
     nav_db:'البداية', nav_hl:'صحتي المالية', nav_cf:'تدفق الكاش',
     nav_ag:'من يدين لي؟', nav_cp:'أرباحي من العملاء', nav_gls:'أهدافي المالية',
@@ -2415,8 +2436,8 @@ const TRANSLATIONS = {
   },
   en: {
     // Nav sections
-    ns_home:'Home', ns_ai:'AI Insights ✨', ns_daily:'Daily Operations',
-    ns_tax:'Tax & Zakat 🆕', ns_reports:'Reports', ns_admin:'Management',
+    ns_home:'Home', ns_ai:'AI Insights', ns_daily:'Daily Operations',
+    ns_tax:'Tax & Zakat', ns_reports:'Reports', ns_admin:'Management',
     // Nav items
     nav_db:'Dashboard', nav_hl:'Financial Health', nav_cf:'Cash Flow',
     nav_ag:'Who Owes Me?', nav_cp:'Client Profitability', nav_gls:'Financial Goals',
@@ -3859,7 +3880,7 @@ function addGoal(){
   const list=document.getElementById('goalsList');
   const div=document.createElement('div');
   div.className='gl';
-  div.innerHTML=`<div class="glh"><div class="gln">🎯 ${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('ar-SA')} من ${parseFloat(target).toLocaleString('ar-SA')} ر.س</span></div>`;
+  div.innerHTML=`<div class="glh"><div class="gln">${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('ar-SA')} من ${parseFloat(target).toLocaleString('ar-SA')} ر.س</span></div>`;
   list.appendChild(div);
 }
 
@@ -5358,7 +5379,7 @@ function loadDashboardInsights() {
   } else {
     el.innerHTML = `<div style="text-align:center;padding:14px 8px">
       <div style="font-size:12px;color:var(--t3);margin-bottom:10px">اضغط لتحليل وضعك المالي بالذكاء الاصطناعي</div>
-      <button class="btn bp" style="font-size:12px;padding:7px 18px" onclick="refreshDashboardInsights()">✨ تحليل الآن</button>
+      <button class="btn bp" style="font-size:12px;padding:7px 18px" onclick="refreshDashboardInsights()">تحليل الآن ←</button>
     </div>`;
   }
 }
@@ -5891,36 +5912,36 @@ function applyCurrentUser(){
 function renderQuickActions(role){
   const el=document.getElementById('quickActions');if(!el)return;
 
-  // Friendly, role-agnostic quick actions for SMB owners
+  // Cohesive green-palette tones — all in brand family
+  const G_MAIN = '#45aa6e';
+  const G_DARK = '#162820';
+  const G_LIGHT_BG = 'rgba(69,170,110,.08)';
+  const G_BORDER   = 'rgba(69,170,110,.18)';
+  const G_BORDER_H = 'rgba(69,170,110,.5)';
+
   const QUICK = [
     {
-      page:'zt', color:'#16a372', bg:'rgba(22,163,114,.08)', border:'rgba(22,163,114,.25)',
-      title:'إصدار فاتورة', sub:'فاتورة ZATCA جديدة',
+      page:'zt', title:'إصدار فاتورة', sub:'فاتورة ZATCA جديدة',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
     },
     {
-      page:'scan', color:'#2563eb', bg:'rgba(37,99,235,.08)', border:'rgba(37,99,235,.25)',
-      title:'مسح فاتورة', sub:'تصوير وتسجيل بالـ AI',
+      page:'scan', title:'مسح فاتورة', sub:'تصوير وتسجيل بالـ AI',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
     },
     {
-      page:'pos', color:'#7c3aed', bg:'rgba(124,58,237,.08)', border:'rgba(124,58,237,.25)',
-      title:'نقطة البيع', sub:'بيع مباشر للعميل',
+      page:'pos', title:'نقطة البيع', sub:'بيع مباشر للعميل',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
     },
     {
-      page:'vat', color:'#f59e0b', bg:'rgba(245,158,11,.08)', border:'rgba(245,158,11,.25)',
-      title:'تقرير الضريبة', sub:'إقرار VAT الربعي',
+      page:'vat', title:'تقرير الضريبة', sub:'إقرار VAT الربعي',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>`,
     },
     {
-      page:'tx', color:'#dc2626', bg:'rgba(220,38,38,.08)', border:'rgba(220,38,38,.25)',
-      title:'تسجيل مصروف', sub:'أضف معاملة سريعة',
+      page:'tx', title:'تسجيل مصروف', sub:'أضف معاملة سريعة',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
     },
     {
-      page:'ai', color:'#8b5cf6', bg:'rgba(139,92,246,.08)', border:'rgba(139,92,246,.25)',
-      title:'استشر محسوب', sub:'سؤال للذكاء الاصطناعي',
+      page:'ai', title:'استشر محسوب', sub:'سؤال للذكاء الاصطناعي',
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg>`,
     },
   ];
@@ -5929,17 +5950,17 @@ function renderQuickActions(role){
   el.innerHTML = QUICK.map(a => `
     <button onclick="go('${a.page}',null)" class="qab-new" style="
       background:var(--bg2);
-      border:1px solid ${a.border};
+      border:1px solid ${G_BORDER};
       border-radius:14px;
-      padding:18px 12px;
+      padding:20px 14px;
       cursor:pointer;
-      display:flex;flex-direction:column;align-items:center;gap:8px;
+      display:flex;flex-direction:column;align-items:center;gap:10px;
       font-family:inherit;
       transition:all .2s;
       text-align:center;
-    " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px ${a.bg}';this.style.borderColor='${a.color}'"
-       onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='${a.border}'">
-      <div style="width:48px;height:48px;border-radius:12px;background:${a.bg};color:${a.color};display:flex;align-items:center;justify-content:center">${a.svg}</div>
+    " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(69,170,110,.15)';this.style.borderColor='${G_BORDER_H}';this.querySelector('.qab-icon').style.background='${G_MAIN}';this.querySelector('.qab-icon').style.color='#fff'"
+       onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='${G_BORDER}';this.querySelector('.qab-icon').style.background='${G_LIGHT_BG}';this.querySelector('.qab-icon').style.color='${G_MAIN}'">
+      <div class="qab-icon" style="width:50px;height:50px;border-radius:14px;background:${G_LIGHT_BG};color:${G_MAIN};display:flex;align-items:center;justify-content:center;transition:all .2s">${a.svg}</div>
       <span style="font-size:13px;font-weight:700;color:var(--t)">${a.title}</span>
       <span style="font-size:11px;color:var(--t3);line-height:1.4">${a.sub}</span>
     </button>
@@ -6132,7 +6153,7 @@ async function bootApp() {
       if (usEl) {
         const notice = document.createElement('div');
         notice.style.cssText = 'background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:9px 13px;font-size:12px;color:#2563eb;margin:8px;cursor:pointer;text-align:center;';
-        notice.innerHTML = '✨ الخطة التجريبية — <b>ترقّى الآن</b>';
+        notice.innerHTML = 'الخطة التجريبية — <b>ترقّى الآن ←</b>';
         notice.onclick = () => window.open('pricing.html', '_blank');
         usEl.before(notice);
       }
