@@ -100,12 +100,8 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 .hdr-icon{width:38px;height:38px;border-radius:10px;background:transparent;border:1px solid var(--b);color:var(--t2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;transition:all .15s;flex-shrink:0;position:relative}
 .hdr-icon:hover{background:rgba(134,186,114,.08);border-color:rgba(134,186,114,.3);color:#86BA72}
 .hdr-badge{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#dc2f3b;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
-.hdr-btn-out{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(157,199,138,.04));border:1px solid rgba(134,186,114,.28);color:#2C5559;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .25s;position:relative;overflow:hidden}
-.hdr-btn-out svg{transition:transform .35s}
+.hdr-btn-out{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(157,199,138,.04));border:1px solid rgba(134,186,114,.28);color:#2C5559;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .25s}
 .hdr-btn-out:hover{border-color:#86BA72;color:#86BA72;background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(157,199,138,.08));box-shadow:0 4px 12px rgba(134,186,114,.18)}
-.hdr-btn-out:hover svg{transform:rotate(72deg) scale(1.1)}
-.hdr-btn-out::before{content:'';position:absolute;inset:-2px;border-radius:12px;padding:1.5px;background:linear-gradient(135deg,#86BA72,transparent,#A689B5,transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .25s;pointer-events:none}
-.hdr-btn-out:hover::before{opacity:1}
 .hdr-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#86BA72;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;box-shadow:0 2px 8px rgba(134,186,114,.3)}
 .hdr-btn-primary:hover{background:#7AA866;transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.4)}
 .pt{font-size:17px;font-weight:700}
@@ -767,7 +763,6 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 
     <!-- Consult AI -->
     <button id="tb-consult" onclick="go('ai',null)" class="hdr-btn-out">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       <span data-i18n="tb_consult">استشر</span>
     </button>
 
@@ -2531,7 +2526,7 @@ const TRANSLATIONS = {
     // Badges
     badge_new:'جديد', badge_smart:'ذكي',
     // Top bar
-    tb_consult:'🤖 استشر', tb_invoice:'＋ فاتورة',
+    tb_consult:'استشر', tb_invoice:'فاتورة',
     // Page titles
     pgn_db:'لوحة التحكم', pgn_hl:'الصحة المالية', pgn_cf:'التدفق النقدي',
     pgn_ag:'تحليل الذمم', pgn_cp:'ربحية العملاء', pgn_gls:'أهدافي المالية',
@@ -2560,7 +2555,7 @@ const TRANSLATIONS = {
     // Badges
     badge_new:'New', badge_smart:'Smart',
     // Top bar
-    tb_consult:'🤖 Consult', tb_invoice:'＋ Invoice',
+    tb_consult:'Consult', tb_invoice:'Invoice',
     // Page titles
     pgn_db:'Dashboard', pgn_hl:'Financial Health', pgn_cf:'Cash Flow',
     pgn_ag:'Receivables', pgn_cp:'Client Profitability', pgn_gls:'Financial Goals',
