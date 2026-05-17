@@ -31,21 +31,28 @@ Deno.serve(async (req) => {
   if (authErr || !user) return err(401, 'جلسة منتهية، سجّل دخولك مجدداً');
 
   // ── 2. Get tenant + check scan limit ────────────────────────────────
+  console.log('[claude-proxy] Looking up tenant for user:', user.id, user.email);
+
   // First try: user is the owner
-  let { data: tenant } = await sb
+  const ownerQuery = await sb
     .from('tenants')
-    .select('id, plan')
+    .select('id, plan, owner_id')
     .eq('owner_id', user.id)
     .maybeSingle();
 
+  console.log('[claude-proxy] Owner query result:', JSON.stringify(ownerQuery));
+  let tenant = ownerQuery.data;
+
   // Fallback: user is a member via tenant_users
   if (!tenant) {
-    const { data: membership } = await sb
+    const memberQuery = await sb
       .from('tenant_users')
       .select('tenant_id')
       .eq('user_id', user.id)
       .limit(1)
       .maybeSingle();
+    console.log('[claude-proxy] Member query result:', JSON.stringify(memberQuery));
+    const membership = memberQuery.data;
     if (membership) {
       const { data: t } = await sb
         .from('tenants')
@@ -53,10 +60,15 @@ Deno.serve(async (req) => {
         .eq('id', membership.tenant_id)
         .maybeSingle();
       tenant = t;
+      console.log('[claude-proxy] Tenant from membership:', JSON.stringify(t));
     }
   }
 
-  if (!tenant) return err(403, 'لم يُعثر على حسابك. أكمل إعداد الحساب أولاً.');
+  if (!tenant) {
+    console.error('[claude-proxy] NO TENANT FOUND for user:', user.id, 'email:', user.email);
+    return err(403, `لم يُعثر على حسابك (uid:${user.id.slice(0,8)}). تأكد من إكمال الإعداد.`);
+  }
+  console.log('[claude-proxy] Tenant found:', tenant.id, 'plan:', tenant.plan);
 
   const limit = SCAN_LIMITS[tenant.plan] ?? 5;
   const startOfMonth = new Date();
