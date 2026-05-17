@@ -738,16 +738,16 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         <div class="un" id="userName">مشروعك</div>
         <div class="uc-role" id="userRoleLbl" style="color:var(--g)">مدير ✓</div>
       </div>
-      <div style="font-size:11px;color:var(--t3)">تبديل</div>
+      <div style="font-size:11px;color:var(--t3)" data-i18n="btn_switch">تبديل</div>
     </div>
     <div style="margin-top:10px;display:flex;gap:8px">
       <a href="pricing.html" target="_blank" class="us-btn us-btn-upgrade">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span>ترقية</span>
+        <span data-i18n="btn_upgrade">ترقية</span>
       </a>
       <button id="signOutBtn" onclick="doSignOut()" class="us-btn us-btn-out">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span>خروج</span>
+        <span data-i18n="btn_signout">خروج</span>
       </button>
     </div>
   </div>
@@ -780,8 +780,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     </button>
 
     <!-- Language -->
-    <!-- EN toggle hidden until full translation pass is complete -->
-    <button id="lang-toggle" onclick="toggleLang()" class="hdr-icon" style="display:none;width:auto;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.6px">EN</button>
+    <button id="lang-toggle" onclick="toggleLang()" class="hdr-icon" style="width:auto;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.6px">EN</button>
 
     <!-- Vertical separator -->
     <div style="width:1px;height:24px;background:var(--b);margin:0 4px"></div>
@@ -838,8 +837,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       </div>
       <div>
         <div style="font-size:13px;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:6px" id="greetDate">—</div>
-        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2">أهلاً، <span id="greetName" style="background:linear-gradient(135deg,#9DC78A,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
-        <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px">دعنا نلقي نظرة سريعة على نشاطك المالي اليوم</div>
+        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2"><span data-i18n="db_hello">أهلاً،</span> <span id="greetName" style="background:linear-gradient(135deg,#9DC78A,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px" data-i18n="db_welcome">دعنا نلقي نظرة سريعة على نشاطك المالي اليوم</div>
       </div>
     </div>
 
@@ -850,7 +849,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       </div>
       <button onclick="go('ai',null)" style="background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(134,186,114,.4)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        استشر AI
+        <span data-i18n="consult_ai">استشر AI</span>
       </button>
     </div>
   </div>
@@ -863,7 +862,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="kc-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
       </div>
-      <div class="kl">الإيرادات — هذا الشهر</div>
+      <div class="kl" data-i18n="kpi_revenue">الإيرادات — هذا الشهر</div>
       <div class="kv G" id="kRevenue">0 ر.س</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
         <div class="kch up" id="kRevenueChange">—</div>
@@ -874,7 +873,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="kc-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
       </div>
-      <div class="kl">المصروفات</div>
+      <div class="kl" data-i18n="kpi_expense">المصروفات</div>
       <div class="kv R" id="kExpense">0 ر.س</div>
       <div class="kch dn">—</div>
     </div>
@@ -882,7 +881,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="kc-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
-      <div class="kl">الرصيد الصافي</div>
+      <div class="kl" data-i18n="kpi_net">الرصيد الصافي</div>
       <div class="kv B" id="kNet">0 ر.س</div>
       <div class="kch up">—</div>
     </div>
@@ -890,9 +889,9 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="kc-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
-      <div class="kl">السيولة المتاحة</div>
+      <div class="kl" data-i18n="kpi_liquidity">السيولة المتاحة</div>
       <div class="kv A" id="kLiq">0 ر.س</div>
-      <div class="kch">تكفي <span id="kDays">0</span> يوم</div>
+      <div class="kch"><span data-i18n="kpi_lasts">تكفي</span> <span id="kDays">0</span> <span data-i18n="kpi_days">يوم</span></div>
     </div>
   </div>
   <div class="g2">
@@ -2756,8 +2755,8 @@ function initApp(){
   safe('planLabel', () => {
     const pl = document.getElementById('greetPlan');
     if (pl && typeof Auth !== 'undefined') {
-      const planNames = { free:'الخطة التجريبية', starter:'باقة مبتدئ', pro:'باقة احترافي', business:'باقة أعمال' };
-      pl.textContent = planNames[Auth.tenant?.plan] || 'الخطة التجريبية';
+      const key = 'db_plan_' + (Auth.tenant?.plan || 'free');
+      pl.textContent = t(key);
     }
   });
   safe('sparkline', () => setTimeout(drawSparkline, 600));
@@ -2797,6 +2796,46 @@ const TRANSLATIONS = {
     pgn_zt:'فاتورة جديدة', pgn_products:'خدماتي ومنتجاتي', pgn_ai:'المستشار الذكي',
     pgn_coa:'أين أموالي؟', pgn_sub:'اشتراكي',
     pgn_profile:'إعدادات الحساب', pgn_usrs:'المستخدمون والصلاحيات',
+    pgn_admin:'لوحة الإدارة',
+
+    // Dashboard hero
+    db_hello:'أهلاً،', db_welcome:'دعنا نلقي نظرة سريعة على نشاطك المالي اليوم',
+    db_plan_free:'الخطة التجريبية', db_plan_starter:'باقة مبتدئ',
+    db_plan_pro:'باقة احترافي', db_plan_business:'باقة أعمال',
+    consult_ai:'استشر AI',
+
+    // Quick actions
+    qa_invoice:'إصدار فاتورة', qa_invoice_sub:'فاتورة ZATCA جديدة',
+    qa_scan:'مسح فاتورة', qa_scan_sub:'تصوير وتسجيل بالـ AI',
+    qa_pos:'نقطة البيع', qa_pos_sub:'بيع مباشر للعميل',
+    qa_vat:'تقرير الضريبة', qa_vat_sub:'إقرار VAT الربعي',
+    qa_expense:'تسجيل مصروف', qa_expense_sub:'أضف معاملة سريعة',
+    qa_ai:'استشر محسوب', qa_ai_sub:'سؤال للذكاء الاصطناعي',
+
+    // KPI cards
+    kpi_revenue:'الإيرادات — هذا الشهر',
+    kpi_expense:'المصروفات',
+    kpi_net:'الرصيد الصافي',
+    kpi_liquidity:'السيولة المتاحة',
+    kpi_lasts:'تكفي', kpi_days:'يوم',
+
+    // Common UI
+    btn_save:'حفظ', btn_cancel:'إلغاء', btn_delete:'حذف', btn_edit:'تعديل',
+    btn_add:'إضافة', btn_close:'إغلاق', btn_upgrade:'ترقية', btn_signout:'خروج',
+    btn_search:'ابحث...', btn_back:'رجوع', btn_next:'التالي', btn_apply:'تطبيق',
+    btn_refresh:'تحديث', btn_export:'تصدير', btn_download:'تنزيل',
+    btn_switch:'تبديل', btn_details:'تفاصيل ←', btn_view_all:'الكل ←',
+
+    // Status
+    status_paid:'مدفوع', status_pending:'معلّق', status_overdue:'متأخر',
+    status_active:'نشط', status_cancelled:'ملغي', status_failed:'فاشل',
+
+    // Roles
+    role_admin:'مدير', role_accountant:'محاسب',
+    role_cashier:'كاشير', role_viewer:'مشاهد',
+
+    // Sidebar bottom
+    sb_role_admin:'مدير · أعمال', sb_role_user:'مستخدم',
   },
   en: {
     // Nav sections
@@ -2824,13 +2863,52 @@ const TRANSLATIONS = {
     pgn_bg:'Budget', pgn_vat:'VAT Report', pgn_zakat:'Zakat Calculator',
     pgn_taxcal:'Tax Calendar', pgn_scan:'Scan Invoices', pgn_st:'Financial Statements',
     pgn_zt:'New Invoice', pgn_products:'Products & Services', pgn_ai:'AI Advisor',
+    pgn_coa:'Where is my money?', pgn_sub:'My Subscription',
     pgn_profile:'Account Settings', pgn_usrs:'Users & Permissions',
+    pgn_admin:'Admin Panel',
+
+    // Dashboard hero
+    db_hello:'Hello,', db_welcome:'Here\'s a quick look at your finances today',
+    db_plan_free:'Trial Plan', db_plan_starter:'Starter Plan',
+    db_plan_pro:'Pro Plan', db_plan_business:'Business Plan',
+    consult_ai:'Ask AI',
+
+    // Quick actions
+    qa_invoice:'New Invoice', qa_invoice_sub:'Create ZATCA invoice',
+    qa_scan:'Scan Invoice', qa_scan_sub:'Snap & extract with AI',
+    qa_pos:'Point of Sale', qa_pos_sub:'Sell directly',
+    qa_vat:'VAT Report', qa_vat_sub:'Quarterly VAT filing',
+    qa_expense:'Log Expense', qa_expense_sub:'Quick transaction',
+    qa_ai:'Ask Mahsoob', qa_ai_sub:'AI advisor question',
+
+    // KPI cards
+    kpi_revenue:'Revenue — This Month',
+    kpi_expense:'Expenses',
+    kpi_net:'Net Balance',
+    kpi_liquidity:'Available Cash',
+    kpi_lasts:'Lasts', kpi_days:'days',
+
+    // Common UI
+    btn_save:'Save', btn_cancel:'Cancel', btn_delete:'Delete', btn_edit:'Edit',
+    btn_add:'Add', btn_close:'Close', btn_upgrade:'Upgrade', btn_signout:'Sign Out',
+    btn_search:'Search...', btn_back:'Back', btn_next:'Next', btn_apply:'Apply',
+    btn_refresh:'Refresh', btn_export:'Export', btn_download:'Download',
+    btn_switch:'Switch', btn_details:'Details →', btn_view_all:'View all →',
+
+    // Status
+    status_paid:'Paid', status_pending:'Pending', status_overdue:'Overdue',
+    status_active:'Active', status_cancelled:'Cancelled', status_failed:'Failed',
+
+    // Roles
+    role_admin:'Admin', role_accountant:'Accountant',
+    role_cashier:'Cashier', role_viewer:'Viewer',
+
+    // Sidebar bottom
+    sb_role_admin:'Admin · Business', sb_role_user:'User',
   }
 };
 
-// Force Arabic until English translation is complete
-let currentLang = 'ar';
-localStorage.setItem('mahsoob_lang', 'ar');
+let currentLang = localStorage.getItem('mahsoob_lang') || 'ar';
 
 function t(key) {
   return (TRANSLATIONS[currentLang] || TRANSLATIONS.ar)[key]
@@ -2870,12 +2948,23 @@ function applyLang() {
   );
   if (activePg) document.getElementById('pt').textContent = t('pgn_' + activePg) || PGN[activePg];
 
-  // Dashboard greeting
+  // Dashboard greeting date
   const greetDate = document.getElementById('greetDate');
   if (greetDate) greetDate.textContent = new Date().toLocaleDateString(
     isEn ? 'en-US' : 'ar-SA-u-nu-latn',
     { weekday:'long', year:'numeric', month:'long', day:'numeric' }
   );
+
+  // Dashboard plan label
+  const pl = document.getElementById('greetPlan');
+  if (pl && typeof Auth !== 'undefined' && Auth?.tenant) {
+    pl.textContent = t('db_plan_' + (Auth.tenant.plan || 'free'));
+  }
+
+  // Re-render Quick Actions if dashboard is loaded
+  if (typeof renderQuickActions === 'function' && document.getElementById('quickActions')?.innerHTML) {
+    try { renderQuickActions((typeof getCurrentUser === 'function' ? getCurrentUser()?.role : null) || 'admin'); } catch(e) {}
+  }
 }
 
 function toggleLang() {
@@ -6902,27 +6991,27 @@ function renderQuickActions(role){
 
   const QUICK = [
     {
-      page:'zt', title:'إصدار فاتورة', sub:'فاتورة ZATCA جديدة',
+      page:'zt', title:t('qa_invoice'), sub:t('qa_invoice_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
     },
     {
-      page:'scan', title:'مسح فاتورة', sub:'تصوير وتسجيل بالـ AI',
+      page:'scan', title:t('qa_scan'), sub:t('qa_scan_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
     },
     {
-      page:'pos', title:'نقطة البيع', sub:'بيع مباشر للعميل',
+      page:'pos', title:t('qa_pos'), sub:t('qa_pos_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
     },
     {
-      page:'vat', title:'تقرير الضريبة', sub:'إقرار VAT الربعي',
+      page:'vat', title:t('qa_vat'), sub:t('qa_vat_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>`,
     },
     {
-      page:'tx', title:'تسجيل مصروف', sub:'أضف معاملة سريعة',
+      page:'tx', title:t('qa_expense'), sub:t('qa_expense_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
     },
     {
-      page:'ai', title:'استشر محسوب', sub:'سؤال للذكاء الاصطناعي',
+      page:'ai', title:t('qa_ai'), sub:t('qa_ai_sub'),
       svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg>`,
     },
   ];
