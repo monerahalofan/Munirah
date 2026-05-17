@@ -12,9 +12,7 @@ security definer
 stable
 as $$
   select auth.jwt() ->> 'email' in (
-    'monerahalofan@gmail.com',
-    'alothman.muaz@gmail.com',
-    'ma2007ad@gmail.com'
+    'monerahalofan@gmail.com'
   );
 $$;
 
