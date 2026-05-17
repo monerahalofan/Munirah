@@ -31,13 +31,32 @@ Deno.serve(async (req) => {
   if (authErr || !user) return err(401, 'جلسة منتهية، سجّل دخولك مجدداً');
 
   // ── 2. Get tenant + check scan limit ────────────────────────────────
-  const { data: tenant } = await sb
+  // First try: user is the owner
+  let { data: tenant } = await sb
     .from('tenants')
     .select('id, plan')
     .eq('owner_id', user.id)
     .maybeSingle();
 
-  if (!tenant) return err(403, 'لم يُعثر على حسابك');
+  // Fallback: user is a member via tenant_users
+  if (!tenant) {
+    const { data: membership } = await sb
+      .from('tenant_users')
+      .select('tenant_id')
+      .eq('user_id', user.id)
+      .limit(1)
+      .maybeSingle();
+    if (membership) {
+      const { data: t } = await sb
+        .from('tenants')
+        .select('id, plan')
+        .eq('id', membership.tenant_id)
+        .maybeSingle();
+      tenant = t;
+    }
+  }
+
+  if (!tenant) return err(403, 'لم يُعثر على حسابك. أكمل إعداد الحساب أولاً.');
 
   const limit = SCAN_LIMITS[tenant.plan] ?? 5;
   const startOfMonth = new Date();

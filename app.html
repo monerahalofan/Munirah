@@ -6388,7 +6388,7 @@ async function analyzeInvoice() {
     subEl.textContent = 'استخراج البائع، التاريخ، الضريبة، البنود';
 
     const { data: { session } } = await _sb.auth.getSession();
-    if (!session) { clearInterval(tick); showDemoExtraction(); return; }
+    if (!session) { clearInterval(tick); showScanError(); return; }
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 45000);
@@ -6409,7 +6409,7 @@ async function analyzeInvoice() {
     const data = await response.json();
     if (!response.ok) {
       toast({ type:'error', title:'فشل المسح', msg: data.error || 'حدث خطأ غير متوقع' });
-      showDemoExtraction(); return;
+      showScanError(); return;
     }
     const text = data.text;
 
@@ -6425,7 +6425,7 @@ async function analyzeInvoice() {
       showExtraction(invoiceData);
       toast({ type:'success', title:'تم!', msg:'استُخرجت بيانات الفاتورة بنجاح' });
     } else {
-      showDemoExtraction();
+      showScanError();
     }
 
   } catch (err) {
@@ -6436,7 +6436,7 @@ async function analyzeInvoice() {
     } else {
       toast({ type:'error', title:'فشل المسح', msg: err.message || 'حاول مجدداً' });
     }
-    showDemoExtraction();
+    showScanError();
   }
 }
 
@@ -6454,6 +6454,13 @@ function ensureProgressBar() {
   overlay.appendChild(wrap);
   return bar;
 }
+
+function showScanError() {
+  document.getElementById('scanOverlay').style.display = 'none';
+  document.getElementById('analyzeBtn').disabled = false;
+  // User stays on Step 2 so they can retry or pick another file
+}
+
 function showExtraction(data) {
   document.getElementById('scanOverlay').style.display = 'none';
   document.getElementById('scanStep2').style.display = 'none';
