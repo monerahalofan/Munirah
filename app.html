@@ -6264,8 +6264,9 @@ function handleFile(input) {
   const file = input.files[0];
   if (file) processFile(file);
 }
-// Track current file type (PDF vs image)
+// Track current file type (PDF vs image) and pre-compressed version
 let _currentFileType = 'image';
+let _preCompressedBase64 = null;  // Compressed image ready for upload
 
 function processFile(file) {
   if (!file) return;
@@ -6278,10 +6279,18 @@ function processFile(file) {
 
   const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
   _currentFileType = isPdf ? 'pdf' : 'image';
+  _preCompressedBase64 = null;  // Reset
 
   const reader = new FileReader();
   reader.onload = (e) => {
     currentImg = e.target.result;
+
+    // Pre-compress in background while user previews — analyze will be instant
+    if (!isPdf) {
+      compressImage(currentImg, 700, 0.6).then(compressed => {
+        _preCompressedBase64 = compressed.split(',')[1];
+      }).catch(()=>{});
+    }
 
     if (isPdf) {
       // For PDFs: show PDF preview placeholder with filename
@@ -6360,16 +6369,18 @@ async function analyzeInvoice() {
 
     if (_currentFileType === 'pdf') {
       statusEl.textContent = 'يحضّر ملف PDF...';
-      subEl.textContent = 'إرسال للتحليل بالذكاء الاصطناعي';
+      subEl.textContent = 'إرسال للتحليل';
       base64 = currentImg.split(',')[1];
       mimeType = 'application/pdf';
     } else {
-      statusEl.textContent = 'يحسّن جودة الصورة...';
-      subEl.textContent = 'ضغط للسرعة بدون فقدان التفاصيل';
-
-      // Smaller maxWidth + lower quality = much faster upload
-      const compressed = await compressImage(currentImg, 900, 0.72);
-      base64 = compressed.split(',')[1];
+      // Use pre-compressed if available (compressed in background while preview)
+      if (_preCompressedBase64) {
+        base64 = _preCompressedBase64;
+      } else {
+        statusEl.textContent = 'يحضّر الصورة...';
+        const compressed = await compressImage(currentImg, 700, 0.6);
+        base64 = compressed.split(',')[1];
+      }
       mimeType = 'image/jpeg';
     }
 

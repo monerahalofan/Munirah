@@ -74,19 +74,7 @@ Deno.serve(async (req) => {
         },
         {
           type: 'text',
-          text: `استخرج بيانات هذه الفاتورة وأرجع JSON فقط بدون أي نص آخر:
-{
-  "seller": "اسم البائع/المورد",
-  "buyer": "اسم المشتري",
-  "invoice_number": "رقم الفاتورة",
-  "date": "التاريخ بصيغة YYYY-MM-DD",
-  "subtotal": رقم قبل الضريبة,
-  "vat_amount": رقم الضريبة,
-  "total": رقم الإجمالي,
-  "vat_number": "الرقم الضريبي إن وجد",
-  "items": [{"name": "اسم البند", "qty": 1, "price": 0, "total": 0}],
-  "currency": "SAR"
-}`,
+          text: `JSON فقط:{"seller":"","buyer":"","invoice_number":"","date":"YYYY-MM-DD","subtotal":0,"vat_amount":0,"total":0,"vat_number":"","items":[{"name":"","qty":1,"price":0,"total":0}],"currency":"SAR"}`,
         },
       ],
     }];
@@ -111,7 +99,7 @@ Deno.serve(async (req) => {
     },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: mode === 'scan' ? 1000 : 800,
+      max_tokens: mode === 'scan' ? 600 : 800,
       ...(system ? { system } : {}),
       messages: claudeMessages,
     }),
