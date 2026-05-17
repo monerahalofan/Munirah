@@ -723,6 +723,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
+    <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -2554,6 +2555,55 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 </div>
 
+<!-- ADMIN PANEL (admins only) -->
+<div class="pg" id="pg-admin">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">لوحة الإدارة</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">إحصائيات الموقع وإدارة الاشتراكات</div>
+    </div>
+    <button onclick="adminLoad()" style="padding:8px 16px;background:#fff;border:1px solid var(--b);border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      تحديث
+    </button>
+  </div>
+
+  <!-- Stats grid -->
+  <div id="adminStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px"></div>
+
+  <!-- Grant subscription card -->
+  <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div style="font-size:15px;font-weight:800;color:#000">منح اشتراك مفتوح</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input class="fi" id="adminEmail" placeholder="إيميل المستخدم" style="flex:1;min-width:220px;direction:ltr;text-align:left">
+      <select class="fi" id="adminPlan" style="width:140px">
+        <option value="business">Business (دائم)</option>
+        <option value="pro">Pro (دائم)</option>
+        <option value="starter">Starter (دائم)</option>
+        <option value="free">Free (إلغاء)</option>
+      </select>
+      <button class="btn bp" onclick="adminGrant()">تطبيق</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:10px">💡 لازم المستخدم يكون مسجّل دخوله مرة واحدة على الأقل</div>
+  </div>
+
+  <!-- Users table -->
+  <div style="background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div style="font-size:15px;font-weight:800;color:#000">المستخدمون (<span id="adminUserCount">0</span>)</div>
+      <input class="fi" id="adminSearch" placeholder="ابحث بالإيميل أو الاسم..." oninput="adminRenderUsers()" style="width:240px">
+    </div>
+    <div id="adminUsersList" style="max-height:600px;overflow-y:auto">
+      <div style="padding:40px;text-align:center;color:var(--t3)">جاري التحميل...</div>
+    </div>
+  </div>
+</div>
+
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
   <div class="g3" style="margin-bottom:16px">
@@ -2828,7 +2878,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة'};
 // ═══════════ TOAST SYSTEM ═══════════
 window.toast = function(opts) {
   if (typeof opts === 'string') opts = { msg: opts, type: 'info' };
@@ -2906,6 +2956,145 @@ function go(id,el){
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'coa') coaLoad();
   if (id === 'sub') subLoad();
+  if (id === 'admin') adminLoad();
+}
+
+// ═══════════ ADMIN PANEL ═══════════
+const ADMIN_EMAILS = ['monerahalofan@gmail.com', 'alothman.muaz@gmail.com', 'ma2007ad@gmail.com'];
+let _adminUsers = [];
+
+function isAdmin() {
+  const email = Auth?.session?.user?.email;
+  return email && ADMIN_EMAILS.includes(email);
+}
+
+// Show/hide admin nav based on email
+function checkAdminVisibility() {
+  const navEl = document.getElementById('navAdmin');
+  if (navEl) navEl.style.display = isAdmin() ? 'flex' : 'none';
+}
+window.addEventListener('load', () => setTimeout(checkAdminVisibility, 1500));
+
+async function adminLoad() {
+  if (!isAdmin()) {
+    toast({ type:'error', msg:'لا تملك صلاحية الإدارة' });
+    return;
+  }
+
+  // Stats
+  try {
+    const { data: stats } = await _sb.rpc('admin_stats');
+    if (stats) renderAdminStats(stats);
+  } catch (e) {
+    console.error('admin_stats failed:', e);
+    document.getElementById('adminStats').innerHTML = `<div style="grid-column:1/-1;padding:20px;text-align:center;color:#dc2626">شغّل migration: sql/admin_panel.sql في Supabase</div>`;
+  }
+
+  // Users
+  try {
+    const { data: users, error } = await _sb.rpc('admin_list_users');
+    if (error) throw error;
+    _adminUsers = users || [];
+    document.getElementById('adminUserCount').textContent = _adminUsers.length;
+    adminRenderUsers();
+  } catch (e) {
+    console.error('admin_list_users failed:', e);
+    document.getElementById('adminUsersList').innerHTML = `<div style="padding:30px;text-align:center;color:#dc2626">${e.message}</div>`;
+  }
+}
+
+function renderAdminStats(s) {
+  const el = document.getElementById('adminStats');
+  if (!el) return;
+  const cards = [
+    { label:'إجمالي المستخدمين', value:s.total_users, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', color:'#2C5559' },
+    { label:'جدد اليوم', value:s.new_today, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>', color:'#86BA72' },
+    { label:'جدد هذا الأسبوع', value:s.new_week, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', color:'#86BA72' },
+    { label:'نشطون اليوم', value:s.active_today, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', color:'#a8854a' },
+    { label:'مدفوع', value:s.paying, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', color:'#86BA72' },
+    { label:'تجربة فعّالة', value:s.trial_active, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>', color:'#a8854a' },
+    { label:'انتهت التجربة', value:s.trial_expired, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>', color:'#c93545' },
+    { label:'الإيراد الشهري (MRR)', value:s.mrr + ' ر.س', icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', color:'#86BA72' },
+  ];
+  el.innerHTML = cards.map(c => `
+    <div style="background:#fff;border:1px solid var(--b);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px">
+      <div style="width:38px;height:38px;border-radius:10px;background:${c.color}1A;color:${c.color};display:flex;align-items:center;justify-content:center;flex-shrink:0">${c.icon}</div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600">${c.label}</div>
+        <div style="font-size:20px;font-weight:900;color:#000;line-height:1.2;direction:ltr;text-align:right">${c.value}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function adminRenderUsers() {
+  const q = (document.getElementById('adminSearch')?.value || '').toLowerCase();
+  const list = document.getElementById('adminUsersList');
+  const filtered = _adminUsers.filter(u =>
+    !q || (u.email || '').toLowerCase().includes(q) || (u.tenant_name || '').toLowerCase().includes(q)
+  );
+  if (!filtered.length) {
+    list.innerHTML = `<div style="padding:30px;text-align:center;color:var(--t3)">لا توجد نتائج</div>`;
+    return;
+  }
+  const statusColor = { paid_active:'#86BA72', trial_active:'#a8854a', trial_expired:'#c93545', no_tenant:'#94a3b8', inactive:'#94a3b8' };
+  const statusLabel = { paid_active:'مدفوع', trial_active:'تجربة', trial_expired:'منتهٍ', no_tenant:'لم يكمل', inactive:'متوقف' };
+  const planBadge = { free:'تجريبي', starter:'مبتدئ', pro:'احترافي', business:'أعمال' };
+  list.innerHTML = filtered.map(u => {
+    const sc = statusColor[u.status] || '#94a3b8';
+    const sl = statusLabel[u.status] || u.status;
+    const signed = u.signed_up_at ? new Date(u.signed_up_at).toLocaleDateString('ar-SA-u-nu-latn') : '—';
+    const lastSeen = u.last_seen_at ? new Date(u.last_seen_at).toLocaleDateString('ar-SA-u-nu-latn') : (u.last_sign_in_at ? new Date(u.last_sign_in_at).toLocaleDateString('ar-SA-u-nu-latn') : '—');
+    return `
+      <div style="padding:14px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:.15s" onmouseover="this.style.background='rgba(134,186,114,.03)'" onmouseout="this.style.background='transparent'">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${(u.email || '?').charAt(0).toUpperCase()}</div>
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:13px;font-weight:700;color:#000">${u.tenant_name || '—'}</div>
+          <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${u.email}</div>
+        </div>
+        <div style="font-size:11px;color:var(--t3);min-width:90px">
+          <div>سجّل: ${signed}</div>
+          <div>آخر دخول: ${lastSeen}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+          <span style="background:${sc}1A;color:${sc};font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${sl}</span>
+          ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#2C5559;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
+          <button onclick="adminQuickGrant('${u.email}','free')" title="إلغاء" style="padding:6px 10px;background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">إلغاء</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function adminGrant() {
+  const email = document.getElementById('adminEmail').value.trim();
+  const plan  = document.getElementById('adminPlan').value;
+  if (!email) { toast({type:'warn',msg:'أدخل الإيميل'}); return; }
+  await _doAdminGrant(email, plan);
+}
+
+async function adminQuickGrant(email, plan) {
+  if (!confirm(`تطبيق "${plan}" للحساب: ${email}؟`)) return;
+  await _doAdminGrant(email, plan);
+}
+
+async function _doAdminGrant(email, plan) {
+  try {
+    const { data, error } = await _sb.rpc('admin_set_plan', {
+      target_email: email,
+      new_plan: plan,
+      lifetime: true,
+    });
+    if (error) throw error;
+    toast({ type:'success', title:'تم!', msg: data || 'تم تحديث الباقة' });
+    document.getElementById('adminEmail').value = '';
+    setTimeout(adminLoad, 500);
+  } catch (e) {
+    toast({ type:'error', title:'فشل', msg: e.message });
+  }
 }
 function bnavGo(id) {
   // Find the matching sidebar nav item to also activate it
