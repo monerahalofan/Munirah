@@ -780,7 +780,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     </button>
 
     <!-- Language -->
-    <button id="lang-toggle" onclick="toggleLang()" class="hdr-icon" style="width:auto;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.6px">EN</button>
+    <!-- EN toggle hidden until full translation pass is complete -->
+    <button id="lang-toggle" onclick="toggleLang()" class="hdr-icon" style="display:none;width:auto;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.6px">EN</button>
 
     <!-- Vertical separator -->
     <div style="width:1px;height:24px;background:var(--b);margin:0 4px"></div>
@@ -2827,7 +2828,9 @@ const TRANSLATIONS = {
   }
 };
 
-let currentLang = localStorage.getItem('mahsoob_lang') || 'ar';
+// Force Arabic until English translation is complete
+let currentLang = 'ar';
+localStorage.setItem('mahsoob_lang', 'ar');
 
 function t(key) {
   return (TRANSLATIONS[currentLang] || TRANSLATIONS.ar)[key]
