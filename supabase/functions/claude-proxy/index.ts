@@ -60,13 +60,17 @@ Deno.serve(async (req) => {
   let claudeMessages: object[];
 
   if (mode === 'scan' && image_base64) {
-    // Invoice scan — vision request
+    // Detect PDF vs image — Claude supports both natively
+    const isPdf = image_mime === 'application/pdf';
+    const source = isPdf
+      ? { type: 'base64', media_type: 'application/pdf', data: image_base64 }
+      : { type: 'base64', media_type: image_mime, data: image_base64 };
     claudeMessages = [{
       role: 'user',
       content: [
         {
-          type: 'image',
-          source: { type: 'base64', media_type: image_mime, data: image_base64 },
+          type: isPdf ? 'document' : 'image',
+          source,
         },
         {
           type: 'text',

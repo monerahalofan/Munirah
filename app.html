@@ -6264,11 +6264,54 @@ function handleFile(input) {
   const file = input.files[0];
   if (file) processFile(file);
 }
+// Track current file type (PDF vs image)
+let _currentFileType = 'image';
+
 function processFile(file) {
+  if (!file) return;
+
+  // File size check (max 10MB for both PDF and images)
+  if (file.size > 10 * 1024 * 1024) {
+    toast({ type:'error', title:'حجم كبير', msg:'الحد الأقصى 10 ميجابايت' });
+    return;
+  }
+
+  const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  _currentFileType = isPdf ? 'pdf' : 'image';
+
   const reader = new FileReader();
   reader.onload = (e) => {
     currentImg = e.target.result;
-    document.getElementById('previewImg').src = currentImg;
+
+    if (isPdf) {
+      // For PDFs: show PDF preview placeholder with filename
+      const previewImg = document.getElementById('previewImg');
+      previewImg.style.display = 'none';
+      let pdfPreview = document.getElementById('pdfPreview');
+      if (!pdfPreview) {
+        pdfPreview = document.createElement('div');
+        pdfPreview.id = 'pdfPreview';
+        pdfPreview.style.cssText = 'background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(134,186,114,.02));border:1px solid rgba(134,186,114,.25);border-radius:14px;padding:40px 20px;text-align:center;color:#2C5559';
+        previewImg.parentNode.insertBefore(pdfPreview, previewImg);
+      }
+      const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+      pdfPreview.innerHTML = `
+        <div style="width:72px;height:72px;border-radius:16px;background:#fff;color:#c93545;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 4px 12px rgba(44,85,89,.08)">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:6px">${file.name}</div>
+        <div style="font-size:12px;color:var(--t3)">PDF · ${sizeMB} MB</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:8px">جاهز للتحليل بالذكاء الاصطناعي</div>
+      `;
+      pdfPreview.style.display = 'block';
+    } else {
+      const previewImg = document.getElementById('previewImg');
+      previewImg.src = currentImg;
+      previewImg.style.display = 'block';
+      const pdfPreview = document.getElementById('pdfPreview');
+      if (pdfPreview) pdfPreview.style.display = 'none';
+    }
+
     document.getElementById('scanStep1').style.display = 'none';
     document.getElementById('scanStep2').style.display = 'block';
     document.getElementById('scanOverlay').style.display = 'none';
@@ -6276,6 +6319,8 @@ function processFile(file) {
   };
   reader.readAsDataURL(file);
 }
+
+// Optimized: faster compression with lower max width
 function compressImage(dataUrl, maxWidth, quality) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -6284,35 +6329,58 @@ function compressImage(dataUrl, maxWidth, quality) {
       const ratio = Math.min(1, maxWidth / img.width);
       canvas.width = img.width * ratio;
       canvas.height = img.height * ratio;
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const ctx = canvas.getContext('2d');
+      // Disable smoothing for faster compression of text-heavy invoices
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       resolve(canvas.toDataURL('image/jpeg', quality));
     };
     img.src = dataUrl;
   });
 }
+
 async function analyzeInvoice() {
   document.getElementById('scanOverlay').style.display = 'flex';
-  document.getElementById('scanStatus').textContent = 'يحلل الصورة...';
-  document.getElementById('scanSub').textContent = 'استخراج بيانات الفاتورة بالذكاء الاصطناعي';
+  const statusEl = document.getElementById('scanStatus');
+  const subEl    = document.getElementById('scanSub');
   document.getElementById('analyzeBtn').disabled = true;
 
+  // Progress simulation for better UX (perceived speed)
+  let progress = 0;
+  const progressBar = ensureProgressBar();
+  const tick = setInterval(() => {
+    if (progress < 88) {
+      progress += progress < 30 ? 6 : progress < 60 ? 3 : 1.5;
+      progressBar.style.width = progress + '%';
+    }
+  }, 180);
+
   try {
-    document.getElementById('scanStatus').textContent = 'يضغط الصورة...';
-    document.getElementById('scanSub').textContent = 'تحضير الفاتورة للتحليل';
+    let base64, mimeType;
 
-    // Compress image before sending to reduce payload size
-    const compressedBase64 = await compressImage(currentImg, 1200, 0.8);
-    const base64 = compressedBase64.split(',')[1];
-    const mimeType = 'image/jpeg';
+    if (_currentFileType === 'pdf') {
+      statusEl.textContent = 'يحضّر ملف PDF...';
+      subEl.textContent = 'إرسال للتحليل بالذكاء الاصطناعي';
+      base64 = currentImg.split(',')[1];
+      mimeType = 'application/pdf';
+    } else {
+      statusEl.textContent = 'يحسّن جودة الصورة...';
+      subEl.textContent = 'ضغط للسرعة بدون فقدان التفاصيل';
 
-    document.getElementById('scanStatus').textContent = 'يتصل بـ Claude AI...';
-    document.getElementById('scanSub').textContent = 'قراءة تفاصيل الفاتورة';
+      // Smaller maxWidth + lower quality = much faster upload
+      const compressed = await compressImage(currentImg, 900, 0.72);
+      base64 = compressed.split(',')[1];
+      mimeType = 'image/jpeg';
+    }
+
+    statusEl.textContent = 'يحلل الفاتورة بالذكاء الاصطناعي...';
+    subEl.textContent = 'استخراج البائع، التاريخ، الضريبة، البنود';
 
     const { data: { session } } = await _sb.auth.getSession();
-    if (!session) { showDemoExtraction(); return; }
+    if (!session) { clearInterval(tick); showDemoExtraction(); return; }
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000);
+    const timeout = setTimeout(() => controller.abort(), 45000);
 
     const response = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
       method: 'POST',
@@ -6324,10 +6392,12 @@ async function analyzeInvoice() {
       body: JSON.stringify({ mode: 'scan', image_base64: base64, image_mime: mimeType })
     });
     clearTimeout(timeout);
+    clearInterval(tick);
+    progressBar.style.width = '100%';
 
     const data = await response.json();
     if (!response.ok) {
-      alert(data.error || 'حدث خطأ في المسح');
+      toast({ type:'error', title:'فشل المسح', msg: data.error || 'حدث خطأ غير متوقع' });
       showDemoExtraction(); return;
     }
     const text = data.text;
@@ -6342,14 +6412,36 @@ async function analyzeInvoice() {
 
     if (invoiceData) {
       showExtraction(invoiceData);
+      toast({ type:'success', title:'تم!', msg:'استُخرجت بيانات الفاتورة بنجاح' });
     } else {
       showDemoExtraction();
     }
 
   } catch (err) {
+    clearInterval(tick);
     console.error(err);
+    if (err.name === 'AbortError') {
+      toast({ type:'error', title:'انتهت المهلة', msg:'الفاتورة استغرقت وقتاً طويلاً — جرّب ملف أصغر' });
+    } else {
+      toast({ type:'error', title:'فشل المسح', msg: err.message || 'حاول مجدداً' });
+    }
     showDemoExtraction();
   }
+}
+
+function ensureProgressBar() {
+  let bar = document.getElementById('scanProgressBar');
+  if (bar) { bar.style.width = '0%'; return bar; }
+  const overlay = document.getElementById('scanOverlay');
+  if (!overlay) return { style:{} };
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'width:80%;max-width:300px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:14px auto 0;overflow:hidden';
+  bar = document.createElement('div');
+  bar.id = 'scanProgressBar';
+  bar.style.cssText = 'width:0%;height:100%;background:linear-gradient(90deg,#86BA72,#9DC78A);transition:width .2s ease;border-radius:2px';
+  wrap.appendChild(bar);
+  overlay.appendChild(wrap);
+  return bar;
 }
 function showExtraction(data) {
   document.getElementById('scanOverlay').style.display = 'none';
