@@ -387,6 +387,11 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
   .role-box{padding:16px}
 }
 
+/* ═══════════ SAR Symbol (رمز الريال) ═══════════ */
+.sar-icon{display:inline-block;width:.9em;height:.9em;vertical-align:-.05em;margin-inline-start:3px;background-image:url('img/sar-symbol.svg');background-repeat:no-repeat;background-size:contain;background-position:center;flex-shrink:0;filter:none}
+/* Match heading colors */
+h1 .sar-icon,h2 .sar-icon,h3 .sar-icon,h4 .sar-icon{vertical-align:-.08em}
+
 /* ═══════════ TOAST NOTIFICATIONS ═══════════ */
 #toastWrap{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:90%}
 .toast{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 8px 32px rgba(44,85,89,.15);display:flex;align-items:center;gap:12px;min-width:280px;animation:toastIn .35s cubic-bezier(.18,.89,.32,1.28);font-family:'PingARLT','Tajawal',sans-serif;direction:rtl;pointer-events:auto;border:1px solid var(--b)}
@@ -2879,6 +2884,81 @@ function toggleLang() {
 
 // ── Navigation ─────────────────────────
 const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة'};
+// ═══════════ SAR Symbol auto-injector ═══════════
+// Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
+// Also observes DOM mutations to handle dynamically inserted content.
+(function() {
+  const SAR_PATTERN = /ر\.س(?!<)/g;
+  const SAR_PLACEHOLDER = 'ر.س ✨SAR✨';  // temporary token to avoid double-injection
+
+  function isSkippable(node) {
+    if (!node || !node.tagName) return false;
+    const tag = node.tagName.toUpperCase();
+    return ['SCRIPT','STYLE','TEXTAREA','INPUT','SELECT','OPTION','NOSCRIPT'].includes(tag)
+      || node.classList?.contains('sar-processed')
+      || node.closest?.('.sar-skip');
+  }
+
+  function injectSarIn(root) {
+    if (!root || isSkippable(root)) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(n) {
+        if (isSkippable(n.parentElement)) return NodeFilter.FILTER_REJECT;
+        return SAR_PATTERN.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const targets = [];
+    let node;
+    while ((node = walker.nextNode())) targets.push(node);
+
+    targets.forEach(text => {
+      const parent = text.parentNode;
+      if (!parent) return;
+      const parts = text.nodeValue.split(/(ر\.س)/g);
+      const frag = document.createDocumentFragment();
+      parts.forEach(part => {
+        if (part === 'ر.س') {
+          frag.appendChild(document.createTextNode('ر.س'));
+          const icon = document.createElement('span');
+          icon.className = 'sar-icon';
+          icon.setAttribute('aria-hidden', 'true');
+          frag.appendChild(icon);
+        } else if (part) {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      parent.replaceChild(frag, text);
+    });
+  }
+
+  // Run on initial load + after small delays for dynamic content
+  function runInitial() {
+    injectSarIn(document.body);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runInitial);
+  } else {
+    runInitial();
+  }
+  // Re-run on app boot completion
+  setTimeout(runInitial, 1500);
+  setTimeout(runInitial, 3000);
+
+  // Observe dynamic mutations (debounced)
+  let debounceTimer;
+  const observer = new MutationObserver(mutations => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      mutations.forEach(m => {
+        m.addedNodes.forEach(node => {
+          if (node.nodeType === 1) injectSarIn(node);
+        });
+      });
+    }, 150);
+  });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: false });
+})();
+
 // ═══════════ TOAST SYSTEM ═══════════
 window.toast = function(opts) {
   if (typeof opts === 'string') opts = { msg: opts, type: 'info' };

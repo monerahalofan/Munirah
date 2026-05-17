@@ -1,4 +1,4 @@
-const CACHE = 'mahsoob-v42';
+const CACHE = 'mahsoob-v43';
 
 const PRECACHE = [
   '/',
@@ -17,6 +17,7 @@ const PRECACHE = [
   '/js/geo-data.js',
   '/js/security.js',
   '/img/logo-icon.png',
+  '/img/sar-symbol.svg',
   '/img/logo-text.png',
   '/img/icon-192.png',
   '/img/icon-512.png',
