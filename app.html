@@ -388,9 +388,8 @@ body.dark .logo-text-img, body.dark img.logo-img { filter: invert(1); }
 }
 
 /* ═══════════ SAR Symbol (رمز الريال) ═══════════ */
-.sar-icon{display:inline-block;width:.9em;height:.9em;vertical-align:-.05em;margin-inline-start:3px;background-image:url('img/sar-symbol.svg');background-repeat:no-repeat;background-size:contain;background-position:center;flex-shrink:0;filter:none}
-/* Match heading colors */
-h1 .sar-icon,h2 .sar-icon,h3 .sar-icon,h4 .sar-icon{vertical-align:-.08em}
+.sar-icon{display:inline-block;width:.85em;height:.85em;vertical-align:-.08em;margin-inline-start:4px;margin-inline-end:2px;background-image:url('img/sar-symbol.svg');background-repeat:no-repeat;background-size:contain;background-position:center;flex-shrink:0}
+h1 .sar-icon,h2 .sar-icon{vertical-align:-.1em;width:.8em;height:.8em}
 
 /* ═══════════ TOAST NOTIFICATIONS ═══════════ */
 #toastWrap{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:90%}
@@ -2918,10 +2917,11 @@ const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حا�
       const frag = document.createDocumentFragment();
       parts.forEach(part => {
         if (part === 'ر.س') {
-          frag.appendChild(document.createTextNode('ر.س'));
+          // Replace 'ر.س' with the official Saudi Riyal symbol
           const icon = document.createElement('span');
           icon.className = 'sar-icon';
-          icon.setAttribute('aria-hidden', 'true');
+          icon.setAttribute('aria-label', 'ريال سعودي');
+          icon.setAttribute('role', 'img');
           frag.appendChild(icon);
         } else if (part) {
           frag.appendChild(document.createTextNode(part));
