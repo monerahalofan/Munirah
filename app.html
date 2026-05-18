@@ -556,8 +556,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <!-- NOTIFICATIONS PANEL -->
 <div id="notifPanel" style="display:none;position:fixed;top:60px;left:14px;width:360px;max-width:calc(100% - 28px);max-height:70vh;background:var(--bg2);border:1px solid var(--b);border-radius:14px;box-shadow:0 12px 40px rgba(44,85,89,.18);z-index:120;overflow:hidden;flex-direction:column;animation:notifIn .25s cubic-bezier(.18,.89,.32,1.28)">
   <div style="padding:14px 18px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
-    <div style="font-weight:800;font-size:15px">الإشعارات</div>
-    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#86BA72;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600">قراءة الكل</button>
+    <div style="font-weight:800;font-size:15px" data-i18n="notif_title">الإشعارات</div>
+    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#86BA72;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600" data-i18n="notif_mark_all">قراءة الكل</button>
   </div>
   <div id="notifList" style="flex:1;overflow-y:auto;max-height:60vh">
     <div style="padding:40px 20px;text-align:center;color:var(--t3);font-size:13px">جاري التحميل...</div>
@@ -1978,15 +1978,15 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <!-- Header tabs -->
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
     <div style="display:inline-flex;background:#fff;border:1px solid var(--b);border-radius:11px;padding:4px">
-      <button class="tc-tab on" data-view="month">شهر</button>
-      <button class="tc-tab" data-view="quarter">ربع سنة</button>
-      <button class="tc-tab" data-view="year">سنة</button>
+      <button class="tc-tab on" data-view="month" data-i18n="tc_view_month">شهر</button>
+      <button class="tc-tab" data-view="quarter" data-i18n="tc_view_quarter">ربع سنة</button>
+      <button class="tc-tab" data-view="year" data-i18n="tc_view_year">سنة</button>
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <button class="tc-nav" onclick="taxCalNav(-1)" aria-label="السابق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div style="font-size:16px;font-weight:800;color:#000;min-width:160px;text-align:center" id="tcMonthLabel">—</div>
       <button class="tc-nav" onclick="taxCalNav(1)" aria-label="التالي"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">اليوم</button>
+      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" data-i18n="tc_today">اليوم</button>
     </div>
   </div>
 
@@ -2020,7 +2020,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <!-- Events panel -->
     <div style="background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(44,85,89,.04)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <div style="font-size:16px;font-weight:800;color:#000">المواعيد الضريبية</div>
+        <div style="font-size:16px;font-weight:800;color:#000" data-i18n="tc_events">المواعيد الضريبية</div>
         <select id="tcFilter" onchange="renderTaxEvents()" style="background:transparent;border:1px solid var(--b);border-radius:8px;font-family:inherit;font-size:12px;padding:5px 10px;color:var(--t)">
           <option value="all">الكل</option>
           <option value="urgent">عاجل</option>
@@ -2477,8 +2477,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div class="pg" id="pg-coa">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:10px">
     <div>
-      <div style="font-size:20px;font-weight:900;margin-bottom:4px">أين أموالي؟</div>
-      <div style="font-size:13px;color:var(--t3)">نظرة سريعة على كل ما تملكه وما عليك من أموال</div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:4px" data-i18n="coa_title">أين أموالي؟</div>
+      <div style="font-size:13px;color:var(--t3)" data-i18n="coa_subtitle">نظرة سريعة على كل ما تملكه وما عليك من أموال</div>
     </div>
     <div style="display:flex;gap:8px">
       <button onclick="coaToggleAdvanced()" style="padding:9px 14px;background:transparent;color:var(--t2);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer" id="coaAdvBtn">عرض محاسبي ⚙</button>
@@ -2541,8 +2541,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <!-- SUBSCRIPTION PAGE -->
 <div class="pg" id="pg-sub">
   <div style="margin-bottom:18px">
-    <div style="font-size:20px;font-weight:900;margin-bottom:4px">اشتراكي</div>
-    <div style="font-size:13px;color:var(--t3)">حالة باقتك، تاريخ التجديد، والفواتير</div>
+    <div style="font-size:20px;font-weight:900;margin-bottom:4px" data-i18n="sub_title">اشتراكي</div>
+    <div style="font-size:13px;color:var(--t3)" data-i18n="sub_subtitle">حالة باقتك، تاريخ التجديد، والفواتير</div>
   </div>
 
   <!-- Current plan card -->
@@ -2563,8 +2563,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div class="pg" id="pg-admin">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">لوحة الإدارة</div>
-      <div style="font-size:12px;color:var(--t3);margin-top:4px">إحصائيات الموقع وإدارة الاشتراكات</div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px" data-i18n="adm_title">لوحة الإدارة</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px" data-i18n="adm_subtitle">إحصائيات الموقع وإدارة الاشتراكات</div>
     </div>
     <button onclick="adminLoad()" style="padding:8px 16px;background:#fff;border:1px solid var(--b);border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
@@ -2836,6 +2836,77 @@ const TRANSLATIONS = {
 
     // Sidebar bottom
     sb_role_admin:'مدير · أعمال', sb_role_user:'مستخدم',
+
+    // Common form labels
+    fl_name:'الاسم', fl_email:'البريد الإلكتروني', fl_phone:'الهاتف',
+    fl_amount:'المبلغ', fl_date:'التاريخ', fl_notes:'ملاحظات',
+    fl_description:'الوصف', fl_category:'التصنيف', fl_type:'النوع',
+    fl_price:'السعر', fl_quantity:'الكمية', fl_total:'الإجمالي',
+    fl_vat:'ضريبة', fl_subtotal:'قبل الضريبة', fl_unit:'الوحدة',
+    fl_required:'مطلوب', fl_optional:'اختياري',
+
+    // Common phrases
+    ph_loading:'جاري التحميل...', ph_no_data:'لا توجد بيانات',
+    ph_no_results:'لا توجد نتائج', ph_search:'ابحث...',
+    ph_empty_clients:'لم تُضف أي عميل بعد',
+    ph_empty_goals:'حدّد هدفاً مالياً لتتبّع تقدّمك',
+    ph_empty_products:'ابدأ بإضافة منتجاتك وخدماتك',
+    ph_empty_alerts:'لا توجد تنبيهات حالياً',
+    ph_empty_payments:'لا توجد دفعات حتى الآن',
+    ph_empty_notifs:'لا توجد إشعارات',
+    ph_failed_load:'فشل التحميل',
+    ph_try_again:'حاول مجدداً',
+
+    // Toast titles
+    toast_success:'تم بنجاح', toast_error:'فشل', toast_warn:'تنبيه', toast_info:'معلومة',
+
+    // Account / Profile
+    acc_title:'إعدادات الحساب', acc_avatar:'الصورة الشخصية',
+    acc_brand_logo:'شعار النشاط التجاري', acc_change_photo:'تغيير الصورة',
+    acc_remove_photo:'حذف الصورة',
+    acc_personal:'المعلومات الشخصية', acc_business:'معلومات النشاط',
+    acc_currency:'العملة', acc_language:'اللغة',
+    acc_vat_num:'الرقم الضريبي', acc_cr_num:'رقم السجل التجاري',
+    acc_country:'الدولة', acc_city:'المدينة', acc_region:'المنطقة',
+    acc_district:'الحي', acc_address:'العنوان',
+
+    // Subscription page
+    sub_title:'اشتراكي', sub_subtitle:'حالة باقتك، تاريخ التجديد، والفواتير',
+    sub_current_plan:'الباقة الحالية', sub_price:'السعر',
+    sub_per_month:'ر.س / شهر', sub_renews_in:'يتجدد في',
+    sub_days_left:'متبقي', sub_change_plan:'تغيير الباقة',
+    sub_upgrade:'ترقية الباقة ←', sub_cancel:'إلغاء الاشتراك',
+    sub_payments_log:'سجل الفواتير', sub_no_payments:'لا توجد دفعات حتى الآن',
+    sub_amount:'المبلغ', sub_status:'الحالة', sub_invoice:'الفاتورة',
+
+    // Chart of Accounts / 'Where is my money?'
+    coa_title:'أين أموالي؟', coa_subtitle:'نظرة سريعة على كل ما تملكه وما عليك',
+    coa_assets:'ما أملكه', coa_liabilities:'ما عليّ',
+    coa_revenue:'يدخل لي', coa_expense:'يخرج مني',
+    coa_new_category:'تصنيف جديد', coa_movement:'الحركة',
+    coa_advanced:'عرض محاسبي', coa_simple:'عرض مبسّط',
+
+    // Admin panel
+    adm_title:'لوحة الإدارة', adm_subtitle:'إحصائيات الموقع وإدارة الاشتراكات',
+    adm_total_users:'إجمالي المستخدمين', adm_new_today:'جدد اليوم',
+    adm_new_week:'جدد هذا الأسبوع', adm_active_today:'نشطون اليوم',
+    adm_paying:'مدفوع', adm_trial_active:'تجربة فعّالة',
+    adm_trial_expired:'انتهت التجربة', adm_mrr:'الإيراد الشهري (MRR)',
+    adm_grant:'منح اشتراك مفتوح', adm_user_email:'إيميل المستخدم',
+    adm_users:'المستخدمون', adm_search_users:'ابحث بالإيميل أو الاسم...',
+
+    // Tax Calendar
+    tc_view_month:'شهر', tc_view_quarter:'ربع سنة', tc_view_year:'سنة',
+    tc_today:'اليوم', tc_events:'المواعيد الضريبية',
+    tc_filter_all:'الكل', tc_filter_urgent:'عاجل',
+    tc_filter_soon:'قريب', tc_filter_paid:'مسدّد', tc_filter_later:'لاحق',
+    tc_legend_urgent:'عاجل', tc_legend_soon:'قريب',
+    tc_legend_paid:'مُسدّد', tc_legend_later:'لاحق',
+    tc_tips_title:'نصائح لإدارة الضرائب',
+
+    // Notification panel
+    notif_title:'الإشعارات', notif_mark_all:'قراءة الكل',
+    notif_empty:'لا توجد إشعارات', notif_empty_sub:'سنخبرك بكل ما يحتاج انتباهك',
   },
   en: {
     // Nav sections
@@ -2905,6 +2976,77 @@ const TRANSLATIONS = {
 
     // Sidebar bottom
     sb_role_admin:'Admin · Business', sb_role_user:'User',
+
+    // Common form labels
+    fl_name:'Name', fl_email:'Email', fl_phone:'Phone',
+    fl_amount:'Amount', fl_date:'Date', fl_notes:'Notes',
+    fl_description:'Description', fl_category:'Category', fl_type:'Type',
+    fl_price:'Price', fl_quantity:'Quantity', fl_total:'Total',
+    fl_vat:'VAT', fl_subtotal:'Subtotal', fl_unit:'Unit',
+    fl_required:'Required', fl_optional:'Optional',
+
+    // Common phrases
+    ph_loading:'Loading...', ph_no_data:'No data',
+    ph_no_results:'No results', ph_search:'Search...',
+    ph_empty_clients:'No clients yet',
+    ph_empty_goals:'Set a financial goal to track progress',
+    ph_empty_products:'Start adding your products & services',
+    ph_empty_alerts:'No alerts',
+    ph_empty_payments:'No payments yet',
+    ph_empty_notifs:'No notifications',
+    ph_failed_load:'Failed to load',
+    ph_try_again:'Try again',
+
+    // Toast titles
+    toast_success:'Success', toast_error:'Failed', toast_warn:'Warning', toast_info:'Info',
+
+    // Account / Profile
+    acc_title:'Account Settings', acc_avatar:'Profile photo',
+    acc_brand_logo:'Business Logo', acc_change_photo:'Change photo',
+    acc_remove_photo:'Remove photo',
+    acc_personal:'Personal info', acc_business:'Business info',
+    acc_currency:'Currency', acc_language:'Language',
+    acc_vat_num:'VAT Number', acc_cr_num:'CR Number',
+    acc_country:'Country', acc_city:'City', acc_region:'Region',
+    acc_district:'District', acc_address:'Address',
+
+    // Subscription page
+    sub_title:'My Subscription', sub_subtitle:'Plan status, renewal, and invoices',
+    sub_current_plan:'Current Plan', sub_price:'Price',
+    sub_per_month:'SAR / month', sub_renews_in:'Renews on',
+    sub_days_left:'days left', sub_change_plan:'Change Plan',
+    sub_upgrade:'Upgrade →', sub_cancel:'Cancel subscription',
+    sub_payments_log:'Payment History', sub_no_payments:'No payments yet',
+    sub_amount:'Amount', sub_status:'Status', sub_invoice:'Invoice',
+
+    // Chart of Accounts / 'Where is my money?'
+    coa_title:'Where is my money?', coa_subtitle:'Quick view of what you own and owe',
+    coa_assets:'What I own', coa_liabilities:'What I owe',
+    coa_revenue:'Coming in', coa_expense:'Going out',
+    coa_new_category:'New Category', coa_movement:'Movement',
+    coa_advanced:'Accounting view', coa_simple:'Simple view',
+
+    // Admin panel
+    adm_title:'Admin Panel', adm_subtitle:'Site stats and subscription management',
+    adm_total_users:'Total Users', adm_new_today:'New today',
+    adm_new_week:'New this week', adm_active_today:'Active today',
+    adm_paying:'Paying', adm_trial_active:'Trial Active',
+    adm_trial_expired:'Trial Expired', adm_mrr:'Monthly Recurring Revenue',
+    adm_grant:'Grant free subscription', adm_user_email:'User email',
+    adm_users:'Users', adm_search_users:'Search by email or name...',
+
+    // Tax Calendar
+    tc_view_month:'Month', tc_view_quarter:'Quarter', tc_view_year:'Year',
+    tc_today:'Today', tc_events:'Tax Deadlines',
+    tc_filter_all:'All', tc_filter_urgent:'Urgent',
+    tc_filter_soon:'Soon', tc_filter_paid:'Paid', tc_filter_later:'Later',
+    tc_legend_urgent:'Urgent', tc_legend_soon:'Soon',
+    tc_legend_paid:'Paid', tc_legend_later:'Later',
+    tc_tips_title:'Tax Management Tips',
+
+    // Notification panel
+    notif_title:'Notifications', notif_mark_all:'Mark all read',
+    notif_empty:'No notifications', notif_empty_sub:'We\'ll let you know what needs attention',
   }
 };
 
