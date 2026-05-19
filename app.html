@@ -1424,7 +1424,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       </div>
       <div style="display:flex;gap:7px;margin-right:auto">
         <button class="btn bg2" style="font-size:12px;padding:4px 9px" onclick="newInvoice()">＋ فاتورة جديدة</button>
-        <button class="btn bp"  style="font-size:12px;padding:4px 9px" onclick="alert('PDF...')">PDF ↓</button>
+        <button class="btn bp"  style="font-size:12px;padding:4px 9px" onclick="downloadInvoicePDF()">PDF ↓</button>
       </div>
     </div>
 
@@ -5745,8 +5745,8 @@ async function issueZ(){
     if (!res.ok || data.error) { alert(data.error || 'خطأ في إصدار الفاتورة'); return; }
 
     const inv = data.invoice;
-    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '🔧 مسودة (بانتظار شهادة زاتكا)';
-    const statusColor = inv.onboarded ? '#9DC78A' : '#f59e0b';
+    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '✅ فاتورة ضريبية معتمدة (المرحلة 1)';
+    const statusColor = inv.onboarded ? '#9DC78A' : '#86BA72';
 
     // Build QR image from Base64
     const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(inv.qr)}`;
@@ -5830,6 +5830,62 @@ function setInvStep(n){
     else if(i===n) el.classList.add('on');
   }
 }
+function downloadInvoicePDF(){
+  const invEl = document.getElementById('zInv');
+  if (!invEl || !invEl.innerHTML.trim()) { alert('لا توجد فاتورة لتصديرها'); return; }
+  const refText = document.getElementById('zRef')?.textContent || 'فاتورة';
+  const invHtml = invEl.innerHTML;
+  const w = window.open('', '_blank', 'width=900,height=1000');
+  if (!w) { alert('السماح بالنوافذ المنبثقة مطلوب لتحميل PDF'); return; }
+  w.document.write(`<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>${refText}</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing:border-box; font-family: -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif; }
+  body { margin:0; padding:20px; background:#fff; color:#1a1a1a; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:14px; border-bottom:2px solid #2C5559; }
+  .logo { font-size:22px; font-weight:900; color:#2C5559; }
+  .sub { font-size:11px; color:#666; margin-top:4px; }
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13px; }
+  th { background:#2C5559; color:#fff; padding:8px; text-align:right; }
+  td { padding:8px; border-bottom:1px solid #e5e7eb; }
+  img { max-width:100%; height:auto; }
+  @media print {
+    .no-print { display:none !important; }
+    body { padding:0; }
+  }
+  .actions { text-align:center; margin:18px 0; }
+  .actions button { padding:10px 24px; background:#86BA72; color:#fff; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; }
+</style>
+</head>
+<body>
+  <div class="no-print actions">
+    <button onclick="window.print()">💾 حفظ كـ PDF</button>
+    <button onclick="window.close()" style="background:#94a3b8;margin-right:10px">إغلاق</button>
+  </div>
+  <div class="header">
+    <div>
+      <div class="logo">محسوب</div>
+      <div class="sub">نظام الفوترة الإلكترونية المعتمد</div>
+    </div>
+    <div style="text-align:left">
+      <div style="font-weight:700;color:#2C5559">${refText}</div>
+      <div class="sub">${new Date().toLocaleDateString('en-US')}</div>
+    </div>
+  </div>
+  ${invHtml}
+  <div style="margin-top:30px;padding-top:14px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center">
+    صادرة عبر منصة محسوب · mahsob.sa · فاتورة ضريبية إلكترونية متوافقة مع ZATCA المرحلة 1
+  </div>
+  <script>setTimeout(() => window.print(), 500);<\/script>
+</body>
+</html>`);
+  w.document.close();
+}
+
 function newInvoice(){
   document.getElementById('zFrm').style.display='block';
   document.getElementById('zPrv').style.display='none';
