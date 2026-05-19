@@ -2671,7 +2671,11 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         <div style="width:26px;height:26px;border-radius:50%;background:#2C5559;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">2</div>
         <div style="font-size:14px;font-weight:700;color:#000">إنشاء طلب الشهادة (CSR)</div>
       </div>
+      <div style="background:rgba(201,53,69,.06);border:1px solid rgba(201,53,69,.25);border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#c93545;line-height:1.7">
+        <b>⚠️ مهم:</b> الرقم الضريبي (VAT) لازم يطابق <b>تماماً</b> الرقم المسجل في حساب Fatoora عندك (15 رقم يبدأ بـ 3 وينتهي بـ 03).
+      </div>
       <div class="g2" style="margin-bottom:10px">
+        <div class="ff full"><label class="fl">الرقم الضريبي VAT (15 رقم) *</label><input class="fi" id="zcsr_vat" placeholder="300000000000003" style="direction:ltr;text-align:right" maxlength="15"></div>
         <div class="ff full"><label class="fl">اسم المنشأة (إنقليزي)</label><input class="fi" id="zcsr_cn" placeholder="TST-Mahsoob"></div>
         <div class="ff full"><label class="fl">القسم / الفرع</label><input class="fi" id="zcsr_ou" placeholder="Main" value="Main"></div>
         <div class="ff full"><label class="fl">المدينة</label><input class="fi" id="zcsr_loc" placeholder="Riyadh" value="Riyadh"></div>
@@ -3499,6 +3503,7 @@ async function zatcaGenerateCsr() {
       body: JSON.stringify({
         action: 'generate_csr',
         environment: env,
+        vatNumber:        document.getElementById('zcsr_vat').value.trim(),
         commonName:       document.getElementById('zcsr_cn').value,
         organizationUnit: document.getElementById('zcsr_ou').value,
         location:         document.getElementById('zcsr_loc').value,

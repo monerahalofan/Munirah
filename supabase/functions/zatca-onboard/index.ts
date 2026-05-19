@@ -66,6 +66,7 @@ Deno.serve(async (req) => {
     invoiceTypes,     // '1100' = both standard + simplified
     location,         // City address
     industry,         // e.g. "Software Solutions"
+    vatNumber: vatOverride,  // Override VAT (must match Fatoora account)
   } = body;
 
   const env = environment || 'sandbox';
@@ -103,17 +104,20 @@ Deno.serve(async (req) => {
         organizationName:   organizationName || tenant.name || 'Mahsoob',
         commonName:         commonName       || `TST-${(tenant.name || 'Mahsoob').slice(0, 20)}`,
         serialNumber,
-        vatNumber:          tenant.vat_number || '300000000000003',
+        vatNumber:          vatOverride || tenant.vat_number || '300000000000003',
         invoiceTypes:       invoiceTypes     || '1100',
         registeredAddress:  location         || 'Riyadh',
         businessCategory:   industry         || 'Software',
         isProduction:       env === 'production',
       });
 
+      // ZATCA expects base64-encoded PEM string (NOT base64 of DER bytes)
+      const csrPemBase64 = btoa(csr.csrPem);
+
       await sb.from('zatca_config').update({
         public_key:    csr.publicKeyHex,
         private_key:   csr.privateKeyHex,
-        csr_content:   csr.csrBase64,
+        csr_content:   csrPemBase64,
         environment:   env,
         egs_serial:    serialNumber,
         seller_name:   organizationName || tenant.name || 'Mahsoob',
@@ -122,7 +126,7 @@ Deno.serve(async (req) => {
 
       return ok({
         step: 'csr_generated',
-        csr:  csr.csrBase64,
+        csr:  csrPemBase64,
         csrPem: csr.csrPem,
         message: 'تم إنشاء CSR بمعايير ZATCA (secp256k1 + PKCS#10). أدخلي OTP لإكمال الربط.',
       });
