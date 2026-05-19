@@ -727,7 +727,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
-    <div class="ni" onclick="go('zatca',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
+    <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
@@ -3756,10 +3756,14 @@ function isAdmin() {
   return email && ADMIN_EMAILS.includes(email);
 }
 
-// Show/hide admin nav based on email
+// Show/hide admin nav + ZATCA Phase 2 nav based on email
 function checkAdminVisibility() {
+  const isA = isAdmin();
   const navEl = document.getElementById('navAdmin');
-  if (navEl) navEl.style.display = isAdmin() ? 'flex' : 'none';
+  if (navEl) navEl.style.display = isA ? 'flex' : 'none';
+  // Hide ZATCA Phase 2 onboarding from regular customers (still in development)
+  const navZ = document.getElementById('navZatca');
+  if (navZ) navZ.style.display = isA ? 'flex' : 'none';
 }
 window.addEventListener('load', () => setTimeout(checkAdminVisibility, 1500));
 
