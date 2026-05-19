@@ -53,7 +53,7 @@ begin
        NEW.vat_amount    != OLD.vat_amount    or
        NEW.total         != OLD.total         or
        NEW.invoice_kind  != OLD.invoice_kind  or
-       NEW.invoice_number != OLD.invoice_number then
+       NEW.number        != OLD.number then
       raise exception 'لا يمكن تعديل البيانات المالية لفاتورة مُصدرة. أصدر ملاحظة دائن أو مدين.';
     end if;
   end if;
@@ -100,7 +100,7 @@ grant execute on function zatca_next_note_number(uuid, text) to authenticated;
 create or replace view invoices_with_notes as
 select
   i.*,
-  parent.invoice_number as parent_invoice_number,
+  parent.number         as parent_invoice_number,
   parent.total          as parent_invoice_total,
   (select count(*) from invoices c
     where c.parent_invoice_id = i.id and c.invoice_kind = 'credit_note') as credit_notes_count,
