@@ -7493,11 +7493,21 @@ async function generateInvoiceFromText() {
       body:JSON.stringify({mode:'chat',messages:[{role:'user',content:prompt}]})
     });
     const data = await res.json();
-    if (!data.text) throw new Error('no response');
+    console.log('AI invoice response:', { status: res.status, data });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${data.error || data.message || 'فشل الاتصال'}`);
+    if (!data.text) throw new Error('لا يوجد رد من الذكاء الاصطناعي');
 
     let inv;
-    try { inv = JSON.parse(data.text.replace(/```json|```/g,'').trim()); }
-    catch { throw new Error('parse failed'); }
+    try {
+      // Extract JSON from response (may be wrapped in ```json...``` or have extra text)
+      let jsonText = data.text.replace(/```json|```/g, '').trim();
+      const match = jsonText.match(/\{[\s\S]*\}/);
+      if (match) jsonText = match[0];
+      inv = JSON.parse(jsonText);
+    } catch (parseErr) {
+      console.error('JSON parse failed. Response was:', data.text);
+      throw new Error('تعذّر فهم رد الذكاء — حاول بصياغة أوضح');
+    }
 
     if (inv.client) document.getElementById('zB').value = inv.client;
     const rows = document.getElementById('zRws');
@@ -7517,7 +7527,8 @@ async function generateInvoiceFromText() {
     btn.textContent='✅ تم';
     setTimeout(()=>{btn.textContent='▶ إنشاء الفاتورة';btn.disabled=false;},1500);
   } catch(e) {
-    alert('تعذّر إنشاء الفاتورة — تحقق من الاتصال وحاول مجدداً');
+    console.error('AI invoice creation failed:', e);
+    alert('تعذّر إنشاء الفاتورة: ' + (e.message || 'خطأ غير معروف') + '\n\nراجعي وحدة التحكم (Console) لتفاصيل أكثر.');
     btn.textContent='▶ إنشاء الفاتورة'; btn.disabled=false;
   }
 }
