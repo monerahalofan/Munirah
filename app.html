@@ -727,6 +727,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
+    <div class="ni" onclick="go('zatca',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
@@ -2611,6 +2612,118 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 </div>
 
+<!-- ZATCA Phase 2 Onboarding Page -->
+<div class="pg" id="pg-zatca">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">ربط النظام مع ZATCA</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">المرحلة 2 — تكامل مع منصة Fatoora الرسمية</div>
+    </div>
+    <div id="zatcaEnvBadge" style="padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;background:rgba(168,134,75,.12);color:#a8854a">غير مربوط</div>
+  </div>
+
+  <!-- Status card -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="padding:18px 20px">
+      <div id="zatcaStatusBlock">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(168,134,75,.12);color:#a8854a;display:flex;align-items:center;justify-content:center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#000">لم يتم الربط بعد</div>
+            <div style="font-size:11px;color:var(--t3)">يلزم ربط النظام بـ ZATCA لإصدار فواتير معتمدة رسمياً</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stepper -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="padding:20px;border-bottom:1px solid var(--b)">
+      <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">خطوات الربط</div>
+      <div style="font-size:11px;color:var(--t3)">اتبع الخطوات بالترتيب لإكمال الربط مع منصة Fatoora</div>
+    </div>
+
+    <!-- Step 1: Choose environment -->
+    <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:26px;height:26px;border-radius:50%;background:#2C5559;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">1</div>
+        <div style="font-size:14px;font-weight:700;color:#000">اختر البيئة</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:10px">
+        <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px">
+          <input type="radio" name="zatcaEnv" value="sandbox" checked> Sandbox (للاختبار)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px">
+          <input type="radio" name="zatcaEnv" value="simulation"> Simulation
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px">
+          <input type="radio" name="zatcaEnv" value="production"> Production
+        </label>
+      </div>
+    </div>
+
+    <!-- Step 2: Generate CSR -->
+    <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:26px;height:26px;border-radius:50%;background:#2C5559;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">2</div>
+        <div style="font-size:14px;font-weight:700;color:#000">إنشاء طلب الشهادة (CSR)</div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="ff full"><label class="fl">اسم المنشأة (إنقليزي)</label><input class="fi" id="zcsr_cn" placeholder="TST-Mahsoob"></div>
+        <div class="ff full"><label class="fl">القسم / الفرع</label><input class="fi" id="zcsr_ou" placeholder="Main" value="Main"></div>
+        <div class="ff full"><label class="fl">المدينة</label><input class="fi" id="zcsr_loc" placeholder="Riyadh" value="Riyadh"></div>
+        <div class="ff full"><label class="fl">نوع النشاط</label><input class="fi" id="zcsr_ind" placeholder="Software Solutions" value="Software Solutions"></div>
+      </div>
+      <button class="btn bp" onclick="zatcaGenerateCsr()" id="zcsrBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        إنشاء CSR
+      </button>
+      <div id="zcsrResult" style="margin-top:12px;display:none;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.3);border-radius:9px;padding:11px;font-size:11px;color:#2C5559"></div>
+    </div>
+
+    <!-- Step 3: Submit OTP -->
+    <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:26px;height:26px;border-radius:50%;background:#2C5559;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">3</div>
+        <div style="font-size:14px;font-weight:700;color:#000">أدخلي رمز OTP من بوابة Fatoora</div>
+      </div>
+      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#92500a;line-height:1.7">
+        احصلي على OTP من <b>fatoora.zatca.gov.sa</b> ← Onboard New Solution. الرمز صالح لمدة <b>ساعة واحدة فقط</b>.
+      </div>
+      <div class="ff full" style="margin-bottom:10px">
+        <label class="fl">رمز OTP (6 أرقام)</label>
+        <input class="fi" id="zotp" placeholder="000000" style="font-size:18px;letter-spacing:6px;text-align:center;direction:ltr" maxlength="6">
+      </div>
+      <button class="btn bp" onclick="zatcaSubmitOtp()" id="zotpBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg>
+        إكمال الربط مع ZATCA
+      </button>
+      <div id="zotpResult" style="margin-top:12px;display:none;border-radius:9px;padding:11px;font-size:11px;line-height:1.7"></div>
+    </div>
+
+    <!-- Step 4: Compliance Tests (after onboarded) -->
+    <div style="padding:18px 20px" id="zComplianceStep">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--t3);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">4</div>
+        <div style="font-size:14px;font-weight:700;color:#000">اختبارات الامتثال (200+ سيناريو)</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);line-height:1.7;margin-bottom:10px">
+        بعد إتمام الربط، تشغّل ZATCA 200+ سيناريو اختبار تلقائياً للتأكد من توافق فواتيرك. هذه الخطوة مطلوبة قبل الحصول على شهادة الإنتاج.
+      </div>
+      <button class="btn bg2" disabled id="zCompBtn" style="opacity:.5;cursor:not-allowed">يلزم إكمال الخطوات 1-3 أولاً</button>
+    </div>
+  </div>
+
+  <!-- Submissions log -->
+  <div class="card">
+    <div class="sh"><div class="st">سجل عمليات ZATCA</div></div>
+    <div id="zatcaSubmissions" style="padding:16px;font-size:12px;color:var(--t3);text-align:center">لا توجد عمليات بعد</div>
+  </div>
+</div>
+
 <!-- ADMIN PANEL (admins only) -->
 <div class="pg" id="pg-admin">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
@@ -3324,6 +3437,122 @@ function go(id,el){
   if (id === 'sub') subLoad();
   if (id === 'admin') adminLoad();
   if (id === 'inv') loadInvoices();
+  if (id === 'zatca') zatcaLoad();
+}
+
+// ═══════════ ZATCA Phase 2 Onboarding ═══════════
+async function zatcaLoad() {
+  try {
+    const { data: cfg } = await _sb.from('zatca_config').select('*').maybeSingle();
+    const { data: subs } = await _sb.from('zatca_submissions').select('*').order('created_at',{ascending:false}).limit(20);
+
+    const badge = document.getElementById('zatcaEnvBadge');
+    const block = document.getElementById('zatcaStatusBlock');
+    if (cfg?.onboarded) {
+      const envLabel = { sandbox:'Sandbox', simulation:'Simulation', production:'Production' }[cfg.environment] || cfg.environment;
+      const envColor = cfg.environment === 'production' ? '#86BA72' : '#a8854a';
+      badge.style.background = `${envColor}22`;
+      badge.style.color = envColor;
+      badge.textContent = `مربوط — ${envLabel}`;
+      block.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.15);color:#86BA72;display:flex;align-items:center;justify-content:center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#000">النظام مربوط بـ ZATCA</div>
+            <div style="font-size:11px;color:var(--t3)">البيئة: ${envLabel} · تاريخ الربط: ${(cfg.onboarded_at||'').slice(0,10)}</div>
+          </div>
+        </div>`;
+      const compBtn = document.getElementById('zCompBtn');
+      if (compBtn) { compBtn.disabled = false; compBtn.style.opacity = '1'; compBtn.style.cursor = 'pointer'; compBtn.textContent = 'تشغيل اختبارات الامتثال'; compBtn.onclick = zatcaRunCompliance; }
+    }
+
+    // Submissions log
+    const sb = document.getElementById('zatcaSubmissions');
+    if (subs?.length) {
+      sb.style.textAlign = 'right';
+      sb.innerHTML = subs.map(s => {
+        const color = s.zatca_status === 'ACCEPTED' ? '#86BA72' : s.zatca_status === 'ACCEPTED_WITH_WARNINGS' ? '#a8854a' : '#c93545';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--b);font-size:12px">
+          <div>
+            <div style="font-weight:600;color:#000">${s.submission_type}</div>
+            <div style="font-size:10px;color:var(--t3)">${(s.created_at||'').replace('T',' ').slice(0,16)}</div>
+          </div>
+          <div style="color:${color};font-weight:700;font-size:11px">${s.zatca_status || s.response_status}</div>
+        </div>`;
+      }).join('');
+    }
+  } catch (e) { console.error('zatcaLoad:', e); }
+}
+
+async function zatcaGenerateCsr() {
+  const env = document.querySelector('input[name="zatcaEnv"]:checked')?.value || 'sandbox';
+  const btn = document.getElementById('zcsrBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '⏳ جاري إنشاء CSR...';
+  try {
+    const { data:{ session } } = await _sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-onboard`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+      body: JSON.stringify({
+        action: 'generate_csr',
+        environment: env,
+        commonName:       document.getElementById('zcsr_cn').value,
+        organizationUnit: document.getElementById('zcsr_ou').value,
+        location:         document.getElementById('zcsr_loc').value,
+        industry:         document.getElementById('zcsr_ind').value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) { alert(data.error || 'فشل إنشاء CSR'); return; }
+    const el = document.getElementById('zcsrResult');
+    el.style.display = 'block';
+    el.innerHTML = `<b>✓ تم إنشاء CSR بنجاح</b><br>المفتاحان (Public + Private) محفوظان في قاعدة بياناتك المشفّرة.<br>الخطوة التالية: أدخل OTP في الخطوة 3.`;
+  } catch(e) {
+    alert('تعذّر الاتصال: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = orig;
+  }
+}
+
+async function zatcaSubmitOtp() {
+  const otp = document.getElementById('zotp').value.trim();
+  const env = document.querySelector('input[name="zatcaEnv"]:checked')?.value || 'sandbox';
+  if (otp.length !== 6) { alert('OTP يجب أن يكون 6 أرقام'); return; }
+  const btn = document.getElementById('zotpBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '⏳ جاري الاتصال بـ ZATCA...';
+  const el = document.getElementById('zotpResult');
+  try {
+    const { data:{ session } } = await _sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-onboard`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+      body: JSON.stringify({ action: 'submit_otp', otp, environment: env }),
+    });
+    const data = await res.json();
+    el.style.display = 'block';
+    if (!res.ok || data.error) {
+      el.style.background = 'rgba(201,53,69,.08)'; el.style.border = '1px solid rgba(201,53,69,.3)'; el.style.color = '#c93545';
+      el.innerHTML = `<b>✗ فشل الربط:</b> ${data.error}`;
+    } else {
+      el.style.background = 'rgba(134,186,114,.08)'; el.style.border = '1px solid rgba(134,186,114,.3)'; el.style.color = '#2C5559';
+      el.innerHTML = `<b>✓ تم الربط بنجاح!</b><br>${data.message}<br>RequestID: <code>${data.requestID||'-'}</code>`;
+      setTimeout(() => zatcaLoad(), 800);
+    }
+  } catch(e) {
+    el.style.display = 'block';
+    el.style.background = 'rgba(201,53,69,.08)'; el.style.color = '#c93545';
+    el.innerHTML = `تعذّر الاتصال: ${e.message}`;
+  } finally {
+    btn.disabled = false; btn.innerHTML = orig;
+  }
+}
+
+async function zatcaRunCompliance() {
+  toast({ type:'info', msg:'سيتم تشغيل 200+ سيناريو اختبار قريباً — هذه الخطوة قيد التطوير' });
 }
 
 // ═══════════ INVOICES LIST + CREDIT/DEBIT NOTES ═══════════
