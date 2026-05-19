@@ -4,6 +4,8 @@
 // Step 3: Save returned Compliance CSID + Certificate
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { secp256k1 } from 'https://esm.sh/@noble/curves@1.4.0/secp256k1';
+import { sha256 } from 'https://esm.sh/@noble/hashes@1.4.0/sha256';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -90,60 +92,43 @@ Deno.serve(async (req) => {
     cfg = newCfg;
   }
 
-  // ─────────────────────────────────────────────────────────────────────
-  // ACTION 1: Generate CSR + keys
-  // ─────────────────────────────────────────────────────────────────────
+  // ── ACTION 1: Generate proper PKCS#10 CSR with secp256k1 ────────────
   if (action === 'generate_csr') {
-    // ZATCA requires ECDSA secp256k1, but WebCrypto only supports P-256/P-384/P-521
-    // For Sandbox we use P-256 (works for testing); production needs secp256k1 via custom impl
-    const keyPair = await crypto.subtle.generateKey(
-      { name: 'ECDSA', namedCurve: 'P-256' },
-      true,
-      ['sign', 'verify']
-    );
+    const serialNumber = `1-Mahsoob|2-1.0|3-${tenant.id.slice(0, 8)}`;
 
-    const pubRaw  = await crypto.subtle.exportKey('spki', keyPair.publicKey);
-    const privRaw = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
-    const pubB64  = b64(new Uint8Array(pubRaw));
-    const privB64 = b64(new Uint8Array(privRaw));
+    try {
+      const csr = await generateZatcaCsr({
+        countryName:        countryName      || 'SA',
+        organizationalUnit: organizationUnit || 'Main',
+        organizationName:   organizationName || tenant.name || 'Mahsoob',
+        commonName:         commonName       || `TST-${(tenant.name || 'Mahsoob').slice(0, 20)}`,
+        serialNumber,
+        vatNumber:          tenant.vat_number || '300000000000003',
+        invoiceTypes:       invoiceTypes     || '1100',
+        registeredAddress:  location         || 'Riyadh',
+        businessCategory:   industry         || 'Software',
+        isProduction:       env === 'production',
+      });
 
-    // Build CSR data as ZATCA-formatted JSON (manual CSR string below)
-    const csrData = {
-      commonName:       commonName       || `TST-${tenant.name.slice(0, 20)}`,
-      organizationName: organizationName || tenant.name,
-      organizationUnit: organizationUnit || 'Main',
-      countryName:      countryName      || 'SA',
-      invoiceTypes:     invoiceTypes     || '1100',
-      location:         location         || 'Riyadh',
-      industry:         industry         || 'Software Solutions',
-      vatNumber:        tenant.vat_number,
-      serialNumber:     `1-Mahsoob|2-1.0|3-${tenant.id.slice(0, 8)}`,
-      egsModel:         'Mahsoob-SaaS-v1.0',
-    };
+      await sb.from('zatca_config').update({
+        public_key:    csr.publicKeyHex,
+        private_key:   csr.privateKeyHex,
+        csr_content:   csr.csrBase64,
+        environment:   env,
+        egs_serial:    serialNumber,
+        seller_name:   organizationName || tenant.name || 'Mahsoob',
+        seller_city:   location || 'Riyadh',
+      }).eq('tenant_id', tenant.id);
 
-    // Build a ZATCA-compatible CSR config string
-    const csrConfig = buildCsrConfig(csrData);
-
-    // Generate base64 CSR placeholder (real CSR needs OpenSSL/secp256k1)
-    // For now: store the config + keys; actual CSR signing happens in submit_otp step
-    const csrB64 = b64(new TextEncoder().encode(csrConfig));
-
-    await sb.from('zatca_config').update({
-      public_key:    pubB64,
-      private_key:   privB64,
-      csr_content:   csrB64,
-      environment:   env,
-      egs_serial:    csrData.serialNumber,
-      seller_name:   csrData.organizationName,
-      seller_city:   csrData.location,
-    }).eq('tenant_id', tenant.id);
-
-    return ok({
-      step: 'csr_generated',
-      csr:  csrB64,
-      message: 'تم إنشاء CSR. أدخلي رمز OTP من بوابة Fatoora لإكمال الربط.',
-      csrConfig,
-    });
+      return ok({
+        step: 'csr_generated',
+        csr:  csr.csrBase64,
+        csrPem: csr.csrPem,
+        message: 'تم إنشاء CSR بمعايير ZATCA (secp256k1 + PKCS#10). أدخلي OTP لإكمال الربط.',
+      });
+    } catch (e) {
+      return err(500, `فشل إنشاء CSR: ${(e as Error).message}`);
+    }
   }
 
   // ─────────────────────────────────────────────────────────────────────
@@ -257,42 +242,117 @@ Deno.serve(async (req) => {
   return err(400, `إجراء غير معروف: ${action}`);
 });
 
-// ─── Helpers ──────────────────────────────────────────────────────────
-function buildCsrConfig(d: any): string {
-  return `oid_section = OIDs
-[ OIDs ]
-certificateTemplateName=1.3.6.1.4.1.311.20.2
+// ═══════════════════════════════════════════════════════════════════════
+// ZATCA-compliant PKCS#10 CSR generator (secp256k1 + ECDSA SHA-256)
+// ═══════════════════════════════════════════════════════════════════════
 
-[ req ]
-default_bits = 2048
-emailAddress = info@zatca.gov.sa
-req_extensions = v3_req
-x509_extensions = v3_ca
-prompt = no
-default_md = sha256
-req_extensions = req_ext
-distinguished_name = dn
+interface CsrInput {
+  countryName: string; organizationalUnit: string; organizationName: string;
+  commonName: string; serialNumber: string; vatNumber: string;
+  invoiceTypes: string; registeredAddress: string; businessCategory: string;
+  isProduction?: boolean;
+}
 
-[ dn ]
-C=${d.countryName}
-OU=${d.organizationUnit}
-O=${d.organizationName}
-CN=${d.commonName}
+async function generateZatcaCsr(input: CsrInput) {
+  const T = { INT:0x02, BIT:0x03, OCT:0x04, OID:0x06, UTF8:0x0C, PRT:0x13, SEQ:0x30, SET:0x31 };
+  const OIDS = {
+    ecPub:    '1.2.840.10045.2.1',
+    secp:     '1.3.132.0.10',
+    ecdsaSha: '1.2.840.10045.4.3.2',
+    C: '2.5.4.6', O: '2.5.4.10', OU: '2.5.4.11', CN: '2.5.4.3',
+    SN:'2.5.4.5', TT:'2.5.4.12', RA:'2.5.4.26', BC:'2.5.4.15',
+    UID:'0.9.2342.19200300.100.1.1',
+    SAN:'2.5.29.17', extReq:'1.2.840.113549.1.9.14',
+    tmpl:'1.3.6.1.4.1.311.20.2',
+  };
+  const enc = (s: string) => new TextEncoder().encode(s);
+  const encLen = (n: number): Uint8Array => {
+    if (n < 128) return new Uint8Array([n]);
+    if (n < 256) return new Uint8Array([0x81, n]);
+    if (n < 65536) return new Uint8Array([0x82, (n>>8)&0xff, n&0xff]);
+    return new Uint8Array([0x83, (n>>16)&0xff, (n>>8)&0xff, n&0xff]);
+  };
+  const cat = (...a: Uint8Array[]): Uint8Array => {
+    const tot = a.reduce((s,x)=>s+x.length,0); const o = new Uint8Array(tot); let p=0;
+    for (const x of a) { o.set(x,p); p+=x.length; } return o;
+  };
+  const tlv = (tag: number, v: Uint8Array) => cat(new Uint8Array([tag]), encLen(v.length), v);
+  const oid = (s: string) => {
+    const p = s.split('.').map(Number);
+    const b: number[] = [40*p[0]+p[1]];
+    for (let i=2;i<p.length;i++) {
+      let v = p[i];
+      if (v<128) { b.push(v); continue; }
+      const st: number[] = [];
+      while (v>0) { st.push(v&0x7f); v>>=7; }
+      for (let j=st.length-1;j>=0;j--) b.push(st[j] | (j===0?0:0x80));
+    }
+    return tlv(T.OID, new Uint8Array(b));
+  };
+  const intBytes = (bytes: Uint8Array) => tlv(T.INT, bytes[0]&0x80 ? cat(new Uint8Array([0]), bytes) : bytes);
+  const int0 = tlv(T.INT, new Uint8Array([0]));
+  const u8 = (s: string) => tlv(T.UTF8, enc(s));
+  const prt = (s: string) => tlv(T.PRT, enc(s));
+  const bit = (d: Uint8Array) => tlv(T.BIT, cat(new Uint8Array([0]), d));
+  const seq = (...a: Uint8Array[]) => tlv(T.SEQ, cat(...a));
+  const sset = (...a: Uint8Array[]) => tlv(T.SET, cat(...a));
+  const rdn = (o: string, v: Uint8Array) => sset(seq(oid(o), v));
 
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment
+  // Generate keypair
+  const priv = secp256k1.utils.randomPrivateKey();
+  const pub = secp256k1.getPublicKey(priv, false); // uncompressed
 
-[ req_ext ]
-certificateTemplateName = ASN1:PRINTABLESTRING:${d.commonName}
-subjectAltName = dirName:alt_names
+  // Subject DN
+  const subject = seq(
+    rdn(OIDS.C,  prt(input.countryName)),
+    rdn(OIDS.OU, u8(input.organizationalUnit)),
+    rdn(OIDS.O,  u8(input.organizationName)),
+    rdn(OIDS.CN, u8(input.commonName)),
+  );
 
-[ alt_names ]
-SN=${d.serialNumber}
-UID=${d.vatNumber}
-title=${d.invoiceTypes}
-registeredAddress=${d.location}
-businessCategory=${d.industry}`;
+  // SubjectPublicKeyInfo
+  const spki = seq(seq(oid(OIDS.ecPub), oid(OIDS.secp)), bit(pub));
+
+  // Subject Alt Name (directoryName with ZATCA fields)
+  const dirName = seq(
+    rdn(OIDS.SN,  u8(input.serialNumber)),
+    rdn(OIDS.UID, u8(input.vatNumber)),
+    rdn(OIDS.TT,  u8(input.invoiceTypes)),
+    rdn(OIDS.RA,  u8(input.registeredAddress)),
+    rdn(OIDS.BC,  u8(input.businessCategory)),
+  );
+  const generalName = tlv(0xA4, dirName); // [4] directoryName
+  const sanExt = seq(oid(OIDS.SAN), tlv(T.OCT, seq(generalName)));
+
+  // Attributes: certTemplateName + extensionRequest
+  const tmpl = input.isProduction ? 'ZATCA-Code-Signing' : 'TSTZATCA-Code-Signing';
+  const templateAttr = seq(oid(OIDS.tmpl), sset(prt(tmpl)));
+  const extReqAttr   = seq(oid(OIDS.extReq), sset(seq(sanExt)));
+  const attributes   = tlv(0xA0, cat(templateAttr, extReqAttr));
+
+  // CertificationRequestInfo
+  const cri = seq(int0, subject, spki, attributes);
+
+  // Sign with ECDSA SHA-256
+  const h = sha256(cri);
+  const sig = secp256k1.sign(h, priv, { lowS: true });
+  const rBig = sig.r, sBig = sig.s;
+  const toBytes = (n: bigint) => {
+    let hex = n.toString(16); if (hex.length%2) hex = '0'+hex;
+    const out = new Uint8Array(hex.length/2);
+    for (let i=0;i<out.length;i++) out[i] = parseInt(hex.substr(i*2,2),16);
+    return out;
+  };
+  const sigDer = seq(intBytes(toBytes(rBig)), intBytes(toBytes(sBig)));
+  const sigAlg = seq(oid(OIDS.ecdsaSha));
+
+  const csr = seq(cri, sigAlg, bit(sigDer));
+
+  const csrBase64 = b64(csr);
+  const csrPem = `-----BEGIN CERTIFICATE REQUEST-----\n${csrBase64.match(/.{1,64}/g)!.join('\n')}\n-----END CERTIFICATE REQUEST-----`;
+  const toHex = (b: Uint8Array) => Array.from(b).map(x=>x.toString(16).padStart(2,'0')).join('');
+
+  return { csrBase64, csrPem, privateKeyHex: toHex(priv), publicKeyHex: toHex(pub) };
 }
 
 function b64(bytes: Uint8Array): string {
