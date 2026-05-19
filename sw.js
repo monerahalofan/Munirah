@@ -1,4 +1,4 @@
-const CACHE = 'mahsoob-v56';
+const CACHE = 'mahsoob-v58';
 
 const PRECACHE = [
   '/',

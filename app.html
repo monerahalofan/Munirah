@@ -1214,17 +1214,45 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   <div class="card">
     <div class="sh">
       <div class="st">الفواتير</div>
-      <div style="display:flex;gap:6px">
-        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('credit_note')" title="ملاحظة دائن">↩ ملاحظة دائن</button>
-        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('debit_note')" title="ملاحظة مدين">↪ ملاحظة مدين</button>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('credit_note')" title="مرتجع / استرداد">↩ مرتجع</button>
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('debit_note')" title="رسوم إضافية">↪ زيادة</button>
         <button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="go('zt',null)">＋ فاتورة</button>
       </div>
     </div>
-    <table class="tbl"><thead><tr><th>رقم</th><th>النوع</th><th>العميل</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="invTb">
+    <!-- Filters + Search -->
+    <div style="padding:12px 16px;border-bottom:1px solid var(--b);display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:5px;flex-wrap:wrap" id="invFilters">
+        <button class="invF on" data-f="all" onclick="invFilter('all')">الكل</button>
+        <button class="invF" data-f="unpaid" onclick="invFilter('unpaid')">غير مسددة</button>
+        <button class="invF" data-f="overdue" onclick="invFilter('overdue')">متأخرة</button>
+        <button class="invF" data-f="paid" onclick="invFilter('paid')">مسددة</button>
+        <button class="invF" data-f="draft" onclick="invFilter('draft')">مسودة</button>
+        <button class="invF" data-f="credit_note" onclick="invFilter('credit_note')">مرتجعات</button>
+      </div>
+      <div style="flex:1;min-width:200px;position:relative">
+        <input class="fi" id="invSearch" placeholder="🔍 بحث برقم الفاتورة أو اسم العميل..." oninput="renderInvoices()" style="padding:7px 12px;font-size:12px">
+      </div>
+    </div>
+    <table class="tbl"><thead><tr><th>رقم</th><th>النوع</th><th>العميل</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="invTb">
       <tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>
     </tbody></table>
   </div>
 </div>
+
+<style>
+.invF { padding:5px 12px; background:transparent; border:1px solid var(--b); color:var(--t2); border-radius:7px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; transition:all .12s; }
+.invF:hover { background:var(--bg2); }
+.invF.on { background:#2C5559; color:#fff; border-color:#2C5559; }
+.inv-act { padding:4px 8px; font-size:11px; border:1px solid var(--b); background:#fff; border-radius:6px; cursor:pointer; font-family:inherit; font-weight:600; }
+.inv-act:hover { background:var(--bg2); }
+.inv-act.pay { background:#86BA72; color:#fff; border-color:#86BA72; }
+.inv-act.pay:hover { background:#6da55b; }
+.inv-act.remind { background:#a8854a; color:#fff; border-color:#a8854a; }
+.inv-act.remind:hover { background:#8d7039; }
+.ai-ex { padding:6px 10px; background:#fff; border:1px solid rgba(139,92,246,.2); color:#5b21b6; border-radius:7px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; }
+.ai-ex:hover { background:rgba(139,92,246,.05); border-color:rgba(139,92,246,.4); }
+</style>
 
 <!-- CREDIT/DEBIT NOTE MODAL -->
 <div id="noteModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.5);z-index:1000;align-items:center;justify-content:center;padding:20px">
@@ -1347,10 +1375,26 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <button style="padding:9px 18px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(139,92,246,.3)" onclick="toggleAIInvoice()">جرّب ←</button>
     </div>
     <div id="ai-inv-form" style="display:none;margin-top:12px">
-      <textarea id="ai-inv-text" class="fi" rows="2" placeholder="مثال: فاتورة لأحمد عن تصميم موقع 5000 ريال مع ضريبة" style="resize:vertical;font-family:inherit;line-height:1.6;width:100%;box-sizing:border-box"></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn bp" id="ai-inv-btn" style="flex:2;padding:9px" onclick="generateInvoiceFromText()">▶ إنشاء الفاتورة</button>
-        <button class="btn bg2" style="flex:1;padding:9px" onclick="toggleAIInvoice()">إلغاء</button>
+      <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتبي فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px"></textarea>
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.15);border-radius:9px;font-size:11px;color:#5b21b6;line-height:1.7">
+        <div style="font-weight:700;margin-bottom:6px">💡 نصائح للحصول على نتائج دقيقة:</div>
+        <div>• <b>اذكري اسم العميل</b> (أحمد، شركة النور، إلخ)</div>
+        <div>• <b>وصف الخدمة/المنتج</b> بوضوح</div>
+        <div>• <b>السعر أو الإجمالي</b> + هل يشمل الضريبة أو لا</div>
+        <div>• <b>الكمية</b> لو في أكثر من بند</div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="font-size:11px;color:var(--t3);font-weight:600;margin-bottom:6px">أمثلة جاهزة (اضغطي للاستخدام):</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <button class="ai-ex" onclick="aiExample(this)">فاتورة لأحمد عن تصميم موقع بقيمة 5000 ريال شاملة الضريبة</button>
+          <button class="ai-ex" onclick="aiExample(this)">فاتورة لشركة النور: 3 ساعات استشارات بـ 400 للساعة + تطوير تطبيق 8000</button>
+          <button class="ai-ex" onclick="aiExample(this)">فاتورة لمنيرة عن هوية بصرية 2500 ريال + بطاقات عمل 500 ريال</button>
+          <button class="ai-ex" onclick="aiExample(this)">فاتورة لمتجر السلام: 10 كيلو رز بسمتي بسعر 25 للكيلو</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn bp" id="ai-inv-btn" style="flex:2;padding:10px" onclick="generateInvoiceFromText()">▶ إنشاء الفاتورة</button>
+        <button class="btn bg2" style="flex:1;padding:10px" onclick="toggleAIInvoice()">إلغاء</button>
       </div>
     </div>
   </div>
@@ -4032,37 +4076,135 @@ function renderInvoiceStats() {
   set('invPending', pending); set('invOverdue', overdue); set('invPaid', paid);
 }
 
+let _invFilter = 'all';
+function invFilter(f) {
+  _invFilter = f;
+  document.querySelectorAll('.invF').forEach(b => b.classList.toggle('on', b.dataset.f === f));
+  renderInvoices();
+}
+
+function computeInvoiceStatus(i, today) {
+  const kind = i.invoice_kind || 'invoice';
+  let st = i.payment_status || (i.status === 'paid' ? 'paid' : null) || i.zatca_status || 'pending';
+  if (kind === 'invoice' && st !== 'paid' && i.due_date && i.due_date < today) st = 'overdue';
+  return st;
+}
+
 function renderInvoices() {
   const tb = document.getElementById('invTb');
   if (!tb) return;
-  if (!_invoicesCache.length) {
-    tb.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>`;
+  const today = new Date().toISOString().slice(0,10);
+  const query = (document.getElementById('invSearch')?.value || '').toLowerCase().trim();
+
+  // Apply filter + search
+  let list = _invoicesCache.slice();
+  if (query) {
+    list = list.filter(i => {
+      const num = (i.invoice_number || i.number || '').toLowerCase();
+      const buyer = (i.buyer_name || i.buyer || i.client_name || '').toLowerCase();
+      return num.includes(query) || buyer.includes(query);
+    });
+  }
+  if (_invFilter !== 'all') {
+    list = list.filter(i => {
+      const kind = i.invoice_kind || 'invoice';
+      const st = computeInvoiceStatus(i, today);
+      if (_invFilter === 'credit_note') return kind === 'credit_note';
+      if (_invFilter === 'unpaid') return kind === 'invoice' && (st === 'pending' || st === 'sent');
+      if (_invFilter === 'overdue') return kind === 'invoice' && st === 'overdue';
+      if (_invFilter === 'paid') return st === 'paid';
+      if (_invFilter === 'draft') return st === 'draft';
+      return true;
+    });
+  }
+
+  if (!list.length) {
+    tb.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">${_invoicesCache.length ? 'لا توجد فواتير مطابقة' : 'لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة'}</td></tr>`;
     return;
   }
-  const kindLabel = { invoice:'فاتورة', credit_note:'دائن', debit_note:'مدين' };
+
+  const kindLabel = { invoice:'فاتورة', credit_note:'مرتجع', debit_note:'زيادة' };
   const kindColor = { invoice:'#2C5559', credit_note:'#c93545', debit_note:'#a8854a' };
-  const stLabel = { paid:'مدفوعة', pending:'معلقة', overdue:'متأخرة', draft:'مسودة', cleared:'مُصدرة', reported:'مُبلّغة', rejected:'مرفوضة' };
-  const today = new Date().toISOString().slice(0,10);
-  tb.innerHTML = _invoicesCache.map(i => {
+  const stLabel = { paid:'مدفوعة', pending:'معلقة', overdue:'متأخرة', sent:'مرسلة', draft:'مسودة', cleared:'مُصدرة', reported:'مُبلّغة', rejected:'مرفوضة' };
+
+  tb.innerHTML = list.map(i => {
     const kind = i.invoice_kind || 'invoice';
     const tot = +(i.total || 0);
-    let st = i.payment_status || i.zatca_status || 'pending';
-    if (kind === 'invoice' && st !== 'paid' && i.due_date && i.due_date < today) st = 'overdue';
-    const stColor = st === 'paid' ? '#86BA72' : st === 'overdue' || st === 'rejected' ? '#c93545' : '#a8854a';
+    const st = computeInvoiceStatus(i, today);
+    const stColor = st === 'paid' ? '#86BA72' : (st === 'overdue' || st === 'rejected') ? '#c93545' : '#a8854a';
     const num = i.invoice_number || i.number || '—';
     const parent = i.parent_invoice_number ? `<div style="font-size:10px;color:var(--t3)">عن: ${i.parent_invoice_number}</div>` : '';
-    const buyer = i.buyer_name || i.buyer || '—';
+    const buyer = i.buyer_name || i.buyer || i.client_name || '—';
     const due = i.due_date || i.issue_date || (i.created_at || '').slice(0,10);
+
+    // Build action buttons
+    const actions = [];
+    if (kind === 'invoice') {
+      if (st !== 'paid') {
+        actions.push(`<button class="inv-act pay" onclick="markInvoicePaid('${i.id}')" title="تسجيل دفع">✓ دفع</button>`);
+      }
+      if (st === 'overdue' || st === 'pending' || st === 'sent') {
+        actions.push(`<button class="inv-act remind" onclick="sendInvoiceReminder('${i.id}')" title="إرسال تذكير">⏰ تذكير</button>`);
+      }
+      if (st === 'cleared' || st === 'reported' || st === 'paid' || st === 'sent') {
+        actions.push(`<button class="inv-act" onclick="openNoteModal('credit_note','${i.id}')" title="مرتجع">↩</button>`);
+      }
+      actions.push(`<button class="inv-act" onclick="viewInvoice('${i.id}')" title="عرض">👁</button>`);
+    } else {
+      actions.push(`<button class="inv-act" onclick="viewInvoice('${i.id}')" title="عرض">👁</button>`);
+    }
+
     return `<tr>
       <td><div style="font-weight:600">${num}</div>${parent}</td>
       <td><span style="background:${kindColor[kind]}1A;color:${kindColor[kind]};padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700">${kindLabel[kind]}</span></td>
       <td>${buyer}</td>
-      <td style="direction:ltr;text-align:right">${due}</td>
+      <td style="direction:ltr;text-align:right;font-size:12px">${due}</td>
       <td style="direction:ltr;font-weight:600">${tot.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
       <td><span style="color:${stColor};font-weight:600;font-size:12px">${stLabel[st]||st}</span></td>
-      <td>${kind==='invoice' && (i.zatca_status==='cleared'||i.zatca_status==='reported') ? `<button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="openNoteModal('credit_note','${i.id}')">دائن</button>` : '—'}</td>
+      <td><div style="display:flex;gap:4px;flex-wrap:wrap">${actions.join('')}</div></td>
     </tr>`;
   }).join('');
+}
+
+// ─── Invoice Actions ───
+async function markInvoicePaid(invId) {
+  if (!confirm('تأكيد تسجيل الدفع لهذه الفاتورة؟')) return;
+  try {
+    const { error } = await _sb.from('invoices').update({
+      status: 'paid',
+      payment_status: 'paid',
+      paid_at: new Date().toISOString(),
+    }).eq('id', invId);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم تسجيل الدفع ✓' });
+    loadInvoices();
+  } catch (e) {
+    alert('فشل التحديث: ' + e.message);
+  }
+}
+
+function sendInvoiceReminder(invId) {
+  const inv = _invoicesCache.find(i => i.id === invId);
+  if (!inv) return;
+  const num = inv.invoice_number || inv.number;
+  const tot = (+inv.total || 0).toLocaleString('en-US', {minimumFractionDigits:2});
+  const buyer = inv.buyer_name || inv.buyer || inv.client_name || 'عميلنا الكريم';
+  const due = inv.due_date || '';
+  const msg = `مرحباً ${buyer},\n\nتذكير ودّي بفاتورتكم رقم ${num} بقيمة ${tot} ر.س${due ? ` ومستحقة بتاريخ ${due}` : ''}.\n\nنشكر تعاونكم،\n${Auth?.tenant?.name || 'محسوب'}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function viewInvoice(invId) {
+  const inv = _invoicesCache.find(i => i.id === invId);
+  if (!inv) return;
+  alert(`فاتورة ${inv.invoice_number || inv.number}\nالعميل: ${inv.buyer_name || inv.buyer || '—'}\nالإجمالي: ${(+inv.total || 0).toFixed(2)} ر.س\nالحالة: ${inv.payment_status || inv.zatca_status || '—'}\nالتاريخ: ${inv.issue_date || '—'}`);
+}
+
+// ─── AI Examples helper ───
+function aiExample(btn) {
+  const text = btn.textContent.trim();
+  document.getElementById('ai-inv-text').value = text;
+  document.getElementById('ai-inv-text').focus();
 }
 
 // ─── Credit/Debit Note Modal ───
@@ -7518,7 +7660,7 @@ async function generateInvoiceFromText() {
       const d = document.createElement('div');
       d.className='zr'; d.id='zr'+idx;
       d.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:9px;margin-bottom:7px';
-      d.innerHTML=`<div class="ff"><label class="fl">الوصف</label><input class="fi zd" value="${sanitize(item.name||'')}" oninput="calcZ()"/></div><div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="${+item.qty||1}" oninput="calcZ()"/></div><div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" value="${+item.price||0}" oninput="calcZ()"/></div><div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="${+item.vat||15}" oninput="calcZ()"/></div><div style="display:flex;align-items:flex-end;padding-bottom:1px"><button class="btn bg2" style="padding:7px;color:var(--r)" onclick="this.closest('.zr').remove();calcZ()">✕</button></div>`;
+      d.innerHTML=`<div class="ff"><label class="fl">الوصف</label><input class="fi zd" value="${(item.name||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" oninput="calcZ()"/></div><div class="ff"><label class="fl">الكمية</label><input class="fi zq" type="number" value="${+item.qty||1}" oninput="calcZ()"/></div><div class="ff"><label class="fl">السعر</label><input class="fi zp" type="number" value="${+item.price||0}" oninput="calcZ()"/></div><div class="ff"><label class="fl">ضريبة %</label><input class="fi zv" type="number" value="${+item.vat||15}" oninput="calcZ()"/></div><div style="display:flex;align-items:flex-end;padding-bottom:1px"><button class="btn bg2" style="padding:7px;color:var(--r)" onclick="this.closest('.zr').remove();calcZ()">✕</button></div>`;
       rows.appendChild(d);
     });
     calcZ();
