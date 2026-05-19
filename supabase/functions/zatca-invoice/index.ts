@@ -36,10 +36,24 @@ Deno.serve(async (req) => {
 
   // ── Parse body ───────────────────────────────────────────────────────
   const body = await req.json();
-  const { seller, sellerVat, sellerCity, buyer, buyerVat, invoiceType, items } = body;
+  const {
+    seller, sellerVat, sellerCity, buyer, buyerVat, invoiceType, items,
+    // Credit/Debit Note fields (optional)
+    kind,              // 'invoice' | 'credit_note' | 'debit_note'
+    parentInvoiceId,   // required if kind != 'invoice'
+    noteReason,        // required if kind != 'invoice'
+    noteReasonCode,    // required if kind != 'invoice'
+  } = body;
 
   if (!seller || !sellerVat || !items?.length) {
     return err(400, 'بيانات ناقصة: المُصدِر والرقم الضريبي والبنود مطلوبة');
+  }
+
+  const invoiceKind = kind || 'invoice';
+  if (invoiceKind !== 'invoice') {
+    if (!parentInvoiceId) return err(400, 'الفاتورة الأصلية مطلوبة لإصدار ملاحظة');
+    if (!noteReason)      return err(400, 'سبب الملاحظة مطلوب');
+    if (!noteReasonCode)  return err(400, 'كود السبب مطلوب');
   }
 
   // ── Get or init ZATCA config ─────────────────────────────────────────
@@ -75,11 +89,21 @@ Deno.serve(async (req) => {
     cfg = newCfg;
   }
 
-  // ── Atomic counter increment (race-condition safe) ───────────────────
-  const { data: counterRow, error: counterErr } = await sb
-    .rpc('zatca_next_counter', { p_tenant_id: tenant.id });
-  if (counterErr) return err(500, `خطأ في العداد: ${counterErr.message}`);
-  const counter = counterRow as number;
+  // ── Get next number (separate sequence per kind) ─────────────────────
+  let invoiceNum: string;
+  let counter = 0;
+  if (invoiceKind === 'invoice') {
+    const { data, error: counterErr } = await sb
+      .rpc('zatca_next_counter', { p_tenant_id: tenant.id });
+    if (counterErr) return err(500, `خطأ في العداد: ${counterErr.message}`);
+    counter = data as number;
+    invoiceNum = `INV-${new Date().getFullYear()}-${String(counter).padStart(5, '0')}`;
+  } else {
+    const { data, error: noteErr } = await sb
+      .rpc('zatca_next_note_number', { p_tenant_id: tenant.id, p_kind: invoiceKind });
+    if (noteErr) return err(500, `خطأ في رقم الملاحظة: ${noteErr.message}`);
+    invoiceNum = data as string;
+  }
 
   const { data: prevInv } = await sb
     .from('invoices')
@@ -94,11 +118,18 @@ Deno.serve(async (req) => {
 
   // ── Build invoice data ───────────────────────────────────────────────
   const uuid        = crypto.randomUUID();
-  const invoiceNum  = `INV-${new Date().getFullYear()}-${String(counter).padStart(5, '0')}`;
   const now         = new Date();
   const issueDate   = now.toISOString().split('T')[0];
   const issueTime   = now.toISOString().split('T')[1].split('.')[0] + 'Z';
   const isSimplified = (invoiceType ?? 'simplified') === 'simplified';
+
+  // ZATCA Invoice Type codes:
+  // 0100000 = Standard Invoice
+  // 0200000 = Simplified Invoice
+  // 0381000 = Credit Note (Standard)
+  // 0382000 = Credit Note (Simplified)
+  // 0383000 = Debit Note (Standard)
+  // 0384000 = Debit Note (Simplified)
 
   // Calculate totals
   let subtotal = 0, vatTotal = 0;
@@ -112,7 +143,10 @@ Deno.serve(async (req) => {
   const total = subtotal + vatTotal;
 
   // ── Generate UBL 2.1 XML ─────────────────────────────────────────────
-  const typeCode = isSimplified ? '0200000' : '0100000';
+  let typeCode: string;
+  if (invoiceKind === 'credit_note')      typeCode = isSimplified ? '0382000' : '0381000';
+  else if (invoiceKind === 'debit_note')  typeCode = isSimplified ? '0384000' : '0383000';
+  else                                     typeCode = isSimplified ? '0200000' : '0100000';
   const xml = buildXML({
     uuid, invoiceNum, issueDate, issueTime, typeCode,
     seller, sellerVat, sellerCity: sellerCity || 'الرياض',
@@ -161,26 +195,30 @@ Deno.serve(async (req) => {
 
   // ── Save invoice to DB ───────────────────────────────────────────────
   const { data: invoice, error: invErr } = await sb.from('invoices').insert({
-    tenant_id:      tenant.id,
-    created_by:     user.id,
-    number:         invoiceNum,
-    zatca_uuid:     uuid,
-    invoice_type:   isSimplified ? 'simplified' : 'standard',
-    client_name:    buyer,
-    issue_date:     issueDate,
-    subtotal:       subtotal,
-    vat_amount:     vatTotal,
-    total:          total,
-    items:          lines,
-    previous_hash:  previousHash,
-    xml_content:    xml,
-    invoice_hash:   hashHex,
-    ecdsa_signature: signatureB64,
-    qr_code:        qr,
-    buyer_vat:      buyerVat || null,
-    seller_city:    sellerCity || 'الرياض',
-    zatca_status:   cfg.onboarded ? 'reported' : 'draft',
-    status:         'sent',
+    tenant_id:         tenant.id,
+    created_by:        user.id,
+    number:            invoiceNum,
+    zatca_uuid:        uuid,
+    invoice_type:      isSimplified ? 'simplified' : 'standard',
+    invoice_kind:      invoiceKind,
+    parent_invoice_id: parentInvoiceId || null,
+    note_reason:       noteReason || null,
+    note_reason_code:  noteReasonCode || null,
+    client_name:       buyer,
+    issue_date:        issueDate,
+    subtotal:          subtotal,
+    vat_amount:        vatTotal,
+    total:             total,
+    items:             lines,
+    previous_hash:     previousHash,
+    xml_content:       xml,
+    invoice_hash:      hashHex,
+    ecdsa_signature:   signatureB64,
+    qr_code:           qr,
+    buyer_vat:         buyerVat || null,
+    seller_city:       sellerCity || 'الرياض',
+    zatca_status:      cfg.onboarded ? 'reported' : 'draft',
+    status:            'sent',
   }).select().single();
 
   if (invErr) return err(500, `خطأ في حفظ الفاتورة: ${invErr.message}`);

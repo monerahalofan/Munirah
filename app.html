@@ -1210,10 +1210,62 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div class="pg" id="pg-inv">
   <div class="g3"><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--a)" id="invPending">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">معلقة (ر.س)</div></div><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--r)" id="invOverdue">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">متأخرة</div></div><div class="csm" style="text-align:center"><div style="font-size:17px;font-weight:700;color:var(--g)" id="invPaid">0</div><div style="font-size:11px;color:var(--t3);margin-top:3px">محصّلة (ر.س)</div></div></div>
   <div class="card">
-    <div class="sh"><div class="st">الفواتير</div><button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="go('zt',null)">＋ فاتورة</button></div>
-    <table class="tbl"><thead><tr><th>رقم</th><th>العميل</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="invTb">
-      <tr><td colspan="6" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>
+    <div class="sh">
+      <div class="st">الفواتير</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('credit_note')" title="ملاحظة دائن">↩ ملاحظة دائن</button>
+        <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="openNoteModal('debit_note')" title="ملاحظة مدين">↪ ملاحظة مدين</button>
+        <button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="go('zt',null)">＋ فاتورة</button>
+      </div>
+    </div>
+    <table class="tbl"><thead><tr><th>رقم</th><th>النوع</th><th>العميل</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="invTb">
+      <tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>
     </tbody></table>
+  </div>
+</div>
+
+<!-- CREDIT/DEBIT NOTE MODAL -->
+<div id="noteModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.5);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;max-width:540px;width:100%;max-height:90vh;overflow:auto">
+    <div style="padding:20px 24px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:17px;font-weight:800;color:#000" id="noteModalTitle">إصدار ملاحظة دائن</div>
+      <button onclick="closeNoteModal()" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div style="padding:22px 24px">
+      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:12px;color:#92500a;line-height:1.7">
+        <b>تنبيه ZATCA:</b> <span id="noteModalHint">ملاحظة الدائن تُستخدم لتقليل قيمة الفاتورة (مرتجع، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي.</span>
+      </div>
+
+      <div class="ff full" style="margin-bottom:14px">
+        <label class="fl">الفاتورة الأصلية *</label>
+        <select class="fi" id="noteParentInv">
+          <option value="">-- اختر فاتورة --</option>
+        </select>
+      </div>
+
+      <div class="ff full" style="margin-bottom:14px">
+        <label class="fl">سبب الإصدار (كود ZATCA) *</label>
+        <select class="fi" id="noteReasonCode" onchange="document.getElementById('noteReason').value = this.options[this.selectedIndex].dataset.label || ''">
+          <!-- Filled by JS based on type -->
+        </select>
+      </div>
+
+      <div class="ff full" style="margin-bottom:14px">
+        <label class="fl">وصف السبب *</label>
+        <input class="fi" id="noteReason" placeholder="مثال: تم استرداد كامل المبلغ بسبب إلغاء الطلب">
+      </div>
+
+      <div class="ff full" style="margin-bottom:14px">
+        <label class="fl">المبلغ (ر.س) *</label>
+        <input class="fi" id="noteAmount" type="number" step="0.01" placeholder="0.00">
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">يشمل الضريبة 15%</div>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px">
+        <button class="btn bg2" onclick="closeNoteModal()">إلغاء</button>
+        <button class="btn bp" id="noteSubmitBtn" onclick="submitNote()">إصدار الملاحظة</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3271,6 +3323,194 @@ function go(id,el){
   if (id === 'coa') coaLoad();
   if (id === 'sub') subLoad();
   if (id === 'admin') adminLoad();
+  if (id === 'inv') loadInvoices();
+}
+
+// ═══════════ INVOICES LIST + CREDIT/DEBIT NOTES ═══════════
+let _invoicesCache = [];
+
+async function loadInvoices() {
+  const tb = document.getElementById('invTb');
+  if (!tb) return;
+  try {
+    const { data, error } = await _sb
+      .from('invoices_with_notes')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(200);
+    if (error) {
+      // Fallback to raw table if view not yet created
+      const { data: raw } = await _sb.from('invoices').select('*').order('created_at', { ascending: false }).limit(200);
+      _invoicesCache = raw || [];
+    } else {
+      _invoicesCache = data || [];
+    }
+    renderInvoices();
+    renderInvoiceStats();
+  } catch (e) {
+    console.error('loadInvoices failed:', e);
+  }
+}
+
+function renderInvoiceStats() {
+  const list = _invoicesCache.filter(i => (i.invoice_kind || 'invoice') === 'invoice');
+  let pending = 0, overdue = 0, paid = 0;
+  const today = new Date().toISOString().slice(0,10);
+  list.forEach(i => {
+    const tot = +(i.total || 0);
+    const st = (i.payment_status || i.status || 'pending');
+    if (st === 'paid') paid += tot;
+    else if (i.due_date && i.due_date < today) overdue += tot;
+    else pending += tot;
+  });
+  const fmt = n => n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent = fmt(v); };
+  set('invPending', pending); set('invOverdue', overdue); set('invPaid', paid);
+}
+
+function renderInvoices() {
+  const tb = document.getElementById('invTb');
+  if (!tb) return;
+  if (!_invoicesCache.length) {
+    tb.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فواتير بعد — اضغط <b>＋ فاتورة</b> لإنشاء أول فاتورة</td></tr>`;
+    return;
+  }
+  const kindLabel = { invoice:'فاتورة', credit_note:'دائن', debit_note:'مدين' };
+  const kindColor = { invoice:'#2C5559', credit_note:'#c93545', debit_note:'#a8854a' };
+  const stLabel = { paid:'مدفوعة', pending:'معلقة', overdue:'متأخرة', draft:'مسودة', cleared:'مُصدرة', reported:'مُبلّغة', rejected:'مرفوضة' };
+  const today = new Date().toISOString().slice(0,10);
+  tb.innerHTML = _invoicesCache.map(i => {
+    const kind = i.invoice_kind || 'invoice';
+    const tot = +(i.total || 0);
+    let st = i.payment_status || i.zatca_status || 'pending';
+    if (kind === 'invoice' && st !== 'paid' && i.due_date && i.due_date < today) st = 'overdue';
+    const stColor = st === 'paid' ? '#86BA72' : st === 'overdue' || st === 'rejected' ? '#c93545' : '#a8854a';
+    const num = i.invoice_number || i.number || '—';
+    const parent = i.parent_invoice_number ? `<div style="font-size:10px;color:var(--t3)">عن: ${i.parent_invoice_number}</div>` : '';
+    const buyer = i.buyer_name || i.buyer || '—';
+    const due = i.due_date || i.issue_date || (i.created_at || '').slice(0,10);
+    return `<tr>
+      <td><div style="font-weight:600">${num}</div>${parent}</td>
+      <td><span style="background:${kindColor[kind]}1A;color:${kindColor[kind]};padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700">${kindLabel[kind]}</span></td>
+      <td>${buyer}</td>
+      <td style="direction:ltr;text-align:right">${due}</td>
+      <td style="direction:ltr;font-weight:600">${tot.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td><span style="color:${stColor};font-weight:600;font-size:12px">${stLabel[st]||st}</span></td>
+      <td>${kind==='invoice' && (i.zatca_status==='cleared'||i.zatca_status==='reported') ? `<button class="btn bg2" style="font-size:11px;padding:3px 8px" onclick="openNoteModal('credit_note','${i.id}')">دائن</button>` : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── Credit/Debit Note Modal ───
+const NOTE_REASONS = {
+  credit_note: [
+    { code:'CR-001', label:'مرتجع كامل / إلغاء فاتورة' },
+    { code:'CR-002', label:'إعادة تسعير' },
+    { code:'CR-003', label:'خصم على الكمية' },
+    { code:'CR-004', label:'تصحيح خطأ في الفاتورة الأصلية' },
+    { code:'CR-005', label:'خصم تجاري لاحق' },
+  ],
+  debit_note: [
+    { code:'DR-001', label:'تصحيح خطأ (مبلغ ناقص)' },
+    { code:'DR-002', label:'زيادة في السعر بعد الإصدار' },
+    { code:'DR-003', label:'رسوم إضافية' },
+    { code:'DR-004', label:'ضريبة إضافية مستحقة' },
+  ],
+};
+
+function openNoteModal(kind, preselectId) {
+  const modal = document.getElementById('noteModal');
+  if (!modal) return;
+  modal.dataset.kind = kind;
+  document.getElementById('noteModalTitle').textContent = kind === 'credit_note' ? 'إصدار ملاحظة دائن' : 'إصدار ملاحظة مدين';
+  document.getElementById('noteModalHint').textContent = kind === 'credit_note'
+    ? 'ملاحظة الدائن تُستخدم لتقليل قيمة الفاتورة (مرتجع، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي.'
+    : 'ملاحظة المدين تُستخدم لزيادة قيمة الفاتورة (رسوم إضافية، تصحيح مبلغ ناقص). الفاتورة الأصلية تبقى كما هي.';
+
+  // Populate parent invoice dropdown (only original invoices that are cleared/reported)
+  const sel = document.getElementById('noteParentInv');
+  const eligible = _invoicesCache.filter(i =>
+    (i.invoice_kind || 'invoice') === 'invoice' &&
+    ['cleared','reported'].includes(i.zatca_status)
+  );
+  sel.innerHTML = `<option value="">-- اختر فاتورة --</option>` + eligible.map(i =>
+    `<option value="${i.id}" data-total="${i.total||0}">${i.invoice_number||i.number} — ${i.buyer_name||i.buyer||'عميل'} — ${(+(i.total||0)).toFixed(2)} ر.س</option>`
+  ).join('');
+  if (preselectId) sel.value = preselectId;
+
+  // Populate reasons
+  const rsel = document.getElementById('noteReasonCode');
+  rsel.innerHTML = `<option value="">-- اختر السبب --</option>` + NOTE_REASONS[kind].map(r =>
+    `<option value="${r.code}" data-label="${r.label}">${r.code} — ${r.label}</option>`
+  ).join('');
+
+  document.getElementById('noteReason').value = '';
+  document.getElementById('noteAmount').value = '';
+  modal.style.display = 'flex';
+}
+
+function closeNoteModal() {
+  const modal = document.getElementById('noteModal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function submitNote() {
+  const modal = document.getElementById('noteModal');
+  const kind = modal.dataset.kind;
+  const parentId = document.getElementById('noteParentInv').value;
+  const reasonCode = document.getElementById('noteReasonCode').value;
+  const reason = document.getElementById('noteReason').value.trim();
+  const amount = parseFloat(document.getElementById('noteAmount').value) || 0;
+
+  if (!parentId) { alert('اختر الفاتورة الأصلية'); return; }
+  if (!reasonCode) { alert('اختر سبب الإصدار'); return; }
+  if (!reason) { alert('أدخل وصف السبب'); return; }
+  if (amount <= 0) { alert('أدخل مبلغاً صالحاً'); return; }
+
+  const btn = document.getElementById('noteSubmitBtn');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الإصدار...';
+
+  try {
+    const parent = _invoicesCache.find(i => i.id === parentId);
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session) { alert('سجّل دخولك أولاً'); return; }
+
+    // Build items from amount (single line with VAT 15%)
+    const net = amount / 1.15;
+    const items = [{ desc: reason, qty: 1, price: net, vatPct: 15 }];
+
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({
+        kind,
+        parentInvoiceId: parentId,
+        noteReason: reason,
+        noteReasonCode: reasonCode,
+        seller: parent?.seller_name || parent?.seller || '',
+        sellerVat: parent?.seller_vat || parent?.sellerVat || '',
+        sellerCity: parent?.seller_city || '',
+        buyer: parent?.buyer_name || parent?.buyer || '',
+        buyerVat: parent?.buyer_vat || parent?.buyerVat || '',
+        invoiceType: parent?.invoice_type || 'simplified',
+        items,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) { alert(data.error || 'تعذّر إصدار الملاحظة'); return; }
+
+    toast({ type:'success', msg: `تم إصدار ${kind==='credit_note'?'ملاحظة الدائن':'ملاحظة المدين'} ${data.invoice?.number || ''}` });
+    closeNoteModal();
+    loadInvoices();
+  } catch (e) {
+    console.error('submitNote failed:', e);
+    alert('تعذّر الاتصال بالخادم');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
 }
 
 // ═══════════ ADMIN PANEL ═══════════
