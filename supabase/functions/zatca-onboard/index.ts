@@ -46,7 +46,9 @@ Deno.serve(async (req) => {
     .maybeSingle();
 
   if (!membership) return err(403, 'لم يُعثر على حسابك');
-  if (membership.role !== 'owner') return err(403, 'فقط مالك الحساب يقدر يكمل ربط ZATCA');
+  if (!['owner', 'admin', 'manager'].includes(membership.role)) {
+    return err(403, 'يلزم صلاحية مالك أو مدير لإكمال ربط ZATCA');
+  }
 
   const tenant = membership.tenants as { id: string; name: string; vat_number: string };
 
@@ -73,7 +75,20 @@ Deno.serve(async (req) => {
     .eq('tenant_id', tenant.id)
     .maybeSingle();
 
-  if (!cfg) return err(400, 'يجب إنشاء فاتورة واحدة على الأقل قبل ربط ZATCA');
+  // Auto-create config if missing (first time setup)
+  if (!cfg) {
+    const { data: newCfg, error: cfgErr } = await sb.from('zatca_config').insert({
+      tenant_id:       tenant.id,
+      vat_number:      tenant.vat_number || '300000000000003',
+      seller_name:     organizationName || tenant.name,
+      seller_city:     location || 'Riyadh',
+      invoice_counter: 0,
+      egs_serial:      `1-Mahsoob|2-1.0|3-${tenant.id.slice(0, 8)}`,
+      onboarded:       false,
+    }).select().single();
+    if (cfgErr) return err(500, `تعذّر إنشاء إعدادات ZATCA: ${cfgErr.message}`);
+    cfg = newCfg;
+  }
 
   // ─────────────────────────────────────────────────────────────────────
   // ACTION 1: Generate CSR + keys
