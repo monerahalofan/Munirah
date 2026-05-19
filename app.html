@@ -729,6 +729,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
     <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
+    <div class="ni" onclick="go('brand',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span><span>تخصيص الفاتورة</span><span class="nbg" style="background:rgba(197,168,120,.15);color:#a8854a">جديد</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -2728,6 +2729,170 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 </div>
 
+<!-- INVOICE BRANDING & CUSTOMIZATION -->
+<div class="pg" id="pg-brand">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">تخصيص الفاتورة</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">اجعل فواتيرك تعكس هويتك التجارية</div>
+    </div>
+    <button class="btn bp" onclick="brandSave()" id="brandSaveBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg>
+      حفظ التغييرات
+    </button>
+  </div>
+
+  <div class="g2" style="gap:18px;align-items:flex-start">
+    <!-- LEFT: Settings -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+
+      <!-- Logo Upload -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">الشعار التجاري</div>
+          <div style="font-size:11px;color:var(--t3)">يظهر في أعلى الفاتورة (PNG, JPG, SVG - أقصى 2 ميجا)</div>
+        </div>
+        <div style="padding:20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <div id="brandLogoPreview" style="width:100px;height:100px;border:2px dashed var(--b);border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fafafa;color:var(--t3);font-size:11px;text-align:center;overflow:hidden">
+            لا يوجد شعار
+          </div>
+          <div style="flex:1;min-width:200px">
+            <input type="file" id="brandLogoInput" accept="image/*" style="display:none" onchange="brandUploadLogo(event)">
+            <button class="btn bp" onclick="document.getElementById('brandLogoInput').click()" style="margin-bottom:8px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              رفع شعار
+            </button>
+            <button class="btn bg2" onclick="brandRemoveLogo()" id="brandRemoveLogoBtn" style="display:none">حذف الشعار</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colors -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">ألوان الفاتورة</div>
+          <div style="font-size:11px;color:var(--t3)">اختر الألوان اللي تعكس هويتك</div>
+        </div>
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div>
+            <label class="fl">اللون الرئيسي</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="color" id="brandColor" value="#86BA72" style="width:50px;height:42px;border:1px solid var(--b);border-radius:9px;cursor:pointer;background:#fff;padding:2px" onchange="brandPreviewUpdate()">
+              <input type="text" id="brandColorHex" class="fi" value="#86BA72" style="direction:ltr;text-align:left" onchange="document.getElementById('brandColor').value=this.value;brandPreviewUpdate()">
+            </div>
+          </div>
+          <div>
+            <label class="fl">اللون الثانوي</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="color" id="accentColor" value="#2C5559" style="width:50px;height:42px;border:1px solid var(--b);border-radius:9px;cursor:pointer;background:#fff;padding:2px" onchange="brandPreviewUpdate()">
+              <input type="text" id="accentColorHex" class="fi" value="#2C5559" style="direction:ltr;text-align:left" onchange="document.getElementById('accentColor').value=this.value;brandPreviewUpdate()">
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 20px 16px;display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#86BA72','#2C5559')">سيج الكلاسيكي</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#0066CC','#003D7A')">أزرق احترافي</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#A689B5','#6B4E7D')">أرجواني</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#C5A878','#7B5C3E')">ذهبي</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#1a1a1a','#525252')">أسود راقي</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#dc2626','#7f1d1d')">أحمر جريء</button>
+        </div>
+      </div>
+
+      <!-- Template -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">قالب الفاتورة</div>
+          <div style="font-size:11px;color:var(--t3)">اختر التصميم الأنسب لعلامتك</div>
+        </div>
+        <div style="padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px" id="brandTemplates">
+          <label class="brand-tpl" data-tpl="classic">
+            <input type="radio" name="invTpl" value="classic" checked onchange="brandPreviewUpdate()" style="display:none">
+            <div class="brand-tpl-card">
+              <div style="height:60px;background:linear-gradient(135deg, var(--brand-color, #86BA72) 0%, var(--accent-color, #2C5559) 100%);border-radius:6px 6px 0 0"></div>
+              <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">كلاسيكي</div>
+          </label>
+          <label class="brand-tpl" data-tpl="modern">
+            <input type="radio" name="invTpl" value="modern" onchange="brandPreviewUpdate()" style="display:none">
+            <div class="brand-tpl-card">
+              <div style="display:flex;height:60px"><div style="width:30%;background:var(--accent-color, #2C5559);border-radius:6px 0 0 6px"></div><div style="flex:1;background:#fff;border-radius:0 6px 6px 0"></div></div>
+              <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">عصري</div>
+          </label>
+          <label class="brand-tpl" data-tpl="minimal">
+            <input type="radio" name="invTpl" value="minimal" onchange="brandPreviewUpdate()" style="display:none">
+            <div class="brand-tpl-card">
+              <div style="height:60px;background:#fafafa;border-bottom:3px solid var(--brand-color, #86BA72);border-radius:6px 6px 0 0"></div>
+              <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">بسيط</div>
+          </label>
+          <label class="brand-tpl" data-tpl="elegant">
+            <input type="radio" name="invTpl" value="elegant" onchange="brandPreviewUpdate()" style="display:none">
+            <div class="brand-tpl-card">
+              <div style="height:60px;background:#fff;border:2px solid var(--brand-color, #86BA72);border-radius:6px"></div>
+              <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">أنيق</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Company Info -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">معلومات الاتصال</div>
+          <div style="font-size:11px;color:var(--t3)">تظهر في تذييل الفاتورة</div>
+        </div>
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="ff full"><label class="fl">رقم الجوال</label><input class="fi" id="brandPhone" placeholder="+966..." style="direction:ltr;text-align:right" oninput="brandPreviewUpdate()"></div>
+          <div class="ff full"><label class="fl">البريد الإلكتروني</label><input class="fi" id="brandEmail" placeholder="info@..." style="direction:ltr;text-align:right" oninput="brandPreviewUpdate()"></div>
+          <div class="ff full" style="grid-column:1/-1"><label class="fl">العنوان</label><input class="fi" id="brandAddress" placeholder="الرياض، حي ..." oninput="brandPreviewUpdate()"></div>
+          <div class="ff full" style="grid-column:1/-1"><label class="fl">الموقع الإلكتروني</label><input class="fi" id="brandWebsite" placeholder="https://..." style="direction:ltr;text-align:right" oninput="brandPreviewUpdate()"></div>
+        </div>
+      </div>
+
+      <!-- Footer & Terms -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">رسائل مخصّصة</div>
+          <div style="font-size:11px;color:var(--t3)">تذييل الفاتورة + الشروط والأحكام</div>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div class="ff full"><label class="fl">رسالة الشكر</label><input class="fi" id="brandFooter" placeholder="شكراً لتعاملكم معنا!" oninput="brandPreviewUpdate()"></div>
+          <div class="ff full"><label class="fl">الشروط والأحكام</label><textarea class="fi" id="brandTerms" rows="3" placeholder="مثال: الدفع خلال 30 يوماً من تاريخ الإصدار..." oninput="brandPreviewUpdate()"></textarea></div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" id="brandShowQr" checked onchange="brandPreviewUpdate()"> إظهار رمز QR</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" id="brandShowTerms" checked onchange="brandPreviewUpdate()"> إظهار الشروط</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" id="brandShowSig" onchange="brandPreviewUpdate()"> مكان توقيع</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Live Preview -->
+    <div style="position:sticky;top:14px">
+      <div class="card">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:800;color:#000">معاينة مباشرة</div>
+          <div style="font-size:10px;color:var(--t3)">تحديث تلقائي</div>
+        </div>
+        <div style="padding:14px;background:#f5f5f5;max-height:75vh;overflow:auto" id="brandPreview"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.brand-tpl { cursor:pointer; display:block; }
+.brand-tpl-card { border:2px solid var(--b); border-radius:8px; overflow:hidden; transition:all .15s; background:#fff; }
+.brand-tpl input:checked ~ .brand-tpl-card,
+.brand-tpl:has(input:checked) .brand-tpl-card { border-color: var(--brand-color, #86BA72); box-shadow:0 0 0 3px rgba(134,186,114,.15); }
+</style>
+
 <!-- ADMIN PANEL (admins only) -->
 <div class="pg" id="pg-admin">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
@@ -3285,7 +3450,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -3442,6 +3607,271 @@ function go(id,el){
   if (id === 'admin') adminLoad();
   if (id === 'inv') loadInvoices();
   if (id === 'zatca') zatcaLoad();
+  if (id === 'brand') brandLoad();
+}
+
+// ═══════════ INVOICE BRANDING ═══════════
+let _brand = { logo_url:null, brand_color:'#86BA72', accent_color:'#2C5559', invoice_template:'classic',
+  invoice_footer:'', invoice_terms:'', company_phone:'', company_email:'', company_address:'', company_website:'',
+  invoice_show_qr:true, invoice_show_terms:true, invoice_show_signature:false };
+
+async function brandLoad() {
+  try {
+    const { data: t } = await _sb.from('tenants').select('*').maybeSingle();
+    if (t) {
+      _brand = {
+        logo_url:        t.logo_url || null,
+        brand_color:     t.brand_color || '#86BA72',
+        accent_color:    t.accent_color || '#2C5559',
+        invoice_template: t.invoice_template || 'classic',
+        invoice_footer:  t.invoice_footer || '',
+        invoice_terms:   t.invoice_terms || '',
+        company_phone:   t.company_phone || '',
+        company_email:   t.company_email || '',
+        company_address: t.company_address || '',
+        company_website: t.company_website || '',
+        invoice_show_qr: t.invoice_show_qr !== false,
+        invoice_show_terms: t.invoice_show_terms !== false,
+        invoice_show_signature: !!t.invoice_show_signature,
+      };
+    }
+  } catch (e) { console.error('brandLoad:', e); }
+
+  // Populate form
+  document.getElementById('brandColor').value      = _brand.brand_color;
+  document.getElementById('brandColorHex').value   = _brand.brand_color;
+  document.getElementById('accentColor').value     = _brand.accent_color;
+  document.getElementById('accentColorHex').value  = _brand.accent_color;
+  document.querySelector(`input[name="invTpl"][value="${_brand.invoice_template}"]`).checked = true;
+  document.getElementById('brandFooter').value  = _brand.invoice_footer;
+  document.getElementById('brandTerms').value   = _brand.invoice_terms;
+  document.getElementById('brandPhone').value   = _brand.company_phone;
+  document.getElementById('brandEmail').value   = _brand.company_email;
+  document.getElementById('brandAddress').value = _brand.company_address;
+  document.getElementById('brandWebsite').value = _brand.company_website;
+  document.getElementById('brandShowQr').checked    = _brand.invoice_show_qr;
+  document.getElementById('brandShowTerms').checked = _brand.invoice_show_terms;
+  document.getElementById('brandShowSig').checked   = _brand.invoice_show_signature;
+
+  // Logo preview
+  const lp = document.getElementById('brandLogoPreview');
+  if (_brand.logo_url) {
+    lp.innerHTML = `<img src="${_brand.logo_url}" style="max-width:100%;max-height:100%;object-fit:contain">`;
+    document.getElementById('brandRemoveLogoBtn').style.display = 'inline-flex';
+  } else {
+    lp.innerHTML = 'لا يوجد شعار';
+    document.getElementById('brandRemoveLogoBtn').style.display = 'none';
+  }
+
+  brandPreviewUpdate();
+}
+
+function brandReadForm() {
+  _brand.brand_color  = document.getElementById('brandColor').value;
+  _brand.accent_color = document.getElementById('accentColor').value;
+  _brand.invoice_template = document.querySelector('input[name="invTpl"]:checked')?.value || 'classic';
+  _brand.invoice_footer  = document.getElementById('brandFooter').value;
+  _brand.invoice_terms   = document.getElementById('brandTerms').value;
+  _brand.company_phone   = document.getElementById('brandPhone').value;
+  _brand.company_email   = document.getElementById('brandEmail').value;
+  _brand.company_address = document.getElementById('brandAddress').value;
+  _brand.company_website = document.getElementById('brandWebsite').value;
+  _brand.invoice_show_qr        = document.getElementById('brandShowQr').checked;
+  _brand.invoice_show_terms     = document.getElementById('brandShowTerms').checked;
+  _brand.invoice_show_signature = document.getElementById('brandShowSig').checked;
+  document.getElementById('brandColorHex').value  = _brand.brand_color;
+  document.getElementById('accentColorHex').value = _brand.accent_color;
+  // Update CSS vars for template thumbnails
+  document.documentElement.style.setProperty('--brand-color', _brand.brand_color);
+  document.documentElement.style.setProperty('--accent-color', _brand.accent_color);
+}
+
+function brandSetPalette(brand, accent) {
+  document.getElementById('brandColor').value = brand;
+  document.getElementById('accentColor').value = accent;
+  brandPreviewUpdate();
+}
+
+function brandPreviewUpdate() {
+  brandReadForm();
+  const el = document.getElementById('brandPreview');
+  if (!el) return;
+  const sample = {
+    number: 'INV-2026-00042',
+    date: new Date().toLocaleDateString('en-US'),
+    seller: Auth?.tenant?.name || 'مؤسسة محسوب التجريبية',
+    sellerVat: '300000000000003',
+    buyer: 'العميل الكريم',
+    buyerVat: '',
+    items: [
+      { desc:'خدمة استشارية', qty:1, price:1000, vat:150 },
+      { desc:'تطوير برمجي', qty:5, price:500, vat:375 },
+    ],
+    subtotal: 3500, vatTotal: 525, total: 4025,
+  };
+  el.innerHTML = brandRenderInvoice(sample, _brand);
+}
+
+function brandRenderInvoice(inv, b) {
+  const logo = b.logo_url ? `<img src="${b.logo_url}" style="max-height:60px;max-width:160px;object-fit:contain">` :
+    `<div style="font-size:22px;font-weight:900;color:${b.accent_color}">${inv.seller}</div>`;
+
+  const headerStyles = {
+    classic: `background:linear-gradient(135deg, ${b.brand_color}, ${b.accent_color});color:#fff;padding:24px;border-radius:8px 8px 0 0`,
+    modern:  `background:${b.accent_color};color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center`,
+    minimal: `background:#fff;color:${b.accent_color};padding:20px 0;border-bottom:3px solid ${b.brand_color}`,
+    elegant: `background:#fff;color:${b.accent_color};padding:24px;border:2px solid ${b.brand_color};border-radius:10px`,
+  };
+  const tpl = b.invoice_template || 'classic';
+  const header = `
+    <div style="${headerStyles[tpl]}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+        <div>${logo}</div>
+        <div style="text-align:left">
+          <div style="font-size:20px;font-weight:800">فاتورة ضريبية</div>
+          <div style="font-size:11px;opacity:.85;margin-top:4px">${inv.number}</div>
+          <div style="font-size:11px;opacity:.85">${inv.date}</div>
+        </div>
+      </div>
+    </div>`;
+
+  const rows = inv.items.map(it => `
+    <tr style="border-bottom:1px solid #e5e7eb">
+      <td style="padding:8px 10px;font-size:12px">${it.desc}</td>
+      <td style="padding:8px 10px;font-size:12px;text-align:center">${it.qty}</td>
+      <td style="padding:8px 10px;font-size:12px;text-align:center;direction:ltr">${(+it.price).toFixed(2)}</td>
+      <td style="padding:8px 10px;font-size:12px;text-align:center;direction:ltr">${(+it.vat).toFixed(2)}</td>
+      <td style="padding:8px 10px;font-size:12px;text-align:left;direction:ltr;font-weight:600">${(it.qty*it.price + +it.vat).toFixed(2)}</td>
+    </tr>`).join('');
+
+  const qrBlock = b.invoice_show_qr ? `
+    <div style="text-align:center;min-width:90px">
+      <div style="width:80px;height:80px;background:#f5f5f5;border:1px solid #e5e7eb;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999">QR</div>
+      <div style="font-size:9px;color:#888;margin-top:3px">QR زاتكا</div>
+    </div>` : '';
+
+  const termsBlock = (b.invoice_show_terms && b.invoice_terms) ? `
+    <div style="margin-top:14px;padding:10px;background:#fafafa;border-right:3px solid ${b.brand_color};border-radius:4px;font-size:10px;color:#555;line-height:1.6">
+      <b>الشروط والأحكام:</b><br>${b.invoice_terms.replace(/\n/g,'<br>')}
+    </div>` : '';
+
+  const sigBlock = b.invoice_show_signature ? `
+    <div style="display:flex;justify-content:space-between;margin-top:20px;gap:24px">
+      <div style="flex:1"><div style="font-size:10px;color:#555;margin-bottom:30px">توقيع البائع</div><div style="border-top:1px solid #999"></div></div>
+      <div style="flex:1"><div style="font-size:10px;color:#555;margin-bottom:30px">توقيع العميل</div><div style="border-top:1px solid #999"></div></div>
+    </div>` : '';
+
+  const contactParts = [b.company_phone, b.company_email, b.company_website, b.company_address].filter(Boolean);
+  const footerBlock = (contactParts.length || b.invoice_footer) ? `
+    <div style="margin-top:18px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#666;text-align:center;line-height:1.7">
+      ${b.invoice_footer ? `<div style="font-weight:600;color:${b.accent_color};margin-bottom:4px">${b.invoice_footer}</div>` : ''}
+      ${contactParts.join(' · ')}
+    </div>` : '';
+
+  return `
+  <div style="background:#fff;border-radius:8px;overflow:hidden;font-family:inherit;color:#1a1a1a">
+    ${header}
+    <div style="padding:18px 22px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+        <div style="background:#fafafa;padding:10px;border-radius:6px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">المُصدِر</div>
+          <div style="font-size:12px;font-weight:600">${inv.seller}</div>
+          <div style="font-size:10px;color:#666">رقم ضريبي: ${inv.sellerVat}</div>
+        </div>
+        <div style="background:#fafafa;padding:10px;border-radius:6px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">العميل</div>
+          <div style="font-size:12px;font-weight:600">${inv.buyer}</div>
+          ${inv.buyerVat ? `<div style="font-size:10px;color:#666">رقم ضريبي: ${inv.buyerVat}</div>` : ''}
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:14px">
+        <thead>
+          <tr style="background:${b.accent_color};color:#fff">
+            <th style="padding:8px 10px;font-size:11px;text-align:right">الوصف</th>
+            <th style="padding:8px 10px;font-size:11px;text-align:center">الكمية</th>
+            <th style="padding:8px 10px;font-size:11px;text-align:center">السعر</th>
+            <th style="padding:8px 10px;font-size:11px;text-align:center">ضريبة</th>
+            <th style="padding:8px 10px;font-size:11px;text-align:left">الإجمالي</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px">
+        ${qrBlock}
+        <div style="flex:1;max-width:280px;margin-right:auto">
+          <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px"><span style="color:#666">قبل الضريبة</span><span style="direction:ltr">${inv.subtotal.toFixed(2)} ر.س</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px"><span style="color:#666">الضريبة (15%)</span><span style="direction:ltr">${inv.vatTotal.toFixed(2)} ر.س</span></div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid ${b.brand_color};margin-top:4px;font-size:14px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:${b.brand_color}">${inv.total.toFixed(2)} ر.س</span></div>
+        </div>
+      </div>
+      ${sigBlock}
+      ${termsBlock}
+      ${footerBlock}
+    </div>
+  </div>`;
+}
+
+async function brandUploadLogo(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { alert('حجم الملف أكبر من 2 ميجا'); return; }
+  if (!['image/png','image/jpeg','image/jpg','image/svg+xml','image/webp'].includes(file.type)) {
+    alert('نوع الملف غير مدعوم. استخدم PNG/JPG/SVG/WebP'); return;
+  }
+  try {
+    const { data: t } = await _sb.from('tenants').select('id').maybeSingle();
+    if (!t) { alert('لم يُعثر على الحساب'); return; }
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = `${t.id}/logo-${Date.now()}.${ext}`;
+    const { data: up, error: upErr } = await _sb.storage.from('logos').upload(path, file, { upsert:true });
+    if (upErr) { alert('فشل الرفع: ' + upErr.message); return; }
+    const { data: pub } = _sb.storage.from('logos').getPublicUrl(path);
+    _brand.logo_url = pub.publicUrl;
+    document.getElementById('brandLogoPreview').innerHTML = `<img src="${pub.publicUrl}" style="max-width:100%;max-height:100%;object-fit:contain">`;
+    document.getElementById('brandRemoveLogoBtn').style.display = 'inline-flex';
+    brandPreviewUpdate();
+    toast({ type:'success', msg:'تم رفع الشعار. اضغطي حفظ التغييرات لتثبيته' });
+  } catch (e) {
+    alert('خطأ: ' + e.message);
+  }
+}
+
+function brandRemoveLogo() {
+  _brand.logo_url = null;
+  document.getElementById('brandLogoPreview').innerHTML = 'لا يوجد شعار';
+  document.getElementById('brandRemoveLogoBtn').style.display = 'none';
+  document.getElementById('brandLogoInput').value = '';
+  brandPreviewUpdate();
+}
+
+async function brandSave() {
+  brandReadForm();
+  const btn = document.getElementById('brandSaveBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '⏳ جاري الحفظ...';
+  try {
+    const { error } = await _sb.from('tenants').update({
+      logo_url: _brand.logo_url,
+      brand_color: _brand.brand_color,
+      accent_color: _brand.accent_color,
+      invoice_template: _brand.invoice_template,
+      invoice_footer: _brand.invoice_footer,
+      invoice_terms: _brand.invoice_terms,
+      company_phone: _brand.company_phone,
+      company_email: _brand.company_email,
+      company_address: _brand.company_address,
+      company_website: _brand.company_website,
+      invoice_show_qr: _brand.invoice_show_qr,
+      invoice_show_terms: _brand.invoice_show_terms,
+      invoice_show_signature: _brand.invoice_show_signature,
+    }).eq('id', Auth.tenant?.id || (await _sb.from('tenants').select('id').single()).data.id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم حفظ تخصيص الفاتورة ✓' });
+  } catch (e) {
+    alert('فشل الحفظ: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = orig;
+  }
 }
 
 // ═══════════ ZATCA Phase 2 Onboarding ═══════════
