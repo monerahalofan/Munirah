@@ -731,6 +731,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('brand',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span><span>تخصيص الفاتورة</span><span class="nbg" style="background:rgba(197,168,120,.15);color:#a8854a">جديد</span></div>
+    <a href="/help.html" target="_blank" class="ni" style="text-decoration:none;color:inherit"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span>مركز المساعدة</span></a>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1991,15 +1992,15 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
         </tbody>
       </table>
       <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير PDF...')">📄 PDF</button>
-        <button class="btn bg2" style="flex:1;padding:9px" onclick="alert('تصدير Excel...')">📊 Excel</button>
+        <button class="btn bg2" style="flex:1;padding:9px" onclick="exportVatPDF()">📄 PDF</button>
+        <button class="btn bg2" style="flex:1;padding:9px" onclick="exportVatExcel()">📊 Excel</button>
         <button class="btn bp" style="flex:2;padding:9px" onclick="submitToZatca()">تقديم لزاتكا ←</button>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="sh"><div class="st">معاملات ضريبة القيمة المضافة — هذا الربع</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="alert('تصدير...')">تصدير</button></div>
+    <div class="sh"><div class="st">معاملات ضريبة القيمة المضافة — هذا الربع</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="exportVatExcel()">تصدير</button></div>
     <table class="tbl">
       <thead><tr><th>التاريخ</th><th>الوصف</th><th>الجهة</th><th>قبل الضريبة</th><th>الضريبة</th><th>النوع</th></tr></thead>
       <tbody>
@@ -2067,7 +2068,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
             <tr><td colspan="4" style="text-align:center;color:var(--t3);padding:18px">لا يوجد سجل زكاة بعد — أدخل أرقامك أعلاه لبدء التتبع</td></tr>
           </tbody>
         </table>
-        <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="alert('تصدير تقرير الزكاة...')">تصدير تقرير الزكاة PDF ↓</button>
+        <button class="btn bp" style="width:100%;padding:10px;margin-top:12px" onclick="exportZakatPDF()">تصدير تقرير الزكاة PDF ↓</button>
       </div>
     </div>
   </div>
@@ -6828,6 +6829,134 @@ function downloadInvoicePDF(){
   <script>setTimeout(() => window.print(), 500);<\/script>
 </body>
 </html>`);
+  w.document.close();
+}
+
+// ═══════════ VAT / ZAKAT EXPORTS ═══════════
+function exportVatExcel() {
+  try {
+    const invoices = _invoicesCache.filter(i => (i.invoice_kind || 'invoice') === 'invoice');
+    if (!invoices.length) { alert('لا توجد فواتير لتصديرها'); return; }
+    const headers = ['التاريخ','رقم الفاتورة','العميل','الرقم الضريبي للعميل','قبل الضريبة','الضريبة 15%','الإجمالي','الحالة'];
+    const rows = invoices.map(i => [
+      (i.issue_date || (i.created_at||'').slice(0,10)),
+      (i.invoice_number || i.number || ''),
+      (i.buyer_name || i.buyer || i.client_name || ''),
+      (i.buyer_vat || i.buyerVat || ''),
+      (+(i.subtotal || 0)).toFixed(2),
+      (+(i.vat_amount || 0)).toFixed(2),
+      (+(i.total || 0)).toFixed(2),
+      (i.payment_status || i.status || i.zatca_status || ''),
+    ]);
+    // Totals row
+    const tSub = invoices.reduce((s,i)=>s+(+i.subtotal||0),0);
+    const tVat = invoices.reduce((s,i)=>s+(+i.vat_amount||0),0);
+    const tTot = invoices.reduce((s,i)=>s+(+i.total||0),0);
+    rows.push(['','','','الإجمالي:', tSub.toFixed(2), tVat.toFixed(2), tTot.toFixed(2), '']);
+    const csv = '﻿' + [headers, ...rows].map(r => r.map(c =>
+      `"${String(c).replace(/"/g,'""')}"`
+    ).join(',')).join('\n');
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const today = new Date().toISOString().slice(0,10);
+    a.href = url; a.download = `VAT-Report-${today}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast({ type:'success', msg:`تم تصدير ${invoices.length} فاتورة` });
+  } catch(e) {
+    alert('تعذّر التصدير: ' + e.message);
+  }
+}
+
+function exportVatPDF() {
+  const invoices = (_invoicesCache || []).filter(i => (i.invoice_kind || 'invoice') === 'invoice');
+  if (!invoices.length) { alert('لا توجد فواتير لتصديرها'); return; }
+  const tSub = invoices.reduce((s,i)=>s+(+i.subtotal||0),0);
+  const tVat = invoices.reduce((s,i)=>s+(+i.vat_amount||0),0);
+  const tTot = invoices.reduce((s,i)=>s+(+i.total||0),0);
+  const rows = invoices.map(i => `<tr>
+    <td>${i.issue_date || (i.created_at||'').slice(0,10)}</td>
+    <td>${i.invoice_number || i.number || '—'}</td>
+    <td>${i.buyer_name || i.buyer || i.client_name || '—'}</td>
+    <td style="direction:ltr;text-align:left">${(+(i.subtotal||0)).toFixed(2)}</td>
+    <td style="direction:ltr;text-align:left">${(+(i.vat_amount||0)).toFixed(2)}</td>
+    <td style="direction:ltr;text-align:left;font-weight:600">${(+(i.total||0)).toFixed(2)}</td>
+  </tr>`).join('');
+  const w = window.open('', '_blank', 'width=900,height=1000');
+  if (!w) { alert('السماح بالنوافذ المنبثقة مطلوب'); return; }
+  const today = new Date().toLocaleDateString('en-US');
+  const tenant = Auth?.tenant?.name || 'محسوب';
+  w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير VAT</title>
+<style>@page{size:A4;margin:14mm}*{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}body{margin:0;padding:24px;background:#fff;color:#1a1a1a}
+.h{display:flex;justify-content:space-between;border-bottom:2px solid #2C5559;padding-bottom:14px;margin-bottom:18px}
+.h h1{font-size:22px;color:#2C5559;margin:0}.h .meta{text-align:left;font-size:12px;color:#666}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+th{background:#2C5559;color:#fff;padding:8px;text-align:right}
+td{padding:7px 8px;border-bottom:1px solid #e5e7eb}
+tfoot td{background:#f7f9fc;font-weight:700;border-top:2px solid #2C5559}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#86BA72;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+@media print{.no-print{display:none!important}body{padding:0}}
+</style></head><body>
+<div class="no-print actions">
+  <button onclick="window.print()">💾 حفظ كـ PDF</button>
+  <button onclick="window.close()" style="background:#94a3b8;margin-right:10px">إغلاق</button>
+</div>
+<div class="h"><h1>${tenant} — تقرير ضريبة القيمة المضافة</h1><div class="meta">${today}<br>${invoices.length} فاتورة</div></div>
+<table><thead><tr><th>التاريخ</th><th>رقم الفاتورة</th><th>العميل</th><th>قبل الضريبة</th><th>الضريبة 15%</th><th>الإجمالي</th></tr></thead>
+<tbody>${rows}</tbody>
+<tfoot><tr><td colspan="3">الإجمالي</td><td style="direction:ltr;text-align:left">${tSub.toFixed(2)}</td><td style="direction:ltr;text-align:left">${tVat.toFixed(2)}</td><td style="direction:ltr;text-align:left">${tTot.toFixed(2)}</td></tr></tfoot>
+</table>
+<div style="margin-top:20px;padding-top:10px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center">صادرة عبر منصة محسوب · متوافقة مع متطلبات ZATCA</div>
+<script>setTimeout(()=>window.print(),500);<\/script>
+</body></html>`);
+  w.document.close();
+}
+
+function exportZakatPDF() {
+  const cash    = +document.getElementById('z-cash').value || 0;
+  const recv    = +document.getElementById('z-recv').value || 0;
+  const inv     = +document.getElementById('z-inv').value || 0;
+  const invest  = +document.getElementById('z-invest').value || 0;
+  const debt    = +document.getElementById('z-debt').value || 0;
+  const payable = +document.getElementById('z-payables').value || 0;
+  const base    = Math.max(0, cash + recv + inv + invest - debt - payable);
+  const nisab   = 16450;
+  const zakat   = base >= nisab ? base * 0.025 : 0;
+  const w = window.open('', '_blank', 'width=900,height=1000');
+  if (!w) { alert('السماح بالنوافذ المنبثقة مطلوب'); return; }
+  const today = new Date().toLocaleDateString('en-US');
+  const tenant = Auth?.tenant?.name || 'محسوب';
+  w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير الزكاة</title>
+<style>@page{size:A4;margin:18mm}*{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}body{margin:0;padding:24px;background:#fff;color:#1a1a1a;line-height:1.7}
+.h{text-align:center;border-bottom:2px solid #2C5559;padding-bottom:18px;margin-bottom:24px}.h h1{font-size:24px;color:#2C5559;margin:0 0 6px}.h .sub{font-size:12px;color:#666}
+.r{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px}.r.head{background:#2C5559;color:#fff;font-weight:700;border:none;border-radius:6px;margin-top:14px}
+.r.ded{color:#c93545}.r.tot{background:#86BA72;color:#fff;font-weight:800;font-size:16px;border-radius:6px;border:none;margin-top:14px}
+.note{background:#fff7e6;border-right:3px solid #a8854a;padding:14px;margin-top:20px;font-size:12px;color:#7a5a2c;line-height:1.8;border-radius:6px}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#86BA72;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+@media print{.no-print{display:none!important}body{padding:0}}
+</style></head><body>
+<div class="no-print actions">
+  <button onclick="window.print()">💾 حفظ كـ PDF</button>
+  <button onclick="window.close()" style="background:#94a3b8;margin-right:10px">إغلاق</button>
+</div>
+<div class="h"><h1>${tenant}</h1><div class="sub">تقرير حساب الزكاة · ${today}</div></div>
+<div class="r head"><span>أصول الزكاة</span><span>المبلغ (ر.س)</span></div>
+<div class="r"><span>النقد في البنك والصندوق</span><span style="direction:ltr">${cash.toFixed(2)}</span></div>
+<div class="r"><span>الذمم المدينة</span><span style="direction:ltr">${recv.toFixed(2)}</span></div>
+<div class="r"><span>المخزون التجاري</span><span style="direction:ltr">${inv.toFixed(2)}</span></div>
+<div class="r"><span>الاستثمارات قصيرة المدى</span><span style="direction:ltr">${invest.toFixed(2)}</span></div>
+<div class="r head"><span>الخصومات</span><span></span></div>
+<div class="r ded"><span>الديون والالتزامات</span><span style="direction:ltr">${debt.toFixed(2)}</span></div>
+<div class="r ded"><span>المصروفات المستحقة</span><span style="direction:ltr">${payable.toFixed(2)}</span></div>
+<div class="r" style="background:#f7f9fc;font-weight:700"><span>وعاء الزكاة</span><span style="direction:ltr">${base.toFixed(2)}</span></div>
+<div class="r" style="background:#f7f9fc"><span>النصاب (595 جرام فضة)</span><span style="direction:ltr">${nisab.toFixed(2)}</span></div>
+<div class="r" style="background:#f7f9fc"><span>هل بلغ النصاب؟</span><span style="font-weight:700;color:${base>=nisab?'#86BA72':'#c93545'}">${base>=nisab?'نعم — تجب الزكاة':'لا — لا تجب'}</span></div>
+<div class="r tot"><span>الزكاة المستحقة (2.5%)</span><span style="direction:ltr">${zakat.toFixed(2)} ر.س</span></div>
+<div class="note"><b>⚠️ تنبيه شرعي:</b> هذا تقدير مبدئي لأغراض التخطيط المالي. للحصول على الحكم النهائي، يُرجى استشارة عالم شريعة أو محاسب معتمد متخصص في فقه الزكاة المعاصر.</div>
+<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center">صادر عبر منصة محسوب · ${today}</div>
+<script>setTimeout(()=>window.print(),500);<\/script>
+</body></html>`);
   w.document.close();
 }
 
