@@ -197,6 +197,88 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
   .stats-grid{grid-template-columns:1fr 1fr}
   .footer-bottom{flex-direction:column;gap:12px;text-align:center}
 }
+/* ── HERO 2.0: Animated rotating word ── */
+.word-rotator{display:inline-block;position:relative;min-width:280px;height:1.2em;overflow:hidden;vertical-align:bottom}
+.word-item{position:absolute;inset:0;background:linear-gradient(135deg,#86BA72,#2C5559);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:translateY(100%);transition:transform .6s cubic-bezier(.3,1,.4,1),opacity .4s}
+.word-item.show{opacity:1;transform:translateY(0)}
+.word-item.out{transform:translateY(-100%);opacity:0}
+@media (max-width:600px){.word-rotator{min-width:200px}}
+
+/* ── Floating Hero Cards ── */
+.hero-cards{position:relative;width:100%;max-width:1100px;height:480px;margin:60px auto 0;perspective:1500px}
+@media (max-width:900px){.hero-cards{height:auto;display:flex;flex-direction:column;gap:14px;align-items:center}}
+.fcard{position:absolute;background:#fff;border-radius:18px;box-shadow:0 30px 80px -20px rgba(0,0,0,.18),0 10px 30px -10px rgba(0,0,0,.08);padding:18px;animation:floatCard 5s ease-in-out infinite;transition:transform .4s cubic-bezier(.3,1,.4,1)}
+@media (max-width:900px){.fcard{position:relative!important;transform:none!important;animation:none;width:100%;max-width:360px}}
+@keyframes floatCard{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+
+.fcard.c1{--rot:-3deg;top:0;right:0;width:340px;animation-delay:0s;z-index:3}
+.fcard.c2{--rot:2deg;top:140px;left:0;width:300px;animation-delay:1s;z-index:2}
+.fcard.c3{--rot:-1deg;bottom:0;right:18%;width:380px;animation-delay:2s;z-index:4}
+.fcard.c4{--rot:4deg;top:30px;left:30%;width:200px;animation-delay:1.5s;z-index:1}
+
+.fcard-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fcard-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.fcard-title{font-size:12px;color:#9aa0b8;font-weight:600}
+.fcard-val{font-size:24px;font-weight:900;color:#1a1d2e;line-height:1.1}
+.fcard-sub{font-size:11px;color:#9aa0b8;margin-top:4px}
+.fcard-bars{display:flex;align-items:flex-end;gap:5px;height:50px;margin-top:10px}
+.fcard-bars .b{flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:3px 3px 0 0;animation:barG 2s ease infinite}
+.fcard-bars .b:nth-child(1){animation-delay:0s}
+.fcard-bars .b:nth-child(2){animation-delay:.2s}
+.fcard-bars .b:nth-child(3){animation-delay:.4s}
+.fcard-bars .b:nth-child(4){animation-delay:.6s}
+.fcard-bars .b:nth-child(5){animation-delay:.8s}
+.fcard-bars .b:nth-child(6){animation-delay:1s}
+@keyframes barG{0%,100%{opacity:.7}50%{opacity:1}}
+
+.fcard-line{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.fcard-line:last-child{border:none}
+
+/* Hero typing demo */
+.type-box{background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(59,130,246,.06));border:1px solid rgba(139,92,246,.15);border-radius:12px;padding:14px;font-size:13px;line-height:1.7;color:#3a3f5c;min-height:60px}
+.type-cursor{display:inline-block;width:2px;height:1em;background:#8b5cf6;vertical-align:text-bottom;margin-right:2px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ── Stat counter pulse ── */
+.preview-stat-num{transition:transform .4s}
+.preview-stat:hover .preview-stat-num{transform:scale(1.08)}
+
+/* ── Live Demo Showcase ── */
+.demo-section{padding:90px 5%;background:#0d1117;color:#fff;position:relative;overflow:hidden}
+.demo-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(134,186,114,.15),transparent 60%);pointer-events:none}
+.demo-inner{max-width:1200px;margin:0 auto;position:relative;z-index:2}
+.demo-head{text-align:center;margin-bottom:48px}
+.demo-head h2{font-size:clamp(28px,4vw,44px);font-weight:900;color:#fff;margin-bottom:14px}
+.demo-head h2 em{font-style:normal;color:#9DC78A}
+.demo-head p{color:#8892a4;font-size:16px;max-width:560px;margin:0 auto}
+.demo-grid{display:grid;grid-template-columns:320px 1fr;gap:32px;align-items:start}
+@media (max-width:900px){.demo-grid{grid-template-columns:1fr}}
+.demo-tabs{display:flex;flex-direction:column;gap:8px}
+.demo-tab{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .25s;text-align:right}
+.demo-tab:hover{background:rgba(255,255,255,.07);border-color:rgba(134,186,114,.3)}
+.demo-tab.on{background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(44,85,89,.2));border-color:#86BA72;box-shadow:0 8px 24px rgba(134,186,114,.15)}
+.demo-tab-h{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.demo-tab-ic{width:36px;height:36px;background:rgba(134,186,114,.2);color:#9DC78A;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.demo-tab.on .demo-tab-ic{background:#86BA72;color:#fff}
+.demo-tab-t{font-size:15px;font-weight:700}
+.demo-tab-d{font-size:12px;color:#8892a4;line-height:1.6}
+.demo-screen{background:#161b27;border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:0;overflow:hidden;min-height:480px;position:relative}
+.demo-panel{display:none;padding:24px;animation:fadeP .4s ease}
+.demo-panel.on{display:block}
+@keyframes fadeP{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.demo-bar{background:#0d1117;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.demo-bar .dot{width:10px;height:10px;border-radius:50%}
+.demo-title{font-size:13px;color:#8892a4;flex:1;text-align:center}
+
+/* ── Mouse-following hero glow ── */
+.hero{position:relative}
+.hero-orb{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(134,186,114,.18) 0%,transparent 60%);pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .6s cubic-bezier(.2,1,.4,1);will-change:transform;z-index:0}
+
+/* ── Animated CTA pulse ── */
+.btn-hero{position:relative;overflow:hidden}
+.btn-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(255,255,255,.3),transparent 60%);opacity:0;transition:opacity .3s}
+.btn-hero:hover::after{opacity:1}
+
 /* ── Reading progress bar ── */
 .read-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#86BA72,#5d8f4e);z-index:1000;transition:width .1s;width:0}
 
@@ -257,9 +339,10 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
   </a>
   <div class="nav-links">
     <a href="#features" class="nav-link">المميزات</a>
+    <a href="#demo" class="nav-link">جربه</a>
     <a href="#pricing" class="nav-link">الأسعار</a>
     <a href="#how" class="nav-link">كيف يعمل</a>
-    <a href="#contact" class="nav-link">تواصل معنا</a>
+    <a href="#contact" class="nav-link">تواصل</a>
     <a href="/login" class="btn-nav-out">دخول</a>
     <a href="/login#signup" class="btn-nav">ابدأ مجاناً</a>
   </div>
@@ -269,13 +352,22 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-grid"></div>
+  <div class="hero-orb" id="heroOrb"></div>
 
   <div class="badge">
     <span class="badge-dot"></span>
     ✨ يدعم الذكاء الاصطناعي — جديد
   </div>
 
-  <h1>محاسبتك أصبحت<br><em>أذكى وأسهل</em></h1>
+  <h1>محاسبتك أصبحت<br>
+    <span class="word-rotator">
+      <span class="word-item show">أذكى وأسهل</span>
+      <span class="word-item">أسرع 10×</span>
+      <span class="word-item">بدون تعقيد</span>
+      <span class="word-item">على راحتك</span>
+      <span class="word-item">معك دائماً</span>
+    </span>
+  </h1>
 
   <p class="hero-sub">
     نظام محاسبة متكامل للمشاريع الصغيرة والمتوسطة —<br>
@@ -289,47 +381,75 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 
   <p class="hero-note">لا يحتاج بطاقة ائتمانية · <b>مجاني للبدء</b> · يعمل على الجوال</p>
 
-  <!-- App Preview -->
-  <div class="hero-preview" style="margin-top:52px">
-    <div class="preview-frame">
-      <div class="preview-bar">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#febc2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;background:rgba(255,255,255,.07);border-radius:6px;height:24px;margin:0 16px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#8892a4">mahsob.sa</div>
-      </div>
-      <div class="preview-stats">
-        <div class="preview-stat">
-          <div class="preview-stat-num">84,200</div>
-          <div class="preview-stat-lbl">إيرادات الشهر (ر.س)</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num" style="color:#e8394a">31,500</div>
-          <div class="preview-stat-lbl">المصروفات</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num">52,700</div>
-          <div class="preview-stat-lbl">صافي الربح</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num" style="color:#f59e0b">12</div>
-          <div class="preview-stat-lbl">فاتورة معلقة</div>
+  <!-- Floating UI Cards (replaces old preview frame) -->
+  <div class="hero-cards" id="heroCards">
+
+    <!-- AI typing demo -->
+    <div class="fcard c1" data-tilt>
+      <div class="fcard-head">
+        <div class="fcard-ic" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff">✨</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#1a1d2e">إنشاء فاتورة بالذكاء</div>
+          <div class="fcard-sub">اكتب وصف الفاتورة</div>
         </div>
       </div>
-      <div class="preview-chart">
-        <div style="font-size:12px;color:#4a5568;margin-bottom:10px">الإيرادات — آخر 7 أشهر</div>
-        <div class="chart-bars">
-          <div class="bar" style="--h:45%;height:45%"></div>
-          <div class="bar" style="--h:60%;height:60%"></div>
-          <div class="bar" style="--h:38%;height:38%"></div>
-          <div class="bar" style="--h:72%;height:72%"></div>
-          <div class="bar" style="--h:55%;height:55%"></div>
-          <div class="bar" style="--h:85%;height:85%"></div>
-          <div class="bar active" style="--h:100%;height:100%"></div>
-        </div>
+      <div class="type-box">
+        <span id="typeText">فاتورة لأحمد عن تصميم موقع 5000 ريال</span><span class="type-cursor"></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:#86BA72;font-weight:700">
+        <span>✓ تم استخراج البيانات</span>
+        <span>5,750 ر.س</span>
       </div>
     </div>
+
+    <!-- Revenue chart -->
+    <div class="fcard c2" data-tilt>
+      <div class="fcard-head">
+        <div class="fcard-ic" style="background:rgba(134,186,114,.15);color:#86BA72">📊</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#1a1d2e">إيرادات الشهر</div>
+          <div class="fcard-sub">+23% من الشهر الماضي</div>
+        </div>
+      </div>
+      <div class="fcard-val" style="color:#86BA72">84,200 <span style="font-size:13px;color:#9aa0b8">ر.س</span></div>
+      <div class="fcard-bars">
+        <div class="b" style="height:30%"></div>
+        <div class="b" style="height:55%"></div>
+        <div class="b" style="height:42%"></div>
+        <div class="b" style="height:78%"></div>
+        <div class="b" style="height:65%"></div>
+        <div class="b" style="height:100%"></div>
+      </div>
+    </div>
+
+    <!-- ZATCA Invoice -->
+    <div class="fcard c3" data-tilt>
+      <div class="fcard-head">
+        <div class="fcard-ic" style="background:rgba(44,85,89,.12);color:#2C5559">🧾</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:700;color:#1a1d2e">فاتورة ضريبية #INV-2026-0042</div>
+          <div class="fcard-sub">✓ متوافقة مع ZATCA</div>
+        </div>
+        <div style="width:42px;height:42px;background:#000;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:10px;color:#fff">QR</div>
+      </div>
+      <div class="fcard-line"><span style="color:#9aa0b8">قبل الضريبة</span><span style="direction:ltr;font-weight:600">5,000.00</span></div>
+      <div class="fcard-line"><span style="color:#9aa0b8">الضريبة 15%</span><span style="direction:ltr;font-weight:600">750.00</span></div>
+      <div class="fcard-line" style="font-weight:800;font-size:14px;color:#86BA72"><span>الإجمالي</span><span style="direction:ltr">5,750.00 ر.س</span></div>
+    </div>
+
+    <!-- Stat -->
+    <div class="fcard c4" data-tilt>
+      <div class="fcard-head">
+        <div class="fcard-ic" style="background:rgba(168,134,75,.15);color:#a8854a">⏱️</div>
+        <div>
+          <div style="font-size:11px;color:#9aa0b8;font-weight:600">وفّرت</div>
+        </div>
+      </div>
+      <div class="fcard-val" style="color:#a8854a">12 <span style="font-size:13px;color:#9aa0b8">ساعة/أسبوع</span></div>
+      <div class="fcard-sub" style="margin-top:6px">مقارنة بالطريقة اليدوية</div>
+    </div>
   </div>
+
 </section>
 
 <!-- ── Stats ── -->
@@ -413,6 +533,128 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 </section>
 
 <!-- ── AI Section ── -->
+<!-- ── Interactive Live Demo ── -->
+<section class="demo-section" id="demo">
+  <div class="demo-inner">
+    <div class="demo-head">
+      <div class="section-badge" style="background:rgba(134,186,114,.15);border-color:rgba(134,186,114,.3);color:#9DC78A">🎬 جربه قبل ما تشترك</div>
+      <h2 class="reveal">شاهد محسوب <em>على الواقع</em></h2>
+      <p class="reveal">اضغطي على أي ميزة وشوفي كيف تشتغل — بدون تسجيل، بدون انتظار</p>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-tabs">
+        <div class="demo-tab on" onclick="showDemo(0,this)">
+          <div class="demo-tab-h"><div class="demo-tab-ic">🤖</div><div class="demo-tab-t">إصدار فاتورة بالذكاء</div></div>
+          <div class="demo-tab-d">اكتب وصف بالعربي والنظام يكمل لك التفاصيل</div>
+        </div>
+        <div class="demo-tab" onclick="showDemo(1,this)">
+          <div class="demo-tab-h"><div class="demo-tab-ic">📊</div><div class="demo-tab-t">لوحة تحكم حية</div></div>
+          <div class="demo-tab-d">إيرادات، مصروفات، أرباح في نظرة واحدة</div>
+        </div>
+        <div class="demo-tab" onclick="showDemo(2,this)">
+          <div class="demo-tab-h"><div class="demo-tab-ic">🧾</div><div class="demo-tab-t">فاتورة ZATCA كاملة</div></div>
+          <div class="demo-tab-d">QR + XML + توقيع متوافق مع الهيئة</div>
+        </div>
+        <div class="demo-tab" onclick="showDemo(3,this)">
+          <div class="demo-tab-h"><div class="demo-tab-ic">⏰</div><div class="demo-tab-t">متابعة الذمم</div></div>
+          <div class="demo-tab-d">من عليه فلوس + أرسلي تذكير بضغطة</div>
+        </div>
+      </div>
+
+      <div class="demo-screen">
+        <div class="demo-bar">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+          <div class="demo-title">mahsob.sa</div>
+        </div>
+
+        <!-- Panel 0: AI Invoice -->
+        <div class="demo-panel on">
+          <div style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(59,130,246,.1));border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:18px;margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <div style="width:38px;height:38px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);border-radius:11px;display:flex;align-items:center;justify-content:center">✨</div>
+              <div style="flex:1">
+                <div style="font-weight:700">إنشاء فاتورة بالذكاء الاصطناعي</div>
+                <div style="font-size:11px;color:#8892a4">صف الفاتورة بالعربي</div>
+              </div>
+            </div>
+            <div style="background:rgba(0,0,0,.3);border-radius:9px;padding:12px;font-size:13px;color:#9DC78A">فاتورة لمنيرة عن هوية بصرية شاملة 3500 ريال شاملة الضريبة</div>
+            <button style="margin-top:10px;background:#8b5cf6;color:#fff;border:none;padding:9px 18px;border-radius:9px;font-family:inherit;font-size:13px;font-weight:600">▶ إنشاء الفاتورة</button>
+          </div>
+          <div style="background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.25);border-radius:11px;padding:14px;font-size:13px;color:#9DC78A">
+            ✓ تم استخراج البيانات: <b>منيرة</b> · <b>هوية بصرية</b> · <b>3,043.48 ر.س</b> + ضريبة <b>456.52</b> = <b>3,500 ر.س</b>
+          </div>
+        </div>
+
+        <!-- Panel 1: Dashboard -->
+        <div class="demo-panel">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px">
+            <div style="background:rgba(134,186,114,.1);border:1px solid rgba(134,186,114,.2);border-radius:12px;padding:14px"><div style="font-size:11px;color:#8892a4">الإيرادات</div><div style="font-size:22px;font-weight:800;color:#9DC78A">84,200</div></div>
+            <div style="background:rgba(232,57,74,.1);border:1px solid rgba(232,57,74,.2);border-radius:12px;padding:14px"><div style="font-size:11px;color:#8892a4">المصروفات</div><div style="font-size:22px;font-weight:800;color:#e8394a">31,500</div></div>
+            <div style="background:rgba(168,134,75,.1);border:1px solid rgba(168,134,75,.2);border-radius:12px;padding:14px"><div style="font-size:11px;color:#8892a4">صافي الربح</div><div style="font-size:22px;font-weight:800;color:#f59e0b">52,700</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:18px">
+            <div style="font-size:12px;color:#8892a4;margin-bottom:14px">الإيرادات — آخر 7 أشهر</div>
+            <div style="display:flex;align-items:flex-end;gap:8px;height:140px">
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:45%;animation:barAnim 1.6s ease infinite"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:62%;animation:barAnim 1.6s ease infinite;animation-delay:.1s"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:38%;animation:barAnim 1.6s ease infinite;animation-delay:.2s"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:74%;animation:barAnim 1.6s ease infinite;animation-delay:.3s"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:55%;animation:barAnim 1.6s ease infinite;animation-delay:.4s"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:88%;animation:barAnim 1.6s ease infinite;animation-delay:.5s"></div>
+              <div style="flex:1;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;height:100%;animation:barAnim 1.6s ease infinite;animation-delay:.6s"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: ZATCA Invoice -->
+        <div class="demo-panel">
+          <div style="background:#fff;color:#1a1d2e;border-radius:14px;padding:24px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #2C5559;padding-bottom:14px;margin-bottom:14px">
+              <div><div style="font-weight:900;font-size:18px;color:#2C5559">مؤسسة الفهد</div><div style="font-size:11px;color:#9aa0b8">VAT: 300000000000003</div></div>
+              <div style="text-align:left"><div style="font-weight:700">فاتورة ضريبية</div><div style="font-size:11px;color:#9aa0b8">INV-2026-0042</div></div>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+              <thead><tr style="background:#f7f9fc"><th style="padding:7px;text-align:right">الوصف</th><th style="padding:7px">الكمية</th><th style="padding:7px;text-align:left">السعر</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:7px">تصميم موقع</td><td style="text-align:center">1</td><td style="text-align:left;direction:ltr">5,000.00</td></tr>
+              </tbody>
+            </table>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px">
+              <div style="width:64px;height:64px;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;border-radius:6px">QR</div>
+              <div style="flex:1;text-align:left">
+                <div style="font-size:12px;color:#9aa0b8">قبل: 5,000.00 · ضريبة: 750.00</div>
+                <div style="font-size:18px;font-weight:900;color:#86BA72;direction:ltr">5,750.00 ر.س</div>
+              </div>
+            </div>
+            <div style="margin-top:14px;padding:8px;background:rgba(134,186,114,.1);border-radius:8px;font-size:11px;color:#2C5559;text-align:center">✓ فاتورة ضريبية معتمدة — متوافقة مع ZATCA</div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Receivables -->
+        <div class="demo-panel">
+          <div style="margin-bottom:14px"><div style="font-size:14px;font-weight:700">الفواتير المتأخرة</div><div style="font-size:11px;color:#8892a4">3 عملاء عليهم ديون</div></div>
+          <div style="background:rgba(201,53,69,.08);border:1px solid rgba(201,53,69,.2);border-radius:11px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700">شركة الفهد</div><div style="font-size:11px;color:#c93545">متأخرة 35 يوم · 12,500 ر.س</div></div>
+            <button style="background:#25d366;color:#fff;border:none;padding:7px 13px;border-radius:8px;font-family:inherit;font-size:11px;font-weight:600">💬 تذكير</button>
+          </div>
+          <div style="background:rgba(168,134,75,.08);border:1px solid rgba(168,134,75,.2);border-radius:11px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700">متجر النور</div><div style="font-size:11px;color:#a8854a">متأخرة 12 يوم · 4,200 ر.س</div></div>
+            <button style="background:#25d366;color:#fff;border:none;padding:7px 13px;border-radius:8px;font-family:inherit;font-size:11px;font-weight:600">💬 تذكير</button>
+          </div>
+          <div style="background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.2);border-radius:11px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700">منيرة</div><div style="font-size:11px;color:#86BA72">حالية · 2,800 ر.س</div></div>
+            <span style="color:#86BA72;font-size:12px;font-weight:700">✓ في الموعد</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<style>@keyframes barAnim{0%,100%{opacity:.85}50%{opacity:1}}</style>
+
 <section class="ai-section" id="ai">
   <div class="ai-inner">
     <div class="reveal">
@@ -758,6 +1000,116 @@ const statsObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.3 });
 const statsSection = document.querySelector('.stats-section');
 if(statsSection) statsObserver.observe(statsSection);
+
+// ─── HERO: Rotating words ───
+(function rotateWords(){
+  const items = document.querySelectorAll('.word-item');
+  if (!items.length) return;
+  let idx = 0;
+  setInterval(() => {
+    items[idx].classList.remove('show');
+    items[idx].classList.add('out');
+    idx = (idx + 1) % items.length;
+    items[idx].classList.remove('out');
+    setTimeout(() => items[idx].classList.add('show'), 50);
+    // reset all others
+    items.forEach((it, i) => {
+      if (i !== idx) { it.classList.remove('show'); }
+    });
+  }, 2800);
+})();
+
+// ─── HERO: Typing demo for AI invoice card ───
+(function typingDemo(){
+  const el = document.getElementById('typeText');
+  if (!el) return;
+  const phrases = [
+    'فاتورة لأحمد عن تصميم موقع 5000 ريال',
+    'فاتورة لمنيرة هوية بصرية 2500 + بطاقات 500',
+    'فاتورة لمتجر النور 10 كيلو رز بـ 25 للكيلو',
+    'فاتورة لشركة الفهد استشارة 3 ساعات 1200',
+  ];
+  let p = 0, c = 0, deleting = false;
+  function tick(){
+    const cur = phrases[p];
+    if (!deleting) {
+      el.textContent = cur.slice(0, c + 1);
+      c++;
+      if (c === cur.length) { deleting = true; setTimeout(tick, 1800); return; }
+      setTimeout(tick, 50 + Math.random() * 40);
+    } else {
+      el.textContent = cur.slice(0, c - 1);
+      c--;
+      if (c === 0) { deleting = false; p = (p + 1) % phrases.length; setTimeout(tick, 400); return; }
+      setTimeout(tick, 25);
+    }
+  }
+  tick();
+})();
+
+// ─── HERO: Mouse-following orb ───
+(function heroOrb(){
+  const orb = document.getElementById('heroOrb');
+  const hero = document.querySelector('.hero');
+  if (!orb || !hero || window.innerWidth < 768) return;
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - .5) * 60;
+    const y = ((e.clientY - rect.top) / rect.height - .5) * 60;
+    orb.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  });
+})();
+
+// ─── HERO: Parallax on floating cards ───
+(function cardsParallax(){
+  const cards = document.querySelectorAll('.fcard');
+  const hero = document.querySelector('.hero');
+  if (!cards.length || !hero || window.innerWidth < 900) return;
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - .5;
+    const y = (e.clientY - rect.top) / rect.height - .5;
+    cards.forEach((card, i) => {
+      const depth = (i % 3 + 1) * 10;
+      const rot = card.style.getPropertyValue('--rot') || '0deg';
+      card.style.transform = `translate(${-x * depth}px, ${-y * depth}px) rotate(${rot})`;
+    });
+  });
+  hero.addEventListener('mouseleave', () => {
+    cards.forEach(card => { card.style.transform = ''; });
+  });
+})();
+
+// ─── Live Demo tabs ───
+function showDemo(idx, tab) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('on'));
+  tab.classList.add('on');
+  document.querySelectorAll('.demo-panel').forEach((p, i) => {
+    p.classList.toggle('on', i === idx);
+  });
+}
+// Auto-rotate demo every 6s if user hasn't interacted
+(function autoDemo(){
+  let userInteracted = false;
+  document.querySelectorAll('.demo-tab').forEach(t => t.addEventListener('click', () => userInteracted = true));
+  let i = 0;
+  setInterval(() => {
+    if (userInteracted) return;
+    const tabs = document.querySelectorAll('.demo-tab');
+    if (!tabs.length) return;
+    i = (i + 1) % tabs.length;
+    showDemo(i, tabs[i]);
+  }, 6000);
+})();
+
+// ─── BTN ripple position for radial highlight ───
+document.querySelectorAll('.btn-hero').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    btn.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    btn.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  });
+});
 
 // ─── Reading progress bar ───
 const readBar = document.getElementById('readBar');
