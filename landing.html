@@ -197,9 +197,57 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
   .stats-grid{grid-template-columns:1fr 1fr}
   .footer-bottom{flex-direction:column;gap:12px;text-align:center}
 }
+/* ── Reading progress bar ── */
+.read-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#86BA72,#5d8f4e);z-index:1000;transition:width .1s;width:0}
+
+/* ── Cursor glow ── */
+.cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(134,186,114,.12),transparent 60%);pointer-events:none;z-index:1;transition:transform .15s cubic-bezier(.3,1,.4,1);transform:translate(-50%,-50%);will-change:transform}
+@media (max-width:768px){.cursor-glow{display:none}}
+
+/* ── Feature card 3D tilt ── */
+.feat-card{transform-style:preserve-3d;transition:transform .25s,background .2s}
+.feat-card:hover{transform:translateY(-6px) scale(1.01)}
+.feat-card .feat-icon{transition:transform .3s}
+.feat-card:hover .feat-icon{transform:scale(1.15) rotate(-6deg)}
+
+/* ── Animated counter ── */
+.counter{display:inline-block}
+
+/* ── Trust badges row ── */
+.trust-row{padding:50px 5%;background:#fff;border-bottom:1px solid var(--b);overflow:hidden}
+.trust-row .trust-label{text-align:center;font-size:12px;color:var(--t3);font-weight:600;letter-spacing:1px;margin-bottom:24px;text-transform:uppercase}
+.trust-icons{display:flex;justify-content:center;align-items:center;gap:42px;flex-wrap:wrap;opacity:.7;transition:opacity .3s}
+.trust-icons:hover{opacity:1}
+.trust-item{display:flex;align-items:center;gap:8px;color:var(--t2);font-size:13px;font-weight:600;padding:8px 16px;background:var(--bg2);border-radius:20px;border:1px solid var(--b);transition:all .25s}
+.trust-item:hover{background:var(--gd);border-color:var(--gb);color:var(--g);transform:translateY(-2px)}
+
+/* ── Testimonials ── */
+.testimonials{padding:80px 5%;background:var(--bg2)}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:1100px;margin:40px auto 0}
+.test-card{background:#fff;border-radius:18px;padding:26px;border:1px solid var(--b);transition:all .3s;position:relative}
+.test-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:var(--gb)}
+.test-quote{position:absolute;top:18px;right:22px;font-size:48px;color:var(--gb);line-height:1;font-family:Georgia,serif}
+.test-text{font-size:14px;color:var(--t);line-height:1.85;margin-bottom:18px;position:relative;z-index:2}
+.test-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px solid var(--b)}
+.test-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.test-name{font-size:13px;font-weight:700}
+.test-role{font-size:11px;color:var(--t3);margin-top:2px}
+
+/* ── Magnetic button effect ── */
+.magnetic{transition:transform .15s ease-out}
+
+/* ── Reveal animations enhanced ── */
+.reveal-l{opacity:0;transform:translateX(-30px);transition:all .8s cubic-bezier(.3,1,.4,1)}
+.reveal-l.show{opacity:1;transform:translateX(0)}
+.reveal-r{opacity:0;transform:translateX(30px);transition:all .8s cubic-bezier(.3,1,.4,1)}
+.reveal-r.show{opacity:1;transform:translateX(0)}
+.reveal-scale{opacity:0;transform:scale(.92);transition:all .7s cubic-bezier(.3,1,.4,1)}
+.reveal-scale.show{opacity:1;transform:scale(1)}
 </style>
 </head>
 <body>
+<div class="read-bar" id="readBar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- ── Nav ── -->
 <nav>
@@ -305,6 +353,19 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
     </div>
   </div>
 </div>
+
+<!-- ── Trust Row ── -->
+<section class="trust-row reveal">
+  <div class="trust-label">موثوق ومتوافق</div>
+  <div class="trust-icons">
+    <div class="trust-item">🛡️ ZATCA Phase 1</div>
+    <div class="trust-item">🔒 PDPL</div>
+    <div class="trust-item">⚡ Tap Payments</div>
+    <div class="trust-item">☁️ Supabase</div>
+    <div class="trust-item">🌐 Cloudflare</div>
+    <div class="trust-item">🇸🇦 صُنع في السعودية</div>
+  </div>
+</section>
 
 <!-- ── Features ── -->
 <section class="features" id="features">
@@ -531,6 +592,41 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 </section>
 
 <!-- ── CTA ── -->
+<!-- ── Testimonials ── -->
+<section class="testimonials">
+  <div style="text-align:center;max-width:900px;margin:0 auto">
+    <div class="section-badge">💚 آراء العملاء</div>
+    <h2 class="section-title reveal">يقول <em>عملاؤنا</em></h2>
+    <p class="section-sub reveal" style="margin:0 auto">قصص نجاح حقيقية من رواد أعمال يستخدمون محسوب يومياً</p>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal-l">
+      <div class="test-quote">"</div>
+      <div class="test-text">محسوب وفّر علي ساعات طويلة كل أسبوع. الفواتير تطلع جاهزة بالذكاء، والتقارير الضريبية صارت سهلة بضغطة زر.</div>
+      <div class="test-author">
+        <div class="test-avatar">س</div>
+        <div><div class="test-name">سارة العتيبي</div><div class="test-role">صاحبة استوديو تصوير · الرياض</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal-scale">
+      <div class="test-quote">"</div>
+      <div class="test-text">أول مرة أحس بالراحة من ناحية المحاسبة. الواجهة سهلة جداً والدعم سريع. أنصح فيه كل أصحاب المشاريع الصغيرة.</div>
+      <div class="test-author">
+        <div class="test-avatar">م</div>
+        <div><div class="test-name">محمد القحطاني</div><div class="test-role">مالك مقهى · جدة</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal-r">
+      <div class="test-quote">"</div>
+      <div class="test-text">المساعد الذكي يفهم كلامي العربي ويعطيني تحليل مالي دقيق. شعور إن عندي محاسب شخصي 24/7 — وأرخص بكثير!</div>
+      <div class="test-author">
+        <div class="test-avatar">ن</div>
+        <div><div class="test-name">نورة الفهد</div><div class="test-role">مستقلة في التسويق · الدمام</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Contact Section ── -->
 <section id="contact" style="padding:80px 5%;background:#fff;border-top:1px solid var(--b)">
   <div style="text-align:center;margin-bottom:48px">
@@ -662,6 +758,80 @@ const statsObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.3 });
 const statsSection = document.querySelector('.stats-section');
 if(statsSection) statsObserver.observe(statsSection);
+
+// ─── Reading progress bar ───
+const readBar = document.getElementById('readBar');
+if (readBar) {
+  window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    readBar.style.width = Math.min(100, scrolled) + '%';
+  }, { passive: true });
+}
+
+// ─── Cursor glow effect (desktop only) ───
+const cursorGlow = document.getElementById('cursorGlow');
+if (cursorGlow && window.innerWidth > 768) {
+  let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX; targetY = e.clientY;
+  });
+  function animateGlow() {
+    currentX += (targetX - currentX) * 0.12;
+    currentY += (targetY - currentY) * 0.12;
+    cursorGlow.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%,-50%)`;
+    requestAnimationFrame(animateGlow);
+  }
+  animateGlow();
+}
+
+// ─── Magnetic buttons effect ───
+document.querySelectorAll('.btn-hero, .btn-nav').forEach(btn => {
+  btn.classList.add('magnetic');
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.2}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0,0)';
+  });
+});
+
+// ─── 3D tilt on feature cards ───
+document.querySelectorAll('.feat-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(900px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-4px) scale(1.01)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ─── Reveal animations for new directional reveals ───
+const dirObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('show');
+      dirObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal-l, .reveal-r, .reveal-scale').forEach(el => dirObserver.observe(el));
+
+// ─── Smooth scroll for anchor links ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
 
 <!-- Floating WhatsApp Button -->
