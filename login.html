@@ -13,71 +13,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Tajawal',sans-serif;background:#f7f9fc;color:#1a1d2e;min-height:100vh;overflow-x:hidden}
+body{font-family:'Tajawal',sans-serif;background:#f7f9fc;color:#1a1d2e;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 body.dark{background:#0d1117;color:#f0f2f8}
 
-/* ── Split layout container ── */
-.split{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
-@media (max-width:900px){.split{grid-template-columns:1fr}}
+.wrap{width:100%;max-width:400px}
+.logo{text-align:center;margin-bottom:24px}
+.logo-tag{font-size:12px;color:#9aa0b8;margin-top:6px}
 
-/* ── LEFT: Brand panel ── */
-.brand-panel{position:relative;background:linear-gradient(135deg,#86BA72 0%,#5d8f4e 60%,#2C5559 100%);color:#fff;padding:60px 50px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
-@media (max-width:900px){.brand-panel{padding:40px 24px;min-height:auto}}
-
-.brand-panel::before{content:'';position:absolute;top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);pointer-events:none;animation:float 14s ease-in-out infinite}
-.brand-panel::after{content:'';position:absolute;bottom:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none;animation:float 16s ease-in-out infinite reverse}
-@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-40px) scale(1.1)}}
-
-/* Floating shapes for visual interest */
-.shape{position:absolute;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none;animation:floatY 8s ease-in-out infinite}
-.shape.s1{width:60px;height:60px;top:20%;left:15%;animation-delay:0s}
-.shape.s2{width:30px;height:30px;top:60%;right:25%;animation-delay:2s}
-.shape.s3{width:80px;height:80px;bottom:25%;left:30%;animation-delay:4s}
-.shape.s4{width:20px;height:20px;top:35%;right:15%;animation-delay:1s}
-@keyframes floatY{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}}
-
-.brand-head{position:relative;z-index:2;display:flex;align-items:center;gap:14px}
-.brand-head img{width:48px;height:48px;background:#fff;padding:8px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
-.brand-head .name{font-size:22px;font-weight:900;letter-spacing:-.3px}
-.brand-head .tag{font-size:12px;opacity:.85;margin-top:2px}
-
-.brand-hero{position:relative;z-index:2;margin:32px 0}
-.brand-hero h1{font-size:38px;font-weight:900;line-height:1.25;margin-bottom:16px;letter-spacing:-.5px}
-.brand-hero h1 .accent{display:inline-block;padding:0 6px;background:rgba(255,255,255,.18);border-radius:8px;backdrop-filter:blur(8px)}
-.brand-hero p{font-size:16px;line-height:1.85;opacity:.95;max-width:380px}
-@media (max-width:900px){.brand-hero h1{font-size:28px}.brand-hero p{font-size:14px}}
-
-.brand-feats{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;margin-top:18px}
-.brand-feat{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);border-radius:14px;transition:all .25s;animation:slideIn .5s ease both}
-.brand-feat:nth-child(1){animation-delay:.1s}
-.brand-feat:nth-child(2){animation-delay:.2s}
-.brand-feat:nth-child(3){animation-delay:.3s}
-.brand-feat:hover{background:rgba(255,255,255,.18);transform:translateX(-6px)}
-.brand-feat-ic{width:38px;height:38px;background:rgba(255,255,255,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.brand-feat-txt{font-size:13px;line-height:1.6}
-.brand-feat-txt b{font-size:14px;display:block;margin-bottom:2px}
-@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-
-.brand-foot{position:relative;z-index:2;font-size:12px;opacity:.85}
-.brand-foot a{color:#fff;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(255,255,255,.4)}
-
-/* ── RIGHT: Form panel ── */
-.form-panel{padding:60px 50px;display:flex;flex-direction:column;justify-content:center;background:#fff;position:relative}
-body.dark .form-panel{background:#0d1117}
-@media (max-width:900px){.form-panel{padding:40px 24px}}
-
-.wrap{width:100%;max-width:420px;margin:0 auto}
-.logo{text-align:center;margin-bottom:28px;display:none}
-@media (max-width:900px){.logo{display:block}}
-.logo-tag{font-size:13px;color:#9aa0b8;margin-top:3px}
-
-.welcome{margin-bottom:24px}
-.welcome h2{font-size:26px;font-weight:900;color:#1a1d2e;margin-bottom:6px;letter-spacing:-.3px}
-body.dark .welcome h2{color:#f0f2f8}
-.welcome p{font-size:14px;color:#9aa0b8}
-
-.card{background:#fff;border-radius:18px;padding:0}
-body.dark .card{background:#0d1117}
+.card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
+body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
 body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
 .tabs{display:flex;gap:6px;margin-bottom:22px;background:#f0f2f7;border-radius:12px;padding:5px;position:relative}
 body.dark .tabs{background:#1e2535}
@@ -144,62 +88,10 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
 </style>
 </head>
 <body>
-<div class="split">
-
-  <!-- LEFT: Brand Panel -->
-  <aside class="brand-panel">
-    <div class="shape s1"></div>
-    <div class="shape s2"></div>
-    <div class="shape s3"></div>
-    <div class="shape s4"></div>
-
-    <div class="brand-head">
-      <img src="img/logo-icon.png" alt="محسوب">
-      <div>
-        <div class="name">محسوب</div>
-        <div class="tag">محاسبك المالي الذكي</div>
-      </div>
-    </div>
-
-    <div class="brand-hero">
-      <h1>اصنع <span class="accent">ماليتك</span><br>بثقة وذكاء</h1>
-      <p>انضم لمئات المشاريع السعودية اللي تثق بمحسوب لإدارة فواتيرها وضرائبها بسهولة وأمان.</p>
-
-      <div class="brand-feats">
-        <div class="brand-feat">
-          <div class="brand-feat-ic">⚡</div>
-          <div class="brand-feat-txt"><b>فواتير في 30 ثانية</b>اكتب الوصف والذكاء يكمل لك</div>
-        </div>
-        <div class="brand-feat">
-          <div class="brand-feat-ic">🛡️</div>
-          <div class="brand-feat-txt"><b>متوافق مع ZATCA</b>كل الفواتير تطلع نظامية</div>
-        </div>
-        <div class="brand-feat">
-          <div class="brand-feat-ic">🇸🇦</div>
-          <div class="brand-feat-txt"><b>صُنع في السعودية</b>بدعم محلي على مدار الساعة</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="brand-foot">
-      © 2026 محسوب · <a href="/terms.html">الشروط</a> · <a href="/privacy.html">الخصوصية</a>
-    </div>
-  </aside>
-
-  <!-- RIGHT: Form Panel -->
-  <main class="form-panel">
 <div class="wrap">
   <div class="logo">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px">
-      <img src="img/logo-icon.png" class="logo-img" style="width:44px;height:44px;object-fit:contain">
-      <img src="img/logo-text.png" class="logo-img" style="height:36px;object-fit:contain">
-    </div>
+    <img src="img/logo-icon.png" style="width:48px;height:48px;object-fit:contain">
     <div class="logo-tag">محاسبك المالي الذكي</div>
-  </div>
-
-  <div class="welcome" id="welcomeMsg">
-    <h2>مرحباً من جديد 👋</h2>
-    <p>سجّلي دخولك للوصول لحسابك</p>
   </div>
 
   <div class="card">
@@ -350,8 +242,6 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
     لا تملك حساباً بعد؟ <a href="pricing.html">شاهد الخطط والأسعار</a>
   </div>
 </div>
-  </main>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/config.js"></script>
@@ -371,16 +261,6 @@ function switchTab(t) {
   document.getElementById('resetForm').style.display  = 'none';
   document.getElementById('tabLogin').className  = 'tab' + (t === 'login'  ? ' on' : '');
   document.getElementById('tabSignup').className = 'tab' + (t === 'signup' ? ' on' : '');
-  const welcome = document.getElementById('welcomeMsg');
-  if (welcome) {
-    if (t === 'login') {
-      welcome.querySelector('h2').innerHTML = 'مرحباً من جديد 👋';
-      welcome.querySelector('p').textContent = 'سجّلي دخولك للوصول لحسابك';
-    } else {
-      welcome.querySelector('h2').innerHTML = 'ابدأي رحلتك معنا 🚀';
-      welcome.querySelector('p').textContent = 'أنشئي حسابك مجاناً — 14 يوم تجربة بدون التزام';
-    }
-  }
   clearMsgs();
 }
 
