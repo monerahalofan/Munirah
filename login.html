@@ -141,10 +141,9 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
       </button>
       <div class="divider">أو بالبريد الإلكتروني</div>
 
-      <div class="section-title">معلومات الحساب</div>
       <div class="ff">
-        <label class="fl">اسم المشروع أو الشركة <span>*</span></label>
-        <input class="fi" id="signupBiz" type="text" placeholder="مثال: مؤسسة النور للاستشارات">
+        <label class="fl">اسم المشروع <span>*</span></label>
+        <input class="fi" id="signupBiz" type="text" placeholder="مؤسسة النور">
       </div>
       <div class="ff">
         <label class="fl">البريد الإلكتروني <span>*</span></label>
@@ -163,65 +162,27 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
         <div class="pw-label" id="pwLabel" style="color:#b0b8d0">أدخل كلمة المرور</div>
       </div>
 
-      <div class="section-title">بيانات العمل التجارية</div>
-      <div class="ff">
-        <label class="fl">الرقم الضريبي (VAT)</label>
-        <input class="fi" id="signupVat" type="text" placeholder="300000000000003" dir="ltr" maxlength="15">
-      </div>
-      <div class="ff">
-        <label class="fl">السجل التجاري (CR)</label>
-        <input class="fi" id="signupCr" type="text" placeholder="1234567890" dir="ltr" maxlength="10">
-      </div>
+      <p style="font-size:11px;color:#9aa0b8;text-align:center;margin:14px 0 4px;line-height:1.7">
+        بيانات الضريبة والسجل التجاري والعنوان<br>تقدر تكمّلها لاحقاً من إعدادات الحساب
+      </p>
 
-      <div class="section-title">العنوان</div>
-      <div class="ff">
-        <label class="fl">الدولة</label>
-        <select class="fi" id="signupCountry" onchange="onCountryChange(this.value)" style="cursor:pointer">
-          <option value="">— اختر الدولة —</option>
-          <option value="SA" selected>🇸🇦 المملكة العربية السعودية</option>
-          <option value="AE">🇦🇪 الإمارات العربية المتحدة</option>
-          <option value="KW">🇰🇼 الكويت</option>
-          <option value="QA">🇶🇦 قطر</option>
-          <option value="BH">🇧🇭 البحرين</option>
-          <option value="OM">🇴🇲 عُمان</option>
-          <option value="EG">🇪🇬 مصر</option>
-          <option value="JO">🇯🇴 الأردن</option>
-          <option value="OTHER">🌍 أخرى</option>
-        </select>
-      </div>
-
-      <div id="regionField" style="display:none" class="ff">
-        <label class="fl">المنطقة</label>
-        <select class="fi" id="signupRegion" onchange="onRegionChange(this.value)" style="cursor:pointer">
-          <option value="">— اختر المنطقة —</option>
-        </select>
-      </div>
-
-      <div id="cityField" style="display:none" class="ff">
-        <label class="fl">المدينة</label>
-        <select class="fi" id="signupCity" onchange="onCityChange(this.value)" style="cursor:pointer">
-          <option value="">— اختر المدينة —</option>
-        </select>
-      </div>
-
-      <div id="detailFields" style="display:none">
-        <div class="ff">
-          <label class="fl">الحي</label>
-          <select class="fi" id="signupDistrict" style="cursor:pointer">
-            <option value="">— اختر الحي —</option>
-          </select>
-        </div>
-        <div class="ff">
-          <label class="fl">الشارع <span class="optional-tag">(اختياري)</span></label>
-          <input class="fi" id="signupStreet" type="text" placeholder="مثال: شارع العروبة">
-        </div>
-        <div class="ff">
-          <label class="fl">الرمز البريدي <span class="optional-tag">(اختياري)</span></label>
-          <input class="fi" id="signupPostal" type="text" placeholder="مثال: 12345" dir="ltr" maxlength="10">
-        </div>
-      </div>
+      <!-- Hidden inputs for backward-compatible JS (sent as empty) -->
+      <input type="hidden" id="signupVat" value="">
+      <input type="hidden" id="signupCr" value="">
+      <input type="hidden" id="signupCountry" value="SA">
+      <input type="hidden" id="signupRegion" value="">
+      <input type="hidden" id="signupCity" value="">
+      <input type="hidden" id="signupDistrict" value="">
+      <input type="hidden" id="signupStreet" value="">
+      <input type="hidden" id="signupPostal" value="">
 
       <button class="btn-main" id="signupBtn" onclick="doSignup()">إنشاء الحساب ←</button>
+
+      <p style="font-size:11px;color:#9aa0b8;text-align:center;margin-top:14px;line-height:1.7">
+        بإنشاء الحساب توافق على
+        <a href="/terms.html" style="color:#86BA72">الشروط</a>
+        و<a href="/privacy.html" style="color:#86BA72">الخصوصية</a>
+      </p>
     </div>
 
     <!-- ══ RESET PASSWORD ══════════════════════════════ -->
