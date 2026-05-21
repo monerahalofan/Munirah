@@ -726,7 +726,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ni" onclick="go('ai',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg></span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
-    <div class="ni" onclick="go('ar',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg></span><span>الذمم المدينة</span><span class="nbg" style="background:rgba(201,53,69,.12);color:#c93545" id="arBadge"></span></div>
+    <div class="ni" onclick="go('ar',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg></span><span>الفلوس عند الناس</span><span class="nbg" style="background:rgba(201,53,69,.12);color:#c93545" id="arBadge"></span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
     <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
@@ -998,9 +998,9 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
   <div class="g2">
     <div class="card">
-      <div class="sh"><div class="st">تفصيل الذمم المدينة</div></div>
+      <div class="sh"><div class="st">العملاء اللي عليهم فلوس</div></div>
       <div id="agingList" style="text-align:center;padding:28px;color:var(--t3)">
-        لا توجد فواتير معلقة — أضف فواتير لرؤية تحليل الذمم
+        لا توجد فواتير معلقة — أضف فواتير لتشوف العملاء اللي عليهم فلوس
       </div>
     </div>
     <div class="card">
@@ -1260,12 +1260,12 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div id="noteModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.5);z-index:1000;align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:16px;max-width:540px;width:100%;max-height:90vh;overflow:auto">
     <div style="padding:20px 24px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:17px;font-weight:800;color:#000" id="noteModalTitle">إصدار ملاحظة دائن</div>
+      <div style="font-size:17px;font-weight:800;color:#000" id="noteModalTitle">إصدار مرتجع</div>
       <button onclick="closeNoteModal()" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3);line-height:1">×</button>
     </div>
     <div style="padding:22px 24px">
       <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:12px;color:#92500a;line-height:1.7">
-        <b>تنبيه ZATCA:</b> <span id="noteModalHint">ملاحظة الدائن تُستخدم لتقليل قيمة الفاتورة (مرتجع، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي.</span>
+        <b>ملاحظة:</b> <span id="noteModalHint">المرتجع يُستخدم لتقليل قيمة الفاتورة (إرجاع منتج، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي للسجلات الضريبية.</span>
       </div>
 
       <div class="ff full" style="margin-bottom:14px">
@@ -1316,9 +1316,9 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <!-- STATEMENTS -->
 <div class="pg" id="pg-st">
   <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap">
-    <button class="btn bp" id="stB1" onclick="showSt('income',this)">قائمة الدخل</button>
-    <button class="btn bg2" onclick="showSt('balance',this)">الميزانية العمومية</button>
-    <button class="btn bg2" onclick="showSt('cf',this)">التدفقات النقدية</button>
+    <button class="btn bp" id="stB1" onclick="showSt('income',this)">الأرباح والمصاريف</button>
+    <button class="btn bg2" onclick="showSt('balance',this)">ملخص وضعك المالي</button>
+    <button class="btn bg2" onclick="showSt('cf',this)">حركة الفلوس</button>
     <div style="flex:1"></div>
     <!-- Date Range Picker -->
     <div style="position:relative">
@@ -1347,7 +1347,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
   <div class="card">
     <div class="sh">
-      <div class="st" id="stT">قائمة الدخل — الشهر الحالي</div>
+      <div class="st" id="stT">الأرباح والمصاريف — الشهر الحالي</div>
       <div style="display:flex;gap:6px">
         <button class="btn bg2" style="font-size:12px;padding:5px 11px" onclick="shareStatement('email')">📧 إيميل</button>
         <button class="btn bg2" style="font-size:12px;padding:5px 11px;background:rgba(37,211,102,.1);color:#25d366;border-color:rgba(37,211,102,.3)" onclick="shareStatement('whatsapp')">واتساب</button>
@@ -2076,7 +2076,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
       <div class="zakat-calc" id="zakatCalc">
         <div class="zr2 head"><span>البند</span><span>المبلغ (ر.س)</span></div>
         <div class="zr2"><span>النقد في البنك والصندوق</span><input class="fi" id="z-cash" type="number" value="0" oninput="calcZakat()"/></div>
-        <div class="zr2"><span>الذمم المدينة (الفواتير المتوقع تحصيلها)</span><input class="fi" id="z-recv" type="number" value="0" oninput="calcZakat()"/></div>
+        <div class="zr2"><span>الفواتير المتوقع تحصيلها من العملاء</span><input class="fi" id="z-recv" type="number" value="0" oninput="calcZakat()"/></div>
         <div class="zr2"><span>المخزون التجاري</span><input class="fi" id="z-inv" type="number" value="0" oninput="calcZakat()"/></div>
         <div class="zr2"><span>استثمارات قصيرة المدى</span><input class="fi" id="z-invest" type="number" value="0" oninput="calcZakat()"/></div>
         <div class="zr2 head"><span>الخصومات</span><span></span></div>
@@ -2830,7 +2830,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div class="pg" id="pg-ar">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">الذمم المدينة</div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">الفلوس عند الناس</div>
       <div style="font-size:12px;color:var(--t3);margin-top:4px">من عليه فلوس وقد أيش متأخرة</div>
     </div>
     <div style="display:flex;gap:8px">
@@ -3309,7 +3309,7 @@ const TRANSLATIONS = {
     tb_consult:'استشر', tb_invoice:'فاتورة',
     // Page titles
     pgn_db:'لوحة التحكم', pgn_hl:'الصحة المالية', pgn_cf:'التدفق النقدي',
-    pgn_ag:'تحليل الذمم', pgn_cp:'ربحية العملاء', pgn_gls:'أهدافي المالية',
+    pgn_ag:'متابعة المستحقات', pgn_cp:'ربحية العملاء', pgn_gls:'أهدافي المالية',
     pgn_tax:'الضرائب والزكاة', pgn_pos:'الإغلاقات اليومية', pgn_channels:'مصادر المبيعات',
     pgn_daily:'الموازنة اليومية', pgn_tx:'المعاملات', pgn_inv:'الفواتير',
     pgn_bg:'الميزانية', pgn_vat:'تقرير ض.ق.م', pgn_zakat:'حاسبة الزكاة',
@@ -3637,7 +3637,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'تحليل الذمم',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الذمم المدينة'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -4782,10 +4782,10 @@ function openNoteModal(kind, preselectId) {
   const modal = document.getElementById('noteModal');
   if (!modal) return;
   modal.dataset.kind = kind;
-  document.getElementById('noteModalTitle').textContent = kind === 'credit_note' ? 'إصدار ملاحظة دائن' : 'إصدار ملاحظة مدين';
+  document.getElementById('noteModalTitle').textContent = kind === 'credit_note' ? 'إصدار مرتجع' : 'إصدار رسوم إضافية';
   document.getElementById('noteModalHint').textContent = kind === 'credit_note'
-    ? 'ملاحظة الدائن تُستخدم لتقليل قيمة الفاتورة (مرتجع، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي.'
-    : 'ملاحظة المدين تُستخدم لزيادة قيمة الفاتورة (رسوم إضافية، تصحيح مبلغ ناقص). الفاتورة الأصلية تبقى كما هي.';
+    ? 'المرتجع يُستخدم لتقليل قيمة الفاتورة (إرجاع منتج، خصم، تصحيح). الفاتورة الأصلية تبقى كما هي.'
+    : 'الرسوم الإضافية تُستخدم لزيادة قيمة الفاتورة (رسوم تأخير، تصحيح مبلغ ناقص). الفاتورة الأصلية تبقى كما هي.';
 
   // Populate parent invoice dropdown (only original invoices that are cleared/reported)
   const sel = document.getElementById('noteParentInv');
@@ -4861,7 +4861,7 @@ async function submitNote() {
     const data = await res.json();
     if (!res.ok || data.error) { alert(data.error || 'تعذّر إصدار الملاحظة'); return; }
 
-    toast({ type:'success', msg: `تم إصدار ${kind==='credit_note'?'ملاحظة الدائن':'ملاحظة المدين'} ${data.invoice?.number || ''}` });
+    toast({ type:'success', msg: `تم إصدار ${kind==='credit_note'?'المرتجع':'الرسوم الإضافية'} ${data.invoice?.number || ''}` });
     closeNoteModal();
     loadInvoices();
   } catch (e) {
@@ -6404,9 +6404,9 @@ function addGoal(){
 
 // ── Statements ─────────────────────────
 const SCD={
-  income:{t:'قائمة الدخل — الشهر الحالي',h:`<div class="stmt"><div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div><div class="sr"><span style="font-weight:600">الإيرادات</span></div><div class="sr ind"><span>إجمالي الإيرادات</span><span class="sv pos" id="stIncome">+0</span></div><div class="sr"><span style="font-weight:600">المصروفات</span></div><div class="sr ind"><span>إجمالي المصروفات</span><span class="sv neg" id="stExp">-0</span></div><div class="sr tot" style="font-size:14px;padding:11px 13px"><span>صافي الربح</span><span class="sv pos" style="font-size:14px" id="stNet">0</span></div><div style="text-align:center;padding:12px;color:var(--t3);font-size:12px">أضف معاملات لرؤية التفاصيل</div></div>`},
-  balance:{t:'الميزانية العمومية',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية الميزانية العمومية</div></div>`},
-  cf:{t:'قائمة التدفقات النقدية',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية قائمة التدفقات النقدية</div></div>`}
+  income:{t:'الأرباح والمصاريف — الشهر الحالي',h:`<div class="stmt"><div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div><div class="sr"><span style="font-weight:600">الدخل</span></div><div class="sr ind"><span>إجمالي الدخل</span><span class="sv pos" id="stIncome">+0</span></div><div class="sr"><span style="font-weight:600">المصاريف</span></div><div class="sr ind"><span>إجمالي المصاريف</span><span class="sv neg" id="stExp">-0</span></div><div class="sr tot" style="font-size:14px;padding:11px 13px"><span>صافي الربح</span><span class="sv pos" style="font-size:14px" id="stNet">0</span></div><div style="text-align:center;padding:12px;color:var(--t3);font-size:12px">أضف معاملات لرؤية التفاصيل</div></div>`},
+  balance:{t:'ملخص وضعك المالي',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية ملخص وضعك المالي</div></div>`},
+  cf:{t:'حركة الفلوس',h:`<div class="stmt"><div style="text-align:center;padding:28px;color:var(--t3)">أضف معاملات لرؤية حركة الفلوس</div></div>`}
 };
 function showSt(t,el){
   document.querySelectorAll('#pg-st .btn').forEach(b=>b.className='btn bg2');
@@ -6542,7 +6542,7 @@ async function _stRenderMonthlyChart() {
 
 function _stRenderIncome(accounts, balMap) {
   const label = window._dateRange?.label || 'هذا الشهر';
-  document.getElementById('stT').textContent = 'قائمة الدخل — ' + label;
+  document.getElementById('stT').textContent = 'الأرباح والمصاريف — ' + label;
 
   // Revenue (CR-normal): balance = credit - debit (negative of DR-balance)
   const revenue = accounts.filter(a => a.type === 'revenue').map(a => ({
@@ -6606,7 +6606,7 @@ function _stRenderIncome(accounts, balMap) {
 }
 
 function _stRenderBalance(accounts, balMap) {
-  document.getElementById('stT').textContent = 'الميزانية العمومية — ' + (window._dateRange?.label || 'اليوم');
+  document.getElementById('stT').textContent = 'ملخص وضعك المالي — ' + (window._dateRange?.label || 'اليوم');
 
   const assets = accounts.filter(a => a.type === 'asset' && a.parent_code).map(a => ({
     name: a.name_ar, val: balMap[a.code] || 0
@@ -6642,16 +6642,16 @@ function _stRenderBalance(accounts, balMap) {
   let html = '<div class="stmt">';
   html += '<div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>';
 
-  html += '<div class="sr" style="background:rgba(37,99,235,.06);font-weight:700"><span>💰 ما أملكه (الأصول)</span><span></span></div>';
+  html += '<div class="sr" style="background:rgba(37,99,235,.06);font-weight:700"><span>💰 ما أملكه</span><span></span></div>';
   assets.forEach(x => html += row(x.name, x.val, '#2563eb', true));
   html += `<div class="sr tot" style="background:rgba(37,99,235,.1);font-weight:800"><span>إجمالي ما أملكه</span><span class="sv" style="direction:ltr;color:#2563eb">${_stFmt(totA)}</span></div>`;
 
-  html += '<div class="sr" style="background:rgba(232,57,74,.06);font-weight:700;margin-top:10px"><span>💸 ما عليّ (الخصوم)</span><span></span></div>';
+  html += '<div class="sr" style="background:rgba(232,57,74,.06);font-weight:700;margin-top:10px"><span>💸 ما عليّ</span><span></span></div>';
   if (liabilities.length) liabilities.forEach(x => html += row(x.name, x.val, '#e8394a', true));
   else html += '<div class="sr ind"><span style="color:var(--t3)">ما عليك أي مستحقات</span><span></span></div>';
   html += `<div class="sr tot" style="background:rgba(232,57,74,.1);font-weight:700"><span>إجمالي ما عليّ</span><span class="sv" style="direction:ltr;color:#e8394a">${_stFmt(totL)}</span></div>`;
 
-  html += '<div class="sr" style="background:rgba(124,58,237,.06);font-weight:700;margin-top:10px"><span>🏛️ حقي في المشروع (حقوق الملكية)</span><span></span></div>';
+  html += '<div class="sr" style="background:rgba(124,58,237,.06);font-weight:700;margin-top:10px"><span>🏛️ حقي في المشروع</span><span></span></div>';
   if (equity.length) equity.forEach(x => html += row(x.name, x.val, '#7c3aed', true));
   else html += '<div class="sr ind"><span style="color:var(--t3)">لم يتم تسجيل رأس مال بعد</span><span></span></div>';
   html += `<div class="sr tot" style="background:rgba(124,58,237,.1);font-weight:700"><span>إجمالي حقي</span><span class="sv" style="direction:ltr;color:#7c3aed">${_stFmt(totE)}</span></div>`;
@@ -6792,7 +6792,7 @@ function shareVatReport(via) {
 }
 
 function _stRenderCashFlow(accounts, balMap) {
-  document.getElementById('stT').textContent = 'قائمة التدفقات النقدية';
+  document.getElementById('stT').textContent = 'حركة الفلوس';
   // Simplified: show cash + bank balances
   const cashAccts = accounts.filter(a => ['1101','1102'].includes(a.code));
   const totalCash = cashAccts.reduce((s, a) => s + (balMap[a.code] || 0), 0);
@@ -7186,7 +7186,7 @@ function exportZakatPDF() {
 <div class="h"><h1>${tenant}</h1><div class="sub">تقرير حساب الزكاة · ${today}</div></div>
 <div class="r head"><span>أصول الزكاة</span><span>المبلغ (ر.س)</span></div>
 <div class="r"><span>النقد في البنك والصندوق</span><span style="direction:ltr">${cash.toFixed(2)}</span></div>
-<div class="r"><span>الذمم المدينة</span><span style="direction:ltr">${recv.toFixed(2)}</span></div>
+<div class="r"><span>الفلوس عند العملاء</span><span style="direction:ltr">${recv.toFixed(2)}</span></div>
 <div class="r"><span>المخزون التجاري</span><span style="direction:ltr">${inv.toFixed(2)}</span></div>
 <div class="r"><span>الاستثمارات قصيرة المدى</span><span style="direction:ltr">${invest.toFixed(2)}</span></div>
 <div class="r head"><span>الخصومات</span><span></span></div>
