@@ -1249,8 +1249,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 .inv-act.pay:hover { background:#6da55b; }
 .inv-act.remind { background:#a8854a; color:#fff; border-color:#a8854a; }
 .inv-act.remind:hover { background:#8d7039; }
-.ai-ex { padding:6px 10px; background:#fff; border:1px solid rgba(139,92,246,.2); color:#5b21b6; border-radius:7px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; }
-.ai-ex:hover { background:rgba(139,92,246,.05); border-color:rgba(139,92,246,.4); }
+.ai-ex { padding:7px 12px; background:#fff; border:1px solid rgba(134,186,114,.3); color:#2C5559; border-radius:8px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; transition:all .2s; }
+.ai-ex:hover { background:rgba(134,186,114,.08); border-color:#86BA72; color:#2C5559; transform:translateY(-1px); }
 </style>
 
 <!-- CREDIT/DEBIT NOTE MODAL -->
@@ -1359,25 +1359,25 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 <div class="pg" id="pg-zt">
 
   <!-- AI Invoice Builder -->
-  <div style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(37,99,235,.06));border:1px solid rgba(139,92,246,.25);border-radius:14px;padding:16px 20px;margin-bottom:18px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(139,92,246,.15) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.06));border:1px solid rgba(134,186,114,.25);border-radius:14px;padding:16px 20px;margin-bottom:18px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(134,186,114,.18) 0%,transparent 70%);pointer-events:none"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative">
       <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#86BA72,#2C5559);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
         </div>
         <div>
           <div style="font-size:14px;font-weight:800;color:var(--t)">إنشاء فاتورة بالذكاء الاصطناعي</div>
-          <div style="font-size:12px;color:var(--t2);margin-top:3px">صف فاتورتك بالعربي وسيملأ النظام الحقول تلقائياً</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:3px">اكتب وصف الفاتورة بالعربي ومحسوب يكمل لك التفاصيل</div>
         </div>
       </div>
-      <button style="padding:9px 18px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(139,92,246,.3)" onclick="toggleAIInvoice()">جرّب ←</button>
+      <button style="padding:10px 22px;background:linear-gradient(135deg,#86BA72,#2C5559);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px rgba(134,186,114,.35);transition:all .2s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'" onclick="toggleAIInvoice()">جرّب الآن ←</button>
     </div>
     <div id="ai-inv-form" style="display:none;margin-top:12px">
-      <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتبي فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px"></textarea>
-      <div style="margin-top:10px;padding:10px 12px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.15);border-radius:9px;font-size:11px;color:#5b21b6;line-height:1.7">
-        <div style="font-weight:700;margin-bottom:6px">💡 نصائح للحصول على نتائج دقيقة:</div>
-        <div>• <b>اذكري اسم العميل</b> (أحمد، شركة النور، إلخ)</div>
+      <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتب فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px;border:1.5px solid rgba(134,186,114,.3)"></textarea>
+      <div style="margin-top:10px;padding:12px 14px;background:rgba(134,186,114,.06);border-right:3px solid #86BA72;border-radius:9px;font-size:11px;color:#2C5559;line-height:1.8">
+        <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px"><span>💡</span> نصائح للحصول على نتائج دقيقة:</div>
+        <div>• <b>اذكر اسم العميل</b> (أحمد، شركة النور، إلخ)</div>
         <div>• <b>وصف الخدمة/المنتج</b> بوضوح</div>
         <div>• <b>السعر أو الإجمالي</b> + هل يشمل الضريبة أو لا</div>
         <div>• <b>الكمية</b> لو في أكثر من بند</div>
@@ -4052,6 +4052,7 @@ async function brandSave() {
       invoice_show_signature: _brand.invoice_show_signature,
     }).eq('id', Auth.tenant?.id || (await _sb.from('tenants').select('id').single()).data.id);
     if (error) throw error;
+    window._tenantBrand = null;  // Invalidate cache so next invoice uses new branding
     toast({ type:'success', msg:'تم حفظ تخصيص الفاتورة ✓' });
   } catch (e) {
     alert('فشل الحفظ: ' + e.message);
@@ -6892,68 +6893,120 @@ async function issueZ(){
     if (!res.ok || data.error) { alert(data.error || 'خطأ في إصدار الفاتورة'); return; }
 
     const inv = data.invoice;
-    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '✅ فاتورة ضريبية معتمدة (المرحلة 1)';
-    const statusColor = inv.onboarded ? '#9DC78A' : '#86BA72';
+    // Fetch tenant branding (logo, colors, template, footer, terms)
+    let brand = window._tenantBrand;
+    if (!brand) {
+      try {
+        const { data: t } = await _sb.from('tenants').select('logo_url,brand_color,accent_color,invoice_template,invoice_footer,invoice_terms,company_phone,company_email,company_address,company_website,invoice_show_qr,invoice_show_terms,invoice_show_signature').maybeSingle();
+        brand = t || {};
+        window._tenantBrand = brand;
+      } catch (e) { brand = {}; }
+    }
+    const bColor = brand.brand_color  || '#86BA72';
+    const aColor = brand.accent_color || '#2C5559';
+    const showQr = brand.invoice_show_qr !== false;
+    const showTerms = brand.invoice_show_terms !== false && brand.invoice_terms;
+    const showSig = !!brand.invoice_show_signature;
+    const footer = brand.invoice_footer;
+    const terms = brand.invoice_terms;
 
-    // Build QR image from Base64
-    const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(inv.qr)}`;
+    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '✅ فاتورة ضريبية معتمدة (المرحلة 1)';
+    const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(inv.qr)}`;
 
     let rows = '';
     inv.items ? inv.items.forEach(l => {
-      rows += `<tr><td>${l.desc}</td><td>${l.qty}</td><td style="direction:ltr">${(+l.price).toFixed(2)}</td><td>${l.vatPct}%</td><td style="direction:ltr">${(+l.lineNet + +l.lineVat).toFixed(2)}</td></tr>`;
+      rows += `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:9px 10px;font-size:13px">${l.desc}</td><td style="padding:9px;font-size:13px;text-align:center">${l.qty}</td><td style="padding:9px;font-size:13px;text-align:center;direction:ltr">${(+l.price).toFixed(2)}</td><td style="padding:9px;font-size:13px;text-align:center">${l.vatPct}%</td><td style="padding:9px;font-size:13px;text-align:left;direction:ltr;font-weight:600">${(+l.lineNet + +l.lineVat).toFixed(2)}</td></tr>`;
     }) : items.forEach(it => {
       const net = it.qty * it.price;
       const vat = net * it.vatPct / 100;
-      rows += `<tr><td>${it.desc}</td><td>${it.qty}</td><td style="direction:ltr">${it.price.toFixed(2)}</td><td>${it.vatPct}%</td><td style="direction:ltr">${(net+vat).toFixed(2)}</td></tr>`;
+      rows += `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:9px 10px;font-size:13px">${it.desc}</td><td style="padding:9px;font-size:13px;text-align:center">${it.qty}</td><td style="padding:9px;font-size:13px;text-align:center;direction:ltr">${it.price.toFixed(2)}</td><td style="padding:9px;font-size:13px;text-align:center">${it.vatPct}%</td><td style="padding:9px;font-size:13px;text-align:left;direction:ltr;font-weight:600">${(net+vat).toFixed(2)}</td></tr>`;
     });
+
+    const tpl = brand.invoice_template || 'classic';
+    const logoHtml = brand.logo_url
+      ? `<img src="${brand.logo_url}" style="max-height:64px;max-width:180px;object-fit:contain" alt="Logo">`
+      : `<div style="font-size:22px;font-weight:900;color:${aColor}">${inv.seller}</div>`;
+
+    const headerStyles = {
+      classic: `background:linear-gradient(135deg,${bColor},${aColor});color:#fff;padding:24px;border-radius:10px 10px 0 0`,
+      modern:  `background:${aColor};color:#fff;padding:22px`,
+      minimal: `background:#fff;color:${aColor};padding:20px 0;border-bottom:3px solid ${bColor}`,
+      elegant: `background:#fff;color:${aColor};padding:24px;border:2px solid ${bColor};border-radius:12px`,
+    };
+    const headerCss = headerStyles[tpl] || headerStyles.classic;
 
     document.getElementById('zRef').textContent = `رقم الفاتورة: ${inv.number}`;
     document.getElementById('zInv').innerHTML = `
-    <div style="display:flex;justify-content:space-between;margin-bottom:18px">
-      <div>
-        <div style="font-size:19px;font-weight:700;color:#1a1a1a">${iTyp === 'simplified' ? 'فاتورة ضريبية مبسّطة' : 'فاتورة ضريبية'}</div>
-        <div style="font-size:12px;color:#666;margin-top:2px">${inv.number} · ${inv.issueDate}</div>
-        <div style="font-size:11px;color:#999;margin-top:2px;font-family:monospace">UUID: ${inv.uuid}</div>
+    <div id="invoicePrintable" style="background:#fff;border-radius:10px;overflow:hidden;font-family:inherit;color:#1a1a1a">
+      <!-- Header -->
+      <div style="${headerCss}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+          <div>${logoHtml}</div>
+          <div style="text-align:left">
+            <div style="font-size:20px;font-weight:800">${iTyp === 'simplified' ? 'فاتورة ضريبية مبسّطة' : 'فاتورة ضريبية'}</div>
+            <div style="font-size:12px;opacity:.85;margin-top:4px">${inv.number}</div>
+            <div style="font-size:12px;opacity:.85">${inv.issueDate}</div>
+          </div>
+        </div>
       </div>
-      <div style="text-align:left">
-        <div style="font-size:11px;font-weight:600;color:${statusColor}">${statusLabel}</div>
+
+      <!-- Body -->
+      <div style="padding:18px 22px">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+          <div style="font-size:11px;font-weight:600;color:${bColor}">${statusLabel}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div style="background:#fafafa;padding:12px;border-radius:8px">
+            <div style="font-size:11px;color:#888;margin-bottom:3px">المُصدِر</div>
+            <div style="font-size:14px;font-weight:700;color:#000">${inv.seller}</div>
+            <div style="font-size:11px;color:#666;direction:ltr;text-align:right">VAT: ${inv.sellerVat}</div>
+          </div>
+          <div style="background:#fafafa;padding:12px;border-radius:8px">
+            <div style="font-size:11px;color:#888;margin-bottom:3px">العميل</div>
+            <div style="font-size:14px;font-weight:700;color:#000">${inv.buyer || 'عميل'}</div>
+            ${inv.buyerVat ? `<div style="font-size:11px;color:#666;direction:ltr;text-align:right">VAT: ${inv.buyerVat}</div>` : ''}
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:14px">
+          <thead><tr style="background:${aColor};color:#fff">
+            <th style="padding:9px 10px;font-size:11px;text-align:right">الوصف</th>
+            <th style="padding:9px;font-size:11px;text-align:center">الكمية</th>
+            <th style="padding:9px;font-size:11px;text-align:center">السعر</th>
+            <th style="padding:9px;font-size:11px;text-align:center">ضريبة</th>
+            <th style="padding:9px;font-size:11px;text-align:left">الإجمالي</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px">
+          ${showQr ? `<div style="text-align:center;min-width:120px">
+            <img src="${qrDataUrl}" width="110" height="110" style="border-radius:6px;border:1px solid #e2e8f0" alt="QR زاتكا" onerror="this.style.display='none'"/>
+            <div style="font-size:10px;color:#888;margin-top:4px">QR زاتكا</div>
+          </div>` : ''}
+          <div style="flex:1;max-width:300px;margin-right:auto">
+            <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px"><span style="color:#666">قبل الضريبة</span><span style="direction:ltr">${inv.subtotal.toFixed(2)} ر.س</span></div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px"><span style="color:#666">الضريبة 15%</span><span style="direction:ltr">${inv.vatTotal.toFixed(2)} ر.س</span></div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0 0;font-weight:800;font-size:15px;border-top:2px solid ${bColor};margin-top:6px"><span>الإجمالي</span><span style="direction:ltr;color:${bColor}">${inv.total.toFixed(2)} ر.س</span></div>
+          </div>
+        </div>
+
+        ${showSig ? `<div style="display:flex;justify-content:space-between;margin-top:24px;gap:30px">
+          <div style="flex:1"><div style="font-size:11px;color:#666;margin-bottom:36px">توقيع البائع</div><div style="border-top:1px solid #999"></div></div>
+          <div style="flex:1"><div style="font-size:11px;color:#666;margin-bottom:36px">توقيع العميل</div><div style="border-top:1px solid #999"></div></div>
+        </div>` : ''}
+
+        ${showTerms ? `<div style="margin-top:16px;padding:12px;background:#fafafa;border-right:3px solid ${bColor};border-radius:6px;font-size:11px;color:#555;line-height:1.7"><b>الشروط والأحكام:</b><br>${terms.replace(/\n/g,'<br>')}</div>` : ''}
+
+        ${(footer || brand.company_phone || brand.company_email || brand.company_website || brand.company_address) ? `<div style="margin-top:18px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#666;text-align:center;line-height:1.7">
+          ${footer ? `<div style="font-weight:600;color:${aColor};margin-bottom:4px">${footer}</div>` : ''}
+          ${[brand.company_phone, brand.company_email, brand.company_website, brand.company_address].filter(Boolean).join(' · ')}
+        </div>` : ''}
+
+        <div style="margin-top:11px;padding:8px;background:#f0f9f4;border-radius:6px;font-size:10px;color:#888;font-family:monospace;word-break:break-all">
+          <span>SHA-256: </span>${inv.hashHex}
+        </div>
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px">
-      <div style="background:#f8f9fa;border-radius:8px;padding:11px">
-        <div style="font-size:11px;color:#888;margin-bottom:2px">المُصدِر</div>
-        <div style="font-size:14px;font-weight:600;color:#1a1a1a">${inv.seller}</div>
-        <div style="font-size:11px;color:#888;margin-top:2px">ر.ض: ${inv.sellerVat}</div>
-      </div>
-      <div style="background:#f8f9fa;border-radius:8px;padding:11px">
-        <div style="font-size:11px;color:#888;margin-bottom:2px">العميل</div>
-        <div style="font-size:14px;font-weight:600;color:#1a1a1a">${inv.buyer || 'عميل'}</div>
-        ${inv.buyerVat ? `<div style="font-size:11px;color:#888;margin-top:2px">ر.ض: ${inv.buyerVat}</div>` : ''}
-      </div>
-    </div>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:13px;font-size:13px">
-      <thead><tr style="background:#f0f2f5">
-        <th style="padding:7px;text-align:right;color:#555">الوصف</th>
-        <th style="padding:7px;color:#555">الكمية</th>
-        <th style="padding:7px;color:#555">السعر</th>
-        <th style="padding:7px;color:#555">ضريبة</th>
-        <th style="padding:7px;color:#555">الإجمالي</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:13px">
-      <div style="background:#f8f9fa;border-radius:8px;padding:11px;flex:1;font-size:13px">
-        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">قبل الضريبة</span><span style="direction:ltr">${inv.subtotal.toFixed(2)} ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#666">الضريبة 15%</span><span style="direction:ltr">${inv.vatTotal.toFixed(2)} ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:7px 0 0;font-weight:700;font-size:14px;border-top:1px solid #ddd;margin-top:5px"><span>الإجمالي</span><span style="direction:ltr;color:#9DC78A">${inv.total.toFixed(2)} ر.س</span></div>
-      </div>
-      <div style="text-align:center">
-        <img src="${qrDataUrl}" width="80" height="80" style="border-radius:6px;border:1px solid #e2e8f0" alt="QR زاتكا" onerror="this.style.display='none'"/>
-        <div style="font-size:10px;color:#888;margin-top:4px">QR زاتكا</div>
-      </div>
-    </div>
-    <div style="margin-top:11px;padding:9px;background:#f0f9f4;border-radius:8px;font-size:11px;color:#555;font-family:monospace;word-break:break-all">
-      <span style="color:#888">SHA-256: </span>${inv.hashHex}
     </div>`;
 
     document.getElementById('zFrm').style.display = 'none';
@@ -7016,60 +7069,54 @@ function setInvStep(n){
     else if(i===n) el.classList.add('on');
   }
 }
-function downloadInvoicePDF(){
+// Load html2pdf library on demand
+function loadHtml2Pdf() {
+  return new Promise((resolve, reject) => {
+    if (window.html2pdf) return resolve(window.html2pdf);
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload = () => resolve(window.html2pdf);
+    s.onerror = () => reject(new Error('فشل تحميل مكتبة PDF'));
+    document.head.appendChild(s);
+  });
+}
+
+async function downloadInvoicePDF(){
   const invEl = document.getElementById('zInv');
   if (!invEl || !invEl.innerHTML.trim()) { alert('لا توجد فاتورة لتصديرها'); return; }
-  const refText = document.getElementById('zRef')?.textContent || 'فاتورة';
-  const invHtml = invEl.innerHTML;
-  const w = window.open('', '_blank', 'width=900,height=1000');
-  if (!w) { alert('السماح بالنوافذ المنبثقة مطلوب لتحميل PDF'); return; }
-  w.document.write(`<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>${refText}</title>
-<style>
-  @page { size: A4; margin: 14mm; }
-  * { box-sizing:border-box; font-family: -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif; }
-  body { margin:0; padding:20px; background:#fff; color:#1a1a1a; }
-  .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:14px; border-bottom:2px solid #2C5559; }
-  .logo { font-size:22px; font-weight:900; color:#2C5559; }
-  .sub { font-size:11px; color:#666; margin-top:4px; }
-  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13px; }
-  th { background:#2C5559; color:#fff; padding:8px; text-align:right; }
-  td { padding:8px; border-bottom:1px solid #e5e7eb; }
-  img { max-width:100%; height:auto; }
-  @media print {
-    .no-print { display:none !important; }
-    body { padding:0; }
+
+  const btn = event?.target;
+  const origText = btn?.textContent;
+  if (btn) { btn.textContent = '⏳ جاري التحميل...'; btn.disabled = true; }
+
+  try {
+    const html2pdf = await loadHtml2Pdf();
+    const refText = (document.getElementById('zRef')?.textContent || 'فاتورة').replace(/[^a-zA-Z0-9\-_؀-ۿ]+/g,'-');
+
+    // Find inner printable area (already styled with brand)
+    const printable = document.getElementById('invoicePrintable') || invEl;
+
+    // Clone + wrap with white padding so PDF renders cleanly
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'padding:20px;background:#fff;direction:rtl;font-family:-apple-system,"Segoe UI",Tahoma,Arial,sans-serif';
+    wrapper.innerHTML = printable.outerHTML;
+    document.body.appendChild(wrapper);
+
+    await html2pdf().set({
+      margin:       [10, 10, 10, 10],
+      filename:     `${refText}.pdf`,
+      image:        { type:'jpeg', quality:0.96 },
+      html2canvas:  { scale:2, useCORS:true, backgroundColor:'#ffffff' },
+      jsPDF:        { unit:'mm', format:'a4', orientation:'portrait' }
+    }).from(wrapper).save();
+
+    document.body.removeChild(wrapper);
+    toast({ type:'success', msg:'تم تحميل PDF ✓' });
+  } catch (e) {
+    alert('فشل تحميل PDF: ' + e.message);
+  } finally {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
   }
-  .actions { text-align:center; margin:18px 0; }
-  .actions button { padding:10px 24px; background:#86BA72; color:#fff; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; }
-</style>
-</head>
-<body>
-  <div class="no-print actions">
-    <button onclick="window.print()">💾 حفظ كـ PDF</button>
-    <button onclick="window.close()" style="background:#94a3b8;margin-right:10px">إغلاق</button>
-  </div>
-  <div class="header">
-    <div>
-      <div class="logo">محسوب</div>
-      <div class="sub">نظام الفوترة الإلكترونية المعتمد</div>
-    </div>
-    <div style="text-align:left">
-      <div style="font-weight:700;color:#2C5559">${refText}</div>
-      <div class="sub">${new Date().toLocaleDateString('en-US')}</div>
-    </div>
-  </div>
-  ${invHtml}
-  <div style="margin-top:30px;padding-top:14px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center">
-    صادرة عبر منصة محسوب · mahsob.sa · فاتورة ضريبية إلكترونية متوافقة مع ZATCA المرحلة 1
-  </div>
-  <script>setTimeout(() => window.print(), 500);<\/script>
-</body>
-</html>`);
-  w.document.close();
 }
 
 // ═══════════ VAT / ZAKAT EXPORTS ═══════════
