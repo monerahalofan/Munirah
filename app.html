@@ -544,8 +544,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     مسح فاتورة
   </button>
   <button class="fab-item" onclick="go('pos',null);closeFab()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-    نقطة البيع
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    رفع إغلاق
   </button>
   <button class="fab-item" onclick="go('tx',null);closeFab()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -708,7 +708,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ni" onclick="go('gls',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ni" onclick="go('tax',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8l8 8M16 8l-8 8"/></svg></span><span data-i18n="nav_tax">الضرائب والزكاة</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ns" data-i18n="ns_daily">العمليات اليومية</div>
-    <div class="ni" onclick="go('pos',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="nav_pos">نقطة البيع</span></div>
+    <div class="ni" onclick="go('pos',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span data-i18n="nav_pos">الإغلاقات اليومية</span></div>
     <div class="ni" onclick="go('channels',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span><span data-i18n="nav_channels">مصادر المبيعات</span></div>
     <div class="ni" onclick="go('daily',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
     <div class="ni" onclick="go('tx',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="nav_tx">سجلي المالي</span></div>
@@ -1524,54 +1524,105 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 
 <!-- POS -->
 <div class="pg" id="pg-pos">
-  <div style="display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start">
-
-    <!-- Left: product catalog -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <input class="fi" id="pos-search" placeholder="🔍  ابحث عن منتج…" oninput="renderPosProducts()" style="flex:1;min-width:160px"/>
-        <select class="fi" id="pos-type-filter" onchange="renderPosProducts()" style="width:130px">
-          <option value="all">الكل</option>
-          <option value="service">خدمات</option>
-          <option value="product">منتجات</option>
-        </select>
-      </div>
-      <div id="pos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px"></div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">الإغلاقات اليومية</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">ارفع تقرير إغلاق الكاشير اليومي وسيستخرج محسوب البيانات تلقائياً</div>
     </div>
-
-    <!-- Right: cart -->
-    <div class="card" style="position:sticky;top:16px">
-      <div class="sh" style="margin-bottom:12px">
-        <div class="st">السلة</div>
-        <button class="btn bg2" style="font-size:11px;padding:3px 8px;color:var(--r)" onclick="clearCart()">مسح ✕</button>
-      </div>
-      <div id="pos-cart-items" style="min-height:80px;max-height:280px;overflow-y:auto;margin-bottom:12px">
-        <div id="pos-empty" style="text-align:center;padding:20px;color:var(--t3);font-size:13px">اختر منتجاً من القائمة</div>
-      </div>
-      <div style="border-top:1px solid var(--b);padding-top:10px;margin-bottom:10px;font-size:13px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:var(--t3)">قبل الضريبة</span><span id="pos-sub">0.00 ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--t3)">الضريبة 15%</span><span id="pos-vat">0.00 ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700"><span>الإجمالي</span><span id="pos-total" style="color:var(--g)">0.00 ر.س</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
-        <button class="btn bg2 pos-pay" id="pp-cash"   onclick="setPosPayment('cash')"     style="font-size:12px;padding:7px">💵 نقداً</button>
-        <button class="btn bg2 pos-pay" id="pp-card"   onclick="setPosPayment('card')"     style="font-size:12px;padding:7px">💳 بطاقة</button>
-        <button class="btn bg2 pos-pay" id="pp-trans"  onclick="setPosPayment('transfer')" style="font-size:12px;padding:7px">🏦 تحويل</button>
-      </div>
-      <button class="btn bp" style="width:100%;padding:11px;font-size:14px" onclick="processPOS()">إتمام البيع ←</button>
-    </div>
-
+    <input type="date" class="fi" id="closing-date" style="width:160px"/>
   </div>
 
-  <!-- Today's sales -->
-  <div class="card" style="margin-top:16px">
-    <div class="sh" style="margin-bottom:10px">
-      <div class="st">مبيعات اليوم</div>
-      <div id="pos-today-total" style="font-weight:700;color:var(--g)">0.00 ر.س</div>
+  <!-- KPIs -->
+  <div class="g3" style="margin-bottom:14px">
+    <div class="kc"><div class="kl">إجمالي مبيعات الشهر</div><div class="kv" id="closing-month-total" style="color:#86BA72">0 ر.س</div></div>
+    <div class="kc"><div class="kl">عدد الإغلاقات</div><div class="kv" id="closing-count">0</div></div>
+    <div class="kc"><div class="kl">متوسط الإغلاق اليومي</div><div class="kv" id="closing-avg" style="color:#2C5559">0 ر.س</div></div>
+  </div>
+
+  <div class="g2" style="gap:14px;align-items:flex-start">
+
+    <!-- LEFT: Upload + Manual entry -->
+    <div>
+
+      <!-- Upload area -->
+      <div class="card" style="margin-bottom:14px">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
+          <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">📥 رفع تقرير الإغلاق</div>
+          <div style="font-size:11px;color:var(--t3)">PDF / صورة / ملف Excel — الذكاء الاصطناعي يستخرج البيانات</div>
+        </div>
+        <div style="padding:20px">
+          <label id="closing-drop" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;border:2px dashed var(--b);border-radius:12px;cursor:pointer;background:#fafbfd;transition:all .2s">
+            <input type="file" id="closing-file" accept="image/*,application/pdf,.xlsx,.xls,.csv" style="display:none" onchange="closingScan(event)">
+            <div style="font-size:42px;margin-bottom:8px">📄</div>
+            <div style="font-size:14px;font-weight:700;color:#1a1d2e;margin-bottom:4px">اضغط لرفع التقرير</div>
+            <div style="font-size:11px;color:var(--t3)">أو اسحب الملف هنا · حتى 5 ميجا</div>
+          </label>
+          <div id="closing-scan-status" style="display:none;margin-top:14px;padding:12px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;font-size:13px;color:#5b21b6;text-align:center"></div>
+        </div>
+      </div>
+
+      <!-- Manual entry form -->
+      <div class="card">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:4px">✍️ إدخال يدوي</div>
+            <div style="font-size:11px;color:var(--t3)">تعبئة يدوية لو ما عندك ملف</div>
+          </div>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="document.getElementById('closing-manual').classList.toggle('open')">عرض ⌄</button>
+        </div>
+        <div id="closing-manual" style="display:none;padding:20px">
+          <style>#closing-manual.open{display:block!important}</style>
+
+          <div class="g2" style="gap:12px;margin-bottom:14px">
+            <div class="ff full">
+              <label class="fl">إجمالي المبيعات (شامل الضريبة)</label>
+              <input class="fi" id="cl-total" type="number" step="0.01" placeholder="0.00" oninput="closingCalcVat()">
+            </div>
+            <div class="ff full">
+              <label class="fl">الضريبة (15%)</label>
+              <input class="fi" id="cl-vat" type="number" step="0.01" placeholder="تُحسب تلقائياً" readonly style="background:#f7f9fc">
+            </div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;color:#1a1d2e;margin:14px 0 8px">طرق الدفع:</div>
+          <div class="g2" style="gap:10px;margin-bottom:14px">
+            <div class="ff full"><label class="fl">💵 نقدي</label><input class="fi" id="cl-cash" type="number" step="0.01" placeholder="0.00"></div>
+            <div class="ff full"><label class="fl">💳 بطاقات</label><input class="fi" id="cl-card" type="number" step="0.01" placeholder="0.00"></div>
+            <div class="ff full"><label class="fl">🏦 تحويل بنكي</label><input class="fi" id="cl-bank" type="number" step="0.01" placeholder="0.00"></div>
+            <div class="ff full"><label class="fl">📱 محافظ إلكترونية</label><input class="fi" id="cl-wallet" type="number" step="0.01" placeholder="0.00"></div>
+          </div>
+
+          <div class="g2" style="gap:10px;margin-bottom:14px">
+            <div class="ff full"><label class="fl">🔢 عدد الفواتير</label><input class="fi" id="cl-count" type="number" placeholder="0"></div>
+            <div class="ff full"><label class="fl">↩ المرتجعات</label><input class="fi" id="cl-returns" type="number" step="0.01" placeholder="0.00"></div>
+            <div class="ff full"><label class="fl">🏷️ الخصومات</label><input class="fi" id="cl-discount" type="number" step="0.01" placeholder="0.00"></div>
+            <div class="ff full"><label class="fl">🏪 الفرع/الكاشير (اختياري)</label><input class="fi" id="cl-branch" placeholder="فرع 1"></div>
+          </div>
+
+          <div class="ff full" style="margin-bottom:14px">
+            <label class="fl">ملاحظات</label>
+            <textarea class="fi" id="cl-notes" rows="2" placeholder="أي ملاحظات إضافية..."></textarea>
+          </div>
+
+          <button class="btn bp" style="width:100%;padding:12px" onclick="closingSave()" id="cl-save-btn">حفظ الإغلاق ←</button>
+        </div>
+      </div>
     </div>
-    <div id="pos-sales-log" style="display:flex;flex-direction:column;gap:6px">
-      <div style="text-align:center;padding:14px;color:var(--t3);font-size:13px">لا توجد مبيعات اليوم بعد</div>
+
+    <!-- RIGHT: Recent closings -->
+    <div class="card">
+      <div style="padding:18px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:15px;font-weight:800;color:#000">📋 آخر الإغلاقات</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">آخر 30 يوم</div>
+        </div>
+        <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="closingExport()">تصدير 📊</button>
+      </div>
+      <div id="closing-list" style="max-height:600px;overflow:auto">
+        <div style="text-align:center;padding:30px;color:var(--t3);font-size:13px">لا توجد إغلاقات بعد</div>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -3245,7 +3296,7 @@ const TRANSLATIONS = {
     // Nav items
     nav_db:'البداية', nav_hl:'صحتي المالية', nav_cf:'تدفق الكاش',
     nav_ag:'من يدين لي؟', nav_cp:'أرباحي من العملاء', nav_gls:'أهدافي المالية',
-    nav_tax:'الضرائب والزكاة', nav_pos:'نقطة البيع', nav_channels:'مصادر المبيعات',
+    nav_tax:'الضرائب والزكاة', nav_pos:'الإغلاقات اليومية', nav_channels:'مصادر المبيعات',
     nav_daily:'الموازنة اليومية', nav_tx:'سجلي المالي', nav_inv:'فواتيري',
     nav_bg:'ميزانيتي', nav_vat:'تقرير الضريبة', nav_zakat:'احسب زكاتي',
     nav_taxcal:'مواعيد الضريبة', nav_scan:'مسح الفواتير', nav_st:'تقاريري المالية',
@@ -3259,7 +3310,7 @@ const TRANSLATIONS = {
     // Page titles
     pgn_db:'لوحة التحكم', pgn_hl:'الصحة المالية', pgn_cf:'التدفق النقدي',
     pgn_ag:'تحليل الذمم', pgn_cp:'ربحية العملاء', pgn_gls:'أهدافي المالية',
-    pgn_tax:'الضرائب والزكاة', pgn_pos:'نقطة البيع', pgn_channels:'مصادر المبيعات',
+    pgn_tax:'الضرائب والزكاة', pgn_pos:'الإغلاقات اليومية', pgn_channels:'مصادر المبيعات',
     pgn_daily:'الموازنة اليومية', pgn_tx:'المعاملات', pgn_inv:'الفواتير',
     pgn_bg:'الميزانية', pgn_vat:'تقرير ض.ق.م', pgn_zakat:'حاسبة الزكاة',
     pgn_taxcal:'التقويم الضريبي', pgn_scan:'مسح الفواتير', pgn_st:'القوائم المالية',
@@ -3385,7 +3436,7 @@ const TRANSLATIONS = {
     // Nav items
     nav_db:'Dashboard', nav_hl:'Financial Health', nav_cf:'Cash Flow',
     nav_ag:'Who Owes Me?', nav_cp:'Client Profitability', nav_gls:'Financial Goals',
-    nav_tax:'Taxes & Zakat', nav_pos:'Point of Sale', nav_channels:'Sales Channels',
+    nav_tax:'Taxes & Zakat', nav_pos:'Daily Closings', nav_channels:'Sales Channels',
     nav_daily:'Daily Balance', nav_tx:'Transactions', nav_inv:'Invoices',
     nav_bg:'Budget', nav_vat:'VAT Report', nav_zakat:'Zakat Calculator',
     nav_taxcal:'Tax Calendar', nav_scan:'Scan Invoices', nav_st:'Financial Statements',
@@ -3745,6 +3796,7 @@ function go(id,el){
   if (id === 'zatca') zatcaLoad();
   if (id === 'brand') brandLoad();
   if (id === 'ar') arLoad();
+  if (id === 'pos') closingLoad();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -4433,6 +4485,197 @@ async function viewInvoice(invId) {
 function closeInvDetail() { document.getElementById('invDetailModal').style.display = 'none'; }
 
 // ═══════════ ACCOUNTS RECEIVABLE / AGING ═══════════
+// ═══════════ DAILY CLOSINGS ═══════════
+function closingCalcVat() {
+  const t = parseFloat(document.getElementById('cl-total').value) || 0;
+  document.getElementById('cl-vat').value = (t - t / 1.15).toFixed(2);
+}
+
+async function closingLoad() {
+  const dateEl = document.getElementById('closing-date');
+  if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
+  try {
+    const monthStart = new Date(); monthStart.setDate(1);
+    const { data } = await _sb.from('daily_closings').select('*')
+      .gte('closing_date', monthStart.toISOString().slice(0,10))
+      .order('closing_date', { ascending: false });
+    const list = data || [];
+    const total = list.reduce((s,c)=>s + (+c.total_sales||0), 0);
+    document.getElementById('closing-month-total').textContent = total.toLocaleString('en-US',{maximumFractionDigits:0}) + ' ر.س';
+    document.getElementById('closing-count').textContent = list.length;
+    document.getElementById('closing-avg').textContent = list.length ? (total/list.length).toLocaleString('en-US',{maximumFractionDigits:0}) + ' ر.س' : '0 ر.س';
+
+    const { data: recent } = await _sb.from('daily_closings').select('*')
+      .order('closing_date', { ascending: false }).limit(30);
+    closingRender(recent || []);
+  } catch (e) {
+    console.error('closingLoad:', e);
+    document.getElementById('closing-list').innerHTML = `<div style="text-align:center;padding:30px;color:#c93545;font-size:13px">شغّل SQL: <code>sql/daily_closings.sql</code></div>`;
+  }
+}
+
+function closingRender(list) {
+  const el = document.getElementById('closing-list');
+  if (!list.length) {
+    el.innerHTML = `<div style="text-align:center;padding:30px;color:var(--t3);font-size:13px">لا توجد إغلاقات بعد</div>`;
+    return;
+  }
+  el.innerHTML = list.map(c => `
+    <div style="padding:14px 18px;border-bottom:1px solid var(--b);cursor:pointer" onclick="closingView('${c.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:700;font-size:13px">${c.closing_date}${c.branch ? ` · ${c.branch}` : ''}</div>
+        <div style="font-weight:800;color:#86BA72;direction:ltr">${(+c.total_sales).toFixed(2)} ر.س</div>
+      </div>
+      <div style="display:flex;gap:10px;font-size:10px;color:var(--t3);flex-wrap:wrap">
+        ${+c.cash_amount>0 ? `<span>💵 ${(+c.cash_amount).toFixed(0)}</span>` : ''}
+        ${+c.card_amount>0 ? `<span>💳 ${(+c.card_amount).toFixed(0)}</span>` : ''}
+        ${+c.bank_amount>0 ? `<span>🏦 ${(+c.bank_amount).toFixed(0)}</span>` : ''}
+        ${+c.invoice_count>0 ? `<span>🔢 ${c.invoice_count} فاتورة</span>` : ''}
+        ${+c.returns_amount>0 ? `<span style="color:#c93545">↩ ${(+c.returns_amount).toFixed(0)}</span>` : ''}
+        ${c.source === 'upload' ? `<span style="color:#8b5cf6">✨ AI</span>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function closingView(id) {
+  // Could open a modal — for now scroll to top showing details
+  toast({ type:'info', msg:'سيتم إضافة عرض التفاصيل قريباً' });
+}
+
+async function closingSave() {
+  const total = parseFloat(document.getElementById('cl-total').value) || 0;
+  if (total <= 0) { alert('أدخل إجمالي المبيعات'); return; }
+  const date = document.getElementById('closing-date').value || new Date().toISOString().slice(0,10);
+  const btn = document.getElementById('cl-save-btn');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '⏳ جاري الحفظ...';
+  try {
+    const subtotal = total / 1.15;
+    const vat = total - subtotal;
+    const { data: tenant } = await _sb.from('tenants').select('id').maybeSingle();
+    const { error } = await _sb.from('daily_closings').insert({
+      tenant_id:       tenant?.id,
+      closing_date:    date,
+      branch:          document.getElementById('cl-branch').value.trim() || null,
+      total_sales:     total,
+      subtotal:        subtotal.toFixed(2),
+      vat_amount:      vat.toFixed(2),
+      cash_amount:     parseFloat(document.getElementById('cl-cash').value) || 0,
+      card_amount:     parseFloat(document.getElementById('cl-card').value) || 0,
+      bank_amount:     parseFloat(document.getElementById('cl-bank').value) || 0,
+      wallet_amount:   parseFloat(document.getElementById('cl-wallet').value) || 0,
+      invoice_count:   parseInt(document.getElementById('cl-count').value) || 0,
+      returns_amount:  parseFloat(document.getElementById('cl-returns').value) || 0,
+      discount_amount: parseFloat(document.getElementById('cl-discount').value) || 0,
+      notes:           document.getElementById('cl-notes').value.trim() || null,
+      source:          'manual',
+    });
+    if (error) throw error;
+    toast({ type:'success', msg:'تم حفظ الإغلاق ✓' });
+    ['cl-total','cl-vat','cl-cash','cl-card','cl-bank','cl-wallet','cl-count','cl-returns','cl-discount','cl-branch','cl-notes']
+      .forEach(id => document.getElementById(id).value = '');
+    closingLoad();
+  } catch (e) {
+    alert('فشل الحفظ: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+async function closingScan(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('الملف أكبر من 5 ميجا'); return; }
+  const status = document.getElementById('closing-scan-status');
+  status.style.display = 'block';
+  status.innerHTML = '⏳ جاري تحليل الملف بالذكاء الاصطناعي...';
+
+  try {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result.split(',')[1];
+      const isPdf = file.type === 'application/pdf';
+      const { data:{ session } } = await _sb.auth.getSession();
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({
+          mode: 'scan',
+          file_type: isPdf ? 'pdf' : 'image',
+          file_data: base64,
+          prompt: `هذا تقرير إغلاق يومي من نظام الكاشير. استخرج البيانات وأرجع JSON فقط (بدون أي نص آخر):
+{
+  "closing_date": "YYYY-MM-DD",
+  "total_sales": رقم (الإجمالي شامل الضريبة),
+  "vat_amount": رقم,
+  "cash_amount": رقم,
+  "card_amount": رقم,
+  "bank_amount": رقم,
+  "wallet_amount": رقم,
+  "invoice_count": رقم,
+  "returns_amount": رقم,
+  "discount_amount": رقم,
+  "branch": "اسم الفرع أو null"
+}
+اجعل الأرقام الناقصة = 0.`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.text) {
+        status.innerHTML = `<span style="color:#c93545">❌ فشل التحليل: ${data.error || 'لا يوجد رد'}</span>`;
+        return;
+      }
+      let parsed;
+      try {
+        let jsonText = data.text.replace(/```json|```/g,'').trim();
+        const match = jsonText.match(/\{[\s\S]*\}/);
+        if (match) jsonText = match[0];
+        parsed = JSON.parse(jsonText);
+      } catch {
+        status.innerHTML = `<span style="color:#c93545">❌ تعذّر فهم رد الذكاء</span>`;
+        return;
+      }
+      // Populate form
+      if (parsed.closing_date) document.getElementById('closing-date').value = parsed.closing_date;
+      document.getElementById('cl-total').value    = parsed.total_sales    || '';
+      document.getElementById('cl-cash').value     = parsed.cash_amount    || '';
+      document.getElementById('cl-card').value     = parsed.card_amount    || '';
+      document.getElementById('cl-bank').value     = parsed.bank_amount    || '';
+      document.getElementById('cl-wallet').value   = parsed.wallet_amount  || '';
+      document.getElementById('cl-count').value    = parsed.invoice_count  || '';
+      document.getElementById('cl-returns').value  = parsed.returns_amount || '';
+      document.getElementById('cl-discount').value = parsed.discount_amount|| '';
+      document.getElementById('cl-branch').value   = parsed.branch || '';
+      closingCalcVat();
+      document.getElementById('closing-manual').classList.add('open');
+      status.innerHTML = `<span style="color:#86BA72">✓ تم استخراج البيانات — راجعها واضغط "حفظ الإغلاق"</span>`;
+    };
+    reader.readAsDataURL(file);
+  } catch (e) {
+    status.innerHTML = `<span style="color:#c93545">❌ خطأ: ${e.message}</span>`;
+  }
+}
+
+function closingExport() {
+  _sb.from('daily_closings').select('*').order('closing_date', { ascending: false }).then(({ data }) => {
+    if (!data?.length) { alert('لا توجد بيانات للتصدير'); return; }
+    const headers = ['التاريخ','الفرع','إجمالي المبيعات','قبل الضريبة','الضريبة','نقدي','بطاقات','تحويل','محافظ','عدد الفواتير','مرتجعات','خصومات','المصدر'];
+    const rows = data.map(c => [
+      c.closing_date, c.branch || '', (+c.total_sales).toFixed(2), (+c.subtotal).toFixed(2),
+      (+c.vat_amount).toFixed(2), (+c.cash_amount).toFixed(2), (+c.card_amount).toFixed(2),
+      (+c.bank_amount).toFixed(2), (+c.wallet_amount).toFixed(2), c.invoice_count,
+      (+c.returns_amount).toFixed(2), (+c.discount_amount).toFixed(2), c.source,
+    ]);
+    const csv = '﻿' + [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `daily-closings-${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+}
+
 async function arLoad() {
   const tb = document.getElementById('arTbody');
   tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--t3)">جاري التحميل...</td></tr>`;
