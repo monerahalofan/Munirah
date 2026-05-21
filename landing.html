@@ -23,9 +23,9 @@ body{font-family:'Tajawal',sans-serif;background:#ffffff;color:#1a1d2e;overflow-
 }
 
 /* ── Nav ── */
-nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;height:64px}
+nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;height:76px}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo img{width:32px;height:32px;object-fit:contain}
+.nav-logo img{height:54px!important;width:auto!important;object-fit:contain}
 .nav-logo span{font-size:20px;font-weight:800;color:var(--t)}
 .nav-links{display:flex;align-items:center;gap:8px}
 .nav-link{color:var(--t2);text-decoration:none;font-size:14px;padding:7px 14px;border-radius:8px;transition:all .2s}
@@ -334,7 +334,7 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 <!-- ── Nav ── -->
 <nav>
   <a href="/" class="nav-logo">
-    <img src="img/logo-full.png" alt="محسوب" style="height:38px;width:auto;object-fit:contain">
+    <img src="img/logo-full.png" alt="محسوب" style="height:54px;width:auto;object-fit:contain">
   </a>
   <div class="nav-links">
     <a href="#features" class="nav-link">المميزات</a>
@@ -343,7 +343,7 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
     <a href="#how" class="nav-link">كيف يعمل</a>
     <a href="#contact" class="nav-link">تواصل</a>
     <a href="/login" class="btn-nav-out">دخول</a>
-    <a href="/login#signup" class="btn-nav">ابدأ مجاناً</a>
+    <a href="/login#signup" class="btn-nav">جرّب مجاناً</a>
   </div>
 </nav>
 
@@ -370,15 +370,15 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 
   <p class="hero-sub">
     نظام محاسبة متكامل للمشاريع الصغيرة والمتوسطة —<br>
-    فواتير، نقطة بيع، تقارير مالية، وذكاء اصطناعي يحلل مشروعك.
+    فواتير، إغلاقات يومية، تقارير، وذكاء اصطناعي يحلل مشروعك.
   </p>
 
   <div class="hero-btns">
-    <a href="/login" class="btn-hero">ابدأ مجاناً ←</a>
+    <a href="/login" class="btn-hero">جرّب محسوب 14 يوم — مجاناً ←</a>
     <a href="#features" class="btn-hero-out">اكتشف المميزات</a>
   </div>
 
-  <p class="hero-note">لا يحتاج بطاقة ائتمانية · <b>مجاني للبدء</b> · يعمل على الجوال</p>
+  <p class="hero-note">بدون بطاقة ائتمانية · <b>14 يوم تجربة مجانية</b> · ألغ في أي وقت</p>
 
   <!-- Floating UI Cards (replaces old preview frame) -->
   <div class="hero-cards" id="heroCards">
@@ -727,7 +727,7 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
 <section class="pricing-section" id="pricing">
   <div class="section-badge" style="margin:0 auto 16px">💎 الباقات</div>
   <h2 class="section-title reveal">اختر الباقة <em>المناسبة لك</em></h2>
-  <p class="section-sub reveal" style="margin:0 auto 0">ابدأ مجاناً، وطوّر عند الحاجة</p>
+  <p class="section-sub reveal" style="margin:0 auto 0">جرّبه مجاناً 14 يوم، وطوّر عند الحاجة</p>
 
   <div class="plans-grid reveal">
     <div class="plan-card">
@@ -741,7 +741,7 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
         <li class="off">الذكاء الاصطناعي</li>
         <li class="off">تقارير متقدمة</li>
       </ul>
-      <a href="/login" class="plan-btn">ابدأ مجاناً</a>
+      <a href="/login" class="plan-btn">ابدأ تجربتك المجانية</a>
     </div>
 
     <div class="plan-card">
@@ -916,7 +916,7 @@ footer{background:var(--bg2);border-top:1px solid var(--b);padding:48px 5% 28px}
   <h2 class="reveal">خذ <em>تحكم كامل</em><br>بماليات مشروعك</h2>
   <p class="reveal">انضم لمئات المشاريع التي تثق بمحسوب. مجاني للبدء، بدون التزام.</p>
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap" class="reveal">
-    <a href="/login" class="btn-hero">ابدأ مجاناً ←</a>
+    <a href="/login" class="btn-hero">جرّب محسوب 14 يوم — مجاناً ←</a>
     <a href="#pricing" class="btn-hero-out">شاهد الأسعار</a>
   </div>
 </section>
