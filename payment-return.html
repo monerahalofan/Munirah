@@ -34,9 +34,8 @@ h1{font-size:22px;font-weight:900;margin-bottom:8px}
 <body>
 
 <div class="card" id="card">
-  <div class="logo">
-    <img src="img/logo-icon.png" alt="">
-    <span>محسوب</span>
+  <div class="logo" style="text-align:center;margin-bottom:18px">
+    <img src="img/logo-full.png" alt="محسوب" style="height:40px;width:auto;object-fit:contain">
   </div>
   <div class="spinner"></div>
   <h1>جاري التحقق من الدفع...</h1>
@@ -55,7 +54,7 @@ const tapStat  = (params.get('status') || '').toUpperCase();
 
 function render(state, ctx = {}) {
   const card = document.getElementById('card');
-  const logo = `<div class="logo"><img src="img/logo-icon.png" alt=""><span>محسوب</span></div>`;
+  const logo = `<div class="logo" style="text-align:center;margin-bottom:18px"><img src="img/logo-full.png" alt="محسوب" style="height:40px;width:auto;object-fit:contain"></div>`;
 
   if (state === 'success') {
     card.innerHTML = `
