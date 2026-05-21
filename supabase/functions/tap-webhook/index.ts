@@ -69,18 +69,106 @@ Deno.serve(async (req) => {
         status: "active",
         starts_at: now.toISOString(),
         ends_at:   ends.toISOString(),
+        current_period_start: now.toISOString(),
+        current_period_end:   ends.toISOString(),
+        last_payment_id: charge.id,
         tap_customer_id: charge.customer?.id,
         tap_card_id:     charge.card?.id,
         updated_at: now.toISOString(),
+        // Reset reminder timestamps for next cycle
+        reminder_7d_sent_at: null,
+        reminder_3d_sent_at: null,
+        reminder_1d_sent_at: null,
+        expired_notice_sent_at: null,
+        cancelled_at: null,
       }).eq("id", subId);
 
-      // Update tenant.plan
-      const { data: sub } = await supa.from("subscriptions").select("tenant_id").eq("id", subId).maybeSingle();
+      // Get sub info (for tenant_id + user_id + amount)
+      const { data: sub } = await supa.from("subscriptions")
+        .select("tenant_id, user_id").eq("id", subId).maybeSingle();
+
       if (sub?.tenant_id) {
+        // Update tenant plan
         await supa.from("tenants").update({
           plan,
           plan_expires_at: ends.toISOString(),
         }).eq("id", sub.tenant_id);
+
+        // ─── ISSUE ZATCA TAX INVOICE FOR THE SUBSCRIPTION ───
+        const amount = parseFloat(charge.amount || "0");
+        if (amount > 0) {
+          const subtotal  = amount / 1.15;
+          const vatAmount = amount - subtotal;
+          const { data: tenant } = await supa.from("tenants")
+            .select("name").eq("id", sub.tenant_id).maybeSingle();
+
+          const { data: invoice } = await supa.from("invoices").insert({
+            tenant_id:     sub.tenant_id,
+            created_by:    sub.user_id,
+            number:        `SUB-${now.getFullYear()}-${Date.now().toString().slice(-6)}`,
+            invoice_type:  "simplified",
+            invoice_kind:  "invoice",
+            client_name:   tenant?.name || charge.customer?.first_name || "عميل",
+            issue_date:    now.toISOString().slice(0,10),
+            subtotal:      subtotal.toFixed(2),
+            vat_amount:    vatAmount.toFixed(2),
+            total:         amount.toFixed(2),
+            status:        "paid",
+            payment_status: "paid",
+            paid_at:       now.toISOString(),
+            amount_paid:   amount.toFixed(2),
+            amount_due:    0,
+            items: [{
+              desc:    `اشتراك محسوب — ${plan || "خطة"} (${cycle === "yearly" ? "سنوي" : "شهري"})`,
+              qty:     1,
+              price:   subtotal.toFixed(2),
+              vatPct:  15,
+              lineNet: subtotal.toFixed(2),
+              lineVat: vatAmount.toFixed(2),
+            }],
+            notes: `رقم العملية: ${charge.id}`,
+          }).select().single();
+
+          if (invoice) {
+            // Link invoice to subscription
+            await supa.from("subscriptions").update({
+              last_invoice_id: invoice.id,
+            }).eq("id", subId);
+          }
+
+          // ─── SEND PAYMENT CONFIRMATION EMAIL ───
+          const customerEmail = charge.customer?.email || charge.source?.email;
+          if (customerEmail) {
+            const customerName = [charge.customer?.first_name, charge.customer?.last_name]
+              .filter(Boolean).join(" ") || customerEmail;
+            try {
+              await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-email`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+                },
+                body: JSON.stringify({
+                  to: customerEmail,
+                  template: "payment_received",
+                  vars: {
+                    user_name:      customerName,
+                    tenant_name:    tenant?.name || "حسابك",
+                    plan:           plan || "—",
+                    amount:         amount.toFixed(2),
+                    invoice_number: invoice?.number || "—",
+                    invoice_url:    invoice ? `https://mahsob.sa/app#inv-${invoice.id}` : "",
+                    expires_at:     ends.toLocaleDateString("ar-SA-u-nu-latn", { year:"numeric", month:"long", day:"numeric" }),
+                  },
+                  tenant_id: sub.tenant_id,
+                  user_id:   sub.user_id,
+                }),
+              });
+            } catch (e) {
+              console.error("Email send failed:", e);
+            }
+          }
+        }
       }
     }
 
