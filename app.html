@@ -710,6 +710,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ni" onclick="go('daily',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
     <div class="ni" onclick="go('tx',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="nav_tx">سجلي المالي</span></div>
     <div class="ni" onclick="go('inv',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span data-i18n="nav_inv">فواتيري</span><span class="nb" id="invBadge"></span></div>
+    <div class="ni" onclick="go('quotes',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span>عروض الأسعار</span><span class="nbg" style="background:rgba(168,134,75,.12);color:#a8854a">جديد</span></div>
     <div class="ni" onclick="go('bg',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span data-i18n="nav_bg">ميزانيتي</span></div>
     <div class="ns" data-i18n="ns_tax">الضرائب والزكاة</div>
     <div class="ni" onclick="go('vat',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></span><span data-i18n="nav_vat">تقرير الضريبة</span></div>
@@ -2823,6 +2824,98 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 </div>
 
+<!-- QUOTES / ESTIMATES (عروض الأسعار) -->
+<div class="pg" id="pg-quotes">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">عروض الأسعار</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">أنشئ عرض سعر وحوّله لفاتورة عند موافقة العميل</div>
+    </div>
+    <button class="btn bp" onclick="openQuoteForm()">＋ عرض سعر جديد</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="g3" style="margin-bottom:14px">
+    <div class="kc"><div class="kl">إجمالي العروض النشطة</div><div class="kv" id="quotes-active-total" style="color:#86BA72">0 ر.س</div></div>
+    <div class="kc"><div class="kl">عدد العروض</div><div class="kv" id="quotes-count">0</div></div>
+    <div class="kc"><div class="kl">معدّل التحويل</div><div class="kv" id="quotes-rate" style="color:#2C5559">0%</div></div>
+  </div>
+
+  <div class="card">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--b);display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        <button class="invF on" data-qf="all" onclick="quoteFilter('all')">الكل</button>
+        <button class="invF" data-qf="draft" onclick="quoteFilter('draft')">مسودة</button>
+        <button class="invF" data-qf="sent" onclick="quoteFilter('sent')">مُرسلة</button>
+        <button class="invF" data-qf="accepted" onclick="quoteFilter('accepted')">مقبولة</button>
+        <button class="invF" data-qf="converted" onclick="quoteFilter('converted')">تحوّلت لفاتورة</button>
+        <button class="invF" data-qf="rejected" onclick="quoteFilter('rejected')">مرفوضة</button>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <input class="fi" id="quoteSearch" placeholder="🔍 بحث برقم العرض أو اسم العميل..." oninput="renderQuotes()" style="padding:7px 12px;font-size:12px">
+      </div>
+    </div>
+    <table class="tbl"><thead><tr><th>رقم</th><th>العميل</th><th>تاريخ</th><th>صالح حتى</th><th>المبلغ</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="quotesTb">
+      <tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">لا توجد عروض أسعار بعد — اضغط <b>＋ عرض سعر جديد</b> لإنشاء أول عرض</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- QUOTE FORM MODAL -->
+<div id="quoteModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:16px;max-width:820px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:#000" id="quoteFormTitle">عرض سعر جديد</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px" id="quoteFormSub">سيتم إنشاء رقم تلقائياً</div>
+      </div>
+      <button onclick="closeQuoteForm()" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div style="padding:20px">
+      <div class="g2" style="gap:12px;margin-bottom:14px">
+        <div class="ff full"><label class="fl">اسم العميل *</label><input class="fi" id="q-client" placeholder="أحمد محمد"></div>
+        <div class="ff full"><label class="fl">البريد الإلكتروني</label><input class="fi" id="q-email" placeholder="email@example.com" style="direction:ltr;text-align:right"></div>
+        <div class="ff full"><label class="fl">رقم الجوال</label><input class="fi" id="q-phone" placeholder="05XXXXXXXX" style="direction:ltr;text-align:right"></div>
+        <div class="ff full"><label class="fl">الرقم الضريبي (اختياري)</label><input class="fi" id="q-vat" placeholder="3XXXXXXXXXXXX03" style="direction:ltr;text-align:right" maxlength="15"></div>
+        <div class="ff full"><label class="fl">تاريخ العرض</label><input class="fi" id="q-date" type="date"></div>
+        <div class="ff full"><label class="fl">صالح حتى</label><input class="fi" id="q-valid" type="date"></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:#000;margin:18px 0 10px">البنود</div>
+      <div id="q-items"></div>
+      <button class="btn bg2" style="font-size:12px;padding:6px 12px;margin-top:6px" onclick="quoteAddRow()">＋ إضافة بند</button>
+
+      <div style="background:#fafafa;padding:14px;border-radius:10px;margin-top:16px">
+        <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr" id="q-sub">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة 15%</span><span style="direction:ltr" id="q-vat-total">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid #86BA72;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#86BA72" id="q-total">0.00 ر.س</span></div>
+      </div>
+
+      <div class="ff full" style="margin-top:14px"><label class="fl">ملاحظات (تظهر في العرض)</label><textarea class="fi" id="q-notes" rows="2" placeholder="مثال: السعر شامل التوصيل..."></textarea></div>
+      <div class="ff full" style="margin-top:10px"><label class="fl">الشروط والأحكام</label><textarea class="fi" id="q-terms" rows="2" placeholder="مثال: العرض صالح لمدة 14 يوم..."></textarea></div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap">
+        <button class="btn bg2" onclick="closeQuoteForm()">إلغاء</button>
+        <button class="btn bp" id="quoteSaveBtn" onclick="quoteSave()">حفظ العرض</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE DETAIL MODAL -->
+<div id="quoteDetailModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:16px;max-width:780px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:#000" id="quoteDetTitle">تفاصيل العرض</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px" id="quoteDetSub"></div>
+      </div>
+      <button onclick="closeQuoteDetail()" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div id="quoteDetBody" style="padding:20px"></div>
+  </div>
+</div>
+
 <!-- ACCOUNTS RECEIVABLE / AGING REPORT -->
 <div class="pg" id="pg-ar">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
@@ -3634,7 +3727,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -3794,6 +3887,7 @@ function go(id,el){
   if (id === 'brand') brandLoad();
   if (id === 'ar') arLoad();
   if (id === 'pos') closingLoad();
+  if (id === 'quotes') quotesLoad();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -4483,6 +4577,346 @@ async function viewInvoice(invId) {
 function closeInvDetail() { document.getElementById('invDetailModal').style.display = 'none'; }
 
 // ═══════════ ACCOUNTS RECEIVABLE / AGING ═══════════
+// ═══════════ QUOTES / ESTIMATES ═══════════
+let _quotesCache = [];
+let _quoteFilter = 'all';
+let _editingQuoteId = null;
+let _qN = 0;
+
+async function quotesLoad() {
+  try {
+    const { data, error } = await _sb.from('quotes').select('*').order('created_at', { ascending:false });
+    if (error) throw error;
+    _quotesCache = data || [];
+    const active = _quotesCache.filter(q => ['sent','accepted','draft'].includes(q.status));
+    const total = active.reduce((s,q) => s + (+q.total || 0), 0);
+    const accepted = _quotesCache.filter(q => q.status === 'accepted' || q.status === 'converted').length;
+    const rate = _quotesCache.length ? Math.round((accepted / _quotesCache.length) * 100) : 0;
+    document.getElementById('quotes-active-total').textContent = total.toLocaleString('en-US',{maximumFractionDigits:0}) + ' ر.س';
+    document.getElementById('quotes-count').textContent = _quotesCache.length;
+    document.getElementById('quotes-rate').textContent = rate + '%';
+    renderQuotes();
+  } catch (e) {
+    console.error('quotesLoad:', e);
+    document.getElementById('quotesTb').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:#c93545">شغّل SQL: <code>sql/quotes.sql</code> في Supabase</td></tr>`;
+  }
+}
+
+function quoteFilter(f) {
+  _quoteFilter = f;
+  document.querySelectorAll('[data-qf]').forEach(b => b.classList.toggle('on', b.dataset.qf === f));
+  renderQuotes();
+}
+
+function renderQuotes() {
+  const tb = document.getElementById('quotesTb');
+  const query = (document.getElementById('quoteSearch')?.value || '').toLowerCase().trim();
+  let list = _quotesCache.slice();
+  if (query) {
+    list = list.filter(q => (q.number||'').toLowerCase().includes(query) || (q.client_name||'').toLowerCase().includes(query));
+  }
+  if (_quoteFilter !== 'all') list = list.filter(q => q.status === _quoteFilter);
+
+  if (!list.length) {
+    tb.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--t3)">${_quotesCache.length ? 'لا توجد عروض مطابقة' : 'لا توجد عروض أسعار بعد — اضغط <b>＋ عرض سعر جديد</b>'}</td></tr>`;
+    return;
+  }
+
+  const stLabel = { draft:'مسودة', sent:'مُرسلة', accepted:'مقبولة', rejected:'مرفوضة', expired:'منتهية', converted:'تحوّلت لفاتورة' };
+  const stColor = { draft:'#a8854a', sent:'#2C5559', accepted:'#86BA72', rejected:'#c93545', expired:'#9aa0b8', converted:'#86BA72' };
+  const today = new Date().toISOString().slice(0,10);
+
+  tb.innerHTML = list.map(q => {
+    let status = q.status;
+    if (status !== 'converted' && status !== 'accepted' && status !== 'rejected' && q.valid_until && q.valid_until < today) status = 'expired';
+    const actions = [];
+    if (status === 'draft' || status === 'sent') {
+      actions.push(`<button class="inv-act pay" onclick="quoteConvert('${q.id}')" title="تحويل لفاتورة">→ فاتورة</button>`);
+      actions.push(`<button class="inv-act" onclick="quoteMark('${q.id}','accepted')" title="مقبولة">✓</button>`);
+      actions.push(`<button class="inv-act" onclick="quoteMark('${q.id}','rejected')" title="مرفوضة">✗</button>`);
+    } else if (status === 'accepted') {
+      actions.push(`<button class="inv-act pay" onclick="quoteConvert('${q.id}')" title="تحويل لفاتورة">→ فاتورة</button>`);
+    }
+    actions.push(`<button class="inv-act" onclick="quoteView('${q.id}')" title="عرض">👁</button>`);
+    if (status !== 'converted') actions.push(`<button class="inv-act" onclick="quoteDelete('${q.id}')" title="حذف" style="color:#c93545">🗑</button>`);
+
+    return `<tr>
+      <td><div style="font-weight:600">${q.number}</div></td>
+      <td>${q.client_name || '—'}</td>
+      <td style="direction:ltr;text-align:right;font-size:12px">${q.issue_date || (q.created_at||'').slice(0,10)}</td>
+      <td style="direction:ltr;text-align:right;font-size:12px">${q.valid_until || '—'}</td>
+      <td style="direction:ltr;font-weight:600">${(+q.total||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td><span style="color:${stColor[status]};font-weight:600;font-size:12px">${stLabel[status]||status}</span></td>
+      <td><div style="display:flex;gap:4px;flex-wrap:wrap">${actions.join('')}</div></td>
+    </tr>`;
+  }).join('');
+}
+
+function openQuoteForm(quoteId) {
+  _editingQuoteId = quoteId || null;
+  document.getElementById('quoteFormTitle').textContent = quoteId ? 'تعديل عرض السعر' : 'عرض سعر جديد';
+  document.getElementById('q-client').value = '';
+  document.getElementById('q-email').value = '';
+  document.getElementById('q-phone').value = '';
+  document.getElementById('q-vat').value = '';
+  document.getElementById('q-date').value = new Date().toISOString().slice(0,10);
+  const valid = new Date(); valid.setDate(valid.getDate() + 14);
+  document.getElementById('q-valid').value = valid.toISOString().slice(0,10);
+  document.getElementById('q-notes').value = '';
+  document.getElementById('q-terms').value = 'العرض صالح لمدة 14 يوم من تاريخ الإصدار.';
+  document.getElementById('q-items').innerHTML = '';
+  _qN = 0;
+  quoteAddRow();
+
+  if (quoteId) {
+    const q = _quotesCache.find(x => x.id === quoteId);
+    if (q) {
+      document.getElementById('q-client').value = q.client_name || '';
+      document.getElementById('q-email').value  = q.client_email || '';
+      document.getElementById('q-phone').value  = q.client_phone || '';
+      document.getElementById('q-vat').value    = q.client_vat || '';
+      document.getElementById('q-date').value   = q.issue_date || '';
+      document.getElementById('q-valid').value  = q.valid_until || '';
+      document.getElementById('q-notes').value  = q.notes || '';
+      document.getElementById('q-terms').value  = q.terms || '';
+      document.getElementById('q-items').innerHTML = '';
+      _qN = 0;
+      (q.items || []).forEach(it => quoteAddRow(it));
+      quoteCalc();
+    }
+  }
+  document.getElementById('quoteModal').style.display = 'flex';
+}
+
+function closeQuoteForm() { document.getElementById('quoteModal').style.display = 'none'; _editingQuoteId = null; }
+
+function quoteAddRow(item) {
+  const idx = _qN++;
+  const d = document.createElement('div');
+  d.className = 'qr'; d.id = 'qr' + idx;
+  d.style.cssText = 'display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr auto;gap:9px;margin-bottom:7px;align-items:flex-end';
+  d.innerHTML = `
+    <div class="ff"><label class="fl">الوصف</label><input class="fi qd" value="${(item?.desc || '').replace(/"/g,'&quot;')}" oninput="quoteCalc()" placeholder="خدمة/منتج"></div>
+    <div class="ff"><label class="fl">الكمية</label><input class="fi qq" type="number" value="${+item?.qty || 1}" oninput="quoteCalc()"></div>
+    <div class="ff"><label class="fl">السعر</label><input class="fi qp" type="number" step="0.01" value="${+item?.price || 0}" oninput="quoteCalc()"></div>
+    <div class="ff"><label class="fl">ضريبة %</label><input class="fi qv" type="number" value="${item?.vatPct ?? 15}" oninput="quoteCalc()"></div>
+    <button class="btn bg2" style="padding:8px;color:#c93545;height:42px" onclick="this.closest('.qr').remove();quoteCalc()">✕</button>`;
+  document.getElementById('q-items').appendChild(d);
+}
+
+function quoteCalc() {
+  let sub = 0, vat = 0;
+  document.querySelectorAll('#q-items .qr').forEach(r => {
+    const qty = parseFloat(r.querySelector('.qq').value) || 0;
+    const price = parseFloat(r.querySelector('.qp').value) || 0;
+    const vatPct = parseFloat(r.querySelector('.qv').value) || 0;
+    const net = qty * price;
+    sub += net;
+    vat += net * (vatPct / 100);
+  });
+  const total = sub + vat;
+  document.getElementById('q-sub').textContent       = sub.toFixed(2) + ' ر.س';
+  document.getElementById('q-vat-total').textContent = vat.toFixed(2) + ' ر.س';
+  document.getElementById('q-total').textContent     = total.toFixed(2) + ' ر.س';
+  return { subtotal: sub, vat_amount: vat, total };
+}
+
+async function quoteSave() {
+  const client = document.getElementById('q-client').value.trim();
+  if (!client) { alert('أدخل اسم العميل'); return; }
+  const items = [];
+  document.querySelectorAll('#q-items .qr').forEach(r => {
+    const desc = r.querySelector('.qd').value.trim();
+    const qty = parseFloat(r.querySelector('.qq').value) || 0;
+    const price = parseFloat(r.querySelector('.qp').value) || 0;
+    const vatPct = parseFloat(r.querySelector('.qv').value) || 0;
+    if (desc && price > 0) items.push({ desc, qty, price, vatPct, lineNet: qty*price, lineVat: qty*price*vatPct/100 });
+  });
+  if (!items.length) { alert('أضف بنداً واحداً على الأقل'); return; }
+
+  const calc = quoteCalc();
+  const btn = document.getElementById('quoteSaveBtn');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '⏳ جاري الحفظ...';
+
+  try {
+    const { data: tenant } = await _sb.from('tenants').select('id').maybeSingle();
+    const payload = {
+      tenant_id:     tenant?.id,
+      client_name:   client,
+      client_email:  document.getElementById('q-email').value.trim() || null,
+      client_phone:  document.getElementById('q-phone').value.trim() || null,
+      client_vat:    document.getElementById('q-vat').value.trim() || null,
+      issue_date:    document.getElementById('q-date').value,
+      valid_until:   document.getElementById('q-valid').value || null,
+      subtotal:      calc.subtotal.toFixed(2),
+      vat_amount:    calc.vat_amount.toFixed(2),
+      total:         calc.total.toFixed(2),
+      items:         items,
+      notes:         document.getElementById('q-notes').value.trim() || null,
+      terms:         document.getElementById('q-terms').value.trim() || null,
+      updated_at:    new Date().toISOString(),
+    };
+
+    if (_editingQuoteId) {
+      const { error } = await _sb.from('quotes').update(payload).eq('id', _editingQuoteId);
+      if (error) throw error;
+      toast({ type:'success', msg:'تم تحديث العرض ✓' });
+    } else {
+      const { data: numData } = await _sb.rpc('next_quote_number', { p_tenant_id: tenant?.id });
+      payload.number = numData || `QT-${Date.now()}`;
+      payload.status = 'draft';
+      const { error } = await _sb.from('quotes').insert(payload);
+      if (error) throw error;
+      toast({ type:'success', msg:`تم إنشاء العرض ${payload.number} ✓` });
+    }
+    closeQuoteForm();
+    quotesLoad();
+  } catch (e) {
+    alert('فشل الحفظ: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+async function quoteMark(id, status) {
+  const updates = { status, updated_at: new Date().toISOString() };
+  if (status === 'accepted') updates.accepted_at = new Date().toISOString();
+  if (status === 'sent')     updates.sent_at = new Date().toISOString();
+  try {
+    const { error } = await _sb.from('quotes').update(updates).eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم تحديث الحالة ✓' });
+    quotesLoad();
+  } catch (e) { alert('فشل: ' + e.message); }
+}
+
+async function quoteDelete(id) {
+  if (!confirm('تأكيد حذف عرض السعر؟')) return;
+  try {
+    const { error } = await _sb.from('quotes').delete().eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم الحذف' });
+    quotesLoad();
+  } catch (e) { alert('فشل الحذف: ' + e.message); }
+}
+
+async function quoteConvert(id) {
+  const q = _quotesCache.find(x => x.id === id);
+  if (!q) return;
+  if (q.status === 'converted') { alert('تم تحويل هذا العرض مسبقاً لفاتورة'); return; }
+  if (!confirm(`تحويل عرض السعر ${q.number} لفاتورة ضريبية؟`)) return;
+
+  try {
+    // Get seller info from tenant + zatca_config
+    const [{ data: tenant }, { data: cfg }] = await Promise.all([
+      _sb.from('tenants').select('id, name, vat_number').maybeSingle(),
+      _sb.from('zatca_config').select('seller_name, vat_number, seller_city').maybeSingle(),
+    ]);
+
+    const sellerName = cfg?.seller_name || tenant?.name || 'مشروعك';
+    const sellerVat  = cfg?.vat_number || tenant?.vat_number || '';
+    const sellerCity = cfg?.seller_city || 'الرياض';
+
+    if (!sellerVat) {
+      if (!confirm('لا يوجد رقم ضريبي مسجل. سيتم إنشاء الفاتورة بدون VAT — هل تريد المتابعة؟')) return;
+    }
+
+    // Issue invoice via zatca-invoice Edge Function (with same items)
+    const { data:{ session } } = await _sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({
+        seller:       sellerName,
+        sellerVat:    sellerVat || '300000000000003',
+        sellerCity,
+        buyer:        q.client_name,
+        buyerVat:     q.client_vat || '',
+        invoiceType:  'simplified',
+        items:        (q.items || []).map(it => ({
+          desc:   it.desc,
+          qty:    +it.qty || 1,
+          price:  +it.price || 0,
+          vatPct: it.vatPct ?? 15,
+        })),
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) { alert('فشل التحويل: ' + (data.error || 'خطأ')); return; }
+
+    // Mark quote as converted + link invoice
+    await _sb.from('quotes').update({
+      status: 'converted',
+      converted_invoice_id: data.invoice?.id,
+      converted_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).eq('id', id);
+
+    toast({ type:'success', msg:`تم تحويل العرض لفاتورة ${data.invoice?.number}` });
+    quotesLoad();
+    // Open the new invoice
+    setTimeout(() => go('inv'), 600);
+  } catch (e) {
+    alert('فشل التحويل: ' + e.message);
+  }
+}
+
+async function quoteView(id) {
+  const q = _quotesCache.find(x => x.id === id);
+  if (!q) return;
+  document.getElementById('quoteDetTitle').textContent = q.number;
+  document.getElementById('quoteDetSub').textContent = `${q.client_name || ''} · ${q.issue_date || ''}`;
+
+  const items = Array.isArray(q.items) ? q.items : [];
+  const rows = items.map(it => `<tr style="border-bottom:1px solid #f0f0f0">
+    <td style="padding:8px 10px;font-size:12px">${it.desc || '—'}</td>
+    <td style="padding:8px;font-size:12px;text-align:center">${it.qty || 1}</td>
+    <td style="padding:8px;font-size:12px;text-align:center;direction:ltr">${(+it.price||0).toFixed(2)}</td>
+    <td style="padding:8px;font-size:12px;text-align:left;direction:ltr;font-weight:600">${((+it.qty||1)*(+it.price||0) + (+it.lineVat||0)).toFixed(2)}</td>
+  </tr>`).join('') || `<tr><td colspan="4" style="padding:14px;text-align:center;color:var(--t3)">لا توجد بنود</td></tr>`;
+
+  const stLabel = { draft:'مسودة', sent:'مُرسلة', accepted:'مقبولة', rejected:'مرفوضة', expired:'منتهية', converted:'تحوّلت لفاتورة' };
+  document.getElementById('quoteDetBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
+      <div style="background:#fafafa;padding:12px;border-radius:9px">
+        <div style="font-size:10px;color:var(--t3);margin-bottom:3px">العميل</div>
+        <div style="font-size:14px;font-weight:700;color:#000">${q.client_name || '—'}</div>
+        ${q.client_email ? `<div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${q.client_email}</div>` : ''}
+        ${q.client_phone ? `<div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${q.client_phone}</div>` : ''}
+      </div>
+      <div style="background:#fafafa;padding:12px;border-radius:9px">
+        <div style="font-size:10px;color:var(--t3);margin-bottom:3px">صالح حتى</div>
+        <div style="font-size:14px;font-weight:800;color:#a8854a">${q.valid_until || '—'}</div>
+        <div style="font-size:11px;color:var(--t3)">الحالة: <b>${stLabel[q.status]||q.status}</b></div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:18px">
+      <thead><tr style="background:#2C5559;color:#fff">
+        <th style="padding:8px;font-size:11px;text-align:right">الوصف</th>
+        <th style="padding:8px;font-size:11px;text-align:center">الكمية</th>
+        <th style="padding:8px;font-size:11px;text-align:center">السعر</th>
+        <th style="padding:8px;font-size:11px;text-align:left">الإجمالي</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="background:#fafafa;padding:14px;border-radius:10px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr">${(+q.subtotal||0).toFixed(2)} ر.س</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة</span><span style="direction:ltr">${(+q.vat_amount||0).toFixed(2)} ر.س</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #86BA72;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#86BA72">${(+q.total||0).toFixed(2)} ر.س</span></div>
+    </div>
+    ${q.notes ? `<div style="background:#fff7e6;border-right:3px solid #a8854a;padding:11px;border-radius:6px;font-size:12px;color:#7a5a2c;margin-bottom:10px"><b>ملاحظات:</b> ${q.notes}</div>` : ''}
+    ${q.terms ? `<div style="background:#fafafa;border-right:3px solid #86BA72;padding:11px;border-radius:6px;font-size:11px;color:#555;line-height:1.7;margin-bottom:14px"><b>الشروط:</b> ${q.terms}</div>` : ''}
+    <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--b);padding-top:14px;flex-wrap:wrap">
+      ${q.status !== 'converted' ? `<button class="btn bp" onclick="closeQuoteDetail();quoteConvert('${q.id}')">→ تحويل لفاتورة</button>` : ''}
+      ${q.status !== 'converted' ? `<button class="btn bg2" onclick="closeQuoteDetail();openQuoteForm('${q.id}')">✏️ تعديل</button>` : ''}
+      <button class="btn bg2" onclick="closeQuoteDetail()">إغلاق</button>
+    </div>`;
+  document.getElementById('quoteDetailModal').style.display = 'flex';
+}
+
+function closeQuoteDetail() { document.getElementById('quoteDetailModal').style.display = 'none'; }
+
 // ═══════════ DAILY CLOSINGS ═══════════
 function closingCalcVat() {
   const t = parseFloat(document.getElementById('cl-total').value) || 0;
