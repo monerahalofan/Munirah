@@ -70,7 +70,8 @@ body.dark .plan-desc{color:#8892a4}
 .plan-price-wrap{margin-bottom:6px}
 .plan-price{font-size:42px;font-weight:900;direction:ltr;display:inline}
 .plan-currency{font-size:16px;font-weight:600;color:#9aa0b8;margin-right:4px}
-.plan-period{font-size:12px;color:#9aa0b8;margin-bottom:24px}
+.plan-period{font-size:12px;color:#9aa0b8;margin-bottom:6px}
+.plan-vat{font-size:11px;color:#b0b8cc;margin-bottom:20px}
 .plan-btn{width:100%;padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s;margin-bottom:24px}
 .plan-btn-out{background:transparent;border:1.5px solid rgba(0,0,0,.15);color:#5a6080}
 .plan-btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
@@ -162,71 +163,84 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
 
   <div class="toggle-wrap">
     <button class="tgl on" id="tglM" onclick="setFreq('monthly')">شهري</button>
-    <button class="tgl" id="tglY" onclick="setFreq('yearly')">سنوي <span class="save-badge">وفّر 20%</span></button>
+    <button class="tgl" id="tglY" onclick="setFreq('yearly')">سنوي <span class="save-badge">وفّر شهرين</span></button>
   </div>
 
   <!-- Plans -->
   <div class="plans">
 
-    <!-- Starter -->
+    <!-- Freelancer -->
     <div class="plan">
-      <div class="plan-tier">STARTER</div>
-      <div class="plan-name">مبتدئ</div>
-      <div class="plan-desc">للمستقلين والمشاريع الصغيرة التي تبدأ رحلتها المالية</div>
+      <div class="plan-tier">FREELANCER</div>
+      <div class="plan-name">فريلانسر</div>
+      <div class="plan-desc">للمستقلين والمصممين والمستشارين — ابدأ باحترافية من اليوم الأول</div>
       <div class="plan-price-wrap">
         <span class="plan-currency">ر.س</span><span class="plan-price" id="priceS">99</span>
       </div>
       <div class="plan-period" id="periodS">/ شهر</div>
+      <div class="plan-vat" id="vatS">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-out" id="btnStarter" onclick="subscribe('starter')">اشترك الآن</button>
       <div class="feat-title">ما يشمله</div>
-      <div class="feat"><span class="feat-check">✓</span>لوحة تحكم مالية كاملة</div>
-      <div class="feat"><span class="feat-check">✓</span>تسجيل المعاملات والفواتير</div>
-      <div class="feat"><span class="feat-check">✓</span>حاسبة الزكاة وتقرير ض.ق.م</div>
-      <div class="feat"><span class="feat-check">✓</span>مسح الفواتير بالذكاء الاصطناعي (50/شهر)</div>
-      <div class="feat"><span class="feat-check">✓</span>تصدير PDF</div>
-      <div class="feat"><span class="feat-x">✗</span>تعدد المستخدمين</div>
-      <div class="feat"><span class="feat-x">✗</span>فاتورة ZATCA الإلكترونية</div>
-      <div class="feat"><span class="feat-x">✗</span>المستشار المالي الذكي</div>
+      <div class="feat"><span class="feat-check">✓</span>حتى 50 فاتورة شهرياً</div>
+      <div class="feat"><span class="feat-check">✓</span>عملاء غير محدودين</div>
+      <div class="feat"><span class="feat-check">✓</span>AI لإنشاء الفواتير (20 عملية/شهر)</div>
+      <div class="feat"><span class="feat-check">✓</span>مسح الفواتير بالذكاء (10/شهر)</div>
+      <div class="feat"><span class="feat-check">✓</span>مستشار مالي ذكي (30 رسالة/شهر)</div>
+      <div class="feat"><span class="feat-check">✓</span>عروض الأسعار + تحويل لفاتورة</div>
+      <div class="feat"><span class="feat-check">✓</span>تقارير VAT + حاسبة الزكاة</div>
+      <div class="feat"><span class="feat-check">✓</span>مرتجعات (Credit Notes)</div>
+      <div class="feat"><span class="feat-check">✓</span>تخصيص الفاتورة (شعار + ألوان)</div>
+      <div class="feat"><span class="feat-check">✓</span>تذكيرات واتساب وإيميل</div>
+      <div class="feat"><span class="feat-x">✗</span>إدارة المصاريف والموردين</div>
+      <div class="feat"><span class="feat-x">✗</span>مخزون متقدم</div>
     </div>
 
-    <!-- Pro -->
+    <!-- Growth -->
     <div class="plan pop">
-      <div class="pop-badge">⭐ الأكثر طلباً</div>
-      <div class="plan-tier">PRO</div>
-      <div class="plan-name">احترافي</div>
-      <div class="plan-desc">للمشاريع المتنامية التي تحتاج أدوات احترافية وتوافق تام مع الأنظمة</div>
+      <div class="pop-badge">⭐ الأكثر شعبية</div>
+      <div class="plan-tier">GROWTH</div>
+      <div class="plan-name">النمو</div>
+      <div class="plan-desc">للمتاجر والمقاهي والعيادات — كل أدوات الإدارة في مكان واحد</div>
       <div class="plan-price-wrap">
         <span class="plan-currency">ر.س</span><span class="plan-price" id="priceP">199</span>
       </div>
       <div class="plan-period" id="periodP">/ شهر</div>
+      <div class="plan-vat" id="vatP">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-fill" id="btnPro" onclick="subscribe('pro')">اشترك الآن ←</button>
-      <div class="feat-title">كل ما في Starter، بالإضافة إلى</div>
-      <div class="feat"><span class="feat-check">✓</span>فاتورة ZATCA الإلكترونية (مرحلة 2)</div>
-      <div class="feat"><span class="feat-check">✓</span>حتى 5 مستخدمين بصلاحيات مختلفة</div>
+      <div class="feat-title">كل ما في الفريلانسر، بالإضافة إلى</div>
+      <div class="feat"><span class="feat-check">✓</span>فواتير غير محدودة</div>
+      <div class="feat"><span class="feat-check">✓</span>AI غير محدود (حتى 500 عملية)</div>
       <div class="feat"><span class="feat-check">✓</span>مسح فواتير غير محدود</div>
-      <div class="feat"><span class="feat-check">✓</span>المستشار المالي الذكي (Claude AI)</div>
-      <div class="feat"><span class="feat-check">✓</span>تحليل ربحية العملاء والتدفق النقدي</div>
-      <div class="feat"><span class="feat-check">✓</span>تصدير PDF وExcel</div>
-      <div class="feat"><span class="feat-check">✓</span>تقارير ضريبية تلقائية</div>
+      <div class="feat"><span class="feat-check">✓</span>رفع الإغلاقات اليومية بالذكاء</div>
+      <div class="feat"><span class="feat-check">✓</span>إدارة المصاريف والموردين <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
+      <div class="feat"><span class="feat-check">✓</span>مخزون متقدم</div>
+      <div class="feat"><span class="feat-check">✓</span>حتى 3 مستخدمين</div>
+      <div class="feat"><span class="feat-check">✓</span>متابعة الفلوس عند الناس</div>
+      <div class="feat"><span class="feat-check">✓</span>تصدير Excel + PDF لكل التقارير</div>
+      <div class="feat"><span class="feat-check">✓</span>دعم واتساب (< 4 ساعات)</div>
     </div>
 
     <!-- Business -->
     <div class="plan">
       <div class="plan-tier">BUSINESS</div>
-      <div class="plan-name">أعمال</div>
-      <div class="plan-desc">للشركات والمؤسسات التي تحتاج تحكماً كاملاً وتكاملاً مع أنظمتها</div>
+      <div class="plan-name">الأعمال</div>
+      <div class="plan-desc">للشركات المتوسطة والمتاجر بفروع — تحكّم كامل وفريق غير محدود</div>
       <div class="plan-price-wrap">
-        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceBiz">499</span>
+        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceBiz">399</span>
       </div>
       <div class="plan-period" id="periodBiz">/ شهر</div>
+      <div class="plan-vat" id="vatBiz">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-out" id="btnBiz" onclick="subscribe('business')">اشترك الآن</button>
-      <div class="feat-title">كل ما في Pro، بالإضافة إلى</div>
-      <div class="feat"><span class="feat-check">✓</span>مستخدمون غير محدودون</div>
-      <div class="feat"><span class="feat-check">✓</span>فروع متعددة وتقارير موحدة</div>
-      <div class="feat"><span class="feat-check">✓</span>API كامل للتكامل مع أنظمتك</div>
-      <div class="feat"><span class="feat-check">✓</span>لوحة تحكم مخصصة للمحاسب</div>
-      <div class="feat"><span class="feat-check">✓</span>دعم أولوية على مدار الساعة</div>
-      <div class="feat"><span class="feat-check">✓</span>SLA مضمون 99.9% وتقارير مخصصة</div>
+      <div class="feat-title">كل ما في النمو، بالإضافة إلى</div>
+      <div class="feat"><span class="feat-check">✓</span>مستخدمون غير محدودين</div>
+      <div class="feat"><span class="feat-check">✓</span>فروع متعددة <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
+      <div class="feat"><span class="feat-check">✓</span>رواتب مبسّطة <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
+      <div class="feat"><span class="feat-check">✓</span>تسوية بنكية</div>
+      <div class="feat"><span class="feat-check">✓</span>تقارير متقدمة + Dashboard مخصص</div>
+      <div class="feat"><span class="feat-check">✓</span>API للتكامل مع أنظمتك <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
+      <div class="feat"><span class="feat-check">✓</span>ربط ZATCA المرحلة الثانية</div>
+      <div class="feat"><span class="feat-check">✓</span>مدير حساب مخصص + تدريب الفريق</div>
+      <div class="feat"><span class="feat-check">✓</span>دعم هاتفي مباشر</div>
     </div>
 
   </div>
@@ -326,7 +340,7 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
 </div>
 
 <footer>
-  © 2025 محسوب · صُنع بـ ❤️ للسوق العربي
+  © 2026 محسوب · صُنع بـ ❤️ للسوق العربي
   &nbsp;·&nbsp; <a href="login.html" style="color:#86BA72;text-decoration:none">تسجيل الدخول</a>
   &nbsp;·&nbsp; <a href="mailto:hello@mahsob.sa" style="color:#86BA72;text-decoration:none">تواصل معنا</a>
 </footer>
@@ -334,19 +348,21 @@ body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
 <script>
 let freq = 'monthly';
 const prices = {
-  monthly: { s: '99',  p: '199',  b: '499' },
-  yearly:  { s: '950', p: '1,910', b: '4,790' }
+  monthly: { s: '99',    p: '199',   b: '399' },
+  yearly:  { s: '990',   p: '1,990', b: '3,990' }
 };
 function setFreq(f) {
   freq = f;
   document.getElementById('tglM').className = 'tgl' + (f === 'monthly' ? ' on' : '');
   document.getElementById('tglY').className = 'tgl' + (f === 'yearly'  ? ' on' : '');
-  const period = f === 'monthly' ? '/ شهر' : '/ سنة (وفّر 20%)';
+  const period  = f === 'monthly' ? '/ شهر' : '/ سنة';
+  const vatText = f === 'monthly' ? 'شامل ضريبة القيمة المضافة 15%' : 'شامل VAT — شهرين مجاناً 🎁';
   const p = prices[f];
   document.getElementById('priceS').textContent   = p.s;
   document.getElementById('priceP').textContent   = p.p;
   document.getElementById('priceBiz').textContent = p.b;
   ['periodS','periodP','periodBiz'].forEach(id => document.getElementById(id).textContent = period);
+  ['vatS','vatP','vatBiz'].forEach(id => document.getElementById(id).textContent = vatText);
 }
 function toggleFaq(el) {
   const a    = el.nextElementSibling;
