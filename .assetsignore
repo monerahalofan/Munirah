@@ -1,0 +1,7 @@
+sql/
+docs/
+supabase/
+.claude/
+.git/
+*.md
+node_modules/
