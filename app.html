@@ -725,6 +725,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('ar',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg></span><span>الفلوس عند الناس</span><span class="nbg" style="background:rgba(201,53,69,.12);color:#c93545" id="arBadge"></span></div>
+    <div class="ni" onclick="go('exp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><line x1="12" y1="5" x2="12" y2="9"/></svg></span><span>المصاريف والموردون</span><span class="nbg" style="background:rgba(166,137,181,.15);color:#A689B5">جديد</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
     <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
@@ -1241,9 +1242,12 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 </div>
 
 <style>
-.invF { padding:5px 12px; background:transparent; border:1px solid var(--b); color:var(--t2); border-radius:7px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; transition:all .12s; }
-.invF:hover { background:var(--bg2); }
-.invF.on { background:#2C5559; color:#fff; border-color:#2C5559; }
+.invF,.inv-filt { padding:5px 12px; background:transparent; border:1px solid var(--b); color:var(--t2); border-radius:7px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; transition:all .12s; }
+.invF:hover,.inv-filt:hover { background:var(--bg2); }
+.invF.on,.inv-filt.on { background:#2C5559; color:#fff; border-color:#2C5559; }
+.tgl-tab { padding:7px 18px; background:transparent; border:none; border-radius:8px; font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; color:var(--t2); transition:all .15s; }
+.tgl-tab.on { background:#fff; color:#1a1d2e; box-shadow:0 1px 4px rgba(0,0,0,.1); font-weight:700; }
+body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .inv-act { padding:4px 8px; font-size:11px; border:1px solid var(--b); background:#fff; border-radius:6px; cursor:pointer; font-family:inherit; font-weight:600; }
 .inv-act:hover { background:var(--bg2); }
 .inv-act.pay { background:#86BA72; color:#fff; border-color:#86BA72; }
@@ -2955,6 +2959,321 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   </div>
 </div>
 
+<!-- EXPENSES & SUPPLIERS PAGE -->
+<div class="pg" id="pg-exp">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">المصاريف والموردون</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">تتبّع كل مصاريفك واعرف وين تروح فلوسك</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bg2" onclick="expRefresh()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/></svg> تحديث</button>
+      <button class="btn bg2" onclick="supplierNew()">＋ مورد جديد</button>
+      <button class="btn bp"  onclick="expenseNew()">＋ مصروف جديد</button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="g3" style="margin-bottom:18px">
+    <div class="kc"><div class="kl">مصاريف هذا الشهر</div><div class="kv" id="exp-month-total" style="color:#c93545">0 ر.س</div></div>
+    <div class="kc"><div class="kl">مستحق للموردين</div><div class="kv" id="exp-unpaid-total" style="color:#a8854a">0 ر.س</div></div>
+    <div class="kc"><div class="kl">عدد الموردين النشطين</div><div class="kv" id="exp-suppliers-count" style="color:#2C5559">0</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;background:#f0f2f7;border-radius:12px;padding:4px;width:fit-content;margin-bottom:18px">
+    <button id="expTab-exp" class="tgl-tab on" onclick="expSwitchTab('exp')">المصاريف</button>
+    <button id="expTab-sup" class="tgl-tab"    onclick="expSwitchTab('sup')">الموردون</button>
+  </div>
+
+  <!-- ── EXPENSES TAB ── -->
+  <div id="expTabContent-exp">
+    <!-- Filters row -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+      <input class="fi" id="expSearch" placeholder="🔍 بحث بالوصف أو المورد..." style="max-width:240px;padding:8px 12px;font-size:13px" oninput="renderExpenses()">
+      <select class="fi" id="expCatFilter" style="max-width:160px;padding:8px 12px;font-size:13px" onchange="renderExpenses()">
+        <option value="all">كل التصنيفات</option>
+        <option value="rent">إيجار</option>
+        <option value="utilities">مرافق</option>
+        <option value="salaries">رواتب</option>
+        <option value="supplies">مستلزمات</option>
+        <option value="marketing">تسويق</option>
+        <option value="maintenance">صيانة</option>
+        <option value="insurance">تأمين</option>
+        <option value="professional">خدمات مهنية</option>
+        <option value="materials">مواد خام</option>
+        <option value="shipping">شحن وتوصيل</option>
+        <option value="other">أخرى</option>
+      </select>
+      <div style="display:flex;gap:4px">
+        <button class="inv-filt on" data-ef="all"      onclick="expFilter('all',this)">الكل</button>
+        <button class="inv-filt"    data-ef="unpaid"   onclick="expFilter('unpaid',this)">غير مدفوع</button>
+        <button class="inv-filt"    data-ef="partial"  onclick="expFilter('partial',this)">جزئي</button>
+        <button class="inv-filt"    data-ef="paid"     onclick="expFilter('paid',this)">مدفوع</button>
+      </div>
+    </div>
+
+    <div class="card" style="overflow:auto;padding:0">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--b);background:#fafbfd">
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">الرقم</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">الوصف</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">الجهة / المورد</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">التصنيف</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">التاريخ</th>
+            <th style="padding:11px 14px;text-align:left;font-weight:700;color:var(--t3)">الإجمالي</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">الحالة</th>
+            <th style="padding:11px 14px;text-align:center;font-weight:700;color:var(--t3)">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="expTbody">
+          <tr><td colspan="8" style="text-align:center;padding:36px;color:var(--t3)">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SUPPLIERS TAB ── -->
+  <div id="expTabContent-sup" style="display:none">
+    <div style="margin-bottom:12px">
+      <input class="fi" id="supSearch" placeholder="🔍 بحث باسم المورد..." style="max-width:280px;padding:8px 12px;font-size:13px" oninput="renderSuppliers()">
+    </div>
+    <div class="card" style="overflow:auto;padding:0">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--b);background:#fafbfd">
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">اسم المورد</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">التصنيف</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">شروط الدفع</th>
+            <th style="padding:11px 14px;text-align:left;font-weight:700;color:var(--t3)">الرصيد المستحق</th>
+            <th style="padding:11px 14px;text-align:right;font-weight:700;color:var(--t3)">الجوال</th>
+            <th style="padding:11px 14px;text-align:center;font-weight:700;color:var(--t3)">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="supTbody">
+          <tr><td colspan="6" style="text-align:center;padding:36px;color:var(--t3)">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- EXPENSE FORM MODAL -->
+<div id="expModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:16px;max-width:640px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:#000" id="expModalTitle">مصروف جديد</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">سيتم إنشاء رقم تلقائياً</div>
+      </div>
+      <button onclick="closeExpModal()" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div style="padding:20px">
+      <div class="g2" style="gap:12px;margin-bottom:14px">
+        <div class="ff full">
+          <label class="fl">الوصف *</label>
+          <input class="fi" id="exp-desc" placeholder="مثال: إيجار المكتب — يناير">
+        </div>
+        <div class="ff full">
+          <label class="fl">التصنيف *</label>
+          <select class="fi" id="exp-cat">
+            <option value="rent">إيجار</option>
+            <option value="utilities">مرافق (كهرباء، ماء، إنترنت)</option>
+            <option value="salaries">رواتب</option>
+            <option value="supplies">مستلزمات</option>
+            <option value="marketing">تسويق وإعلان</option>
+            <option value="maintenance">صيانة وإصلاح</option>
+            <option value="insurance">تأمين</option>
+            <option value="professional">خدمات مهنية</option>
+            <option value="materials">مواد خام</option>
+            <option value="shipping">شحن وتوصيل</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">المورد (اختياري)</label>
+          <select class="fi" id="exp-supplier">
+            <option value="">— بدون مورد —</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">أو اكتب اسم الجهة</label>
+          <input class="fi" id="exp-supplier-name" placeholder="مثال: شركة الكهرباء">
+        </div>
+        <div class="ff full">
+          <label class="fl">تاريخ المصروف *</label>
+          <input class="fi" id="exp-date" type="date">
+        </div>
+        <div class="ff full">
+          <label class="fl">تاريخ الاستحقاق</label>
+          <input class="fi" id="exp-due" type="date">
+        </div>
+        <div class="ff full">
+          <label class="fl">المبلغ قبل الضريبة (ر.س) *</label>
+          <input class="fi" id="exp-amount" type="number" step="0.01" placeholder="0.00" oninput="expCalcVat()">
+        </div>
+        <div class="ff full">
+          <label class="fl">الضريبة (ر.س)</label>
+          <input class="fi" id="exp-vat" type="number" step="0.01" placeholder="0.00" oninput="expCalcTotal()">
+        </div>
+      </div>
+
+      <!-- Total display -->
+      <div style="background:#f5faf3;border:1px solid rgba(134,186,114,.2);border-radius:10px;padding:14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:var(--t3)">الإجمالي (شامل الضريبة)</span>
+        <span style="font-size:20px;font-weight:900;color:#86BA72;direction:ltr" id="exp-total-display">0.00 ر.س</span>
+      </div>
+
+      <div class="g2" style="gap:12px;margin-bottom:14px">
+        <div class="ff full">
+          <label class="fl">طريقة الدفع</label>
+          <select class="fi" id="exp-method">
+            <option value="bank_transfer">تحويل بنكي</option>
+            <option value="cash">نقدي</option>
+            <option value="card">بطاقة</option>
+            <option value="e_wallet">محفظة إلكترونية</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">رقم المرجع / الفاتورة</label>
+          <input class="fi" id="exp-ref" placeholder="INV-001">
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:10px;background:#fafbfd;border-radius:8px;border:1px solid var(--b)">
+        <input type="checkbox" id="exp-vat-ded" style="width:16px;height:16px;accent-color:#86BA72">
+        <label for="exp-vat-ded" style="font-size:13px;color:#1a1d2e;cursor:pointer">الضريبة قابلة للاسترداد (Input VAT)</label>
+      </div>
+
+      <div class="ff full" style="margin-bottom:14px">
+        <label class="fl">ملاحظات</label>
+        <textarea class="fi" id="exp-notes" rows="2" placeholder="أي تفاصيل إضافية..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+        <button class="btn bg2" onclick="closeExpModal()">إلغاء</button>
+        <button class="btn bg2" id="expSaveDraftBtn" onclick="expenseSave('unpaid')">حفظ كمستحق</button>
+        <button class="btn bp"  id="expSavePaidBtn"  onclick="expenseSave('paid')">✓ مدفوع الآن</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPLIER FORM MODAL -->
+<div id="supModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:16px;max-width:580px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:18px;font-weight:800;color:#000" id="supModalTitle">مورد جديد</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">بيانات المورد والتواصل معه</div>
+      </div>
+      <button onclick="closeSupModal()" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div style="padding:20px">
+      <div class="g2" style="gap:12px;margin-bottom:14px">
+        <div class="ff full" style="grid-column:1/-1">
+          <label class="fl">اسم المورد / الشركة *</label>
+          <input class="fi" id="sup-name" placeholder="مثال: شركة المواد الغذائية">
+        </div>
+        <div class="ff full">
+          <label class="fl">التصنيف</label>
+          <select class="fi" id="sup-cat">
+            <option value="materials">مواد خام وبضاعة</option>
+            <option value="services">خدمات</option>
+            <option value="utilities">مرافق</option>
+            <option value="professional">خدمات مهنية</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">شروط الدفع (يوم)</label>
+          <select class="fi" id="sup-terms">
+            <option value="0">دفع فوري</option>
+            <option value="15">15 يوم</option>
+            <option value="30" selected>30 يوم</option>
+            <option value="45">45 يوم</option>
+            <option value="60">60 يوم</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">اسم جهة الاتصال</label>
+          <input class="fi" id="sup-contact" placeholder="أحمد الشمري">
+        </div>
+        <div class="ff full">
+          <label class="fl">الجوال</label>
+          <input class="fi" id="sup-phone" placeholder="05XXXXXXXX" style="direction:ltr;text-align:right">
+        </div>
+        <div class="ff full">
+          <label class="fl">البريد الإلكتروني</label>
+          <input class="fi" id="sup-email" placeholder="supplier@example.com" style="direction:ltr;text-align:right">
+        </div>
+        <div class="ff full">
+          <label class="fl">الرقم الضريبي</label>
+          <input class="fi" id="sup-vat" placeholder="3XXXXXXXXXXXX03" style="direction:ltr;text-align:right" maxlength="15">
+        </div>
+        <div class="ff full">
+          <label class="fl">اسم البنك</label>
+          <input class="fi" id="sup-bank" placeholder="البنك الأهلي">
+        </div>
+        <div class="ff full" style="grid-column:1/-1">
+          <label class="fl">رقم الآيبان</label>
+          <input class="fi" id="sup-iban" placeholder="SA..." style="direction:ltr;text-align:right" maxlength="34">
+        </div>
+        <div class="ff full" style="grid-column:1/-1">
+          <label class="fl">ملاحظات</label>
+          <textarea class="fi" id="sup-notes" rows="2" placeholder="أي تفاصيل إضافية..."></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn bg2" onclick="closeSupModal()">إلغاء</button>
+        <button class="btn bp"  id="supSaveBtn" onclick="supplierSave()">حفظ المورد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPENSE PAY MODAL -->
+<div id="expPayModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1200;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:16px;max-width:440px;width:100%;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:17px;font-weight:800;color:#000">تسجيل دفعة</div>
+      <button onclick="closeExpPayModal()" style="background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--t3);line-height:1">×</button>
+    </div>
+    <div style="padding:20px">
+      <input type="hidden" id="expPayId">
+      <div class="g2" style="gap:12px;margin-bottom:14px">
+        <div class="ff full">
+          <label class="fl">المبلغ (ر.س) *</label>
+          <input class="fi" id="expPay-amount" type="number" step="0.01" placeholder="0.00">
+        </div>
+        <div class="ff full">
+          <label class="fl">تاريخ الدفع</label>
+          <input class="fi" id="expPay-date" type="date">
+        </div>
+        <div class="ff full">
+          <label class="fl">طريقة الدفع</label>
+          <select class="fi" id="expPay-method">
+            <option value="bank_transfer">تحويل بنكي</option>
+            <option value="cash">نقدي</option>
+            <option value="card">بطاقة</option>
+            <option value="e_wallet">محفظة إلكترونية</option>
+          </select>
+        </div>
+        <div class="ff full">
+          <label class="fl">رقم المرجع</label>
+          <input class="fi" id="expPay-ref" placeholder="REF-001">
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn bg2" onclick="closeExpPayModal()">إلغاء</button>
+        <button class="btn bp"  onclick="expPaySave()">✓ تأكيد الدفعة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- INVOICE DETAIL MODAL -->
 <div id="invDetailModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
   <div style="background:#fff;border-radius:16px;max-width:780px;width:100%;max-height:92vh;overflow:auto">
@@ -3888,6 +4207,7 @@ function go(id,el){
   if (id === 'ar') arLoad();
   if (id === 'pos') closingLoad();
   if (id === 'quotes') quotesLoad();
+  if (id === 'exp')    expensesLoad();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -5148,6 +5468,375 @@ async function arLoad() {
     console.error('arLoad:', e);
     tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:#c93545">شغّلي SQL: <code>sql/invoice_advanced.sql</code> في Supabase</td></tr>`;
   }
+}
+
+// ═══════════ EXPENSES & SUPPLIERS ═══════════
+let _expensesCache  = [];
+let _suppliersCache = [];
+let _expFilter      = 'all';
+let _editingExpId   = null;
+let _editingSupId   = null;
+
+const EXP_CAT = {
+  rent:'إيجار', utilities:'مرافق', salaries:'رواتب', supplies:'مستلزمات',
+  marketing:'تسويق', maintenance:'صيانة', insurance:'تأمين',
+  professional:'خدمات مهنية', materials:'مواد خام', shipping:'شحن', other:'أخرى'
+};
+const EXP_METHOD = {
+  bank_transfer:'تحويل بنكي', cash:'نقدي', card:'بطاقة', e_wallet:'محفظة', other:'أخرى'
+};
+const EXP_STATUS_LABEL = { unpaid:'غير مدفوع', partial:'جزئي', paid:'مدفوع' };
+const EXP_STATUS_COLOR = { unpaid:'#c93545', partial:'#a8854a', paid:'#86BA72' };
+
+async function expensesLoad() {
+  try {
+    const [expRes, supRes] = await Promise.all([
+      _sb.from('expenses').select('*').order('expense_date', { ascending: false }),
+      _sb.from('suppliers').select('*').order('name')
+    ]);
+    if (expRes.error) throw expRes.error;
+    if (supRes.error) throw supRes.error;
+    _expensesCache  = expRes.data  || [];
+    _suppliersCache = supRes.data  || [];
+    expUpdateKPIs();
+    renderExpenses();
+    renderSuppliers();
+    expPopulateSupplierSelect();
+  } catch (e) {
+    console.error('expensesLoad:', e);
+    document.getElementById('expTbody').innerHTML =
+      `<tr><td colspan="8" style="text-align:center;padding:28px;color:#c93545">
+         شغّل <code>sql/expenses_suppliers.sql</code> في Supabase أولاً
+       </td></tr>`;
+  }
+}
+
+async function expRefresh() { await expensesLoad(); toast({ type:'success', msg:'تم التحديث' }); }
+
+function expUpdateKPIs() {
+  const now   = new Date();
+  const y     = now.getFullYear();
+  const m     = String(now.getMonth() + 1).padStart(2, '0');
+  const prefix = `${y}-${m}`;
+
+  const monthTotal = _expensesCache
+    .filter(e => (e.expense_date || '').startsWith(prefix))
+    .reduce((s, e) => s + (+e.total || 0), 0);
+
+  const unpaidTotal = _expensesCache
+    .filter(e => e.payment_status !== 'paid')
+    .reduce((s, e) => s + (+e.total || 0), 0);
+
+  const activeSuppliers = _suppliersCache.filter(s => s.is_active !== false).length;
+
+  document.getElementById('exp-month-total').textContent    = fmt(monthTotal)    + ' ر.س';
+  document.getElementById('exp-unpaid-total').textContent   = fmt(unpaidTotal)   + ' ر.س';
+  document.getElementById('exp-suppliers-count').textContent = activeSuppliers;
+}
+
+function expSwitchTab(tab) {
+  ['exp','sup'].forEach(t => {
+    document.getElementById(`expTab-${t}`).classList.toggle('on', t === tab);
+    document.getElementById(`expTabContent-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+function expFilter(f, btn) {
+  _expFilter = f;
+  document.querySelectorAll('[data-ef]').forEach(b => b.classList.toggle('on', b.dataset.ef === f));
+  renderExpenses();
+}
+
+function renderExpenses() {
+  const tb    = document.getElementById('expTbody');
+  const q     = (document.getElementById('expSearch')?.value    || '').toLowerCase();
+  const cat   = document.getElementById('expCatFilter')?.value  || 'all';
+  let list    = _expensesCache.slice();
+
+  if (q)             list = list.filter(e => (e.description||'').toLowerCase().includes(q) || (e.supplier_name||'').toLowerCase().includes(q));
+  if (cat !== 'all') list = list.filter(e => e.category === cat);
+  if (_expFilter !== 'all') list = list.filter(e => e.payment_status === _expFilter);
+
+  if (!list.length) {
+    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:36px;color:var(--t3)">
+      ${_expensesCache.length ? 'لا توجد مصاريف مطابقة' : 'لا توجد مصاريف بعد — اضغط <b>＋ مصروف جديد</b>'}
+    </td></tr>`;
+    return;
+  }
+
+  tb.innerHTML = list.map(e => {
+    const catLabel  = EXP_CAT[e.category]   || e.category;
+    const stLabel   = EXP_STATUS_LABEL[e.payment_status] || e.payment_status;
+    const stColor   = EXP_STATUS_COLOR[e.payment_status] || '#9aa0b8';
+    const supplier  = e.supplier_name || '—';
+    const dateStr   = e.expense_date ? new Date(e.expense_date + 'T00:00:00').toLocaleDateString('ar-SA', {day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
+    const payActs   = e.payment_status !== 'paid'
+      ? `<button class="inv-act pay" onclick="expOpenPay('${e.id}')" title="تسجيل دفعة">＋ دفعة</button>`
+      : '';
+    return `<tr style="border-bottom:1px solid var(--b)">
+      <td style="padding:11px 14px;font-weight:600;color:var(--t2)">${e.number}</td>
+      <td style="padding:11px 14px;font-weight:600">${e.description}</td>
+      <td style="padding:11px 14px;color:var(--t2)">${supplier}</td>
+      <td style="padding:11px 14px"><span style="background:rgba(134,186,114,.1);color:#2C5559;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">${catLabel}</span></td>
+      <td style="padding:11px 14px;color:var(--t3)">${dateStr}</td>
+      <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr">${fmt(e.total)} ر.س</td>
+      <td style="padding:11px 14px"><span style="color:${stColor};font-weight:700;font-size:12px">${stLabel}</span></td>
+      <td style="padding:11px 14px;text-align:center;white-space:nowrap">
+        ${payActs}
+        <button class="inv-act" onclick="expenseDelete('${e.id}')" title="حذف" style="color:#c93545">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderSuppliers() {
+  const tb = document.getElementById('supTbody');
+  const q  = (document.getElementById('supSearch')?.value || '').toLowerCase();
+  let list = _suppliersCache.filter(s => s.is_active !== false);
+  if (q) list = list.filter(s => (s.name||'').toLowerCase().includes(q));
+
+  if (!list.length) {
+    tb.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:36px;color:var(--t3)">
+      ${_suppliersCache.length ? 'لا توجد موردون مطابقون' : 'لا يوجد موردون بعد — اضغط <b>＋ مورد جديد</b>'}
+    </td></tr>`;
+    return;
+  }
+
+  tb.innerHTML = list.map(s => {
+    const balance   = _expensesCache
+      .filter(e => e.supplier_id === s.id && e.payment_status !== 'paid')
+      .reduce((sum, e) => sum + (+e.total || 0), 0);
+    const termsLbl  = s.payment_terms === 0 ? 'فوري' : `${s.payment_terms} يوم`;
+    return `<tr style="border-bottom:1px solid var(--b)">
+      <td style="padding:11px 14px;font-weight:700">${s.name}</td>
+      <td style="padding:11px 14px;color:var(--t2)">${EXP_CAT[s.category] || s.category || '—'}</td>
+      <td style="padding:11px 14px;color:var(--t3)">${termsLbl}</td>
+      <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr;color:${balance > 0 ? '#c93545' : '#86BA72'}">${fmt(balance)} ر.س</td>
+      <td style="padding:11px 14px;direction:ltr;text-align:right;color:var(--t2)">${s.phone || '—'}</td>
+      <td style="padding:11px 14px;text-align:center">
+        <button class="inv-act" onclick="supplierDelete('${s.id}')" title="حذف" style="color:#c93545">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Expense form ──────────────────────────────────────────────────────────
+function expenseNew() {
+  _editingExpId = null;
+  document.getElementById('expModalTitle').textContent = 'مصروف جديد';
+  ['exp-desc','exp-amount','exp-vat','exp-ref','exp-notes','exp-supplier-name'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('exp-cat').value    = 'other';
+  document.getElementById('exp-method').value = 'bank_transfer';
+  document.getElementById('exp-supplier').value = '';
+  document.getElementById('exp-vat-ded').checked = false;
+  document.getElementById('exp-total-display').textContent = '0.00 ر.س';
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('exp-date').value = today;
+  document.getElementById('exp-due').value  = '';
+  document.getElementById('expModal').style.display = 'flex';
+}
+
+function closeExpModal() {
+  document.getElementById('expModal').style.display = 'none';
+  _editingExpId = null;
+}
+
+function expCalcVat() {
+  const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
+  const vat    = Math.round(amount * 0.15 * 100) / 100;
+  document.getElementById('exp-vat').value = vat > 0 ? vat : '';
+  expCalcTotal();
+}
+
+function expCalcTotal() {
+  const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
+  const vat    = parseFloat(document.getElementById('exp-vat').value)    || 0;
+  document.getElementById('exp-total-display').textContent = fmt(amount + vat) + ' ر.س';
+}
+
+async function expenseSave(payStatus) {
+  const desc   = document.getElementById('exp-desc').value.trim();
+  const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
+  if (!desc)   { toast({ type:'error', msg:'أدخل وصف المصروف' }); return; }
+  if (!amount) { toast({ type:'error', msg:'أدخل المبلغ' }); return; }
+
+  const btn = document.getElementById(payStatus === 'paid' ? 'expSavePaidBtn' : 'expSaveDraftBtn');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '...';
+
+  const vatAmt  = parseFloat(document.getElementById('exp-vat').value) || 0;
+  const supId   = document.getElementById('exp-supplier').value  || null;
+  const supName = document.getElementById('exp-supplier-name').value.trim()
+                  || (_suppliersCache.find(s => s.id === supId)?.name || null);
+
+  try {
+    const { data: tenantRow } = await _sb.from('tenants').select('id').maybeSingle();
+    const tid = tenantRow?.id;
+
+    // Get next expense number
+    const { data: numData } = await _sb.rpc('next_expense_number', { p_tenant_id: tid });
+    const number = numData || ('EXP-' + Date.now());
+
+    const row = {
+      tenant_id:      tid,
+      number,
+      description:    desc,
+      category:       document.getElementById('exp-cat').value,
+      supplier_id:    supId,
+      supplier_name:  supName,
+      amount,
+      vat_amount:     vatAmt,
+      total:          amount + vatAmt,
+      vat_deductible: document.getElementById('exp-vat-ded').checked,
+      expense_date:   document.getElementById('exp-date').value,
+      due_date:       document.getElementById('exp-due').value  || null,
+      payment_status: payStatus,
+      payment_method: document.getElementById('exp-method').value,
+      reference_number: document.getElementById('exp-ref').value.trim() || null,
+      notes:          document.getElementById('exp-notes').value.trim() || null,
+    };
+
+    const { error } = await _sb.from('expenses').insert(row);
+    if (error) throw error;
+
+    closeExpModal();
+    toast({ type:'success', msg:'تم حفظ المصروف ✓' });
+    await expensesLoad();
+  } catch (e) {
+    toast({ type:'error', msg:'خطأ: ' + e.message });
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+async function expenseDelete(id) {
+  if (!confirm('حذف هذا المصروف؟')) return;
+  const { error } = await _sb.from('expenses').delete().eq('id', id);
+  if (error) { toast({ type:'error', msg:'فشل الحذف' }); return; }
+  toast({ type:'success', msg:'تم الحذف' });
+  _expensesCache = _expensesCache.filter(e => e.id !== id);
+  expUpdateKPIs();
+  renderExpenses();
+}
+
+// ── Expense payment ───────────────────────────────────────────────────────
+function expOpenPay(expId) {
+  document.getElementById('expPayId').value    = expId;
+  document.getElementById('expPay-amount').value = '';
+  document.getElementById('expPay-ref').value    = '';
+  document.getElementById('expPay-date').value   = new Date().toISOString().slice(0, 10);
+  document.getElementById('expPay-method').value = 'bank_transfer';
+  document.getElementById('expPayModal').style.display = 'flex';
+}
+
+function closeExpPayModal() {
+  document.getElementById('expPayModal').style.display = 'none';
+}
+
+async function expPaySave() {
+  const expId  = document.getElementById('expPayId').value;
+  const amount = parseFloat(document.getElementById('expPay-amount').value) || 0;
+  if (!amount) { toast({ type:'error', msg:'أدخل المبلغ' }); return; }
+
+  try {
+    const { data: tenantRow2 } = await _sb.from('tenants').select('id').maybeSingle();
+    const tid = tenantRow2?.id;
+    const { error } = await _sb.from('expense_payments').insert({
+      expense_id:     expId,
+      tenant_id:      tid,
+      amount,
+      payment_date:   document.getElementById('expPay-date').value,
+      payment_method: document.getElementById('expPay-method').value,
+      reference:      document.getElementById('expPay-ref').value.trim() || null,
+    });
+    if (error) throw error;
+    closeExpPayModal();
+    toast({ type:'success', msg:'تم تسجيل الدفعة ✓' });
+    await expensesLoad();
+  } catch (e) {
+    toast({ type:'error', msg:'خطأ: ' + e.message });
+  }
+}
+
+// ── Supplier form ─────────────────────────────────────────────────────────
+function supplierNew() {
+  _editingSupId = null;
+  document.getElementById('supModalTitle').textContent = 'مورد جديد';
+  ['sup-name','sup-contact','sup-phone','sup-email','sup-vat','sup-bank','sup-iban','sup-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('sup-cat').value   = 'materials';
+  document.getElementById('sup-terms').value = '30';
+  document.getElementById('supModal').style.display = 'flex';
+}
+
+function closeSupModal() {
+  document.getElementById('supModal').style.display = 'none';
+  _editingSupId = null;
+}
+
+async function supplierSave() {
+  const name = document.getElementById('sup-name').value.trim();
+  if (!name) { toast({ type:'error', msg:'أدخل اسم المورد' }); return; }
+
+  const btn  = document.getElementById('supSaveBtn');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '...';
+
+  try {
+    const { data: tenantRow3 } = await _sb.from('tenants').select('id').maybeSingle();
+    const tid = tenantRow3?.id;
+    const row = {
+      tenant_id:     tid,
+      name,
+      category:      document.getElementById('sup-cat').value,
+      payment_terms: parseInt(document.getElementById('sup-terms').value) || 30,
+      contact_name:  document.getElementById('sup-contact').value.trim() || null,
+      phone:         document.getElementById('sup-phone').value.trim()   || null,
+      email:         document.getElementById('sup-email').value.trim()   || null,
+      vat_number:    document.getElementById('sup-vat').value.trim()     || null,
+      bank_name:     document.getElementById('sup-bank').value.trim()    || null,
+      bank_iban:     document.getElementById('sup-iban').value.trim()    || null,
+      notes:         document.getElementById('sup-notes').value.trim()   || null,
+    };
+
+    const { error } = await _sb.from('suppliers').insert(row);
+    if (error) throw error;
+
+    closeSupModal();
+    toast({ type:'success', msg:'تم حفظ المورد ✓' });
+    await expensesLoad();
+  } catch (e) {
+    toast({ type:'error', msg:'خطأ: ' + e.message });
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+async function supplierDelete(id) {
+  if (!confirm('حذف هذا المورد؟ ستُحذف علاقته بالمصاريف.')) return;
+  const { error } = await _sb.from('suppliers').delete().eq('id', id);
+  if (error) { toast({ type:'error', msg:'فشل الحذف' }); return; }
+  toast({ type:'success', msg:'تم الحذف' });
+  _suppliersCache = _suppliersCache.filter(s => s.id !== id);
+  renderSuppliers();
+  expUpdateKPIs();
+}
+
+function expPopulateSupplierSelect() {
+  const sel = document.getElementById('exp-supplier');
+  if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">— بدون مورد —</option>' +
+    _suppliersCache
+      .filter(s => s.is_active !== false)
+      .map(s => `<option value="${s.id}">${s.name}</option>`)
+      .join('');
+  sel.value = prev;
 }
 
 // ═══════════ BULK REMINDERS ═══════════
