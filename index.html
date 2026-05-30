@@ -22,195 +22,287 @@ body{font-family:'PingARLT',sans-serif;background:#ffffff;color:#2C5559;overflow
 
 /* ── Variables ── */
 :root{
-  /* Brand identity */
   --g:#86BA72;--g2:#9DC78A;--gd:rgba(134,186,114,.1);--gb:rgba(134,186,114,.3);
   --bg:#ffffff;--bg2:#f6f8f3;--bg3:#eef2e8;
   --t:#000000;--t2:#2C5559;--t3:#7a8a8d;
   --b:rgba(44,85,89,.1);
   --lav:#A689B5;--lime:#C7CB80;--dark:#2C5559;
   --khaki:#C5A878;--sky:#82B0C7;
+  --r:14px;
 }
 
 /* ── Nav ── */
-nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;height:76px}
+nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;height:72px}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo img{height:54px!important;width:auto!important;object-fit:contain}
-.nav-logo span{font-size:20px;font-weight:800;color:var(--t)}
-.nav-links{display:flex;align-items:center;gap:8px}
-.nav-link{color:var(--t2);text-decoration:none;font-size:14px;padding:7px 14px;border-radius:8px;transition:all .2s}
+.nav-logo img{height:38px;width:auto;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{color:var(--t2);text-decoration:none;font-size:14px;padding:7px 13px;border-radius:8px;transition:all .2s}
 .nav-link:hover{color:var(--t);background:var(--b)}
 .btn-nav{background:var(--g);color:#fff;padding:8px 20px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:600;transition:all .2s;border:none;cursor:pointer;font-family:'PingARLT',sans-serif}
 .btn-nav:hover{background:var(--g2);transform:translateY(-1px)}
-.btn-nav-out{background:transparent;border:1px solid rgba(44,85,89,.2);color:var(--t2);padding:8px 18px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s}
+.btn-nav-out{background:transparent;border:1px solid rgba(44,85,89,.2);color:var(--t2);padding:8px 16px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s}
 .btn-nav-out:hover{border-color:var(--g);color:var(--g)}
 
-/* ── Hero ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 5% 60px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(circle,rgba(134,186,114,.15) 0%,transparent 70%);pointer-events:none}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,85,89,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(44,85,89,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.badge{display:inline-flex;align-items:center;gap:7px;background:var(--gd);border:1px solid var(--gb);color:var(--g2);border-radius:30px;padding:7px 20px;font-size:13px;font-weight:600;margin-bottom:28px;animation:fadeUp .8s ease both}
-.badge-dot{width:7px;height:7px;background:var(--g2);border-radius:50%;animation:pulse2 2s ease infinite}
-@keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.hero h1{font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;animation:fadeUp .8s .1s ease both}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--t2);max-width:600px;line-height:1.8;margin-bottom:40px;animation:fadeUp .8s .2s ease both}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px;animation:fadeUp .8s .3s ease both}
-.btn-hero{background:var(--g);color:#fff;padding:14px 32px;border-radius:12px;text-decoration:none;font-size:17px;font-weight:700;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:'PingARLT',sans-serif}
-.btn-hero:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(134,186,114,.35)}
-.btn-hero-out{background:transparent;border:1px solid rgba(44,85,89,.22);color:var(--t);padding:14px 28px;border-radius:12px;text-decoration:none;font-size:16px;font-weight:600;transition:all .3s}
-.btn-hero-out:hover{border-color:var(--g);color:var(--g);background:var(--gd)}
-.hero-note{font-size:13px;color:var(--t3);animation:fadeUp .8s .4s ease both}
-.hero-note b{color:var(--g)}
+/* ── Hamburger ── */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none;border-radius:8px;transition:background .2s}
+.hamburger:hover{background:var(--b)}
+.hamburger span{display:block;width:22px;height:2px;background:var(--t2);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:72px;left:0;right:0;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--b);padding:16px 5% 24px;z-index:99;flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav .nav-link{font-size:16px;padding:12px 16px;border-radius:10px}
+.mobile-nav .btn-nav,.mobile-nav .btn-nav-out{text-align:center;padding:12px;border-radius:10px;font-size:15px;margin-top:4px}
 
-/* ── App preview ── */
-.hero-preview{width:100%;max-width:900px;margin:0 auto;position:relative;animation:fadeUp .8s .5s ease both}
-.preview-frame{background:#111827;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.25)}
-.preview-bar{background:#161e2e;padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.07)}
+/* ── Hero ── */
+.hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:96px 5% 60px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:10%;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(circle,rgba(134,186,114,.13) 0%,transparent 65%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,85,89,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(44,85,89,.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--gd);border:1px solid var(--gb);color:#5a9448;border-radius:30px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:24px;animation:fadeUp .7s ease both}
+.badge-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse2 2s ease infinite}
+@keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.hero h1{font-size:clamp(38px,5.5vw,68px);font-weight:900;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px;animation:fadeUp .7s .08s ease both}
+.hero h1 em{font-style:normal;color:var(--g)}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--t2);max-width:540px;line-height:1.85;margin-bottom:36px;animation:fadeUp .7s .16s ease both}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .24s ease both}
+.btn-hero{background:var(--g);color:#fff;padding:13px 30px;border-radius:var(--r);text-decoration:none;font-size:16px;font-weight:700;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:'PingARLT',sans-serif}
+.btn-hero:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 14px 40px rgba(134,186,114,.35)}
+.btn-hero:active{transform:translateY(0);box-shadow:none}
+.btn-hero-out{background:transparent;border:1px solid rgba(44,85,89,.22);color:var(--t);padding:13px 26px;border-radius:var(--r);text-decoration:none;font-size:16px;font-weight:600;transition:all .3s}
+.btn-hero-out:hover{border-color:var(--g);color:var(--g);background:var(--gd)}
+
+/* ── App Preview ── */
+.hero-preview{width:100%;max-width:880px;margin:52px auto 0;position:relative;animation:fadeUp .8s .32s ease both}
+.preview-frame{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.04)}
+.preview-bar{background:#1e293b;padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.07)}
 .preview-dot{width:10px;height:10px;border-radius:50%}
-.preview-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07)}
-.preview-stat{background:#111827;padding:20px;text-align:center}
-.preview-stat-num{font-size:22px;font-weight:800;color:#9DC78A}
-.preview-stat-lbl{font-size:11px;color:#8892a4;margin-top:4px}
-.preview-chart{background:#111827;padding:20px;border-top:1px solid rgba(255,255,255,.07)}
-.chart-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
-.bar{flex:1;border-radius:4px 4px 0 0;background:rgba(134,186,114,.12);border:1px solid rgba(134,186,114,.2);animation:barUp 1s ease both}
-@keyframes barUp{from{height:0}to{height:var(--h)}}
-.bar.active{background:linear-gradient(to top,#86BA72,#9DC78A)}
+.preview-url{flex:1;background:rgba(255,255,255,.06);border-radius:6px;height:22px;margin:0 12px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#64748b;font-family:monospace}
+.preview-url-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse2 2s ease infinite}
+.preview-body{display:flex;min-height:260px}
+.preview-sidebar{width:52px;background:#1e293b;border-left:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:14px;flex-shrink:0}
+.preview-sidebar-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center}
+.preview-sidebar-icon.active{background:rgba(134,186,114,.2);border:1px solid rgba(134,186,114,.3)}
+.preview-sidebar-icon svg{width:14px;height:14px;stroke:rgba(255,255,255,.35);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.preview-sidebar-icon.active svg{stroke:#9DC78A}
+.preview-main{flex:1;padding:20px;display:flex;flex-direction:column;gap:14px}
+.preview-topbar{display:flex;align-items:center;justify-content:space-between}
+.preview-title{font-size:13px;font-weight:700;color:#e2e8f0}
+.preview-period{font-size:11px;color:#64748b;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:3px 10px}
+.preview-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.preview-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;position:relative;overflow:hidden}
+.preview-stat::before{content:'';position:absolute;top:0;right:0;width:40px;height:40px;border-radius:0 10px 0 40px;opacity:.07}
+.preview-stat.green::before{background:var(--g)}
+.preview-stat.red::before{background:#f43f5e}
+.preview-stat.blue::before{background:#60a5fa}
+.preview-stat.amber::before{background:#f59e0b}
+.preview-stat-num{font-size:18px;font-weight:800;color:#f1f5f9;line-height:1;margin-bottom:4px;font-family:monospace}
+.preview-stat-num.green{color:#86BA72}
+.preview-stat-num.red{color:#f87171}
+.preview-stat-num.amber{color:#fbbf24}
+.preview-stat-lbl{font-size:10px;color:#64748b}
+.preview-stat-trend{font-size:9px;margin-top:4px;font-weight:600}
+.preview-stat-trend.up{color:#4ade80}
+.preview-stat-trend.down{color:#f87171}
+.preview-chart-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px}
+.preview-chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.preview-chart-label{font-size:11px;color:#94a3b8;font-weight:600}
+.preview-chart-legend{display:flex;gap:10px}
+.preview-chart-legend-item{font-size:9px;color:#64748b;display:flex;align-items:center;gap:4px}
+.preview-chart-legend-dot{width:6px;height:6px;border-radius:50%}
+.chart-bars{display:flex;align-items:flex-end;gap:5px;height:72px}
+.bar{flex:1;border-radius:3px 3px 0 0;transition:height .4s ease;position:relative}
+.bar-rev{background:rgba(134,186,114,.18);border:1px solid rgba(134,186,114,.25)}
+.bar-rev.active{background:linear-gradient(to top,#5a9448,#86BA72)}
+.bar-exp{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.2)}
+.bar-exp.active{background:rgba(244,63,94,.3)}
+.preview-recent{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.preview-invoice{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center}
+.preview-invoice-info .invoice-client{font-size:10px;font-weight:600;color:#cbd5e1}
+.preview-invoice-info .invoice-num{font-size:9px;color:#475569;margin-top:1px}
+.preview-invoice-amount{font-size:11px;font-weight:700;font-family:monospace}
+.preview-invoice-amount.paid{color:#4ade80}
+.preview-invoice-amount.pending{color:#fbbf24}
+.preview-badge{font-size:8px;border-radius:4px;padding:2px 6px;font-weight:600;margin-top:3px;display:inline-block}
+.preview-badge.paid{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+.preview-badge.pending{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
 
 /* ── Stats ── */
-.stats-section{padding:60px 5%;border-top:1px solid var(--b);border-bottom:1px solid var(--b);background:var(--bg2)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;max-width:900px;margin:0 auto}
-.stat-item{text-align:center;padding:32px 20px}
-.stat-num{font-size:40px;font-weight:900;color:var(--g);line-height:1}
+.stats-section{padding:48px 5%;border-top:1px solid var(--b);border-bottom:1px solid var(--b);background:var(--bg2)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;max-width:860px;margin:0 auto}
+.stat-item{text-align:center;padding:28px 20px}
+.stat-num{font-size:42px;font-weight:900;color:var(--g);line-height:1;font-family:monospace}
 .stat-lbl{font-size:13px;color:var(--t2);margin-top:8px}
 
 /* ── Section ── */
 section{padding:80px 5%}
-.section-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gd);border:1px solid var(--gb);color:var(--g2);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:600;margin-bottom:16px}
-.section-title{font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.2;letter-spacing:-.5px;margin-bottom:14px}
+.section-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gd);border:1px solid var(--gb);color:#5a9448;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;margin-bottom:14px}
+.section-title{font-size:clamp(28px,3.8vw,44px);font-weight:900;line-height:1.2;letter-spacing:-.5px;margin-bottom:12px}
 .section-title em{font-style:normal;color:var(--g)}
-.section-sub{font-size:17px;color:var(--t2);max-width:560px;line-height:1.8}
+.section-sub{font-size:17px;color:var(--t2);max-width:540px;line-height:1.85}
 
 /* ── Features ── */
 .features{background:var(--bg)}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);border:1px solid var(--b);border-radius:16px;overflow:hidden;margin-top:52px}
-.feat-card{background:var(--bg);padding:36px 28px;transition:background .2s;cursor:default}
+.feat-header{text-align:center;max-width:1100px;margin:0 auto 52px}
+.feat-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);border:1px solid var(--b);border-radius:var(--r);overflow:hidden}
+.feat-card{background:var(--bg);padding:36px 28px;transition:background .2s;cursor:default;position:relative}
 .feat-card:hover{background:var(--bg2)}
-.feat-icon{width:48px;height:48px;background:var(--gd);border:1px solid var(--gb);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
-.feat-title{font-size:18px;font-weight:700;margin-bottom:10px}
-.feat-desc{font-size:14px;color:var(--t2);line-height:1.7}
-.feat-tag{display:inline-block;background:rgba(201,170,212,.2);border:1px solid rgba(201,170,212,.5);color:#8a50a0;border-radius:6px;font-size:11px;padding:2px 10px;margin-top:12px;font-weight:600}
-.feat-tag.new{background:rgba(170,196,78,.2);border-color:rgba(170,196,78,.5);color:#6a8a10}
+.feat-card.wide{grid-column:span 2}
+.feat-icon{width:46px;height:46px;background:var(--gd);border:1px solid var(--gb);border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--g)}
+.feat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feat-title{font-size:17px;font-weight:700;margin-bottom:9px}
+.feat-desc{font-size:14px;color:var(--t2);line-height:1.75}
+.feat-tag{display:inline-block;background:rgba(201,170,212,.15);border:1px solid rgba(201,170,212,.4);color:#8a50a0;border-radius:6px;font-size:11px;padding:2px 10px;margin-top:10px;font-weight:600}
+.feat-tag.new{background:rgba(170,196,78,.15);border-color:rgba(170,196,78,.4);color:#617c10}
+.feat-visual{position:absolute;bottom:20px;left:24px;opacity:.06}
 
 /* ── AI Section ── */
 .ai-section{background:var(--bg2)}
-.ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto}
-.ai-chat{background:var(--bg);border:1px solid var(--b);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 4px 24px rgba(44,85,89,.08)}
+.ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1100px;margin:0 auto}
+.ai-chat{background:var(--bg);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 28px rgba(44,85,89,.08)}
+.ai-chat-header{background:var(--bg2);border-bottom:1px solid var(--b);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.ai-chat-avatar{width:30px;height:30px;border-radius:50%;background:var(--gd);border:1.5px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#5a9448}
+.ai-chat-title{font-size:13px;font-weight:700}
+.ai-chat-status{font-size:11px;color:var(--g);display:flex;align-items:center;gap:4px}
+.ai-chat-status-dot{width:5px;height:5px;border-radius:50%;background:var(--g);animation:pulse2 2s ease infinite}
+.ai-chat-body{padding:20px;display:flex;flex-direction:column;gap:12px}
 .chat-msg{display:flex;gap:10px;align-items:flex-start}
 .chat-msg.user{flex-direction:row-reverse}
-.chat-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
-.chat-av.ai{background:var(--gd);border:1px solid var(--gb);color:var(--g2)}
-.chat-av.user{background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.25);color:#60a5fa}
-.chat-bubble{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--t);line-height:1.6;max-width:80%}
-.chat-bubble.user{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.15)}
+.chat-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.chat-av.ai{background:var(--gd);border:1px solid var(--gb);color:#5a9448}
+.chat-av.user{background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.2);color:#60a5fa}
+.chat-bubble{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--t);line-height:1.65;max-width:82%}
+.chat-bubble.user{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.12)}
 .chat-typing{display:flex;gap:4px;padding:10px 14px}
 .typing-dot{width:6px;height:6px;background:var(--g2);border-radius:50%;animation:typing .8s ease infinite}
 .typing-dot:nth-child(2){animation-delay:.15s}
 .typing-dot:nth-child(3){animation-delay:.3s}
 @keyframes typing{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.ai-list{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:10px}
+.ai-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--t2);line-height:1.5}
+.ai-list-check{width:22px;height:22px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ai-list-check svg{width:12px;height:12px;stroke:var(--g);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── How it works ── */
 .how-section{background:var(--bg)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:52px;max-width:900px;margin-right:auto;margin-left:auto}
-.step{text-align:center;padding:32px 24px;background:var(--bg2);border:1px solid var(--b);border-radius:16px;position:relative;transition:all .3s;box-shadow:0 2px 12px rgba(44,85,89,.06)}
-.step:hover{border-color:var(--gb);transform:translateY(-4px);box-shadow:0 8px 32px rgba(134,186,114,.15)}
-.step-num{width:48px;height:48px;background:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin:0 auto 16px;color:#fff}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;max-width:860px;margin-right:auto;margin-left:auto;position:relative}
+.steps::before{content:'';position:absolute;top:24px;right:16.5%;left:16.5%;height:1px;background:linear-gradient(90deg,transparent,var(--gb),transparent);pointer-events:none}
+.step{text-align:center;padding:36px 24px;background:var(--bg2);border:1px solid var(--b);border-radius:var(--r);transition:all .3s;box-shadow:0 2px 12px rgba(44,85,89,.04)}
+.step:hover{border-color:var(--gb);transform:translateY(-4px);box-shadow:0 10px 32px rgba(134,186,114,.14)}
+.step-num{width:48px;height:48px;background:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;margin:0 auto 16px;color:#fff;box-shadow:0 4px 16px rgba(134,186,114,.35)}
 .step-title{font-size:17px;font-weight:700;margin-bottom:8px}
-.step-desc{font-size:14px;color:var(--t2);line-height:1.7}
-.step-arrow{position:absolute;left:-16px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--t3)}
+.step-desc{font-size:14px;color:var(--t2);line-height:1.75}
 
 /* ── Pricing ── */
 .pricing-section{background:var(--bg2);text-align:center}
-.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;max-width:1100px;margin-right:auto;margin-left:auto}
-.plan-card{background:var(--bg2);border:1px solid var(--b);border-radius:16px;padding:28px 20px;text-align:right;transition:all .3s;position:relative;box-shadow:0 2px 12px rgba(44,85,89,.06)}
-.plan-card:hover{border-color:var(--gb);transform:translateY(-4px);box-shadow:0 8px 32px rgba(134,186,114,.15)}
-.plan-card.featured{background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(134,186,114,.06));border-color:var(--g);transform:scale(1.02)}
-.plan-badge{position:absolute;top:-12px;right:20px;background:var(--g);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px}
-.plan-name{font-size:16px;font-weight:700;margin-bottom:6px}
-.plan-price{font-size:36px;font-weight:900;color:var(--g);line-height:1;margin:12px 0}
-.plan-price span{font-size:14px;color:var(--t2);font-weight:400}
-.plan-desc{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.6}
-.plan-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px;max-width:1100px;margin-right:auto;margin-left:auto}
+.plan-card{background:var(--bg);border:1px solid var(--b);border-radius:var(--r);padding:28px 20px;text-align:right;transition:all .3s;position:relative;box-shadow:0 2px 12px rgba(44,85,89,.04)}
+.plan-card:hover{border-color:var(--gb);transform:translateY(-3px);box-shadow:0 10px 32px rgba(134,186,114,.14)}
+.plan-card.featured{background:linear-gradient(160deg,rgba(134,186,114,.12),rgba(134,186,114,.04));border-color:rgba(134,186,114,.5);transform:scale(1.02)}
+.plan-card.featured:hover{transform:scale(1.02) translateY(-3px)}
+.plan-badge{position:absolute;top:-12px;right:20px;background:var(--g);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;box-shadow:0 4px 12px rgba(134,186,114,.35)}
+.plan-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.plan-price{font-size:38px;font-weight:900;color:var(--g);line-height:1;margin:10px 0;font-family:monospace}
+.plan-price span{font-size:13px;color:var(--t2);font-weight:400;font-family:'PingARLT',sans-serif}
+.plan-desc{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+.plan-divider{height:1px;background:var(--b);margin-bottom:18px}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
 .plan-features li{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:8px}
-.plan-features li::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
-.plan-features li.off{color:var(--t3);opacity:.6}
-.plan-features li.off::before{content:'✗';color:var(--t3)}
-.plan-btn{width:100%;padding:11px;background:var(--gd);border:1px solid var(--gb);color:var(--g);border-radius:9px;font-family:'PingARLT',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center}
-.plan-btn:hover{background:var(--g);color:#fff}
-.plan-card.featured .plan-btn{background:var(--g);color:#fff}
-.plan-card.featured .plan-btn:hover{background:var(--g2)}
+.plan-features li .feat-check{width:16px;height:16px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-features li .feat-check svg{width:9px;height:9px;stroke:var(--g);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.plan-features li.off{color:var(--t3);opacity:.5}
+.plan-features li.off .feat-check{background:rgba(44,85,89,.05);border-color:rgba(44,85,89,.1)}
+.plan-features li.off .feat-check svg{stroke:var(--t3)}
+.plan-btn{width:100%;padding:11px;background:var(--gd);border:1px solid var(--gb);color:#5a9448;border-radius:9px;font-family:'PingARLT',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;display:block;text-align:center}
+.plan-btn:hover{background:var(--g);color:#fff;border-color:var(--g)}
+.plan-btn:active{transform:scale(.98)}
+.plan-card.featured .plan-btn{background:var(--g);color:#fff;border-color:var(--g)}
+.plan-card.featured .plan-btn:hover{background:#75a862}
 
 /* ── Testimonials ── */
 .testimonials{background:var(--bg)}
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
-.testi-card{background:var(--bg2);border:1px solid var(--b);border-radius:16px;padding:28px;transition:all .3s;box-shadow:0 2px 12px rgba(44,85,89,.06)}
-.testi-card:hover{border-color:var(--gb);transform:translateY(-2px);box-shadow:0 8px 28px rgba(134,186,114,.15)}
-.testi-stars{color:#f59e0b;font-size:16px;margin-bottom:14px;letter-spacing:2px}
-.testi-text{font-size:15px;color:var(--t);line-height:1.8;margin-bottom:18px}
-.testi-author{display:flex;align-items:center;gap:12px}
-.testi-av{width:40px;height:40px;border-radius:50%;background:var(--gd);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--g2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;max-width:1100px;margin:52px auto 0}
+.testi-card{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r);padding:28px;transition:all .3s;box-shadow:0 2px 12px rgba(44,85,89,.04);display:flex;flex-direction:column}
+.testi-card:hover{border-color:var(--gb);transform:translateY(-3px);box-shadow:0 10px 28px rgba(134,186,114,.13)}
+.testi-stars{color:#f59e0b;font-size:15px;margin-bottom:14px;letter-spacing:1px}
+.testi-text{font-size:15px;color:var(--t);line-height:1.8;margin-bottom:auto;padding-bottom:20px}
+.testi-author{display:flex;align-items:center;gap:12px;border-top:1px solid var(--b);padding-top:18px;margin-top:auto}
+.testi-av{width:40px;height:40px;border-radius:50%;background:var(--gd);border:1.5px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#5a9448;flex-shrink:0}
 .testi-name{font-size:14px;font-weight:700}
 .testi-role{font-size:12px;color:var(--t2);margin-top:2px}
 
 /* ── CTA ── */
-.cta-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));text-align:center;padding:100px 5%;border-top:1px solid var(--b);position:relative;overflow:hidden}
-.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(134,186,114,.18) 0%,transparent 70%);pointer-events:none}
-.cta-section h2{font-size:clamp(28px,4vw,52px);font-weight:900;margin-bottom:16px;line-height:1.2}
-.cta-section h2 em{font-style:normal;color:var(--g)}
-.cta-section p{font-size:17px;color:var(--t2);margin-bottom:40px}
+.cta-section{background:var(--dark);text-align:center;padding:100px 5%;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(134,186,114,.14) 0%,transparent 65%);pointer-events:none}
+.cta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(134,186,114,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(134,186,114,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.cta-section h2{font-size:clamp(28px,4vw,52px);font-weight:900;margin-bottom:14px;line-height:1.15;color:#fff}
+.cta-section h2 em{font-style:normal;color:var(--g2)}
+.cta-section p{font-size:17px;color:rgba(255,255,255,.6);margin-bottom:36px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-cta{background:var(--g);color:#fff;padding:14px 32px;border-radius:var(--r);text-decoration:none;font-size:16px;font-weight:700;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-cta:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 14px 40px rgba(134,186,114,.4)}
+.btn-cta:active{transform:translateY(0)}
+.btn-cta-out{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:14px 26px;border-radius:var(--r);text-decoration:none;font-size:16px;font-weight:600;transition:all .3s}
+.btn-cta-out:hover{border-color:rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.05)}
+.cta-trust{font-size:13px;color:rgba(255,255,255,.35);margin-top:20px}
 
 /* ── Footer ── */
-footer{background:var(--dark);border-top:none;padding:48px 5% 28px;color:#d0e8d8}
-footer .footer-col h4{color:#d0e8d8}
-footer .footer-col a{color:#8aaa90}
-footer .footer-col a:hover{color:var(--g2)}
-footer .footer-brand p{color:#8aaa90}
-footer .footer-bottom{border-top:1px solid rgba(255,255,255,.1)}
-footer .footer-copy{color:#8aaa90}
-.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-.footer-brand img{width:36px;height:36px;object-fit:contain;margin-bottom:12px}
-.footer-brand p{font-size:14px;color:var(--t2);line-height:1.7;max-width:240px;margin-top:8px}
-.footer-col h4{font-size:14px;font-weight:700;margin-bottom:14px;color:var(--t)}
-.footer-col a{display:block;font-size:13px;color:var(--t2);text-decoration:none;margin-bottom:9px;transition:color .2s}
-.footer-col a:hover{color:var(--g)}
-.footer-bottom{border-top:1px solid var(--b);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
-.footer-copy{font-size:13px;color:var(--t3)}
-.footer-badge{background:var(--gd);border:1px solid var(--gb);color:var(--g2);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600}
+footer{background:#1e2d2f;padding:48px 5% 28px;color:#c8ddd0}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand img{width:140px;height:auto;object-fit:contain;margin-bottom:12px;opacity:.85}
+.footer-brand p{font-size:14px;color:rgba(200,221,208,.55);line-height:1.75;max-width:230px;margin-top:8px}
+.footer-col h4{font-size:13px;font-weight:700;margin-bottom:14px;color:rgba(200,221,208,.6);letter-spacing:.03em}
+.footer-col a{display:block;font-size:13px;color:rgba(200,221,208,.45);text-decoration:none;margin-bottom:9px;transition:color .2s}
+.footer-col a:hover{color:#9DC78A}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:22px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:13px;color:rgba(200,221,208,.3)}
+.footer-badge{background:rgba(134,186,114,.1);border:1px solid rgba(134,186,114,.2);color:var(--g2);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600}
 
 /* ── Animations ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(30px);transition:all .7s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease, transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ── Responsive ── */
+@media(max-width:1024px){
+  .plans-grid{grid-template-columns:repeat(2,1fr)}
+  .plan-card.featured{transform:none}
+  .plan-card.featured:hover{transform:translateY(-3px)}
+}
 @media(max-width:900px){
   .feat-grid{grid-template-columns:1fr 1fr}
-  .plans-grid{grid-template-columns:1fr 1fr}
-  .ai-inner{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr}
+  .feat-card.wide{grid-column:span 1}
+  .ai-inner{grid-template-columns:1fr;gap:40px}
+  .steps{grid-template-columns:1fr;max-width:400px}
+  .steps::before{display:none}
   .footer-inner{grid-template-columns:1fr 1fr}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .testi-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .preview-stats{grid-template-columns:repeat(2,1fr)}
+  .preview-recent{grid-template-columns:1fr}
+  .preview-sidebar{display:none}
 }
 @media(max-width:600px){
   .feat-grid{grid-template-columns:1fr}
   .plans-grid{grid-template-columns:1fr}
-  .hero-btns{flex-direction:column;align-items:center}
-  .nav-links .nav-link{display:none}
-  .preview-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-btns{flex-direction:column;align-items:stretch}
+  .hero-btns a,.hero-btns button{text-align:center;justify-content:center}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .preview-stats{grid-template-columns:1fr 1fr}
   .footer-inner{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
-  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .footer-bottom{flex-direction:column;gap:10px;text-align:center}
+  .testi-grid{grid-template-columns:1fr}
+  .cta-btns{flex-direction:column;align-items:center}
+  .preview-chart-wrap{display:none}
+  .preview-recent{display:none}
+}
+
+/* ── Reduced Motion ── */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -219,7 +311,7 @@ footer .footer-copy{color:#8aaa90}
 <!-- ── Nav ── -->
 <nav>
   <a href="/" class="nav-logo">
-    <img src="img/logo-full.png" alt="محسوب" style="height:38px;width:auto;object-fit:contain">
+    <img src="img/logo-full.png" alt="محسوب">
   </a>
   <div class="nav-links">
     <a href="#features" class="nav-link">المميزات</a>
@@ -228,7 +320,19 @@ footer .footer-copy{color:#8aaa90}
     <a href="/login" class="btn-nav-out">دخول</a>
     <a href="/login#signup" class="btn-nav">جرّب مجاناً</a>
   </div>
+  <button class="hamburger" aria-label="القائمة" onclick="toggleMenu(this)">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- ── Mobile Nav ── -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#features" class="nav-link" onclick="closeMobileNav()">المميزات</a>
+  <a href="#pricing" class="nav-link" onclick="closeMobileNav()">الأسعار</a>
+  <a href="#how" class="nav-link" onclick="closeMobileNav()">كيف يعمل</a>
+  <a href="/login" class="btn-nav-out">دخول</a>
+  <a href="/login#signup" class="btn-nav">جرّب مجاناً</a>
+</div>
 
 <!-- ── Hero ── -->
 <section class="hero">
@@ -237,108 +341,193 @@ footer .footer-copy{color:#8aaa90}
 
   <div class="badge">
     <span class="badge-dot"></span>
-    يدعم الذكاء الاصطناعي — جديد
+    يدعم الذكاء الاصطناعي
   </div>
 
   <h1>محاسبتك أصبحت<br><em>أذكى وأسهل</em></h1>
 
   <p class="hero-sub">
-    نظام محاسبة متكامل للمشاريع الصغيرة والمتوسطة —<br>
-    فواتير، نقطة بيع، تقارير مالية، وذكاء اصطناعي يحلل مشروعك.
+    نظام محاسبة متكامل للمشاريع السعودية، فواتير ونقطة بيع وتقارير مالية وذكاء اصطناعي يحلل أرباحك.
   </p>
 
   <div class="hero-btns">
-    <a href="/login" class="btn-hero">جرّب محسوب 14 يوم — مجاناً ←</a>
+    <a href="/login#signup" class="btn-hero">جرّب 14 يوم مجاناً ←</a>
     <a href="#features" class="btn-hero-out">اكتشف المميزات</a>
   </div>
 
-  <p class="hero-note">لا يحتاج بطاقة ائتمانية · <b>مجاني للبدء</b> · يعمل على الجوال</p>
-
   <!-- App Preview -->
-  <div class="hero-preview" style="margin-top:52px">
+  <div class="hero-preview">
     <div class="preview-frame">
       <div class="preview-bar">
         <div class="preview-dot" style="background:#ff5f57"></div>
         <div class="preview-dot" style="background:#febc2e"></div>
         <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;background:rgba(255,255,255,.07);border-radius:6px;height:24px;margin:0 16px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#8892a4">mahsob.sa</div>
-      </div>
-      <div class="preview-stats">
-        <div class="preview-stat">
-          <div class="preview-stat-num">84,200</div>
-          <div class="preview-stat-lbl">إيرادات الشهر (ر.س)</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num" style="color:#e8394a">31,500</div>
-          <div class="preview-stat-lbl">المصروفات</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num">52,700</div>
-          <div class="preview-stat-lbl">صافي الربح</div>
-        </div>
-        <div class="preview-stat">
-          <div class="preview-stat-num" style="color:#f59e0b">12</div>
-          <div class="preview-stat-lbl">فاتورة معلقة</div>
+        <div class="preview-url">
+          <span class="preview-url-dot"></span>
+          app.mahsob.sa
         </div>
       </div>
-      <div class="preview-chart">
-        <div style="font-size:12px;color:#4a5568;margin-bottom:10px">الإيرادات — آخر 7 أشهر</div>
-        <div class="chart-bars">
-          <div class="bar" style="--h:45%;height:45%"></div>
-          <div class="bar" style="--h:60%;height:60%"></div>
-          <div class="bar" style="--h:38%;height:38%"></div>
-          <div class="bar" style="--h:72%;height:72%"></div>
-          <div class="bar" style="--h:55%;height:55%"></div>
-          <div class="bar" style="--h:85%;height:85%"></div>
-          <div class="bar active" style="--h:100%;height:100%"></div>
+      <div class="preview-body">
+        <!-- Sidebar icons -->
+        <div class="preview-sidebar">
+          <div class="preview-sidebar-icon active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <div class="preview-sidebar-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="preview-sidebar-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="preview-sidebar-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+          </div>
+        </div>
+        <!-- Main content -->
+        <div class="preview-main">
+          <div class="preview-topbar">
+            <div class="preview-title">لوحة التحكم</div>
+            <div class="preview-period">مايو 2026</div>
+          </div>
+          <div class="preview-stats">
+            <div class="preview-stat green">
+              <div class="preview-stat-num green">84,200</div>
+              <div class="preview-stat-lbl">الإيرادات (ر.س)</div>
+              <div class="preview-stat-trend up">+12% عن الشهر الماضي</div>
+            </div>
+            <div class="preview-stat red">
+              <div class="preview-stat-num red">31,500</div>
+              <div class="preview-stat-lbl">المصروفات</div>
+              <div class="preview-stat-trend down">+4% عن الشهر الماضي</div>
+            </div>
+            <div class="preview-stat blue">
+              <div class="preview-stat-num" style="color:#93c5fd">52,700</div>
+              <div class="preview-stat-lbl">صافي الربح</div>
+              <div class="preview-stat-trend up">+18% نمو</div>
+            </div>
+            <div class="preview-stat amber">
+              <div class="preview-stat-num amber">12</div>
+              <div class="preview-stat-lbl">فاتورة معلقة</div>
+              <div class="preview-stat-trend down">يستحق 8,400 ر.س</div>
+            </div>
+          </div>
+          <div class="preview-chart-wrap">
+            <div class="preview-chart-header">
+              <div class="preview-chart-label">الإيرادات مقابل المصروفات</div>
+              <div class="preview-chart-legend">
+                <div class="preview-chart-legend-item"><div class="preview-chart-legend-dot" style="background:#86BA72"></div> إيرادات</div>
+                <div class="preview-chart-legend-item"><div class="preview-chart-legend-dot" style="background:#f87171"></div> مصروفات</div>
+              </div>
+            </div>
+            <div class="chart-bars">
+              <div class="bar bar-rev" style="height:45%"></div><div class="bar bar-exp" style="height:28%"></div>
+              <div class="bar bar-rev" style="height:60%"></div><div class="bar bar-exp" style="height:35%"></div>
+              <div class="bar bar-rev" style="height:42%"></div><div class="bar bar-exp" style="height:30%"></div>
+              <div class="bar bar-rev" style="height:72%"></div><div class="bar bar-exp" style="height:40%"></div>
+              <div class="bar bar-rev" style="height:58%"></div><div class="bar bar-exp" style="height:32%"></div>
+              <div class="bar bar-rev" style="height:85%"></div><div class="bar bar-exp" style="height:44%"></div>
+              <div class="bar bar-rev active" style="height:100%"></div><div class="bar bar-exp active" style="height:37%"></div>
+            </div>
+          </div>
+          <div class="preview-recent">
+            <div class="preview-invoice">
+              <div class="preview-invoice-info">
+                <div class="invoice-client">شركة النور للاستشارات</div>
+                <div class="invoice-num">INV-2026-0148</div>
+                <div class="preview-badge paid">مدفوعة</div>
+              </div>
+              <div class="preview-invoice-amount paid">18,400 ر.س</div>
+            </div>
+            <div class="preview-invoice">
+              <div class="preview-invoice-info">
+                <div class="invoice-client">مؤسسة الخليج التجارية</div>
+                <div class="invoice-num">INV-2026-0149</div>
+                <div class="preview-badge pending">معلقة</div>
+              </div>
+              <div class="preview-invoice-amount pending">12,200 ر.س</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── Stats ── -->
+<section class="stats-section reveal">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num" id="stat-projects">0+</div>
+      <div class="stat-lbl">مشروع نشط</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-invoices">0+</div>
+      <div class="stat-lbl">فاتورة صدرت</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.9</div>
+      <div class="stat-lbl">تقييم المستخدمين من 5</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">ZATCA</div>
+      <div class="stat-lbl">متوافق مع هيئة الزكاة</div>
+    </div>
+  </div>
+</section>
 
 <!-- ── Features ── -->
 <section class="features" id="features">
-  <div style="text-align:center;max-width:1100px;margin:0 auto">
+  <div class="feat-header reveal">
     <div class="section-badge">المميزات</div>
-    <h2 class="section-title reveal">كل ما تحتاجه في <em>مكان واحد</em></h2>
-    <p class="section-sub reveal" style="margin:0 auto">من الفاتورة الأولى حتى التقرير السنوي — محسوب يغطي كل جوانب محاسبة مشروعك</p>
+    <h2 class="section-title">كل ما تحتاجه في <em>مكان واحد</em></h2>
+    <p class="section-sub" style="margin:0 auto">من الفاتورة الأولى حتى التقرير السنوي، محسوب يغطي كل جوانب محاسبة مشروعك</p>
+  </div>
 
-    <div class="feat-grid reveal">
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="feat-title">الفواتير الإلكترونية</div>
-        <div class="feat-desc">إنشاء فواتير احترافية بالـ VAT، إرسالها بالبريد، وتتبع حالة الدفع تلقائياً.</div>
-        <span class="feat-tag new">متوافق ZATCA</span>
+  <div class="feat-grid reveal">
+    <div class="feat-card wide">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="feat-title">نقطة البيع (POS)</div>
-        <div class="feat-desc">كاشير سريع للبيع المباشر مع إدارة المنتجات والمخزون وطباعة الإيصالات.</div>
+      <div class="feat-title">الفواتير الإلكترونية</div>
+      <div class="feat-desc">إنشاء فواتير احترافية بضريبة القيمة المضافة، إرسالها بالبريد الإلكتروني، وتتبع حالة الدفع تلقائياً مع تنبيهات التأخر.</div>
+      <span class="feat-tag new">متوافق ZATCA</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-        <div class="feat-title">الذكاء الاصطناعي المالي</div>
-        <div class="feat-desc">اسأل عن مشروعك بالعربي واحصل على تحليلات وتوصيات دقيقة مبنية على بياناتك الفعلية.</div>
-        <span class="feat-tag">AI</span>
+      <div class="feat-title">الذكاء الاصطناعي المالي</div>
+      <div class="feat-desc">اسأل عن مشروعك بالعربي واحصل على تحليلات دقيقة مبنية على بياناتك الفعلية.</div>
+      <span class="feat-tag">AI</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-        <div class="feat-title">التقارير والتحليلات</div>
-        <div class="feat-desc">تقارير الربح والخسارة، تدفق الكاش، صحتك المالية، وتحليل أرباح العملاء.</div>
+      <div class="feat-title">نقطة البيع (POS)</div>
+      <div class="feat-desc">كاشير سريع للبيع المباشر مع إدارة المخزون وطباعة الإيصالات.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div class="feat-title">إدارة المصاريف</div>
-        <div class="feat-desc">سجّل مصاريفك اليومية، صنّفها، وتتبع موازنتك بدقة بدون تعقيد.</div>
+      <div class="feat-title">التقارير والتحليلات</div>
+      <div class="feat-desc">تقارير الربح والخسارة، التدفق النقدي، وتحليل ربحية كل عميل.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
-        <div class="feat-title">الضرائب والزكاة</div>
-        <div class="feat-desc">احتساب تلقائي لضريبة القيمة المضافة وزكاة الأعمال مع تقارير جاهزة للتقديم.</div>
-        <span class="feat-tag new">جديد</span>
+      <div class="feat-title">إدارة المصاريف</div>
+      <div class="feat-desc">سجّل مصاريفك اليومية، صنّفها، وتتبع موازنتك بدقة بدون تعقيد.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
       </div>
+      <div class="feat-title">الضرائب والزكاة</div>
+      <div class="feat-desc">احتساب تلقائي لضريبة القيمة المضافة وزكاة الأعمال مع تقارير جاهزة للتقديم.</div>
+      <span class="feat-tag new">جديد</span>
     </div>
   </div>
 </section>
@@ -347,39 +536,59 @@ footer .footer-copy{color:#8aaa90}
 <section class="ai-section" id="ai">
   <div class="ai-inner">
     <div class="reveal">
-      <div class="section-badge">الذكاء الاصطناعي</div>
       <h2 class="section-title">مستشارك المالي<br><em>على مدار الساعة</em></h2>
-      <p class="section-sub">اسأل عن مشروعك بلغة عربية طبيعية. محسوب يقرأ بياناتك الفعلية ويعطيك تحليلاً دقيقاً وتوصيات عملية.</p>
-      <ul style="list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:12px">
-        <li style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--t2)"><span style="color:var(--g);font-size:18px">✓</span> تحليل الإيرادات والمصاريف</li>
-        <li style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--t2)"><span style="color:var(--g);font-size:18px">✓</span> توقع التدفق النقدي</li>
-        <li style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--t2)"><span style="color:var(--g);font-size:18px">✓</span> تحديد العملاء الأكثر ربحية</li>
-        <li style="display:flex;gap:10px;align-items:center;font-size:15px;color:var(--t2)"><span style="color:var(--g);font-size:18px">✓</span> تنبيهات مالية ذكية</li>
+      <p class="section-sub">اسأل عن مشروعك بلغة عربية طبيعية. محسوب يقرأ بياناتك الفعلية ويعطيك تحليلاً دقيقاً وتوصيات عملية في ثوانٍ.</p>
+      <ul class="ai-list">
+        <li>
+          <div class="ai-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          تحليل الإيرادات والمصاريف شهرياً
+        </li>
+        <li>
+          <div class="ai-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          توقع التدفق النقدي للأشهر القادمة
+        </li>
+        <li>
+          <div class="ai-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          تحديد العملاء الأكثر ربحية
+        </li>
+        <li>
+          <div class="ai-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          تنبيهات مالية ذكية قبل حدوث المشاكل
+        </li>
       </ul>
     </div>
     <div class="ai-chat reveal">
-      <div class="chat-msg">
-        <div class="chat-av user">أ</div>
-        <div class="chat-bubble user">وش أكثر عميل مربح عندي هذا الشهر؟</div>
-      </div>
-      <div class="chat-msg">
-        <div class="chat-av ai">م</div>
-        <div class="chat-bubble">
-          بناءً على بياناتك، <strong style="color:var(--g2)">شركة النور للاستشارات</strong> هي الأعلى ربحية هذا الشهر بـ <strong>18,400 ر.س</strong> صافي — نسبة هامش ربح 73%.
-          <br><br>يليها مؤسسة الخليج بـ 12,200 ر.س. أنصح بتعزيز العلاقة مع العميل الأول وتقديم عرض تجديد عقد قبل نهاية الشهر.
+      <div class="ai-chat-header">
+        <div class="ai-chat-avatar">م</div>
+        <div>
+          <div class="ai-chat-title">محسوب AI</div>
+          <div class="ai-chat-status"><span class="ai-chat-status-dot"></span> متصل الآن</div>
         </div>
       </div>
-      <div class="chat-msg">
-        <div class="chat-av user">أ</div>
-        <div class="chat-bubble user">وكيف وضع التدفق النقدي الجاي؟</div>
-      </div>
-      <div class="chat-msg">
-        <div class="chat-av ai">م</div>
-        <div class="chat-bubble">
-          <div class="chat-typing">
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
+      <div class="ai-chat-body">
+        <div class="chat-msg user">
+          <div class="chat-av user">أ</div>
+          <div class="chat-bubble user">وش أكثر عميل مربح عندي هذا الشهر؟</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-av ai">م</div>
+          <div class="chat-bubble">
+            بناءً على بياناتك، <strong style="color:#5a9448">شركة النور للاستشارات</strong> الأعلى ربحية هذا الشهر بـ <strong>18,400 ر.س</strong> صافي، هامش ربح 73%.
+            <br><br>يليها مؤسسة الخليج بـ 12,200 ر.س. أنصح بتجديد عقد العميل الأول قبل نهاية الشهر.
+          </div>
+        </div>
+        <div class="chat-msg user">
+          <div class="chat-av user">أ</div>
+          <div class="chat-bubble user">وكيف وضع التدفق النقدي الجاي؟</div>
+        </div>
+        <div class="chat-msg">
+          <div class="chat-av ai">م</div>
+          <div class="chat-bubble">
+            <div class="chat-typing">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -389,25 +598,24 @@ footer .footer-copy{color:#8aaa90}
 
 <!-- ── How it works ── -->
 <section class="how-section" id="how">
-  <div style="text-align:center;max-width:900px;margin:0 auto">
-    <div class="section-badge">كيف يعمل</div>
+  <div style="text-align:center;max-width:860px;margin:0 auto">
     <h2 class="section-title reveal">ابدأ في <em>3 خطوات</em></h2>
-    <p class="section-sub reveal" style="margin:0 auto">إعداد سريع بدون تعقيد — تقدر تبدأ في أقل من 5 دقائق</p>
+    <p class="section-sub reveal" style="margin:0 auto">إعداد سريع بدون تعقيد، تقدر تبدأ في أقل من 5 دقائق</p>
     <div class="steps">
       <div class="step reveal">
         <div class="step-num">1</div>
         <div class="step-title">سجّل مشروعك</div>
-        <div class="step-desc">أدخل اسم مشروعك ومعلوماته الأساسية. لا يحتاج بطاقة ائتمانية.</div>
+        <div class="step-desc">أدخل اسم مشروعك ومعلوماته الأساسية. لا يحتاج بطاقة ائتمانية للبدء.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">2</div>
         <div class="step-title">أضف بياناتك</div>
-        <div class="step-desc">سجّل عملاءك، منتجاتك، وابدأ بإصدار الفواتير ونقطة البيع فوراً.</div>
+        <div class="step-desc">سجّل عملاءك ومنتجاتك وابدأ بإصدار الفواتير ونقطة البيع فوراً.</div>
       </div>
       <div class="step reveal">
         <div class="step-num">3</div>
         <div class="step-title">راقب واتخذ قراراتك</div>
-        <div class="step-desc">تابع تقاريرك المالية واسأل الذكاء الاصطناعي عن أي شيء تريد معرفته.</div>
+        <div class="step-desc">تابع تقاريرك المالية واسأل الذكاء الاصطناعي عن أي شيء يخص مشروعك.</div>
       </div>
     </div>
   </div>
@@ -415,88 +623,138 @@ footer .footer-copy{color:#8aaa90}
 
 <!-- ── Pricing ── -->
 <section class="pricing-section" id="pricing">
-  <div class="section-badge" style="margin:0 auto 16px">الباقات</div>
   <h2 class="section-title reveal">اختر الباقة <em>المناسبة لك</em></h2>
-  <p class="section-sub reveal" style="margin:0 auto 0">ابدأ مجاناً، وطوّر عند الحاجة</p>
+  <p class="section-sub reveal" style="margin:0 auto 0">ابدأ مجاناً وطوّر عند الحاجة. بدون التزام.</p>
 
   <div class="plans-grid reveal">
+    <!-- Free -->
     <div class="plan-card">
       <div class="plan-name">مجاني</div>
       <div class="plan-price">0 <span>ر.س / شهر</span></div>
       <div class="plan-desc">للبدء واستكشاف النظام</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li>حتى 5 فواتير / شهر</li>
-        <li>فواتير إلكترونية</li>
-        <li>تقرير VAT</li>
-        <li class="off">الذكاء الاصطناعي</li>
-        <li class="off">إدارة المصاريف</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> حتى 5 فواتير / شهر</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> فواتير إلكترونية</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> تقرير VAT</li>
+        <li class="off"><span class="feat-check"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> الذكاء الاصطناعي</li>
+        <li class="off"><span class="feat-check"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> إدارة المصاريف</li>
       </ul>
       <a href="/login" class="plan-btn">جرّب مجاناً</a>
     </div>
 
+    <!-- Freelancer -->
     <div class="plan-card">
       <div class="plan-name">فريلانسر</div>
       <div class="plan-price">99 <span>ر.س / شهر</span></div>
       <div class="plan-desc">للمستقلين والمصممين والمستشارين</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li>50 فاتورة / شهر</li>
-        <li>AI لإنشاء الفواتير</li>
-        <li>مستشار مالي ذكي</li>
-        <li>تقارير VAT والزكاة</li>
-        <li class="off">إدارة المصاريف والموردين</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> 50 فاتورة / شهر</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> AI لإنشاء الفواتير</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> مستشار مالي ذكي</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> تقارير VAT والزكاة</li>
+        <li class="off"><span class="feat-check"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> إدارة المصاريف والموردين</li>
       </ul>
       <a href="/login" class="plan-btn">اشترك الآن</a>
     </div>
 
+    <!-- Growth - Featured -->
     <div class="plan-card featured">
-      <div class="plan-badge">⭐ الأكثر شعبية</div>
+      <div class="plan-badge">الأكثر شعبية</div>
       <div class="plan-name">النمو</div>
       <div class="plan-price">199 <span>ر.س / شهر</span></div>
       <div class="plan-desc">للمتاجر والمقاهي والعيادات</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li>فواتير غير محدودة</li>
-        <li>AI غير محدود</li>
-        <li>إدارة المصاريف والموردين</li>
-        <li>إغلاقات يومية بالذكاء</li>
-        <li>3 مستخدمين</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> فواتير غير محدودة</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> AI غير محدود</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> إدارة المصاريف والموردين</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> إغلاقات يومية بالذكاء</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> 3 مستخدمين</li>
       </ul>
       <a href="/login" class="plan-btn">اشترك الآن</a>
     </div>
 
+    <!-- Business -->
     <div class="plan-card">
       <div class="plan-name">الأعمال</div>
       <div class="plan-price">399 <span>ر.س / شهر</span></div>
       <div class="plan-desc">للشركات والمتاجر بفروع متعددة</div>
+      <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li>مستخدمون غير محدودين</li>
-        <li>فروع متعددة</li>
-        <li>ربط ZATCA Phase 2</li>
-        <li>مدير حساب مخصص</li>
-        <li>دعم هاتفي مباشر</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> مستخدمون غير محدودين</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> فروع متعددة</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> ربط ZATCA Phase 2</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> مدير حساب مخصص</li>
+        <li><span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> دعم هاتفي مباشر</li>
       </ul>
       <a href="/pricing.html" class="plan-btn">شاهد التفاصيل</a>
     </div>
   </div>
 </section>
 
+<!-- ── Testimonials ── -->
+<section class="testimonials" id="testimonials">
+  <div style="text-align:center;max-width:1100px;margin:0 auto">
+    <h2 class="section-title reveal">يقولون عن <em>محسوب</em></h2>
+    <p class="section-sub reveal" style="margin:0 auto">مئات المشاريع السعودية تثق بمحسوب يومياً</p>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">محسوب غير طريقة شغلي كلياً. كنت أضيع ساعات في الفواتير اليدوية، الحين أسوي نفس الشيء في دقيقتين. الذكاء الاصطناعي يعطيني تحليلات ما كنت أتخيلها.</p>
+      <div class="testi-author">
+        <div class="testi-av">ف</div>
+        <div>
+          <div class="testi-name">فهد الغامدي</div>
+          <div class="testi-role">مصمم جرافيك مستقل، الرياض</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">عندنا مقهى وكانت المحاسبة كابوس. محسوب حل المشكلة من اليوم الأول. نقطة البيع سريعة، والإغلاق اليومي يطلع لحاله. الأفضل للمطاعم والمقاهي.</p>
+      <div class="testi-author">
+        <div class="testi-av">ن</div>
+        <div>
+          <div class="testi-name">نورة السعيد</div>
+          <div class="testi-role">صاحبة مقهى فلتر، جدة</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">بعد ما استخدمت محسوب اكتشفت إن عندي عملاء يأخذون خدمات بخسارة. الذكاء الاصطناعي كشف لي ذلك خلال أسبوع. وفّر علي آلاف الريالات.</p>
+      <div class="testi-author">
+        <div class="testi-av">م</div>
+        <div>
+          <div class="testi-name">محمد القرشي</div>
+          <div class="testi-role">مدير مكتب استشارات تقنية، الدمام</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ── CTA ── -->
 <section class="cta-section">
   <div class="cta-glow"></div>
-  <div class="section-badge" style="margin:0 auto 20px">ابدأ الآن</div>
+  <div class="cta-grid"></div>
   <h2 class="reveal">خذ <em>تحكم كامل</em><br>بماليات مشروعك</h2>
   <p class="reveal">انضم لمئات المشاريع التي تثق بمحسوب. مجاني للبدء، بدون التزام.</p>
-  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap" class="reveal">
-    <a href="/login" class="btn-hero">جرّب محسوب 14 يوم — مجاناً ←</a>
-    <a href="#pricing" class="btn-hero-out">شاهد الأسعار</a>
+  <div class="cta-btns reveal">
+    <a href="/login#signup" class="btn-cta">جرّب 14 يوم مجاناً ←</a>
+    <a href="#pricing" class="btn-cta-out">شاهد الأسعار</a>
   </div>
+  <p class="cta-trust reveal">لا يحتاج بطاقة ائتمانية · يعمل على الجوال · دعم باللغة العربية</p>
 </section>
 
 <!-- ── Footer ── -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="img/logo-full.png" alt="محسوب" style="width:160px;height:auto;object-fit:contain;margin-bottom:10px">
+      <img src="img/logo-full.png" alt="محسوب">
       <p>محاسبك المالي الذكي للمشاريع الصغيرة والمتوسطة في المملكة العربية السعودية.</p>
     </div>
     <div class="footer-col">
@@ -516,7 +774,7 @@ footer .footer-copy{color:#8aaa90}
     <div class="footer-col">
       <h4>تواصل معنا</h4>
       <a href="/help.html">مركز المساعدة</a>
-      <a href="https://wa.me/966560488168" target="_blank">واتساب</a>
+      <a href="https://wa.me/966560488168" target="_blank" rel="noopener">واتساب</a>
       <a href="mailto:info@mahsob.sa">info@mahsob.sa</a>
     </div>
   </div>
@@ -527,47 +785,65 @@ footer .footer-copy{color:#8aaa90}
 </footer>
 
 <script>
-// Scroll reveal
+// ── Mobile Nav ──
+function toggleMenu(btn) {
+  btn.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.querySelector('.hamburger').classList.remove('open');
+  document.getElementById('mobileNav').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  const nav = document.getElementById('mobileNav');
+  const btn = document.querySelector('.hamburger');
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+    closeMobileNav();
+  }
+});
+
+// ── Scroll Reveal ──
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Smooth nav highlight
+// ── Smooth scroll for anchor links ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);
     const el = document.getElementById(id);
-    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+    if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); closeMobileNav(); }
   });
 });
 
-// Counter animation
-function animateCounter(el, target, suffix='') {
-  let start = 0;
+// ── Counter animation ──
+function animateCounter(el, target, suffix = '') {
+  let start = null;
   const duration = 1800;
   const step = timestamp => {
-    if(!start) start = timestamp;
+    if (!start) start = timestamp;
     const progress = Math.min((timestamp - start) / duration, 1);
     const ease = 1 - Math.pow(1 - progress, 3);
     el.textContent = Math.floor(ease * target).toLocaleString('ar-SA') + suffix;
-    if(progress < 1) requestAnimationFrame(step);
+    if (progress < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
 }
 
 const statsObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if(e.isIntersecting) {
-      const nums = e.target.querySelectorAll('.stat-num');
-      nums[0] && animateCounter(nums[0], 500, '+');
-      nums[1] && animateCounter(nums[1], 10000, '+');
+    if (e.isIntersecting) {
+      const p = document.getElementById('stat-projects');
+      const i = document.getElementById('stat-invoices');
+      if (p) animateCounter(p, 500, '+');
+      if (i) animateCounter(i, 10000, '+');
       statsObserver.unobserve(e.target);
     }
   });
 }, { threshold: 0.3 });
 const statsSection = document.querySelector('.stats-section');
-if(statsSection) statsObserver.observe(statsSection);
+if (statsSection) statsObserver.observe(statsSection);
 </script>
 </body>
 </html>
