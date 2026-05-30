@@ -56,9 +56,16 @@ nav{position:fixed;top:0;width:100%;z-index:100;padding:0 5%;background:rgba(255
 .mobile-nav .btn-nav,.mobile-nav .btn-nav-out{text-align:center;padding:12px;border-radius:10px;font-size:15px;margin-top:4px}
 
 /* ── Hero ── */
-.hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:96px 5% 60px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;top:10%;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(circle,rgba(134,186,114,.13) 0%,transparent 65%);pointer-events:none}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,85,89,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(44,85,89,.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+.hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:96px 5% 60px;position:relative;overflow:hidden;background:radial-gradient(ellipse 120% 80% at 50% 0%,#e8f4e0 0%,#f6fbf2 40%,#ffffff 75%)}
+.hero-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(134,186,114,.22) 0%,transparent 65%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,85,89,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(44,85,89,.025) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+/* floating coins */
+.hero-coin{position:absolute;pointer-events:none;opacity:.55;filter:drop-shadow(0 8px 24px rgba(134,186,114,.3))}
+.hero-coin-1{width:96px;top:18%;right:8%;animation:floatA 6s ease-in-out infinite}
+.hero-coin-2{width:64px;top:60%;left:6%;animation:floatB 7s ease-in-out infinite;opacity:.35}
+.hero-coin-3{width:44px;bottom:22%;right:14%;animation:floatA 5s ease-in-out infinite 1s;opacity:.25}
+@keyframes floatA{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(4deg)}}
+@keyframes floatB{0%,100%{transform:translateY(0) rotate(8deg)}50%{transform:translateY(-10px) rotate(-4deg)}}
 .badge{display:inline-flex;align-items:center;gap:7px;background:var(--gd);border:1px solid var(--gb);color:#5a9448;border-radius:30px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:24px;animation:fadeUp .7s ease both}
 .badge-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse2 2s ease infinite}
 @keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
@@ -148,7 +155,12 @@ section{padding:80px 5%}
 .feat-card{background:var(--bg);padding:36px 28px;transition:background .2s;cursor:default;position:relative}
 .feat-card:hover{background:var(--bg2)}
 .feat-card.wide{grid-column:span 2}
-.feat-icon{width:46px;height:46px;background:var(--gd);border:1px solid var(--gb);border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--g)}
+.feat-icon{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.feat-icon.c-green{background:var(--gd);border:1px solid var(--gb);color:var(--g)}
+.feat-icon.c-lav{background:rgba(166,137,181,.12);border:1px solid rgba(166,137,181,.3);color:var(--lav)}
+.feat-icon.c-sky{background:rgba(130,176,199,.12);border:1px solid rgba(130,176,199,.3);color:var(--sky)}
+.feat-icon.c-lime{background:rgba(199,203,128,.15);border:1px solid rgba(199,203,128,.35);color:#8a8e30}
+.feat-icon.c-khaki{background:rgba(197,168,120,.12);border:1px solid rgba(197,168,120,.3);color:var(--khaki)}
 .feat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .feat-title{font-size:17px;font-weight:700;margin-bottom:9px}
 .feat-desc{font-size:14px;color:var(--t2);line-height:1.75}
@@ -338,6 +350,9 @@ footer{background:#1e2d2f;padding:48px 5% 28px;color:#c8ddd0}
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-grid"></div>
+  <img src="img/logo-icon.png" class="hero-coin hero-coin-1" alt="" aria-hidden="true">
+  <img src="img/logo-icon.png" class="hero-coin hero-coin-2" alt="" aria-hidden="true">
+  <img src="img/logo-icon.png" class="hero-coin hero-coin-3" alt="" aria-hidden="true">
 
   <div class="badge">
     <span class="badge-dot"></span>
@@ -485,7 +500,7 @@ footer{background:#1e2d2f;padding:48px 5% 28px;color:#c8ddd0}
 
   <div class="feat-grid reveal">
     <div class="feat-card wide">
-      <div class="feat-icon">
+      <div class="feat-icon c-green">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <div class="feat-title">الفواتير الإلكترونية</div>
@@ -493,7 +508,7 @@ footer{background:#1e2d2f;padding:48px 5% 28px;color:#c8ddd0}
       <span class="feat-tag new">متوافق ZATCA</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">
+      <div class="feat-icon c-lav">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
       </div>
       <div class="feat-title">الذكاء الاصطناعي المالي</div>
@@ -501,28 +516,28 @@ footer{background:#1e2d2f;padding:48px 5% 28px;color:#c8ddd0}
       <span class="feat-tag">AI</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">
+      <div class="feat-icon c-sky">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
       <div class="feat-title">نقطة البيع (POS)</div>
       <div class="feat-desc">كاشير سريع للبيع المباشر مع إدارة المخزون وطباعة الإيصالات.</div>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">
+      <div class="feat-icon c-lime">
         <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </div>
       <div class="feat-title">التقارير والتحليلات</div>
       <div class="feat-desc">تقارير الربح والخسارة، التدفق النقدي، وتحليل ربحية كل عميل.</div>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">
+      <div class="feat-icon c-khaki">
         <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
       <div class="feat-title">إدارة المصاريف</div>
       <div class="feat-desc">سجّل مصاريفك اليومية، صنّفها، وتتبع موازنتك بدقة بدون تعقيد.</div>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">
+      <div class="feat-icon c-green">
         <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
       </div>
       <div class="feat-title">الضرائب والزكاة</div>
