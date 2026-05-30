@@ -1,6 +1,6 @@
 # 📘 سجل تطوير محسوب — Mahsob Development Log
 
-> **Last updated:** May 21, 2026
+> **Last updated:** May 31, 2026
 > **Project:** Mahsob — Cloud-Based Accounting SaaS for Saudi SMEs
 > **Domain:** [mahsob.sa](https://mahsob.sa)
 > **Owner:** Munirah Al-Ofan
@@ -171,6 +171,17 @@
 - Monthly/yearly plans via Tap Payments
 - Auto-issue tax invoice on successful payment
 - Email confirmation + reminders + cancellation flow
+
+### 💸 13. Expenses & Suppliers (NEW — May 2026)
+- Add expenses with category, description, VAT, supplier, due date
+- 11 categories: إيجار، مرافق، رواتب، مستلزمات، تسويق، صيانة، تأمين، خدمات مهنية، مواد خام، شحن، أخرى
+- Supplier management: name, contact, payment terms, IBAN, VAT number
+- Record partial payments per expense (expense_payments table)
+- Auto-sync payment_status via DB trigger (unpaid → partial → paid)
+- KPIs: monthly spend, total due to suppliers, active suppliers count
+- Tabs: المصاريف / الموردون
+- Filters: category + payment status + search
+- **Competitive edge:** fills the #1 gap vs Vom & Qoyod
 
 ---
 
@@ -346,7 +357,9 @@
 - [ ] Request Production CSID
 
 ### 🟠 High Priority:
-- [ ] Run all pending SQL migrations in production Supabase
+- [ ] Run `sql/expenses_suppliers.sql` in production Supabase ← **NEW — do this first**
+- [ ] Test expenses & suppliers feature live after SQL migration
+- [ ] Run all other pending SQL migrations in production Supabase
 - [ ] Test full payment flow with Tap Sandbox
 - [ ] Set up daily cron job in Supabase pg_cron
 - [ ] Create Notion workspace with all docs
@@ -400,12 +413,15 @@
 6. **Simplified signup** — only Name + Email + Password (other details deferred)
 7. **Larger logo** — 54px height across nav bars
 8. **Catchy CTA** — "جرّب محسوب 14 يوم — مجاناً" instead of "ابدأ مجاناً"
+9. **New pricing strategy** — 3 plans: فريلانسر (99) / النمو (199) / الأعمال (399), all with VAT transparency
+10. **Expenses & Suppliers** — built as competitive differentiator vs Vom & Qoyod
 
 ### Architecture Decisions:
 1. **Per-tenant ZATCA certificates** — each customer has their own cert (not a shared Mahsob cert)
 2. **Cache versioning** — manual bump in `sw.js` for breaking changes (currently v66)
 3. **Edge Functions over server** — serverless via Supabase
 4. **No CDN libraries by default** — html2pdf.js loaded on-demand to keep first paint fast
+5. **Cloudflare Workers + wrangler.toml** — static site served via Cloudflare Workers Assets (not Pages)
 
 ---
 
@@ -429,8 +445,14 @@
 │   └── onboarding-data.js # Industry templates + CoA
 ├── fonts/                 # PingARLT (Light, Medium, Bold)
 ├── sql/                   # All migrations (ordered)
+│   └── expenses_suppliers.sql  # NEW — run in Supabase first
+├── wrangler.toml          # NEW — Cloudflare Workers static site config
+├── .assetsignore          # NEW — excludes sql/, docs/, supabase/ from deploy
 ├── supabase/functions/    # Edge Functions (TypeScript)
 └── docs/                  # SDD, checklists, this log
+    ├── SESSION_LOG.md
+    ├── COMPETITIVE_ANALYSIS.md
+    └── PRICING_STRATEGY.md
 ```
 
 ---
