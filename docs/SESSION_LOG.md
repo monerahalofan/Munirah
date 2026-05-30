@@ -457,6 +457,63 @@
 
 ---
 
+---
+
+## Session: May 31, 2026
+
+### ✅ 1. pricing.html — Full Overhaul
+
+| Item | Before | After |
+|------|--------|-------|
+| Plan 1 | مبتدئ — 99 ر.س | **فريلانسر — 99 ر.س** |
+| Plan 2 | احترافي — 199 ر.س | **النمو — 199 ر.س ⭐** |
+| Plan 3 | أعمال — 499 ر.س | **الأعمال — 399 ر.س** |
+| Yearly | 950 / 1,910 / 4,790 | **990 / 1,990 / 3,990** |
+| Toggle badge | "وفّر 20%" | **"وفّر شهرين"** |
+| VAT | Not shown | **"شامل ضريبة القيمة المضافة 15%"** under every price |
+| Yearly VAT | — | **"شامل VAT — شهرين مجاناً 🎁"** |
+| Features | Outdated | **Fully updated** per PRICING_STRATEGY.md |
+
+### ✅ 2. Expenses & Suppliers — Built from Scratch
+
+**Files created/modified:**
+- `sql/expenses_suppliers.sql` — 3 tables + RLS + trigger + view + number function
+- `app.html` — nav item + full page + 3 modals + CSS + 370 lines of JS
+
+**Tables:**
+- `suppliers` — name, category, VAT, contact, payment terms, IBAN
+- `expenses` — number, supplier, category, amount, VAT, status, due date
+- `expense_payments` — partial payment tracking with auto-status trigger
+
+**UI Features:**
+- ＋ New Expense modal (VAT auto-calc, mark paid or save as due)
+- ＋ New Supplier modal (full contact + bank details)
+- ＋ Record Payment modal (partial payments support)
+- Filters: category dropdown + status tabs + search
+- 3 KPI cards: monthly spend / due to suppliers / active suppliers
+
+### ✅ 3. End-to-End Verification
+
+- pricing.html: all 3 plans verified via browser preview ✅
+- Toggle monthly↔yearly: prices + VAT text update correctly ✅
+- app.html: all IDs, functions, CSS classes verified statically ✅
+- JS brace balance: 105 `{` = 105 `}` ✅
+- No `getTenantId` or `showToast` anti-patterns remaining ✅
+
+### ✅ 4. Cloudflare Deployment Fix
+
+- **Problem:** `npx wrangler deploy` was failing — no `wrangler.toml` existed
+- **Fix:** Created `wrangler.toml` (Workers Assets config) + `.assetsignore`
+- Committed & pushed to GitHub → Cloudflare auto-redeploys on push
+
+### ⏳ Next Steps (in order)
+1. Push latest commits via terminal: `git push`
+2. Run `sql/expenses_suppliers.sql` in Supabase Dashboard → SQL Editor
+3. Test expenses & suppliers live in the app
+4. Verify mahsob.sa reflects all pricing changes
+
+---
+
 **صُنع بعناية لخدمة المنشآت السعودية 🇸🇦**
 
-*Mahsob v1.0 — 2026*
+*Mahsob v1.1 — May 2026*
