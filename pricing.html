@@ -4,359 +4,453 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>محسوب — الخطط والأسعار</title>
+<meta name="description" content="ابدأ مجاناً 14 يوماً. خطط محسوب للمستقلين والمتاجر والشركات.">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#9DC78A">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="محسوب">
+<meta name="theme-color" content="#86BA72">
 <link rel="apple-touch-icon" href="img/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:900;font-display:swap}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Tajawal',sans-serif;background:#f5f6fa;color:#1a1d2e;min-height:100vh}
-body.dark{background:#0d1117;color:#f0f2f8}
+html{scroll-behavior:smooth}
+body{font-family:'PingARLT',sans-serif;background:#fff;color:#0f2426;overflow-x:hidden}
+
+:root{
+  --g:#86BA72;--g2:#9DC78A;--gd:rgba(134,186,114,.12);--gb:rgba(134,186,114,.28);
+  --dark:#0f2426;--dark2:#162b2e;
+  --t:#0f2426;--t2:#3d6b70;--t3:#7a9da0;
+  --lav:#A689B5;--sky:#82B0C7;--khaki:#C5A878;--lime:#b8bc50;
+  --r:14px;--nav:68px;
+}
 
 /* ── Nav ── */
-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#fff;border-bottom:1px solid rgba(0,0,0,.07);position:sticky;top:0;z-index:50}
-body.dark nav{background:#161b27;border-color:rgba(255,255,255,.07)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-.nav-name{font-size:19px;font-weight:800}
-.nav-links{display:flex;gap:10px;align-items:center}
-.btn{padding:9px 18px;border-radius:9px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.btn-out{background:transparent;border:1px solid rgba(0,0,0,.15);color:#5a6080}
-.btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
-.btn-p{background:#86BA72;color:#fff}
-.btn-p:hover{opacity:.9}
-body.dark .btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
+nav{position:sticky;top:0;width:100%;z-index:200;height:var(--nav);padding:0 5%;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(44,85,89,.08)}
+.nav-logo img{height:36px;width:auto}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nl{color:var(--t2);text-decoration:none;font-size:14px;padding:7px 13px;border-radius:8px;transition:all .2s}
+.nl:hover{color:var(--t);background:rgba(44,85,89,.06)}
+.btn-out{color:var(--t2);border:1px solid rgba(44,85,89,.18);padding:8px 18px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s}
+.btn-out:hover{color:var(--t);border-color:var(--g)}
+.btn-green{background:var(--g);color:#fff;padding:9px 22px;border-radius:9px;text-decoration:none;font-size:14px;font-weight:700;transition:all .2s}
+.btn-green:hover{background:var(--g2);transform:translateY(-1px)}
 
 /* ── Hero ── */
-.hero{text-align:center;padding:72px 20px 20px}
-.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.18);color:#86BA72;border-radius:20px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:22px}
-.hero h1{font-size:44px;font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:-.5px}
-.hero h1 em{font-style:normal;color:#86BA72}
-.hero p{font-size:17px;color:#5a6080;max-width:580px;margin:0 auto 16px;line-height:1.8}
-body.dark .hero p{color:#8892a4}
-.hero-sub{font-size:13px;color:#9aa0b8;margin-bottom:36px}
-.hero-sub b{color:#1a1d2e}
-body.dark .hero-sub b{color:#f0f2f8}
-
-/* ── Stats bar ── */
-.stats{display:flex;justify-content:center;gap:48px;padding:28px 20px;background:#fff;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:48px}
-body.dark .stats{background:#161b27;border-color:rgba(255,255,255,.06)}
-.stat{text-align:center}
-.stat-num{font-size:28px;font-weight:900;color:#86BA72}
-.stat-lbl{font-size:12px;color:#9aa0b8;margin-top:2px}
+.hero{text-align:center;padding:80px 5% 0;background:#fff}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(134,186,114,.1);border:1px solid rgba(134,186,114,.22);color:#3d7a2a;border-radius:30px;padding:6px 18px;font-size:13px;font-weight:600;margin-bottom:28px}
+.pill-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(32px,4.5vw,52px);font-weight:900;line-height:1.15;letter-spacing:-.6px;margin-bottom:16px;color:var(--dark)}
+.hero h1 em{font-style:normal;color:var(--g)}
+.hero-p{font-size:17px;color:var(--t2);max-width:520px;margin:0 auto 10px;line-height:1.85}
+.hero-note{font-size:13px;color:var(--t3);margin-bottom:44px}
+.hero-note b{color:var(--t);font-weight:700}
 
 /* ── Toggle ── */
-.toggle-wrap{display:inline-flex;background:#e8ebf2;border-radius:30px;padding:4px;gap:4px;margin-bottom:48px}
-body.dark .toggle-wrap{background:#1e2535}
-.tgl{padding:9px 24px;border-radius:26px;border:none;font-family:'Tajawal',sans-serif;font-size:14px;cursor:pointer;background:transparent;color:#5a6080;transition:all .2s;display:flex;align-items:center;gap:6px}
-.tgl.on{background:#fff;color:#1a1d2e;box-shadow:0 1px 5px rgba(0,0,0,.12)}
-body.dark .tgl.on{background:#252d3d;color:#f0f2f8}
-.save-badge{background:#86BA72;color:#fff;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
+.toggle-wrap{display:inline-flex;background:rgba(44,85,89,.06);border:1px solid rgba(44,85,89,.1);border-radius:30px;padding:4px;gap:4px;margin-bottom:52px}
+.tgl{padding:9px 26px;border-radius:26px;border:none;font-family:'PingARLT',sans-serif;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--t2);transition:all .22s;display:flex;align-items:center;gap:7px}
+.tgl.on{background:#fff;color:var(--dark);box-shadow:0 1px 8px rgba(15,36,38,.1);border:1px solid rgba(44,85,89,.1)}
+.save-chip{background:var(--g);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
 
 /* ── Plans ── */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;padding:0 20px 64px}
-.plan{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:20px;padding:30px;position:relative;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
-.plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.09)}
-body.dark .plan{background:#161b27;border-color:rgba(255,255,255,.08)}
-.plan.pop{border-color:#86BA72;border-width:2px;background:linear-gradient(to bottom,rgba(134,186,114,.03),#fff)}
-body.dark .plan.pop{background:linear-gradient(to bottom,rgba(134,186,114,.06),#161b27)}
-.pop-badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:#86BA72;color:#fff;font-size:12px;font-weight:700;padding:5px 18px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(134,186,114,.3)}
-.plan-tier{font-size:11px;font-weight:700;letter-spacing:1px;color:#9aa0b8;margin-bottom:8px;text-transform:uppercase}
-.plan-name{font-size:20px;font-weight:800;margin-bottom:6px}
-.plan-desc{font-size:13px;color:#5a6080;margin-bottom:22px;line-height:1.6;flex:1}
-body.dark .plan-desc{color:#8892a4}
-.plan-price-wrap{margin-bottom:6px}
-.plan-price{font-size:42px;font-weight:900;direction:ltr;display:inline}
-.plan-currency{font-size:16px;font-weight:600;color:#9aa0b8;margin-right:4px}
-.plan-period{font-size:12px;color:#9aa0b8;margin-bottom:6px}
-.plan-vat{font-size:11px;color:#b0b8cc;margin-bottom:20px}
-.plan-btn{width:100%;padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s;margin-bottom:24px}
-.plan-btn-out{background:transparent;border:1.5px solid rgba(0,0,0,.15);color:#5a6080}
-.plan-btn-out:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
-.plan-btn-fill{background:#86BA72;color:#fff;box-shadow:0 4px 14px rgba(134,186,114,.3)}
-.plan-btn-fill:hover{opacity:.9}
-body.dark .plan-btn-out{border-color:rgba(255,255,255,.15);color:#8892a4}
-.feat-title{font-size:11px;font-weight:700;color:#9aa0b8;margin-bottom:12px;letter-spacing:.5px}
-.feat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#5a6080;margin-bottom:9px;line-height:1.5}
-body.dark .feat{color:#8892a4}
-.feat-check{color:#86BA72;font-size:15px;flex-shrink:0;margin-top:1px;font-weight:700}
-.feat-x{color:#c8ccd8;font-size:15px;flex-shrink:0;margin-top:1px}
+.plans-wrap{max-width:1080px;margin:0 auto;padding:0 5% 80px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.plan{background:#fff;border:1px solid rgba(44,85,89,.1);border-radius:var(--r);padding:32px 26px;position:relative;transition:all .3s;display:flex;flex-direction:column}
+.plan:hover{border-color:var(--gb);transform:translateY(-4px);box-shadow:0 16px 48px rgba(15,36,38,.08)}
+.plan.pop{border-color:var(--g);border-width:2px;background:linear-gradient(160deg,rgba(134,186,114,.04) 0%,#fff 50%)}
+.plan.pop:hover{box-shadow:0 16px 48px rgba(134,186,114,.18)}
+.pop-label{position:absolute;top:-13px;right:50%;transform:translateX(50%);background:var(--g);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(134,186,114,.35)}
+.plan-tier{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--t3);margin-bottom:7px;text-transform:uppercase}
+.plan-name{font-size:21px;font-weight:900;margin-bottom:6px;color:var(--dark)}
+.plan-desc{font-size:13px;color:var(--t2);margin-bottom:24px;line-height:1.65;flex:1}
+.price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px;direction:ltr;justify-content:flex-end}
+.price-curr{font-size:15px;font-weight:600;color:var(--t3)}
+.price-num{font-size:44px;font-weight:900;color:var(--dark);line-height:1}
+.price-per{font-size:12px;color:var(--t3);margin-bottom:4px;text-align:left}
+.price-vat{font-size:11px;color:var(--t3);margin-bottom:22px}
+.plan-btn{display:block;width:100%;padding:12px;border-radius:10px;font-family:'PingARLT',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .22s;text-align:center;text-decoration:none;margin-bottom:26px}
+.plan-btn-out{background:transparent;border:1.5px solid rgba(44,85,89,.18);color:var(--t2)}
+.plan-btn-out:hover{border-color:var(--g);color:var(--g);background:rgba(134,186,114,.05)}
+.plan-btn-fill{background:var(--g);color:#fff;box-shadow:0 4px 18px rgba(134,186,114,.28)}
+.plan-btn-fill:hover{background:var(--g2);transform:translateY(-1px)}
+.plan-btn:active{transform:scale(.98) !important}
+.feat-section-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;margin-bottom:12px;text-transform:uppercase}
+.feat{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--t2);margin-bottom:9px;line-height:1.55}
+.feat-ok{width:16px;height:16px;border-radius:50%;background:rgba(134,186,114,.12);border:1px solid rgba(134,186,114,.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.feat-ok svg{width:8px;height:8px;stroke:var(--g);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.feat-no{width:16px;height:16px;border-radius:50%;background:rgba(44,85,89,.04);border:1px solid rgba(44,85,89,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.feat-no svg{width:7px;height:7px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round}
+.feat.off{color:var(--t3)}
+.soon{font-size:10px;color:var(--g);font-weight:700;margin-right:4px}
+.plan-sep{height:1px;background:rgba(44,85,89,.07);margin:16px 0}
 
-/* ── Vision section ── */
-.vision{max-width:900px;margin:0 auto 64px;padding:0 20px}
-.vision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.vision-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:28px 24px;text-align:center}
-body.dark .vision-card{background:#161b27;border-color:rgba(255,255,255,.07)}
-.vision-icon{font-size:32px;margin-bottom:14px}
-.vision-title{font-size:16px;font-weight:700;margin-bottom:8px}
-.vision-text{font-size:13px;color:#5a6080;line-height:1.7}
-body.dark .vision-text{color:#8892a4}
-.section-label{text-align:center;font-size:12px;font-weight:700;color:#86BA72;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
-.section-title{text-align:center;font-size:28px;font-weight:800;margin-bottom:12px}
-.section-sub{text-align:center;font-size:15px;color:#5a6080;margin-bottom:36px;line-height:1.7}
-body.dark .section-sub{color:#8892a4}
+/* ── Why section ── */
+.why-sec{background:#f8faf7;padding:80px 5%}
+.why-wrap{max-width:1000px;margin:0 auto}
+.sec-tag{font-size:11px;font-weight:700;color:var(--g);letter-spacing:.1em;text-align:center;margin-bottom:12px;text-transform:uppercase}
+.sec-h{font-size:clamp(24px,3vw,38px);font-weight:900;text-align:center;color:var(--dark);margin-bottom:10px;letter-spacing:-.3px}
+.sec-h em{font-style:normal;color:var(--g)}
+.sec-p{font-size:15px;color:var(--t2);text-align:center;max-width:480px;margin:0 auto 52px;line-height:1.85}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.wc{background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:var(--r);padding:28px 24px;transition:all .3s}
+.wc:hover{border-color:var(--gb);transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,36,38,.06)}
+.wc-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.wc-ico svg{width:19px;height:19px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wc-ico.g{background:rgba(134,186,114,.12);border:1px solid rgba(134,186,114,.22)}
+.wc-ico.g svg{stroke:var(--g)}
+.wc-ico.l{background:rgba(166,137,181,.1);border:1px solid rgba(166,137,181,.22)}
+.wc-ico.l svg{stroke:var(--lav)}
+.wc-ico.s{background:rgba(130,176,199,.1);border:1px solid rgba(130,176,199,.22)}
+.wc-ico.s svg{stroke:var(--sky)}
+.wc-ico.k{background:rgba(197,168,120,.1);border:1px solid rgba(197,168,120,.22)}
+.wc-ico.k svg{stroke:var(--khaki)}
+.wc-ico.lm{background:rgba(184,188,80,.1);border:1px solid rgba(184,188,80,.22)}
+.wc-ico.lm svg{stroke:var(--lime)}
+.wc-ico.t{background:rgba(44,85,89,.07);border:1px solid rgba(44,85,89,.12)}
+.wc-ico.t svg{stroke:var(--t2)}
+.wc-t{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:6px}
+.wc-d{font-size:13px;color:var(--t2);line-height:1.7}
 
-/* ── Trusted by ── */
-.trust{text-align:center;padding:0 20px 64px}
-.trust-items{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:700px;margin:0 auto}
-.trust-item{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:10px 20px;font-size:13px;color:#5a6080;font-weight:500}
-body.dark .trust-item{background:#161b27;border-color:rgba(255,255,255,.07);color:#8892a4}
+/* ── For whom ── */
+.for-sec{padding:80px 5%;background:#fff}
+.for-wrap{max-width:900px;margin:0 auto}
+.for-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:36px}
+.for-item{display:flex;align-items:center;gap:9px;background:#f4f7f2;border:1px solid rgba(44,85,89,.08);border-radius:30px;padding:9px 18px;font-size:14px;color:var(--t2);font-weight:500;transition:all .2s}
+.for-item:hover{border-color:var(--gb);color:var(--t);background:rgba(134,186,114,.07)}
+.for-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
 /* ── FAQ ── */
-.faq{max-width:700px;margin:0 auto;padding:0 20px 64px}
-.faq-item{border:1px solid rgba(0,0,0,.08);border-radius:12px;overflow:hidden;margin-bottom:10px}
-body.dark .faq-item{border-color:rgba(255,255,255,.08)}
-.faq-q{padding:17px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:background .2s}
-body.dark .faq-q{background:#161b27}
-.faq-q:hover{background:#f5f6fa}
-body.dark .faq-q:hover{background:#1e2535}
-.faq-a{padding:0 20px;font-size:13px;color:#5a6080;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;background:#fff}
-body.dark .faq-a{color:#8892a4;background:#161b27}
-.faq-a.open{max-height:300px;padding:0 20px 16px}
-.faq-icon{transition:transform .3s;flex-shrink:0;color:#9aa0b8}
-.faq-icon.open{transform:rotate(180deg)}
+.faq-sec{padding:80px 5%;background:#f8faf7}
+.faq-wrap{max-width:680px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.faq-q{padding:18px 22px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--dark);transition:background .2s;gap:12px}
+.faq-q:hover{background:rgba(44,85,89,.03)}
+.faq-ico{width:20px;height:20px;border-radius:50%;background:rgba(44,85,89,.06);border:1px solid rgba(44,85,89,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.faq-ico svg{width:9px;height:9px;stroke:var(--t2);fill:none;stroke-width:2.5;stroke-linecap:round;transition:transform .3s}
+.faq-ico.open{background:rgba(134,186,114,.12);border-color:rgba(134,186,114,.28)}
+.faq-ico.open svg{stroke:var(--g);transform:rotate(180deg)}
+.faq-a{font-size:13px;color:var(--t2);line-height:1.85;max-height:0;overflow:hidden;transition:max-height .32s,padding .32s;padding:0 22px}
+.faq-a.open{max-height:300px;padding:0 22px 18px}
 
 /* ── CTA ── */
-.cta{background:linear-gradient(135deg,#0f8a5f,#86BA72);text-align:center;padding:64px 20px;margin-bottom:0}
-.cta h2{font-size:30px;font-weight:800;color:#fff;margin-bottom:12px}
-.cta p{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:28px}
+.cta-sec{padding:96px 5%;background:var(--dark);text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(134,186,114,.09) 0%,transparent 58%);pointer-events:none}
+.cta-sec::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(134,186,114,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(134,186,114,.03) 1px,transparent 1px);background-size:54px 54px;pointer-events:none}
+.cta-in{position:relative;z-index:1}
+.cta-h{font-size:clamp(26px,3.5vw,44px);font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2}
+.cta-h em{font-style:normal;color:var(--g)}
+.cta-p{font-size:16px;color:rgba(255,255,255,.5);margin-bottom:32px}
 .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-white{background:#fff;color:#86BA72;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:opacity .2s}
-.btn-white:hover{opacity:.9}
-.btn-ghost-white{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;padding:11px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s}
-.btn-ghost-white:hover{border-color:#fff}
+.cta-fill{background:var(--g);color:#fff;padding:14px 30px;border-radius:var(--r);text-decoration:none;font-size:15px;font-weight:700;transition:all .28s}
+.cta-fill:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(134,186,114,.3)}
+.cta-ghost{border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);padding:14px 26px;border-radius:var(--r);text-decoration:none;font-size:15px;font-weight:500;transition:all .28s}
+.cta-ghost:hover{border-color:rgba(255,255,255,.45);color:#fff}
+.cta-note{font-size:12px;color:rgba(255,255,255,.25);margin-top:16px}
 
-footer{text-align:center;padding:28px;font-size:13px;color:#9aa0b8;border-top:1px solid rgba(0,0,0,.07);background:#fff}
-body.dark footer{border-color:rgba(255,255,255,.07);background:#161b27}
+/* ── Footer ── */
+footer{background:#0a1a1c;padding:32px 5%}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.ft-c{font-size:12px;color:rgba(255,255,255,.2)}
+.ft-links{display:flex;gap:20px}
+.ft-links a{font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
+.ft-links a:hover{color:var(--g2)}
 
-@media(max-width:700px){
-  .plans,.vision-grid{grid-template-columns:1fr}
-  nav{padding:12px 16px}
-  .hero h1{font-size:28px}
-  .hero{padding:44px 16px 16px}
-  .stats{gap:24px;flex-wrap:wrap}
-  nav .btn-out{display:none}
+/* ── Animations ── */
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .plans{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .why-grid{grid-template-columns:1fr}
+  .nav-links .nl{display:none}
+  .ft-bot{flex-direction:column;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
+<!-- Nav -->
 <nav>
-  <a class="nav-logo" href="#">
-    <img src="img/logo-full.png" alt="محسوب" style="height:36px;width:auto;object-fit:contain" onerror="this.style.display='none'">
-    <div class="nav-name" style="display:none">محسوب</div>
+  <a href="/" style="text-decoration:none">
+    <img src="img/logo-full.png" alt="محسوب" style="height:36px;width:auto">
   </a>
   <div class="nav-links">
-    <a class="btn btn-out" href="login.html">تسجيل الدخول</a>
-    <a class="btn btn-p" href="login.html#signup">احصل على فترة تجريبية</a>
+    <a href="/" class="nl">الرئيسية</a>
+    <a href="login.html" class="btn-out">دخول</a>
+    <a href="login.html#signup" class="btn-green">جرّب مجاناً</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══════════════════════════════════════════ -->
-<div class="hero">
-  <div class="badge">✨ بدون عمولة — شفافية تامة</div>
-  <h1>المستقبل المالي لـ<em>مشروعك</em><br>في مكان واحد</h1>
-  <p>محسوب يُدير محاسبة مشروعك، يُصدر فواتيرك، ويُولّد تقاريرك المالية — يتعلّم من مشروعك ويشتغل معك.</p>
-  <div class="hero-sub">جرّب محسوب <b>14 يوم مجاناً</b> — بدون بطاقة ائتمانية</div>
-
-  <div class="toggle-wrap">
-    <button class="tgl on" id="tglM" onclick="setFreq('monthly')">شهري</button>
-    <button class="tgl" id="tglY" onclick="setFreq('yearly')">سنوي <span class="save-badge">وفّر شهرين</span></button>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-pill" style="animation:up .5s ease both">
+    <span class="pill-dot"></span>
+    شفافية تامة — لا رسوم خفية
   </div>
+  <h1 style="animation:up .5s .06s ease both">اختر الخطة <em>المناسبة</em><br>لمشروعك</h1>
+  <p class="hero-p" style="animation:up .5s .12s ease both">ابدأ بدون بطاقة ائتمانية. جميع الخطط تشمل 14 يوماً تجريبياً مجاناً.</p>
+  <div class="hero-note" style="animation:up .5s .16s ease both">يمكنك الترقية أو الإلغاء في أي وقت</div>
 
-  <!-- Plans -->
-  <div class="plans">
+  <div class="toggle-wrap" style="animation:up .5s .2s ease both">
+    <button class="tgl on" id="tglM" onclick="setFreq('monthly')">شهري</button>
+    <button class="tgl" id="tglY" onclick="setFreq('yearly')">سنوي <span class="save-chip">وفّر شهرين</span></button>
+  </div>
+</section>
+
+<!-- Plans -->
+<section class="plans-wrap">
+  <div class="plans reveal">
 
     <!-- Freelancer -->
     <div class="plan">
-      <div class="plan-tier">FREELANCER</div>
+      <div class="plan-tier">Freelancer</div>
       <div class="plan-name">فريلانسر</div>
       <div class="plan-desc">للمستقلين والمصممين والمستشارين — ابدأ باحترافية من اليوم الأول</div>
-      <div class="plan-price-wrap">
-        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceS">99</span>
+      <div class="price-row">
+        <span class="price-curr">ر.س</span>
+        <span class="price-num" id="priceS">99</span>
       </div>
-      <div class="plan-period" id="periodS">/ شهر</div>
-      <div class="plan-vat" id="vatS">شامل ضريبة القيمة المضافة 15%</div>
+      <div class="price-per" id="periodS">/ شهر</div>
+      <div class="price-vat" id="vatS">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-out" id="btnStarter" onclick="subscribe('starter')">اشترك الآن</button>
-      <div class="feat-title">ما يشمله</div>
-      <div class="feat"><span class="feat-check">✓</span>حتى 50 فاتورة شهرياً</div>
-      <div class="feat"><span class="feat-check">✓</span>عملاء غير محدودين</div>
-      <div class="feat"><span class="feat-check">✓</span>AI لإنشاء الفواتير (20 عملية/شهر)</div>
-      <div class="feat"><span class="feat-check">✓</span>مسح الفواتير بالذكاء (10/شهر)</div>
-      <div class="feat"><span class="feat-check">✓</span>مستشار مالي ذكي (30 رسالة/شهر)</div>
-      <div class="feat"><span class="feat-check">✓</span>عروض الأسعار + تحويل لفاتورة</div>
-      <div class="feat"><span class="feat-check">✓</span>تقارير VAT + حاسبة الزكاة</div>
-      <div class="feat"><span class="feat-check">✓</span>مرتجعات (Credit Notes)</div>
-      <div class="feat"><span class="feat-check">✓</span>تخصيص الفاتورة (شعار + ألوان)</div>
-      <div class="feat"><span class="feat-check">✓</span>تذكيرات واتساب وإيميل</div>
-      <div class="feat"><span class="feat-x">✗</span>إدارة المصاريف والموردين</div>
-      <div class="feat"><span class="feat-x">✗</span>مخزون متقدم</div>
+      <div class="feat-section-lbl">ما يشمله</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>حتى 50 فاتورة شهرياً</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>عملاء غير محدودين</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>AI لإنشاء الفواتير (20 عملية/شهر)</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>مستشار مالي ذكي (30 رسالة/شهر)</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>عروض الأسعار + تحويل لفاتورة</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تقارير VAT + حاسبة الزكاة</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تخصيص الفاتورة (شعار + ألوان)</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تذكيرات واتساب وإيميل</div>
+      <div class="plan-sep"></div>
+      <div class="feat off"><span class="feat-no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>إدارة المصاريف والموردين</div>
+      <div class="feat off"><span class="feat-no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>مخزون متقدم</div>
     </div>
 
     <!-- Growth -->
     <div class="plan pop">
-      <div class="pop-badge">⭐ الأكثر شعبية</div>
-      <div class="plan-tier">GROWTH</div>
+      <div class="pop-label">⭐ الأكثر طلباً</div>
+      <div class="plan-tier">Growth</div>
       <div class="plan-name">النمو</div>
       <div class="plan-desc">للمتاجر والمقاهي والعيادات — كل أدوات الإدارة في مكان واحد</div>
-      <div class="plan-price-wrap">
-        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceP">199</span>
+      <div class="price-row">
+        <span class="price-curr">ر.س</span>
+        <span class="price-num" id="priceP">199</span>
       </div>
-      <div class="plan-period" id="periodP">/ شهر</div>
-      <div class="plan-vat" id="vatP">شامل ضريبة القيمة المضافة 15%</div>
+      <div class="price-per" id="periodP">/ شهر</div>
+      <div class="price-vat" id="vatP">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-fill" id="btnPro" onclick="subscribe('pro')">اشترك الآن ←</button>
-      <div class="feat-title">كل ما في الفريلانسر، بالإضافة إلى</div>
-      <div class="feat"><span class="feat-check">✓</span>فواتير غير محدودة</div>
-      <div class="feat"><span class="feat-check">✓</span>AI غير محدود (حتى 500 عملية)</div>
-      <div class="feat"><span class="feat-check">✓</span>مسح فواتير غير محدود</div>
-      <div class="feat"><span class="feat-check">✓</span>رفع الإغلاقات اليومية بالذكاء</div>
-      <div class="feat"><span class="feat-check">✓</span>إدارة المصاريف والموردين <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
-      <div class="feat"><span class="feat-check">✓</span>مخزون متقدم</div>
-      <div class="feat"><span class="feat-check">✓</span>حتى 3 مستخدمين</div>
-      <div class="feat"><span class="feat-check">✓</span>متابعة الفلوس عند الناس</div>
-      <div class="feat"><span class="feat-check">✓</span>تصدير Excel + PDF لكل التقارير</div>
-      <div class="feat"><span class="feat-check">✓</span>دعم واتساب (< 4 ساعات)</div>
+      <div class="feat-section-lbl">كل الفريلانسر، بالإضافة إلى</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>فواتير غير محدودة</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>AI غير محدود (حتى 500 عملية)</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>مسح فواتير غير محدود</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>إدارة المصاريف والموردين <span class="soon">قريباً</span></div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>مخزون متقدم</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>حتى 3 مستخدمين</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>متابعة المستحقات</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تصدير Excel + PDF</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>دعم واتساب (&lt;4 ساعات)</div>
     </div>
 
     <!-- Business -->
     <div class="plan">
-      <div class="plan-tier">BUSINESS</div>
+      <div class="plan-tier">Business</div>
       <div class="plan-name">الأعمال</div>
       <div class="plan-desc">للشركات المتوسطة والمتاجر بفروع — تحكّم كامل وفريق غير محدود</div>
-      <div class="plan-price-wrap">
-        <span class="plan-currency">ر.س</span><span class="plan-price" id="priceBiz">399</span>
+      <div class="price-row">
+        <span class="price-curr">ر.س</span>
+        <span class="price-num" id="priceBiz">399</span>
       </div>
-      <div class="plan-period" id="periodBiz">/ شهر</div>
-      <div class="plan-vat" id="vatBiz">شامل ضريبة القيمة المضافة 15%</div>
+      <div class="price-per" id="periodBiz">/ شهر</div>
+      <div class="price-vat" id="vatBiz">شامل ضريبة القيمة المضافة 15%</div>
       <button class="plan-btn plan-btn-out" id="btnBiz" onclick="subscribe('business')">اشترك الآن</button>
-      <div class="feat-title">كل ما في النمو، بالإضافة إلى</div>
-      <div class="feat"><span class="feat-check">✓</span>مستخدمون غير محدودين</div>
-      <div class="feat"><span class="feat-check">✓</span>فروع متعددة <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
-      <div class="feat"><span class="feat-check">✓</span>رواتب مبسّطة <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
-      <div class="feat"><span class="feat-check">✓</span>تسوية بنكية</div>
-      <div class="feat"><span class="feat-check">✓</span>تقارير متقدمة + Dashboard مخصص</div>
-      <div class="feat"><span class="feat-check">✓</span>API للتكامل مع أنظمتك <span style="font-size:10px;color:#86BA72;font-weight:700">قريباً</span></div>
-      <div class="feat"><span class="feat-check">✓</span>ربط ZATCA المرحلة الثانية</div>
-      <div class="feat"><span class="feat-check">✓</span>مدير حساب مخصص + تدريب الفريق</div>
-      <div class="feat"><span class="feat-check">✓</span>دعم هاتفي مباشر</div>
+      <div class="feat-section-lbl">كل النمو، بالإضافة إلى</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>مستخدمون غير محدودين</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>فروع متعددة <span class="soon">قريباً</span></div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>رواتب مبسّطة <span class="soon">قريباً</span></div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تسوية بنكية</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>تقارير متقدمة + Dashboard مخصص</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>ربط ZATCA المرحلة الثانية</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>API للتكامل <span class="soon">قريباً</span></div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>مدير حساب + تدريب الفريق</div>
+      <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>دعم هاتفي مباشر</div>
     </div>
 
   </div>
-</div>
+</section>
 
-<!-- ══ VISION ═════════════════════════════════════════ -->
-<div class="vision">
-  <div class="section-label">رؤية محسوب</div>
-  <div class="section-title">أكثر من مجرد محاسبة</div>
-  <div class="vision-grid">
-    <div class="vision-card">
-      <div class="vision-icon">🤖</div>
-      <div class="vision-title">ذكاء اصطناعي يفهمك</div>
+<!-- Why -->
+<section class="why-sec">
+  <div class="why-wrap">
+    <div class="sec-tag reveal">لماذا محسوب</div>
+    <h2 class="sec-h reveal">أكثر من مجرد <em>محاسبة</em></h2>
+    <p class="sec-p reveal">نظام واحد يغطي كل ما تحتاجه — من الفاتورة الأولى إلى التقرير السنوي</p>
+    <div class="why-grid">
+      <div class="wc reveal">
+        <div class="wc-ico g"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="wc-t">ذكاء اصطناعي مالي</div>
+        <div class="wc-d">اسأل بالعربي، محسوب يقرأ بياناتك ويعطيك إجابات دقيقة وتوصيات عملية.</div>
+      </div>
+      <div class="wc reveal d1">
+        <div class="wc-ico l"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="wc-t">توافق ZATCA كامل</div>
+        <div class="wc-d">فواتير إلكترونية متوافقة مع المرحلة الثانية من ZATCA بتوقيع ECDSA.</div>
+      </div>
+      <div class="wc reveal d2">
+        <div class="wc-ico s"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="wc-t">تقارير فورية</div>
+        <div class="wc-d">ربح وخسارة، تدفق نقدي، وتحليل ربحية — كلها جاهزة بضغطة واحدة.</div>
+      </div>
+      <div class="wc reveal">
+        <div class="wc-ico k"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="wc-t">دفع سهل وآمن</div>
+        <div class="wc-d">نقبل مدى، فيزا، ماستركارد، وتحويل بنكي. فاتورة تصلك شهرياً أو سنوياً.</div>
+      </div>
+      <div class="wc reveal d1">
+        <div class="wc-ico lm"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.6 16z"/></svg></div>
+        <div class="wc-t">دعم عربي متجاوب</div>
+        <div class="wc-d">فريق دعم يتحدث العربية جاهز للمساعدة عبر واتساب والإيميل.</div>
+      </div>
+      <div class="wc reveal d2">
+        <div class="wc-ico t"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="wc-t">يعمل على كل الأجهزة</div>
+        <div class="wc-d">متصفح، جوال، تابلت — محسوب يعمل أينما كنت بدون تنزيل تطبيق.</div>
+      </div>
     </div>
-    <div class="vision-card">
-      <div class="vision-icon">🧾</div>
-      <div class="vision-title">توافق تنظيمي كامل</div>
+  </div>
+</section>
+
+<!-- For whom -->
+<section class="for-sec">
+  <div class="for-wrap">
+    <div class="sec-tag reveal">مناسب لـ</div>
+    <h2 class="sec-h reveal">من <em>المستقل</em> إلى الشركة</h2>
+    <p class="sec-p reveal">محسوب يتكيّف مع حجم أعمالك وطبيعة نشاطك</p>
+    <div class="for-grid reveal">
+      <div class="for-item"><span class="for-dot" style="background:var(--g)"></span>متاجر إلكترونية</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--lav)"></span>مكاتب استشارات</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--sky)"></span>مقاولون ومقاولات</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--khaki)"></span>عيادات ومراكز طبية</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--lime)"></span>مطاعم وكافيهات</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--g)"></span>موردون وموزعون</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--lav)"></span>مصممون ومستقلون</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--sky)"></span>شركات تقنية</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--khaki)"></span>شركات لوجستية</div>
+      <div class="for-item"><span class="for-dot" style="background:var(--lime)"></span>مراكز تدريب وتعليم</div>
     </div>
+  </div>
+</section>
 
-    <div class="vision-card">
-      <div class="vision-icon">🔒</div>
-      <div class="vision-title">أمان من الدرجة الأولى</div>
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="faq-wrap">
+    <div class="sec-tag reveal">الأسئلة الشائعة</div>
+    <h2 class="sec-h reveal" style="margin-bottom:36px">لديك <em>سؤال؟</em></h2>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل الفترة التجريبية 14 يوماً مجانية فعلاً؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">نعم تماماً — تحصل على جميع ميزات الخطة التي اخترتها لمدة 14 يوماً كاملة دون أي رسوم. لا بطاقة ائتمانية مطلوبة للبدء.</div>
     </div>
-    <div class="vision-card">
-      <div class="vision-icon">⚡</div>
-      <div class="vision-title">سرعة وبساطة</div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل بياناتي آمنة؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">بالتأكيد. بياناتك مشفّرة ومحمية على منصة Supabase بسياسات أمان على مستوى الصف (RLS). لا يطّلع عليها أحد سواك.</div>
     </div>
-    <div class="vision-card">
-      <div class="vision-icon">📊</div>
-      <div class="vision-title">قرارات مبنية على بيانات</div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل يمكنني تغيير خطتي لاحقاً؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">بالطبع، يمكنك الترقية أو التخفيض في أي وقت. الفرق في السعر يُحسب بشكل تناسبي بناءً على الأيام المتبقية.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل يدعم محسوب ZATCA المرحلة الثانية؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">نعم، خطة الأعمال تدعم فواتير ZATCA الإلكترونية بما يتوافق مع متطلبات هيئة الزكاة والضريبة والجمارك مع UBL 2.1 XML وتوقيع ECDSA.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        كيف أدفع؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">نقبل مدى، فيزا، ماستركارد، وتحويل بنكي. تصلك الفاتورة شهرياً أو سنوياً حسب اختيارك، وبإمكانك الإلغاء في أي وقت.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل يدعم محسوب دول الخليج الأخرى؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">نعم، محسوب يدعم متعدد العملات ويناسب بيئة الأعمال في جميع دول الخليج والعالم العربي. ميزة فاتورة ZATCA مخصصة للسوق السعودي حالياً.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        هل يمكنني استيراد بيانات من نظام آخر؟
+        <span class="faq-ico"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">نعم، ندعم استيراد البيانات من Excel وCSV. خطة الأعمال توفر API كامل للتكامل مع أنظمتك الحالية.</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ══ TRUSTED BY ═════════════════════════════════════ -->
-<div class="trust">
-  <div class="section-label">يثق بهم</div>
-  <div class="section-title">لكل نوع من الأعمال</div>
-  <div class="section-sub" style="margin-bottom:24px">من المستقل إلى الشركة — محسوب يتكيّف مع حجم أعمالك</div>
-  <div class="trust-items">
-    <div class="trust-item">🛍️ متاجر إلكترونية</div>
-    <div class="trust-item">💼 مكاتب استشارات</div>
-    <div class="trust-item">🏗️ مقاولون ومقاولات</div>
-    <div class="trust-item">🩺 عيادات ومراكز طبية</div>
-    <div class="trust-item">🍽️ مطاعم وكافيهات</div>
-    <div class="trust-item">📦 موردون وموزعون</div>
-    <div class="trust-item">🎨 مصممون ومستقلون</div>
-    <div class="trust-item">🏢 شركات تقنية</div>
-    <div class="trust-item">🚚 شركات لوجستية</div>
-    <div class="trust-item">📚 مراكز تدريب وتعليم</div>
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-in">
+    <h2 class="cta-h reveal">ابدأ <em>مجاناً</em> اليوم</h2>
+    <p class="cta-p reveal">14 يوماً مجاناً · بدون بطاقة ائتمانية · إلغاء في أي وقت</p>
+    <div class="cta-btns reveal">
+      <a href="login.html#signup" class="cta-fill">احصل على فترة تجريبية مجانية ←</a>
+      <a href="login.html" class="cta-ghost">تسجيل الدخول</a>
+    </div>
+    <p class="cta-note reveal">يعمل على الجوال · دعم عربي كامل · متوافق ZATCA</p>
   </div>
-</div>
+</section>
 
-<!-- ══ FAQ ════════════════════════════════════════════ -->
-<div class="faq">
-  <div class="section-label">الأسئلة الشائعة</div>
-  <div class="section-title">لديك سؤال؟</div>
-
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل تجربة 14 يوماً مجانية فعلاً؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">نعم تماماً — تحصل على جميع ميزات الخطة التي اخترتها لمدة 14 يوماً كاملة دون أي رسوم. لا بطاقة ائتمانية مطلوبة للبدء.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل بياناتي آمنة؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">بالتأكيد. بياناتك مشفّرة ومحمية بمعايير SOC2 على منصة Supabase، ومحاطة بسياسات أمان على مستوى الصف (RLS). لا يطّلع عليها أحد سواك.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل يدعم محسوب دول الخليج الأخرى غير السعودية؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">نعم، محسوب يدعم متعدد العملات ويناسب بيئة الأعمال في جميع دول الخليج والعالم العربي. ميزة فاتورة ZATCA مخصصة للسوق السعودي حالياً.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل يمكنني تغيير خطتي لاحقاً؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">بالطبع، يمكنك الترقية أو التخفيض في أي وقت. الفرق في السعر يُحسب بشكل تناسبي بناءً على الأيام المتبقية من دورة الفاتورة.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل يدعم محسوب فاتورة ZATCA المرحلة الثانية؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">نعم، خطة Pro وما فوقها تدعم إنشاء فواتير ZATCA الإلكترونية (المرحلة الثانية) بما يتوافق مع متطلبات هيئة الزكاة والضريبة والجمارك، مع UBL 2.1 XML وتوقيع ECDSA.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">كيف أدفع؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">نقبل مدى، فيزا، ماستركارد، وتحويل بنكي. تصلك الفاتورة شهرياً أو سنوياً حسب اختيارك، وبإمكانك الإلغاء في أي وقت.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q" onclick="toggleFaq(this)">هل يمكنني استيراد بيانات من نظام آخر؟ <span class="faq-icon">▼</span></div>
-    <div class="faq-a">نعم، ندعم استيراد البيانات من Excel وCSV. وتوفر خطة Business API كامل للتكامل مع أنظمتك الحالية.</div>
-  </div>
-</div>
-
-<!-- ══ CTA ════════════════════════════════════════════ -->
-<div class="cta">
-  <h2>ابدأ رحلتك المالية الذكية اليوم</h2>
-  <p>14 يوماً مجاناً — بدون بطاقة ائتمانية — إلغاء في أي وقت</p>
-  <div class="cta-btns">
-    <a class="btn-white" href="login.html#signup">احصل على فترة تجريبية مجانية</a>
-    <a class="btn-ghost-white" href="login.html">تسجيل الدخول</a>
-  </div>
-</div>
-
+<!-- Footer -->
 <footer>
-  © 2026 محسوب · صُنع بـ ❤️ للسوق العربي
-  &nbsp;·&nbsp; <a href="login.html" style="color:#86BA72;text-decoration:none">تسجيل الدخول</a>
-  &nbsp;·&nbsp; <a href="mailto:hello@mahsob.sa" style="color:#86BA72;text-decoration:none">تواصل معنا</a>
+  <div class="ft-bot">
+    <div class="ft-c">© 2026 محسوب. جميع الحقوق محفوظة.</div>
+    <div class="ft-links">
+      <a href="/">الرئيسية</a>
+      <a href="login.html">دخول</a>
+      <a href="mailto:info@mahsob.sa">info@mahsob.sa</a>
+      <a href="https://wa.me/966560488168" target="_blank" rel="noopener">واتساب</a>
+    </div>
+    <div class="ft-c">صُنع في السعودية</div>
+  </div>
 </footer>
 
 <script>
+// Billing toggle
 let freq = 'monthly';
 const prices = {
-  monthly: { s: '99',    p: '199',   b: '399' },
+  monthly: { s: '99',    p: '199',   b: '399'   },
   yearly:  { s: '990',   p: '1,990', b: '3,990' }
 };
 function setFreq(f) {
   freq = f;
-  document.getElementById('tglM').className = 'tgl' + (f === 'monthly' ? ' on' : '');
-  document.getElementById('tglY').className = 'tgl' + (f === 'yearly'  ? ' on' : '');
-  const period  = f === 'monthly' ? '/ شهر' : '/ سنة';
-  const vatText = f === 'monthly' ? 'شامل ضريبة القيمة المضافة 15%' : 'شامل VAT — شهرين مجاناً 🎁';
+  document.getElementById('tglM').className = 'tgl' + (f==='monthly' ? ' on' : '');
+  document.getElementById('tglY').className = 'tgl' + (f==='yearly'  ? ' on' : '');
+  const period  = f==='monthly' ? '/ شهر' : '/ سنة';
+  const vatText = f==='monthly' ? 'شامل ضريبة القيمة المضافة 15%' : 'شامل VAT — شهرين مجاناً 🎁';
   const p = prices[f];
   document.getElementById('priceS').textContent   = p.s;
   document.getElementById('priceP').textContent   = p.p;
@@ -364,46 +458,43 @@ function setFreq(f) {
   ['periodS','periodP','periodBiz'].forEach(id => document.getElementById(id).textContent = period);
   ['vatS','vatP','vatBiz'].forEach(id => document.getElementById(id).textContent = vatText);
 }
+
+// FAQ
 function toggleFaq(el) {
-  const a    = el.nextElementSibling;
-  const icon = el.querySelector('.faq-icon');
+  const a   = el.nextElementSibling;
+  const ico = el.querySelector('.faq-ico');
   a.classList.toggle('open');
-  icon.classList.toggle('open');
+  ico.classList.toggle('open');
 }
-if (localStorage.getItem('mahsoob_theme') === 'dark') document.body.classList.add('dark');
 
-// ──────────── Tap Subscribe Flow ─────────────────────────────────────────
+// Scroll reveal
+const ro = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) e.target.classList.add('in');
+}), {threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// Subscribe (Tap)
 const SB_URL = 'https://icmpdgayzwwgbaqqcfnr.supabase.co';
-
 async function subscribe(plan) {
-  // Get current session (user must be logged in)
   const tokenData = JSON.parse(localStorage.getItem('sb-icmpdgayzwwgbaqqcfnr-auth-token') || 'null');
   if (!tokenData?.access_token) {
-    // Not logged in → send to login then back here
     localStorage.setItem('mahsoob_pending_plan', JSON.stringify({ plan, cycle: freq }));
     window.location.href = '/login';
     return;
   }
-
   const btnId = { starter:'btnStarter', pro:'btnPro', business:'btnBiz' }[plan];
   const btn   = document.getElementById(btnId);
   const orig  = btn.textContent;
   btn.disabled = true;
   btn.textContent = 'جاري التحويل...';
-
   try {
-    const res = await fetch(`${SB_URL}/functions/v1/tap-create-charge`, {
+    const res  = await fetch(`${SB_URL}/functions/v1/tap-create-charge`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${tokenData.access_token}`,
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Authorization': `Bearer ${tokenData.access_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ plan, cycle: freq }),
     });
     const data = await res.json();
     if (!res.ok || !data.redirect_url) throw new Error(data.error || 'فشل إنشاء الدفعة');
-
-    // Redirect to Tap hosted checkout
     window.location.href = data.redirect_url;
   } catch (err) {
     alert('فشل: ' + err.message);
@@ -412,9 +503,9 @@ async function subscribe(plan) {
   }
 }
 
-// Auto-resume subscription after login
-(function () {
-  const pending = JSON.parse(localStorage.getItem('mahsoob_pending_plan') || 'null');
+// Auto-resume after login
+(function(){
+  const pending   = JSON.parse(localStorage.getItem('mahsoob_pending_plan') || 'null');
   const tokenData = JSON.parse(localStorage.getItem('sb-icmpdgayzwwgbaqqcfnr-auth-token') || 'null');
   if (pending && tokenData?.access_token) {
     localStorage.removeItem('mahsoob_pending_plan');
