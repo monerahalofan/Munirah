@@ -11,9 +11,9 @@ const TAP_API        = "https://api.tap.company/v2/charges";
 const SITE_URL       = Deno.env.get("SITE_URL") || "https://mahsob.sa";
 
 const PLANS = {
-  starter:  { name: "مبتدئ",     price_monthly: 99,   price_yearly: 990  },
-  pro:      { name: "احترافي",   price_monthly: 249,  price_yearly: 2490 },
-  business: { name: "أعمال",     price_monthly: 499,  price_yearly: 4990 },
+  freelancer: { name: "الفريلانسر", price_monthly: 99,  price_yearly: 990  },
+  growth:     { name: "النمو",      price_monthly: 199, price_yearly: 1990 },
+  business:   { name: "الأعمال",    price_monthly: 399, price_yearly: 3990 },
 };
 
 const cors = {
@@ -84,7 +84,7 @@ Deno.serve(async (req) => {
         phone: tenant.phone ? { country_code: "966", number: String(tenant.phone).replace(/^\+?966/, "") } : undefined,
       },
       source: { id: "src_all" },     // accept all Tap methods (mada, visa, mc, apple_pay)
-      post: { url: `${SITE_URL}/api/tap-webhook` },
+      post: { url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/tap-webhook` },
       redirect: { url: `${SITE_URL}/payment-return?sub=${sub.id}` },
     };
 

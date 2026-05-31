@@ -224,7 +224,7 @@ footer{background:#0a1a1c;padding:32px 5%}
       </div>
       <div class="price-per" id="periodS">/ شهر</div>
       <div class="price-vat" id="vatS">شامل ضريبة القيمة المضافة 15%</div>
-      <button class="plan-btn plan-btn-out" id="btnStarter" onclick="subscribe('starter')">اشترك الآن</button>
+      <button class="plan-btn plan-btn-out" id="btnStarter" onclick="subscribe('freelancer')">اشترك الآن</button>
       <div class="feat-section-lbl">ما يشمله</div>
       <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>حتى 50 فاتورة شهرياً</div>
       <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>عملاء غير محدودين</div>
@@ -251,7 +251,7 @@ footer{background:#0a1a1c;padding:32px 5%}
       </div>
       <div class="price-per" id="periodP">/ شهر</div>
       <div class="price-vat" id="vatP">شامل ضريبة القيمة المضافة 15%</div>
-      <button class="plan-btn plan-btn-fill" id="btnPro" onclick="subscribe('pro')">اشترك الآن ←</button>
+      <button class="plan-btn plan-btn-fill" id="btnPro" onclick="subscribe('growth')">اشترك الآن ←</button>
       <div class="feat-section-lbl">كل الفريلانسر، بالإضافة إلى</div>
       <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>فواتير غير محدودة</div>
       <div class="feat"><span class="feat-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>AI غير محدود (حتى 500 عملية)</div>
@@ -482,7 +482,7 @@ async function subscribe(plan) {
     window.location.href = '/login';
     return;
   }
-  const btnId = { starter:'btnStarter', pro:'btnPro', business:'btnBiz' }[plan];
+  const btnId = { freelancer:'btnStarter', growth:'btnPro', business:'btnBiz' }[plan];
   const btn   = document.getElementById(btnId);
   const orig  = btn.textContent;
   btn.disabled = true;
