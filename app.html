@@ -973,6 +973,173 @@ body.dark #bootLoader{background:#0d1117}
 /* ── Responsive fine-tuning ── */
 @media(max-width:900px){.kg{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.kg{grid-template-columns:1fr 1fr}.kv{font-size:22px}.pt{font-size:16px}}
+
+/* ═══════════════════════════════════════════════════
+   ✦  DASHBOARD 3.0 — Premium Rebuild
+   ═══════════════════════════════════════════════════ */
+
+/* ── Greeting Strip ── */
+.db-greet-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:18px;
+  padding:18px 22px;margin-bottom:20px;gap:16px;flex-wrap:wrap;
+  box-shadow:0 1px 4px rgba(44,85,89,.05);
+}
+body.dark .db-greet-bar{background:#161b27;border-color:rgba(255,255,255,.07)}
+.db-greet-left{display:flex;align-items:center;gap:14px;flex:1;min-width:220px}
+.db-logo-box{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(134,186,114,.18),rgba(134,186,114,.06));
+  border:1px solid rgba(134,186,114,.25);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.db-logo-init{font-size:20px;font-weight:900;color:#2d7a1e}
+.db-greet-meta{font-size:11px;color:var(--t3);font-weight:600;margin-bottom:4px}
+.db-greet-name{font-size:20px;font-weight:900;color:#0f2426;letter-spacing:-.3px;line-height:1.2}
+body.dark .db-greet-name{color:#f0f2f8}
+.db-greet-em{color:var(--g)}
+.db-greet-sub{font-size:12px;color:var(--t3);margin-top:3px;font-weight:500}
+.db-greet-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.db-plan-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(134,186,114,.09);border:1px solid rgba(134,186,114,.22);
+  border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#2d7a1e;
+}
+.db-plan-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(134,186,114,.5);
+  animation:pulseLive 2s ease-in-out infinite;
+}
+.db-ai-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,#0f2426,#162b2e);
+  color:#fff;border:none;border-radius:11px;padding:9px 18px;
+  font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  box-shadow:0 3px 12px rgba(15,36,38,.2);transition:all .2s;
+}
+.db-ai-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,36,38,.28)}
+
+/* ── KPI Cards — Tocly/Premium ── */
+.kg4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kc-new{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 18px;border-radius:18px;
+  border:1px solid rgba(44,85,89,.07);
+  background:#fff;
+  box-shadow:0 1px 4px rgba(44,85,89,.05);
+  transition:transform .25s,box-shadow .25s;overflow:hidden;
+}
+.kc-new:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(44,85,89,.09)}
+body.dark .kc-new{background:#161b27;border-color:rgba(255,255,255,.07)}
+.kc-icon-new{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;
+}
+.kc-new:hover .kc-icon-new{transform:scale(1.08)}
+.kc-ig{background:rgba(134,186,114,.14);border:1px solid rgba(134,186,114,.25);color:#2d7a1e}
+.kc-ir{background:rgba(201,53,69,.1);border:1px solid rgba(201,53,69,.2);color:#c93545}
+.kc-ib{background:rgba(130,176,199,.14);border:1px solid rgba(130,176,199,.26);color:#1e6080}
+.kc-ia{background:rgba(197,168,120,.15);border:1px solid rgba(197,168,120,.28);color:#a8854a}
+.kc-body{flex:1;min-width:0}
+.kc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.kl{font-size:10.5px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.kv{font-size:26px;font-weight:900;letter-spacing:-.4px;color:#0f2426;line-height:1.15}
+body.dark .kv{color:#f0f2f8}
+.kch{font-size:11px;font-weight:600}
+.kch.up{color:#2d7a1e}.kch.dn{color:#c93545}
+
+/* ── Main Dashboard Grid ── */
+.db-main-grid{
+  display:grid;grid-template-columns:1fr 380px;
+  gap:16px;margin-bottom:16px;
+}
+.db-side-col{display:flex;flex-direction:column;gap:16px}
+.db-health-card{}
+
+/* ── Revenue Bar Chart ── */
+.db-chart-card{overflow:hidden}
+.db-chart-wrap{display:flex;gap:10px;height:200px;align-items:stretch}
+.db-chart-yaxis{
+  display:flex;flex-direction:column;justify-content:space-between;
+  font-size:9px;color:var(--t3);font-weight:600;text-align:left;
+  padding-bottom:24px;
+}
+.db-bars{
+  flex:1;display:flex;align-items:flex-end;gap:8px;
+  border-bottom:2px solid rgba(44,85,89,.07);
+  padding-bottom:0;
+  position:relative;
+}
+/* Grid lines */
+.db-bars::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent calc(25% - 1px),
+    rgba(44,85,89,.05) calc(25% - 1px),
+    rgba(44,85,89,.05) 25%
+  );
+  pointer-events:none;
+}
+.db-bar-col{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:0;cursor:pointer;transition:opacity .2s;
+}
+.db-bar-col:hover{opacity:.85}
+.db-bar-val{
+  font-size:9px;color:var(--t3);font-weight:600;
+  margin-bottom:4px;transition:.2s;white-space:nowrap;
+}
+.db-bar-track{
+  flex:1;width:100%;display:flex;align-items:flex-end;
+  border-radius:6px 6px 0 0;overflow:hidden;
+}
+.db-bar-fill{
+  width:100%;border-radius:6px 6px 0 0;
+  background:rgba(134,186,114,.25);
+  border:1px solid rgba(134,186,114,.3);
+  transition:height 1.2s cubic-bezier(.18,.89,.32,1.28);
+  position:relative;
+}
+.db-bar-fill-active{
+  background:linear-gradient(to top,#2d7a1e,#86BA72);
+  border-color:rgba(134,186,114,.4);
+  box-shadow:0 0 16px rgba(134,186,114,.3);
+}
+.db-bar-lbl{
+  font-size:9px;color:var(--t3);font-weight:600;
+  margin-top:6px;white-space:nowrap;
+}
+.db-chart-legend{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--t2);font-weight:600;
+}
+.db-leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* ── Health bar rows ── */
+.db-hbar{margin-bottom:1px}
+.db-hbar-hd{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:4px}
+.db-hbar-bg{background:rgba(44,85,89,.07);border-radius:4px;height:4px;overflow:hidden}
+.db-hbar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.18,.89,.32,1.28)}
+
+/* ── Responsive ── */
+@media(max-width:1100px){
+  .db-main-grid{grid-template-columns:1fr}
+  .db-side-col{flex-direction:row}
+  .db-chart-wrap{height:160px}
+  .kg4{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .db-greet-bar{flex-direction:column;align-items:flex-start}
+  .db-greet-right{width:100%;justify-content:space-between}
+  .kg4{grid-template-columns:1fr 1fr}
+  .kv{font-size:20px}
+  .kc-new{padding:14px}
+  .kc-icon-new{width:42px;height:42px;border-radius:11px}
+  .db-side-col{flex-direction:column}
+}
 </style>
 </head>
 <body>
@@ -1265,119 +1432,217 @@ body.dark #bootLoader{background:#0d1117}
 
 <!-- DASHBOARD -->
 <div class="pg on" id="pg-db">
-  <!-- VAT deadline reminder banner (auto-shows when due) -->
-  <div id="vatReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));border:1px solid rgba(245,158,11,.35);border-radius:11px;padding:14px 18px;margin-bottom:14px;display:none;align-items:center;gap:14px;flex-wrap:wrap">
-    <div style="font-size:24px">⏰</div>
-    <div style="flex:1;min-width:200px">
-      <div style="font-weight:700;font-size:14px;color:#a16207" id="vatReminderTitle">تذكير: إقرار الضريبة قريب</div>
-      <div style="font-size:12px;color:var(--t2);margin-top:3px" id="vatReminderDesc">—</div>
+
+  <!-- VAT Reminder Banner -->
+  <div id="vatReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.04));border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:14px 20px;margin-bottom:18px;align-items:center;gap:14px;flex-wrap:wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div style="flex:1;min-width:180px">
+      <div style="font-weight:700;font-size:13px;color:#a16207" id="vatReminderTitle">تذكير: إقرار الضريبة قريب</div>
+      <div style="font-size:12px;color:var(--t2);margin-top:2px" id="vatReminderDesc">—</div>
     </div>
-    <button onclick="go('vat',document.querySelector('[onclick*=\\'vat,\\']'))" style="padding:8px 18px;background:#f59e0b;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">افتح التقرير</button>
-    <button onclick="this.parentElement.style.display='none';localStorage.setItem('vatRemDismissed',Date.now())" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:4px 8px">✕</button>
+    <button onclick="go('vat',document.querySelector('[onclick*=\\'vat,\\']'))" style="padding:7px 16px;background:#f59e0b;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">افتح التقرير</button>
+    <button onclick="this.parentElement.style.display='none';localStorage.setItem('vatRemDismissed',Date.now())" style="background:transparent;border:none;font-size:20px;cursor:pointer;color:var(--t3);line-height:1;padding:0 4px">×</button>
   </div>
 
-  <!-- Hero greeting (premium design inspired) -->
-  <div class="db-hero" style="background:linear-gradient(135deg,#2C5559 0%,#2C5559 100%);color:#fff;border-radius:18px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;position:relative;overflow:hidden">
-    <!-- Decorative blobs -->
-    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(134,186,114,.4) 0%,transparent 70%);pointer-events:none"></div>
-    <div style="position:absolute;bottom:-30px;left:30%;width:120px;height:120px;background:radial-gradient(circle,rgba(157,199,138,.25) 0%,transparent 70%);pointer-events:none"></div>
-
-    <div style="position:relative;display:flex;align-items:center;gap:18px;flex:1;min-width:240px">
-      <!-- Logo / Avatar -->
-      <div id="brandLogoBox" style="width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden">
-        <img id="brandLogoImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain">
-        <span id="brandLogoText" style="font-size:24px;font-weight:900;color:#fff">M</span>
+  <!-- ── Premium Greeting Strip ── -->
+  <div class="db-greet-bar">
+    <!-- Left: logo + name -->
+    <div class="db-greet-left">
+      <div id="brandLogoBox" class="db-logo-box">
+        <img id="brandLogoImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain;border-radius:10px">
+        <span id="brandLogoText" class="db-logo-init">م</span>
       </div>
       <div>
-        <div style="font-size:13px;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:6px" id="greetDate">—</div>
-        <div style="font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.2"><span data-i18n="db_hello">أهلاً،</span> <span id="greetName" style="background:linear-gradient(135deg,#9DC78A,#a8c44e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</span></div>
-        <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px" data-i18n="db_welcome">دعنا نلقي نظرة سريعة على نشاطك المالي اليوم</div>
+        <div class="db-greet-meta" id="greetDate">الأحد، 1 يونيو 2026</div>
+        <div class="db-greet-name">أهلاً، <span id="greetName" class="db-greet-em">—</span></div>
+        <div class="db-greet-sub">دعنا نلقي نظرة على نشاطك المالي اليوم</div>
       </div>
     </div>
-
-    <div style="position:relative;display:flex;gap:10px;flex-wrap:wrap">
-      <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:8px;font-size:12px;color:#fff">
-        <span style="width:8px;height:8px;border-radius:50%;background:#9DC78A;box-shadow:0 0 0 0 rgba(157,199,138,.5);animation:pulseLive 2s ease infinite"></span>
-        <span id="greetPlan">الخطة التجريبية</span>
+    <!-- Right: plan + AI button -->
+    <div class="db-greet-right">
+      <div class="db-plan-pill">
+        <span class="db-plan-dot"></span>
+        <span id="greetPlan">التجريبية</span>
       </div>
-      <button onclick="go('ai',null)" style="background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(134,186,114,.4)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span data-i18n="consult_ai">استشر AI</span>
+      <button onclick="go('ai',null)" class="db-ai-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        استشر AI
       </button>
     </div>
   </div>
 
-  <!-- Quick Actions — accessible big buttons -->
-  <div id="quickActions" style="display:grid;gap:12px;margin-bottom:20px"></div>
+  <!-- Quick Actions (JS renders here) -->
+  <div id="quickActions" style="display:grid;gap:10px;margin-bottom:20px"></div>
   <div id="smA"></div>
-  <div class="kg">
-    <div class="kc G">
-      <div class="kc-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+
+  <!-- ── KPI Cards — Tocly style ── -->
+  <div class="kg kg4">
+
+    <div class="kc G kc-new">
+      <div class="kc-icon-new kc-ig">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
       </div>
-      <div class="kl" data-i18n="kpi_revenue">الإيرادات — هذا الشهر</div>
-      <div class="kv G" id="kRevenue">0 ر.س</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-        <div class="kch up" id="kRevenueChange">—</div>
-        <svg class="sparkline" id="sparkRev" width="60" height="20" viewBox="0 0 60 20" fill="none" preserveAspectRatio="none"></svg>
-      </div>
-    </div>
-    <div class="kc R">
-      <div class="kc-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
-      </div>
-      <div class="kl" data-i18n="kpi_expense">المصروفات</div>
-      <div class="kv R" id="kExpense">0 ر.س</div>
-      <div class="kch dn">—</div>
-    </div>
-    <div class="kc B">
-      <div class="kc-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      </div>
-      <div class="kl" data-i18n="kpi_net">الرصيد الصافي</div>
-      <div class="kv B" id="kNet">0 ر.س</div>
-      <div class="kch up">—</div>
-    </div>
-    <div class="kc A">
-      <div class="kc-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      </div>
-      <div class="kl" data-i18n="kpi_liquidity">السيولة المتاحة</div>
-      <div class="kv A" id="kLiq">0 ر.س</div>
-      <div class="kch"><span data-i18n="kpi_lasts">تكفي</span> <span id="kDays">0</span> <span data-i18n="kpi_days">يوم</span></div>
-    </div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="sh"><div class="st">الصحة المالية</div><div class="sl" onclick="go('hl',null)">تفاصيل ←</div></div>
-      <div style="display:flex;align-items:center;gap:18px">
-        <div class="hr">
-          <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1e2535" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#9DC78A" stroke-width="11" stroke-dasharray="209 264" id="hrArc"/></svg>
-          <div class="hrc"><div class="hrn" style="color:var(--g)" id="hrScore">79</div><div class="hrl">من 100</div></div>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:7px">
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">السيولة</span><span style="color:var(--g)">82%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:82%;height:100%;background:var(--g);border-radius:3px"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">التحصيل</span><span style="color:var(--a)">58%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:58%;height:100%;background:var(--a);border-radius:3px"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">الربحية</span><span style="color:var(--g)">90%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:90%;height:100%;background:var(--g);border-radius:3px"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--t2)">الالتزامات</span><span style="color:var(--bl)">70%</span></div><div style="background:var(--bg3);border-radius:3px;height:4px"><div style="width:70%;height:100%;background:var(--bl);border-radius:3px"></div></div></div>
+      <div class="kc-body">
+        <div class="kl" data-i18n="kpi_revenue">الإيرادات</div>
+        <div class="kv" id="kRevenue">0 ر.س</div>
+        <div class="kc-foot">
+          <div class="kch up" id="kRevenueChange">— مقارنة بالشهر الماضي</div>
+          <svg class="sparkline" id="sparkRev" width="56" height="18" viewBox="0 0 56 18" fill="none" preserveAspectRatio="none"></svg>
         </div>
       </div>
     </div>
-    <div class="card">
-      <div class="sh"><div class="st">أهم التنبيهات الذكية</div><div class="sl" onclick="go('ai',null)">استشر AI ←</div></div>
-      <div id="dbAlerts2"></div>
+
+    <div class="kc R kc-new">
+      <div class="kc-icon-new kc-ir">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+      </div>
+      <div class="kc-body">
+        <div class="kl" data-i18n="kpi_expense">المصروفات</div>
+        <div class="kv" id="kExpense">0 ر.س</div>
+        <div class="kc-foot"><div class="kch dn">هذا الشهر</div></div>
+      </div>
+    </div>
+
+    <div class="kc B kc-new">
+      <div class="kc-icon-new kc-ib">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="kc-body">
+        <div class="kl" data-i18n="kpi_net">الرصيد الصافي</div>
+        <div class="kv" id="kNet">0 ر.س</div>
+        <div class="kc-foot"><div class="kch up">متراكم</div></div>
+      </div>
+    </div>
+
+    <div class="kc A kc-new">
+      <div class="kc-icon-new kc-ia">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      </div>
+      <div class="kc-body">
+        <div class="kl" data-i18n="kpi_liquidity">السيولة المتاحة</div>
+        <div class="kv" id="kLiq">0 ر.س</div>
+        <div class="kc-foot"><div class="kch"><span data-i18n="kpi_lasts">تكفي</span> <span id="kDays">0</span> <span data-i18n="kpi_days">يوم</span></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Main content: Chart (left 60%) + Right column (40%) ── -->
+  <div class="db-main-grid">
+
+    <!-- Revenue Bar Chart -->
+    <div class="card db-chart-card">
+      <div class="sh">
+        <div>
+          <div class="st">الإيرادات الشهرية</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:3px;font-weight:500">نظرة شاملة على آخر 6 أشهر</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="db-chart-legend">
+            <span class="db-leg-dot" style="background:var(--g)"></span>الإيرادات
+          </div>
+          <button onclick="go('st',null)" class="sl">التقرير الكامل ←</button>
+        </div>
+      </div>
+      <!-- Chart grid lines -->
+      <div class="db-chart-wrap">
+        <div class="db-chart-yaxis">
+          <span>أعلى</span><span></span><span></span><span>—</span>
+        </div>
+        <div class="db-bars" id="dbRevChart">
+          <div class="db-bar-col">
+            <div class="db-bar-val">—</div>
+            <div class="db-bar-track"><div class="db-bar-fill" style="height:42%"></div></div>
+            <div class="db-bar-lbl">—</div>
+          </div>
+          <div class="db-bar-col">
+            <div class="db-bar-val">—</div>
+            <div class="db-bar-track"><div class="db-bar-fill" style="height:58%"></div></div>
+            <div class="db-bar-lbl">—</div>
+          </div>
+          <div class="db-bar-col">
+            <div class="db-bar-val">—</div>
+            <div class="db-bar-track"><div class="db-bar-fill" style="height:46%"></div></div>
+            <div class="db-bar-lbl">—</div>
+          </div>
+          <div class="db-bar-col">
+            <div class="db-bar-val">—</div>
+            <div class="db-bar-track"><div class="db-bar-fill" style="height:72%"></div></div>
+            <div class="db-bar-lbl">—</div>
+          </div>
+          <div class="db-bar-col">
+            <div class="db-bar-val">—</div>
+            <div class="db-bar-track"><div class="db-bar-fill" style="height:63%"></div></div>
+            <div class="db-bar-lbl">—</div>
+          </div>
+          <div class="db-bar-col db-bar-active">
+            <div class="db-bar-val" style="color:var(--g);font-weight:700">هذا الشهر</div>
+            <div class="db-bar-track"><div class="db-bar-fill db-bar-fill-active" style="height:100%"></div></div>
+            <div class="db-bar-lbl" style="color:var(--g);font-weight:700">الآن</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: Health + Alerts stacked -->
+    <div class="db-side-col">
+
+      <!-- Financial Health Ring -->
+      <div class="card db-health-card">
+        <div class="sh"><div class="st">الصحة المالية</div><button onclick="go('hl',null)" class="sl">تفاصيل ←</button></div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div class="hr" style="flex-shrink:0">
+            <svg width="96" height="96" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(44,85,89,.08)" stroke-width="10"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="var(--g)" stroke-width="10" stroke-dasharray="209 264" stroke-linecap="round" id="hrArc"/>
+            </svg>
+            <div class="hrc">
+              <div class="hrn" id="hrScore">—</div>
+              <div class="hrl">/ 100</div>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+            <div class="db-hbar"><div class="db-hbar-hd"><span>السيولة</span><span style="color:var(--g);font-weight:700">82%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:82%;background:var(--g)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>التحصيل</span><span style="color:var(--a);font-weight:700">58%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:58%;background:var(--a)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>الربحية</span><span style="color:var(--g);font-weight:700">90%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:90%;background:var(--g)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>الالتزامات</span><span style="color:var(--bl);font-weight:700">70%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:70%;background:var(--bl)"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Alerts -->
+      <div class="card" style="flex:1;min-height:0">
+        <div class="sh"><div class="st">التنبيهات الذكية</div><button onclick="go('ai',null)" class="sl">استشر AI ←</button></div>
+        <div id="dbAlerts2"></div>
+      </div>
+
     </div>
   </div>
+
+  <!-- ── Bottom row: Top clients + Goals ── -->
   <div class="g2">
     <div class="card">
-      <div class="sh"><div class="st">أعلى العملاء ربحيةً</div><div class="sl" onclick="go('cp',null)">الكل ←</div></div>
+      <div class="sh">
+        <div>
+          <div class="st">أعلى العملاء ربحيةً</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">مرتبة حسب إجمالي الإيرادات</div>
+        </div>
+        <button onclick="go('cp',null)" class="sl">الكل ←</button>
+      </div>
       <div id="topClients"></div>
     </div>
     <div class="card">
-      <div class="sh"><div class="st">تقدم الأهداف</div><div class="sl" onclick="go('gls',null)">الكل ←</div></div>
+      <div class="sh">
+        <div>
+          <div class="st">تقدم الأهداف المالية</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">أهدافك لهذا العام</div>
+        </div>
+        <button onclick="go('gls',null)" class="sl">الكل ←</button>
+      </div>
       <div id="dbGoals"></div>
     </div>
   </div>
+
 </div>
 
 <!-- HEALTH -->
