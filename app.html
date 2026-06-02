@@ -10100,37 +10100,65 @@ function getFinancialContext() {
   const today = new Date();
   const thisMonth = today.toISOString().slice(0, 7);
 
-  const topCl = clClients.slice(0, 5).map(c => c.name).join(', ');
-  const lowStock = products.filter(p => p.type==='product' && p.stock!=null && p.stock<=3).map(p=>p.name).join(', ');
-  const monthPOS = posSales.filter(s => s.date?.startsWith(thisMonth));
-  const posTotalMonth = monthPOS.reduce((a,s) => a+(s.total||0), 0);
+  // ── REAL invoice data from database ──
+  const allInv = (_invoicesCache || []).filter(i => (i.invoice_kind||'invoice') === 'invoice');
+  const paidInv   = allInv.filter(i => i.status === 'paid');
+  const draftInv  = allInv.filter(i => i.status === 'draft');
+  const pendingInv= allInv.filter(i => ['pending','sent','overdue'].includes(i.status));
+  const monthInv  = allInv.filter(i => (i.issue_date||i.created_at||'').startsWith(thisMonth));
+  const monthPaid = monthInv.filter(i => i.status === 'paid');
 
+  const totalPaidAmount   = paidInv.reduce((a,i)=>a+(+(i.total||0)),0);
+  const totalPendingAmount= pendingInv.reduce((a,i)=>a+(+(i.total||0)),0);
+  const monthPaidAmount   = monthPaid.reduce((a,i)=>a+(+(i.total||0)),0);
+
+  // ── POS & channels real data ──
+  const monthPOS = posSales.filter(s => s.date?.startsWith(thisMonth));
+  const posTotalMonth = monthPOS.reduce((a,s)=>a+(s.total||0),0);
   let chTotal = 0;
   Object.values(chEntries).forEach(arr => {
     (Array.isArray(arr)?arr:[]).filter(e=>e.date?.startsWith(thisMonth)).forEach(e=>{chTotal+=(e.net||0);});
   });
 
+  // ── Misc ──
+  const topCl   = clClients.slice(0,5).map(c=>c.name).join(', ');
+  const lowStock= products.filter(p=>p.type==='product'&&p.stock!=null&&p.stock<=3).map(p=>p.name).join(', ');
   const dailyDates = Object.keys(dailyData).sort().reverse();
-  const lastDaily = dailyDates[0] ? dailyData[dailyDates[0]] : null;
+  const lastDaily  = dailyDates[0] ? dailyData[dailyDates[0]] : null;
+
+  // ── Has real data? ──
+  const hasRealData = allInv.length > 0 || monthPOS.length > 0 || chTotal > 0;
 
   const lines = [
     `المشروع: ${prof.bizName||ud.name||'—'}`,
-    `الرقم الضريبي: ${prof.vat||'—'}`,
-    `الإيرادات الشهرية المتوقعة: ${(ud.rev||0).toLocaleString('en-US')} ر.س`,
-    `المصروفات الشهرية المتوقعة: ${(ud.exp||0).toLocaleString('en-US')} ر.س`,
-    `الرصيد المتاح: ${(ud.bal||0).toLocaleString('en-US')} ر.س`,
-    `الهدف الشهري: ${(ud.target||0).toLocaleString('en-US')} ر.س`,
-    `عدد العملاء: ${clClients.length}`,
-    topCl ? `أبرز العملاء: ${topCl}` : '',
-    `مبيعات نقطة البيع (${thisMonth}): ${posTotalMonth.toLocaleString('en-US')} ر.س — ${monthPOS.length} عملية`,
-    chTotal>0 ? `مبيعات التوصيل صافي (${thisMonth}): ${chTotal.toLocaleString('en-US')} ر.س` : '',
-    `المنتجات والخدمات: ${products.length} بند`,
-    lowStock ? `مخزون منخفض يحتاج تعبئة: ${lowStock}` : '',
-    lastDaily ? `آخر توازن يومي (${dailyDates[0]}): فرق ${lastDaily.diff>=0?'+':''}${(lastDaily.diff||0).toLocaleString('en-US')} ر.س` : '',
     `التاريخ اليوم: ${today.toLocaleDateString('ar-SA-u-nu-latn')}`,
-  ].filter(Boolean);
+    '',
+    '═══ البيانات الفعلية في النظام ═══',
+    `إجمالي الفواتير في النظام: ${allInv.length} فاتورة`,
+    allInv.length > 0 ? `  - مدفوعة: ${paidInv.length} فاتورة (${totalPaidAmount.toLocaleString('en-US')} ر.س)` : '',
+    allInv.length > 0 ? `  - معلقة/مرسلة: ${pendingInv.length} فاتورة (${totalPendingAmount.toLocaleString('en-US')} ر.س)` : '',
+    allInv.length > 0 ? `  - مسودة: ${draftInv.length} فاتورة` : '',
+    monthInv.length > 0 ? `فواتير هذا الشهر (${thisMonth}): ${monthInv.length} فاتورة — محصّل منها: ${monthPaidAmount.toLocaleString('en-US')} ر.س` : `فواتير هذا الشهر (${thisMonth}): لا توجد`,
+    posTotalMonth > 0 ? `مبيعات نقطة البيع (${thisMonth}): ${posTotalMonth.toLocaleString('en-US')} ر.س — ${monthPOS.length} عملية` : '',
+    chTotal > 0 ? `مبيعات التوصيل صافي (${thisMonth}): ${chTotal.toLocaleString('en-US')} ر.س` : '',
+    lastDaily ? `آخر توازن يومي (${dailyDates[0]}): فرق ${lastDaily.diff>=0?'+':''}${(lastDaily.diff||0).toLocaleString('en-US')} ر.س` : '',
+    '',
+    '═══ بيانات الملف الشخصي (تقديرات الإعداد — ليست أرقاماً فعلية) ═══',
+    ud.rev > 0 ? `الإيرادات الشهرية المُقدَّرة (أدخلها المستخدم): ${(ud.rev||0).toLocaleString('en-US')} ر.س` : '',
+    ud.exp > 0 ? `المصروفات الشهرية المُقدَّرة (أدخلها المستخدم): ${(ud.exp||0).toLocaleString('en-US')} ر.س` : '',
+    ud.bal > 0 ? `الرصيد المُقدَّر (أدخله المستخدم): ${(ud.bal||0).toLocaleString('en-US')} ر.س` : '',
+    ud.target > 0 ? `الهدف الشهري: ${(ud.target||0).toLocaleString('en-US')} ر.س` : '',
+    '',
+    '═══ بيانات أخرى ═══',
+    `عدد العملاء المسجلين: ${clClients.length}`,
+    topCl ? `أبرز العملاء: ${topCl}` : '',
+    `المنتجات والخدمات: ${products.length} بند`,
+    lowStock ? `مخزون منخفض: ${lowStock}` : '',
+    '',
+    !hasRealData ? '⚠️ تنبيه مهم: لا توجد بيانات فعلية مسجّلة في النظام بعد (لا فواتير مدفوعة، لا مبيعات). الأرقام المتاحة هي تقديرات أدخلها المستخدم فقط.' : '',
+  ].filter(l => l !== undefined && l !== null && l !== '');
 
-  return 'بيانات مشروعك الفعلية في محسوب:\n' + lines.map(l=>`• ${l}`).join('\n');
+  return lines.join('\n');
 }
 
 // ── Cloud Sync (Supabase user_metadata backup) ────
