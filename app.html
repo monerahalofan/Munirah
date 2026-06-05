@@ -10189,22 +10189,89 @@ async function cloudRestore() {
     const { data: { user } } = await _sb.auth.getUser();
     const backup = user?.user_metadata?.mb;
     if (!backup?.ts) return;
+
+    // Use cloud backup if local is empty OR cloud is newer
+    const localTs = parseInt(localStorage.getItem('mahsoob_backup_ts') || '0', 10);
+    const cloudIsNewer = backup.ts > localTs;
+
+    let anyRestored = false;
     Object.entries(_SYNC_KEYS).forEach(([k, lsKey]) => {
-      if (!localStorage.getItem(lsKey) && backup[k]) {
+      const hasLocal = !!localStorage.getItem(lsKey);
+      // Restore if: no local data, OR cloud backup is newer
+      if (backup[k] && (!hasLocal || cloudIsNewer)) {
         localStorage.setItem(lsKey, backup[k]);
+        anyRestored = true;
       }
     });
-    // Reload runtime arrays from restored localStorage
+
+    // Save cloud timestamp so next restore knows which is newer
+    if (cloudIsNewer) {
+      localStorage.setItem('mahsoob_backup_ts', String(backup.ts));
+    }
+
+    // Reload all runtime arrays from localStorage
     clClients  = JSON.parse(localStorage.getItem('mahsoob_clients')    || '[]');
     products   = JSON.parse(localStorage.getItem('mahsoob_products')   || '[]');
     posSales   = JSON.parse(localStorage.getItem('mahsoob_pos_sales')  || '[]');
     chChannels = JSON.parse(localStorage.getItem('mahsoob_channels')   || '[]');
     chEntries  = JSON.parse(localStorage.getItem('mahsoob_ch_entries') || '{}');
     dailyData  = JSON.parse(localStorage.getItem('mahsoob_daily')      || '{}');
-    if (backup.user && !localStorage.getItem('mahsoob_user')) {
-      userData = JSON.parse(backup.user);
+
+    // Always sync userData from localStorage after restore
+    const savedUser = localStorage.getItem('mahsoob_user');
+    if (savedUser) {
+      try { userData = JSON.parse(savedUser); } catch(e) {}
+    } else if (backup.user) {
+      try {
+        userData = JSON.parse(backup.user);
+        localStorage.setItem('mahsoob_user', backup.user);
+        anyRestored = true;
+      } catch(e) {}
+    }
+
+    // Refresh dashboard UI if anything changed
+    if (anyRestored) {
+      refreshDashboardKPIs();
+      try { renderClients(); }    catch(e) {}
+      try { renderProducts(); }   catch(e) {}
+      try { renderTopClients(); } catch(e) {}
+      try { renderDbGoals(); }    catch(e) {}
+      try { renderAlerts(); }     catch(e) {}
     }
   } catch(e) { /* silent */ }
+}
+
+// ── Refresh dashboard KPI cards after data restore ──
+function refreshDashboardKPIs() {
+  if (!userData) return;
+  const rev = Number(userData.rev) || 0;
+  const exp = Number(userData.exp) || 0;
+  const bal = Number(userData.bal) || 0;
+  const net = rev - exp;
+  const days = exp > 0 ? Math.floor(bal / (exp / 30)) : 0;
+
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  set('kRevenue',  rev.toLocaleString('en-US') + ' ر.س');
+  set('kExpense',  exp.toLocaleString('en-US') + ' ر.س');
+  set('kNet',      net.toLocaleString('en-US') + ' ر.س');
+  set('kLiq',      bal.toLocaleString('en-US') + ' ر.س');
+  set('kDays',     days);
+  set('cfBal',     bal.toLocaleString('en-US') + ' ر.س');
+  set('cfDays',    days + ' يوم');
+
+  // Update greeting name
+  if (userData.name) {
+    const gn = document.getElementById('greetName');
+    const un = document.getElementById('userName');
+    const av = document.getElementById('userAv');
+    if (gn) gn.textContent = userData.name;
+    if (un) un.textContent = userData.name;
+    if (av) av.textContent = userData.name.charAt(0) || 'م';
+  }
 }
 
 // ── Dashboard AI Insights ─────────────────────────
@@ -11029,9 +11096,15 @@ async function doSignOut() {
   try {
     if (typeof _sb !== 'undefined') await _sb.auth.signOut();
   } catch(e) { /* ignore */ }
-  // Always clear local state and redirect regardless of Supabase response
-  localStorage.removeItem('mahsoob_user');
-  localStorage.removeItem('mahsoob_profile');
+  // Clear ALL mahsoob data so cloudRestore works cleanly on next login
+  const keys = [
+    'mahsoob_user', 'mahsoob_profile', 'mahsoob_clients',
+    'mahsoob_products', 'mahsoob_channels', 'mahsoob_ch_entries',
+    'mahsoob_daily', 'mahsoob_pos_sales', 'mahsoob_backup_ts',
+    'mahsoob_brand_logo', 'mahsoob_ai_insights', 'mahsoob_nav_collapsed',
+    'mahsoob_users', 'mk'
+  ];
+  keys.forEach(k => localStorage.removeItem(k));
   window.location.href = '/login';
 }
 
@@ -11088,13 +11161,16 @@ async function bootApp() {
     // VAT deadline reminder (non-blocking)
     setTimeout(() => checkVatReminder().catch(()=>{}), 1500);
 
-    // Restore cloud backup in background — NEVER block boot on this
-    console.log('[bootApp] scheduling cloudRestore (background)');
-    setTimeout(() => {
-      cloudRestore().catch(e => console.warn('cloudRestore failed:', e));
-    }, 100);
+    // Restore cloud backup FIRST — wait up to 3s, then fall back to local
+    console.log('[bootApp] running cloudRestore before initApp');
+    try {
+      await Promise.race([
+        cloudRestore(),
+        new Promise(res => setTimeout(res, 3000)) // 3s timeout
+      ]);
+    } catch(e) { console.warn('[bootApp] cloudRestore error:', e); }
 
-    // Bootstrap userData
+    // Bootstrap userData from localStorage (now populated by cloudRestore if needed)
     console.log('[bootApp] bootstrapping userData');
     const saved = localStorage.getItem('mahsoob_user');
     if (saved) {
