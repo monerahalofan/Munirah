@@ -184,7 +184,7 @@ ZATCA Phase 2: قيد التطوير — لا تعد بتاريخ محدد.
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-fable-5',
       max_tokens: mode === 'scan' ? 600 : 1500,
       ...(system ? { system } : {}),
       messages: claudeMessages,
@@ -203,7 +203,7 @@ ZATCA Phase 2: قيد التطوير — لا تعد بتاريخ محدد.
     });
   }
 
-  const text = claudeData.content?.[0]?.text ?? '';
+  const text = (claudeData.content ?? []).find((b: { type: string }) => b.type === 'text')?.text ?? '';
   return new Response(JSON.stringify({ text }), {
     headers: {
       'Content-Type': 'application/json',

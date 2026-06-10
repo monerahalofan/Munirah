@@ -877,7 +877,7 @@ body.dark .bbl.ai{background:#1e2535}
 }
 body.dark #bottomNav{background:#161b27}
 .bnav-item.on{color:#86BA72}
-.bnav-item.on .bnav-icon{background:rgba(134,86,114,.1)}
+.bnav-item.on .bnav-icon{background:rgba(134,186,114,.1)}
 .bnav-fab .bnav-icon{background:linear-gradient(135deg,#86BA72,#9DC78A) !important;box-shadow:0 4px 14px rgba(134,186,114,.38)}
 
 /* ── Skeleton ── */
@@ -1602,10 +1602,10 @@ body.dark .kv{color:#f0f2f8}
             </div>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;gap:8px">
-            <div class="db-hbar"><div class="db-hbar-hd"><span>السيولة</span><span style="color:var(--g);font-weight:700">82%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:82%;background:var(--g)"></div></div></div>
-            <div class="db-hbar"><div class="db-hbar-hd"><span>التحصيل</span><span style="color:var(--a);font-weight:700">58%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:58%;background:var(--a)"></div></div></div>
-            <div class="db-hbar"><div class="db-hbar-hd"><span>الربحية</span><span style="color:var(--g);font-weight:700">90%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:90%;background:var(--g)"></div></div></div>
-            <div class="db-hbar"><div class="db-hbar-hd"><span>الالتزامات</span><span style="color:var(--bl);font-weight:700">70%</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" style="width:70%;background:var(--bl)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>السيولة</span><span id="hbLiqV" style="color:var(--g);font-weight:700">—</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" id="hbLiqF" style="width:0%;background:var(--g)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>التحصيل</span><span id="hbColV" style="color:var(--a);font-weight:700">—</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" id="hbColF" style="width:0%;background:var(--a)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>الربحية</span><span id="hbProV" style="color:var(--g);font-weight:700">—</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" id="hbProF" style="width:0%;background:var(--g)"></div></div></div>
+            <div class="db-hbar"><div class="db-hbar-hd"><span>الالتزامات</span><span id="hbComV" style="color:var(--bl);font-weight:700">—</span></div><div class="db-hbar-bg"><div class="db-hbar-fill" id="hbComF" style="width:0%;background:var(--bl)"></div></div></div>
           </div>
         </div>
       </div>
@@ -4405,10 +4405,8 @@ function initApp(){
     }
   });
   safe('sparkline', () => setTimeout(drawSparkline, 600));
-  safe('gauge',     () => {
-    const score = parseInt(document.getElementById('hrScore')?.textContent || '0', 10) || 79;
-    animateGauge('hrArc', score);
-  });
+  safe('revChart',  () => setTimeout(() => renderRevChart().catch(()=>{}), 400));
+  safe('health',    () => setTimeout(() => renderHealthScore().catch(()=>{}), 500));
 }
 
 // ── i18n ───────────────────────────────
@@ -7087,6 +7085,123 @@ function animateGauge(elementId, score) {
   el.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.18,.89,.32,1.28)';
   // Animate after a tick
   setTimeout(() => { el.style.strokeDashoffset = offset; }, 100);
+}
+
+// ═══════════ DASHBOARD: REVENUE CHART (real data, last 6 months) ═══════════
+function fmtAmtShort(v) {
+  if (v >= 1000000) return (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (v >= 1000) return (v / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  return Math.round(v).toString();
+}
+
+async function renderRevChart() {
+  const el = document.getElementById('dbRevChart');
+  if (!el || !Auth?.tenant?.id) return;
+  try {
+    const from = new Date(); from.setDate(1); from.setMonth(from.getMonth() - 5);
+    const { data } = await _sb.from('journal_entries')
+      .select('entry_date,credit,debit')
+      .eq('tenant_id', Auth.tenant.id)
+      .eq('account_code', '4101')
+      .gte('entry_date', from.toISOString().slice(0, 10));
+
+    const months = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i);
+      months.push({
+        key: d.toISOString().slice(0, 7),
+        lbl: d.toLocaleDateString('ar-EG', { month: 'long' }),
+        val: 0,
+      });
+    }
+    (data || []).forEach(e => {
+      const m = months.find(x => (e.entry_date || '').startsWith(x.key));
+      if (m) m.val += (parseFloat(e.credit) || 0) - (parseFloat(e.debit) || 0);
+    });
+
+    const max = Math.max(...months.map(m => m.val));
+    if (max <= 0) {
+      el.innerHTML = `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px;text-align:center">
+        <div style="font-size:13px;font-weight:700;color:var(--t2)">لا توجد إيرادات مسجّلة بعد</div>
+        <div style="font-size:12px;color:var(--t3)">أنشئ أول فاتورة وسيظهر الرسم البياني هنا تلقائياً</div>
+        <button class="btn bp" style="font-size:12px;padding:7px 16px;margin-top:4px" onclick="go('zt',null)">＋ فاتورة جديدة</button>
+      </div>`;
+      return;
+    }
+
+    el.innerHTML = months.map((m, i) => {
+      const cur = i === months.length - 1;
+      const h = Math.max(3, Math.round((m.val / max) * 100));
+      const hl = cur ? ' style="color:var(--g);font-weight:700"' : '';
+      return `<div class="db-bar-col${cur ? ' db-bar-active' : ''}">
+        <div class="db-bar-val"${hl}>${m.val > 0 ? fmtAmtShort(m.val) : '—'}</div>
+        <div class="db-bar-track"><div class="db-bar-fill${cur ? ' db-bar-fill-active' : ''}" style="height:${m.val > 0 ? h : 2}%"></div></div>
+        <div class="db-bar-lbl"${hl}>${m.lbl}</div>
+      </div>`;
+    }).join('');
+  } catch (e) { /* keep skeleton on failure */ }
+}
+
+// ═══════════ DASHBOARD: FINANCIAL HEALTH (real data) ═══════════
+async function renderHealthScore() {
+  const setBar = (vId, fId, pct) => {
+    const v = document.getElementById(vId), f = document.getElementById(fId);
+    if (!v || !f) return;
+    if (pct == null) { v.textContent = '—'; f.style.width = '0%'; return; }
+    v.textContent = pct + '%';
+    setTimeout(() => { f.style.width = pct + '%'; }, 80);
+  };
+  const clamp = x => Math.max(0, Math.min(100, Math.round(x)));
+
+  const rev = Number(userData?.rev) || 0;
+  const exp = Number(userData?.exp) || 0;
+  const bal = Number(userData?.bal) || 0;
+
+  // السيولة: أيام التغطية من الرصيد (60 يوم فأكثر = 100%)
+  const liquidity = exp > 0 ? clamp((bal / (exp / 30)) / 60 * 100) : (bal > 0 ? 100 : null);
+  // الربحية: هامش الربح الصافي (هامش 45% فأكثر = 100%)
+  const margin = rev > 0 ? (rev - exp) / rev : null;
+  const profitability = margin == null ? null : clamp(margin / 0.45 * 100);
+
+  // التحصيل والالتزامات من الفواتير الفعلية
+  let collection = null, commitments = null;
+  try {
+    if (Auth?.tenant?.id) {
+      const { data } = await _sb.from('invoices')
+        .select('status,payment_status,total,due_date,invoice_kind')
+        .eq('tenant_id', Auth.tenant.id).limit(500);
+      const inv = (data || []).filter(i => (i.invoice_kind || 'invoice') === 'invoice');
+      const today = new Date().toISOString().slice(0, 10);
+      let paid = 0, unpaid = 0, overdue = 0;
+      inv.forEach(i => {
+        const tot = +(i.total || 0);
+        const st = i.payment_status || i.status || 'pending';
+        if (st === 'paid') paid += tot;
+        else { unpaid += tot; if (i.due_date && i.due_date < today) overdue += tot; }
+      });
+      const all = paid + unpaid;
+      if (all > 0) {
+        collection = clamp(paid / all * 100);
+        commitments = clamp(100 - (overdue / all * 100));
+      }
+    }
+  } catch (e) { /* leave nulls */ }
+
+  setBar('hbLiqV', 'hbLiqF', liquidity);
+  setBar('hbColV', 'hbColF', collection);
+  setBar('hbProV', 'hbProF', profitability);
+  setBar('hbComV', 'hbComF', commitments);
+
+  const parts = [liquidity, collection, profitability, commitments].filter(x => x != null);
+  const scoreEl = document.getElementById('hrScore');
+  if (!parts.length) {
+    if (scoreEl) scoreEl.textContent = '—';
+    animateGauge('hrArc', 0);
+    return;
+  }
+  const score = Math.round(parts.reduce((a, b) => a + b, 0) / parts.length);
+  if (scoreEl) scoreEl.textContent = score;
+  animateGauge('hrArc', score);
 }
 
 // ═══════════ BRAND LOGO (شعار النشاط) ═══════════
@@ -10232,6 +10347,8 @@ async function cloudRestore() {
     // Refresh dashboard UI if anything changed
     if (anyRestored) {
       refreshDashboardKPIs();
+      try { renderRevChart().catch(()=>{}); }    catch(e) {}
+      try { renderHealthScore().catch(()=>{}); } catch(e) {}
       try { renderClients(); }    catch(e) {}
       try { renderProducts(); }   catch(e) {}
       try { renderTopClients(); } catch(e) {}

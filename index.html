@@ -5,9 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>محسوب — محاسبة سعودية ذكية لمشروعك</title>
 <meta name="description" content="نظام محاسبة سعودي متكامل ومتوافق مع ZATCA. فواتير إلكترونية، نقطة بيع، وذكاء اصطناعي مالي بالعربي. ابدأ مجاناً اليوم — لا بطاقة ائتمانية.">
+<link rel="canonical" href="https://mahsob.sa/">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#86BA72">
+<link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/icon-192.png">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:url" content="https://mahsob.sa/">
+<meta property="og:site_name" content="محسوب">
+<meta property="og:title" content="محسوب — محاسبة سعودية ذكية لمشروعك">
+<meta property="og:description" content="نظام محاسبة سعودي متكامل ومتوافق مع ZATCA. فواتير إلكترونية، نقطة بيع، وذكاء اصطناعي مالي بالعربي.">
+<meta property="og:image" content="https://mahsob.sa/img/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="محسوب — محاسبة سعودية ذكية لمشروعك">
+<meta name="twitter:description" content="نظام محاسبة سعودي متوافق مع ZATCA — فواتير إلكترونية، نقطة بيع، وذكاء اصطناعي مالي بالعربي.">
+<meta name="twitter:image" content="https://mahsob.sa/img/icon-512.png">
+
+<link rel="preload" href="fonts/PingARLT-Medium.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="fonts/PingARLT-Bold.otf" as="font" type="font/otf" crossorigin>
 <style>
 @font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
 @font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
@@ -308,6 +326,7 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .faq-item.open{border-color:rgba(134,186,114,.3);box-shadow:0 4px 16px rgba(15,36,38,.06)}
 .faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;cursor:pointer;font-size:15px;font-weight:700;color:var(--dark);gap:16px;user-select:none;list-style:none}
 .faq-q:hover{background:rgba(134,186,114,.04)}
+.faq-q:focus-visible{outline:2px solid var(--g);outline-offset:-2px;border-radius:14px}
 .faq-ico{width:28px;height:28px;border-radius:8px;background:rgba(44,85,89,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
 .faq-ico svg{width:12px;height:12px;stroke:var(--t2);fill:none;stroke-width:2.5;stroke-linecap:round;transition:transform .3s}
 .faq-item.open .faq-ico{background:rgba(134,186,114,.12)}
@@ -338,7 +357,7 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .plan-btn{display:block;width:100%;padding:11px;border-radius:10px;font-size:13px;font-weight:700;text-align:center;text-decoration:none;transition:all .22s;cursor:pointer;border:none;font-family:'PingARLT',sans-serif}
 .plan-btn.o{background:transparent;border:1.5px solid rgba(44,85,89,.16);color:var(--t2)}
 .plan-btn.o:hover{border-color:var(--g);color:var(--g);background:rgba(134,186,114,.06)}
-.plan-btn.f{background:var(--g);color:#fff;box-shadow:0 3px 12px rgba(134,86,114,.3)}
+.plan-btn.f{background:var(--g);color:#fff;box-shadow:0 3px 12px rgba(134,186,114,.3)}
 .plan-btn.f:hover{background:var(--g2);transform:translateY(-1px)}
 .plan-btn:active{transform:scale(.98) !important}
 
@@ -385,7 +404,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
 
 /* ── Responsive ── */
 @media(max-width:1024px){
-  .hero{grid-template-columns:1fr;padding-top:calc(var(--nav)+64px);min-height:auto;gap:44px}
+  .hero{grid-template-columns:1fr;padding-top:calc(var(--nav) + 96px);min-height:auto;gap:44px}
   .hero-text{text-align:center}
   .hero-p{margin-right:auto;margin-left:auto}
   .hero-ctas{justify-content:center}
@@ -425,6 +444,63 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
   .reveal{opacity:1;transform:none}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "محسوب",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "inLanguage": "ar",
+  "url": "https://mahsob.sa/",
+  "description": "نظام محاسبة سعودي متكامل ومتوافق مع ZATCA. فواتير إلكترونية، نقطة بيع، وذكاء اصطناعي مالي بالعربي.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "SAR",
+    "lowPrice": "0",
+    "highPrice": "399",
+    "offerCount": "4"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "هل محسوب معتمد رسمياً من هيئة الزكاة والضريبة والجمارك (ZATCA)؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "نعم، محسوب معتمد رسمياً من هيئة الزكاة والضريبة والجمارك لإصدار الفواتير الإلكترونية بالمرحلتين الأولى والثانية. كل فاتورة تُصدر عبر محسوب تلتزم بالمعايير القانونية المطلوبة."}
+    },
+    {
+      "@type": "Question",
+      "name": "هل يمكنني استيراد بياناتي الحالية من Excel أو برنامج آخر؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "نعم، يدعم محسوب استيراد البيانات من Excel وCSV بخطوات بسيطة. فريق الدعم جاهز لمساعدتك في نقل بياناتك من أي نظام آخر."}
+    },
+    {
+      "@type": "Question",
+      "name": "كيف يحمي محسوب بياناتي المالية؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "بياناتك محفوظة على خوادم آمنة مشفرة بتقنية AES-256، مع نسخ احتياطية تلقائية يومية."}
+    },
+    {
+      "@type": "Question",
+      "name": "هل محسوب يعمل على الجوال؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "نعم، محسوب متاح على iOS وAndroid بتجربة محسّنة للجوال. يمكنك إصدار الفواتير واستعراض التقارير وإدارة نقطة البيع من هاتفك."}
+    },
+    {
+      "@type": "Question",
+      "name": "ماذا يحدث إذا أردت إلغاء اشتراكي؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "يمكنك إلغاء اشتراكك في أي وقت بدون رسوم إضافية. بياناتك تبقى محفوظة لمدة 12 شهراً بعد الإلغاء ويمكنك تصديرها متى تشاء."}
+    },
+    {
+      "@type": "Question",
+      "name": "ما الفرق بين باقة النمو وباقة الأعمال؟",
+      "acceptedAnswer": {"@type": "Answer", "text": "باقة النمو مناسبة للمشاريع ذات الموقع الواحد وتشمل حتى 3 مستخدمين. باقة الأعمال مصممة للشركات التي تمتلك فروعاً متعددة وتحتاج مستخدمين غير محدودين مع مدير حساب مخصص ودعم هاتفي مباشر."}
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -1100,6 +1176,9 @@ function updateNavTop() {
   document.getElementById('mnav').style.top = (annH + 12 + 68 + 8) + 'px';
 }
 updateNavTop();
+window.addEventListener('load', updateNavTop);
+window.addEventListener('resize', updateNavTop);
+if (document.fonts?.ready) document.fonts.ready.then(updateNavTop);
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('nav');
   nav.style.boxShadow = scrollY > 40 ? '0 4px 28px rgba(15,36,38,.1)' : '0 4px 24px rgba(15,36,38,.07)';
@@ -1130,11 +1209,16 @@ document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
 // Tabs
 function tab(id, btn) {
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.ptab').forEach(t => {
+    t.classList.remove('on');
+    t.setAttribute('aria-selected', 'false');
+  });
   btn.classList.add('on');
+  btn.setAttribute('aria-selected', 'true');
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
   document.getElementById('p-' + id).classList.add('on');
 }
+document.querySelectorAll('.ptab').forEach(t => t.setAttribute('aria-selected', t.classList.contains('on')));
 
 // AI chat
 const replies = [
@@ -1173,7 +1257,19 @@ function toggleFaq(el) {
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.setAttribute('aria-expanded', q.parentElement.classList.contains('open'));
+  });
 }
+// Keyboard access for FAQ headers
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.setAttribute('role', 'button');
+  q.setAttribute('tabindex', '0');
+  q.setAttribute('aria-expanded', 'false');
+  q.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(q); }
+  });
+});
 </script>
 </body>
 </html>
