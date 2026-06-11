@@ -1142,6 +1142,40 @@ body.dark .kv{color:#f0f2f8}
 .db-hbar-bg{background:rgba(44,85,89,.07);border-radius:4px;height:4px;overflow:hidden}
 .db-hbar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.18,.89,.32,1.28)}
 
+/* ── Product Pricing (تسعير المنتج) ── */
+.prc-grid{display:grid;grid-template-columns:390px 1fr;gap:16px;align-items:start}
+@media(max-width:1000px){.prc-grid{grid-template-columns:1fr}}
+.prc-f{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.prc-l{font-size:12px;color:var(--t2);font-weight:600}
+.prc-in{background:#fafbf9;border:1px solid rgba(44,85,89,.13);border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--t);outline:none;width:100%;transition:border-color .15s,box-shadow .15s}
+.prc-in:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(134,186,114,.12)}
+body.dark .prc-in{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
+.prc-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:700px){.prc-cards{grid-template-columns:1fr}}
+.prc-card{border-radius:16px;padding:20px 14px 16px;border:1px solid rgba(44,85,89,.1);text-align:center;position:relative;background:#fff}
+body.dark .prc-card{background:#161b27;border-color:rgba(255,255,255,.08)}
+.prc-card.best{border:2px solid var(--g);box-shadow:0 8px 26px rgba(134,186,114,.18)}
+.prc-tag{position:absolute;top:-10px;right:50%;transform:translateX(50%);background:var(--g);color:#fff;font-size:10px;font-weight:800;padding:3px 12px;border-radius:12px;white-space:nowrap}
+.prc-name{font-size:12px;font-weight:700;color:var(--t3);margin-bottom:8px}
+.prc-price{font-size:25px;font-weight:900;color:#0f2426;line-height:1.1}
+body.dark .prc-price{color:#f0f2f8}
+.prc-price sub{font-size:11px;color:var(--t3);font-weight:500;vertical-align:baseline}
+.prc-sub{font-size:11px;color:var(--t3);margin-top:9px;line-height:1.8}
+.prc-sub b{color:#2d7a1e}
+.prc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:700px){.prc-stats{grid-template-columns:1fr 1fr}}
+.prc-stat{background:#f8faf6;border:1px solid rgba(44,85,89,.08);border-radius:12px;padding:12px 8px;text-align:center}
+body.dark .prc-stat{background:#1e2535;border-color:rgba(255,255,255,.07)}
+.prc-sv{font-size:15px;font-weight:900;color:#0f2426}
+body.dark .prc-sv{color:#f0f2f8}
+.prc-sl{font-size:10.5px;color:var(--t3);margin-top:3px;font-weight:600}
+.prc-tips{display:flex;flex-direction:column;gap:7px}
+.prc-tip{font-size:12.5px;line-height:1.75;padding:8px 11px;background:var(--bg3);border-radius:8px;border-right:3px solid var(--g);color:var(--t2)}
+.prc-tip.warn{border-right-color:#C5A878}
+.prc-tip.risk{border-right-color:#dc2f3b}
+.prc-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(134,186,114,.09);border:1px solid rgba(134,186,114,.2);color:#2d7a1e;border-radius:16px;padding:4px 12px;font-size:11px;font-weight:700;margin:3px}
+
 /* ── Responsive ── */
 @media(max-width:1100px){
   .db-main-grid{grid-template-columns:1fr}
@@ -1337,6 +1371,7 @@ body.dark .kv{color:#f0f2f8}
     <div class="ni" onclick="go('cf',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.5-1.5.5-3 0-4.5C20 4 17 2 12 2 7 2 4 4 3 7.5c-.5 1.5-.5 3 0 4.5"/><path d="M3 12c.5 1.5 1 3 2 4.5C6.5 19 9 21 12 22c3-1 5.5-3 7-5.5 1-1.5 1.5-3 2-4.5"/></svg></span><span data-i18n="nav_cf">تدفق الكاش</span><span class="nbg" data-i18n="badge_smart">ذكي</span></div>
     <div class="ni" onclick="go('ag',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span data-i18n="nav_ag">من يدين لي؟</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ni" onclick="go('cp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-i18n="nav_cp">أرباحي من العملاء</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
+    <div class="ni" onclick="go('pricing',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><span data-i18n="nav_pricing">تسعير المنتج</span><span class="nbg">AI</span></div>
     <div class="ni" onclick="go('gls',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ni" onclick="go('tax',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8l8 8M16 8l-8 8"/></svg></span><span data-i18n="nav_tax">الضرائب والزكاة</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ns" data-i18n="ns_daily">العمليات اليومية</div>
@@ -1661,6 +1696,118 @@ body.dark .kv{color:#f0f2f8}
     </div>
   </div>
 
+</div>
+
+<!-- PRODUCT PRICING -->
+<div class="pg" id="pg-pricing">
+  <div class="prc-grid">
+
+    <!-- Inputs -->
+    <div class="card">
+      <div class="sh">
+        <div>
+          <div class="st">بيانات المنتج أو الخدمة</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:3px">كل ما كانت أرقامك أدق، كان التسعير أذكى</div>
+        </div>
+      </div>
+      <div class="prc-f">
+        <label class="prc-l" for="prcName">اسم المنتج / الخدمة</label>
+        <input class="prc-in" id="prcName" type="text" placeholder="مثال: باقة تصميم هوية">
+      </div>
+      <div class="prc-f">
+        <label class="prc-l" for="prcType">النوع</label>
+        <select class="prc-in" id="prcType">
+          <option value="خدمة">خدمة</option>
+          <option value="منتج مادي">منتج مادي</option>
+          <option value="منتج رقمي">منتج رقمي</option>
+          <option value="اشتراك شهري">اشتراك شهري</option>
+        </select>
+      </div>
+      <div class="prc-2col">
+        <div class="prc-f">
+          <label class="prc-l" for="prcCost">التكلفة المباشرة للوحدة (ر.س)</label>
+          <input class="prc-in" id="prcCost" type="number" min="0" placeholder="120">
+        </div>
+        <div class="prc-f">
+          <label class="prc-l" for="prcFixed">تكاليف ثابتة شهرية (ر.س)</label>
+          <input class="prc-in" id="prcFixed" type="number" min="0" placeholder="3000">
+        </div>
+      </div>
+      <div class="prc-2col">
+        <div class="prc-f">
+          <label class="prc-l" for="prcVol">مبيعات متوقعة شهرياً (وحدة)</label>
+          <input class="prc-in" id="prcVol" type="number" min="1" placeholder="50">
+        </div>
+        <div class="prc-f">
+          <label class="prc-l" for="prcMargin">هامش الربح المستهدف %</label>
+          <input class="prc-in" id="prcMargin" type="number" min="5" max="90" value="35">
+        </div>
+      </div>
+      <div class="prc-2col">
+        <div class="prc-f">
+          <label class="prc-l" for="prcCompMin">أقل سعر منافس (اختياري)</label>
+          <input class="prc-in" id="prcCompMin" type="number" min="0" placeholder="150">
+        </div>
+        <div class="prc-f">
+          <label class="prc-l" for="prcCompMax">أعلى سعر منافس (اختياري)</label>
+          <input class="prc-in" id="prcCompMax" type="number" min="0" placeholder="300">
+        </div>
+      </div>
+      <div class="prc-f">
+        <label class="prc-l" for="prcDiff">تميّزك عن المنافسين</label>
+        <select class="prc-in" id="prcDiff">
+          <option value="0.92">مشابه للسوق</option>
+          <option value="1" selected>أفضل بقليل</option>
+          <option value="1.12">تميّز واضح (جودة / سرعة / ضمان)</option>
+          <option value="1.25">فريد — ما له بديل مباشر</option>
+        </select>
+      </div>
+      <div class="prc-f">
+        <label class="prc-l" for="prcGoal">هدفك من التسعير</label>
+        <select class="prc-in" id="prcGoal">
+          <option value="penetration">دخول السوق وكسب عملاء بسرعة</option>
+          <option value="balanced" selected>ربح متوازن ونمو مستقر</option>
+          <option value="premium">تعظيم الربح والتموضع الأعلى</option>
+        </select>
+      </div>
+      <button class="btn bp" style="width:100%;padding:12px;font-size:14px" onclick="calcPricing()">احسب التسعير ←</button>
+    </div>
+
+    <!-- Results -->
+    <div>
+      <div id="prcEmpty" class="card" style="text-align:center;padding:46px 24px">
+        <div class="empty-state-icon" style="margin:0 auto 16px;display:flex;align-items:center;justify-content:center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:8px">سعّر منتجك بثقة — مو بالتخمين</div>
+        <div style="font-size:13px;color:var(--t3);line-height:1.9;max-width:380px;margin:0 auto 16px">أدخل بياناتك وسنقترح عليك ثلاثة أسعار مبنية على نماذج تسعير عالمية، مع تحليل ذكاء اصطناعي مخصص لمشروعك.</div>
+        <div>
+          <span class="prc-chip">التكلفة + الهامش</span>
+          <span class="prc-chip">التسعير التنافسي</span>
+          <span class="prc-chip">التسعير بالقيمة</span>
+          <span class="prc-chip">نقطة التعادل</span>
+          <span class="prc-chip">التسعير النفسي</span>
+        </div>
+      </div>
+
+      <div id="prcOut" style="display:none">
+        <div class="prc-cards" id="prcCards"></div>
+        <div class="prc-stats" id="prcStats"></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="sh"><div class="st">قراءة النماذج</div></div>
+          <div class="prc-tips" id="prcTips"></div>
+        </div>
+        <div class="card">
+          <div class="sh">
+            <div class="st">تحليل الذكاء الاصطناعي</div>
+            <button class="btn bp" style="font-size:12px;padding:7px 16px" id="prcAiBtn" onclick="aiPricingAnalyze()">حلّل تسعيري بالـ AI ←</button>
+          </div>
+          <div id="prcAiOut" style="font-size:12.5px;color:var(--t3);line-height:1.8">يأخذ أرقامك ونتائج النماذج، ويرجع لك بسعر نهائي مع مبرراته وخطوة تنفيذية — بالعربي.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- HEALTH -->
@@ -4441,6 +4588,7 @@ const TRANSLATIONS = {
     nav_bg:'ميزانيتي', nav_vat:'تقرير الضريبة', nav_zakat:'احسب زكاتي',
     nav_taxcal:'مواعيد الضريبة', nav_scan:'مسح الفواتير', nav_st:'تقاريري المالية',
     nav_zt:'فاتورة جديدة', nav_products:'خدماتي ومنتجاتي', nav_ai:'اسأل محسوب',
+    nav_pricing:'تسعير المنتج',
     nav_coa:'أين أموالي؟', nav_sub:'اشتراكي',
     nav_profile:'إعدادات الحساب', nav_usrs:'المستخدمون',
     // Badges
@@ -4455,6 +4603,7 @@ const TRANSLATIONS = {
     pgn_bg:'الميزانية', pgn_vat:'تقرير ض.ق.م', pgn_zakat:'حاسبة الزكاة',
     pgn_taxcal:'التقويم الضريبي', pgn_scan:'مسح الفواتير', pgn_st:'القوائم المالية',
     pgn_zt:'فاتورة جديدة', pgn_products:'خدماتي ومنتجاتي', pgn_ai:'المستشار الذكي',
+    pgn_pricing:'تسعير المنتج',
     pgn_coa:'أين أموالي؟', pgn_sub:'اشتراكي',
     pgn_exp:'المصاريف والموردون',
     pgn_profile:'إعدادات الحساب', pgn_usrs:'المستخدمون والصلاحيات',
@@ -4582,6 +4731,7 @@ const TRANSLATIONS = {
     nav_bg:'Budget', nav_vat:'VAT Report', nav_zakat:'Zakat Calculator',
     nav_taxcal:'Tax Calendar', nav_scan:'Scan Invoices', nav_st:'Financial Statements',
     nav_zt:'New Invoice', nav_products:'Products & Services', nav_ai:'Ask Mahsoob',
+    nav_pricing:'Smart Pricing',
     nav_coa:'Where is my money?', nav_sub:'My Subscription',
     nav_profile:'Account Settings', nav_usrs:'Users',
     // Badges
@@ -4596,6 +4746,7 @@ const TRANSLATIONS = {
     pgn_bg:'Budget', pgn_vat:'VAT Report', pgn_zakat:'Zakat Calculator',
     pgn_taxcal:'Tax Calendar', pgn_scan:'Scan Invoices', pgn_st:'Financial Statements',
     pgn_zt:'New Invoice', pgn_products:'Products & Services', pgn_ai:'AI Advisor',
+    pgn_pricing:'Smart Pricing',
     pgn_coa:'Where is my money?', pgn_sub:'My Subscription',
     pgn_exp:'Expenses & Suppliers',
     pgn_profile:'Account Settings', pgn_usrs:'Users & Permissions',
@@ -4779,7 +4930,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -7223,6 +7374,139 @@ async function renderHealthScore() {
   if (arc) arc.setAttribute('stroke', col);
   if (scoreEl) { scoreEl.textContent = score; scoreEl.style.color = col; }
   animateGauge('hrArc', score);
+}
+
+// ═══════════ PRODUCT PRICING (تسعير المنتج) ═══════════
+let _lastPricing = null;
+
+// Charm (psychological) pricing: 203 → 199, 2,460 → 2,449
+function _prcCharm(p) {
+  if (p >= 1000) return Math.round(p / 50) * 50 - 1;
+  if (p >= 100)  return Math.round(p / 10) * 10 - 1;
+  return Math.max(1, Math.round(p));
+}
+function _prcFmt(p) { return p.toLocaleString('en-US'); }
+
+function calcPricing() {
+  const num = id => parseFloat(document.getElementById(id).value) || 0;
+  const direct = num('prcCost'), fixed = num('prcFixed');
+  const vol = Math.max(1, num('prcVol') || 1);
+  const marginPct = Math.min(90, Math.max(5, num('prcMargin') || 35));
+  const cMin = num('prcCompMin'), cMax = num('prcCompMax');
+  const diff = parseFloat(document.getElementById('prcDiff').value) || 1;
+  const goal = document.getElementById('prcGoal').value;
+  const name = document.getElementById('prcName').value.trim() || 'منتجك';
+  const type = document.getElementById('prcType').value;
+
+  if (direct <= 0 && fixed <= 0) {
+    if (typeof toast === 'function') toast({ type: 'error', msg: 'أدخل التكلفة المباشرة أو التكاليف الثابتة أولاً' });
+    else alert('أدخل التكاليف أولاً');
+    return;
+  }
+
+  // ── Pricing models ──
+  const unitCost = direct + fixed / vol;                       // full unit cost
+  const costPlus = unitCost / (1 - marginPct / 100);           // cost-plus (margin on price)
+  const hasComp  = cMin > 0 || cMax > 0;
+  const compMid  = hasComp ? ((cMin || cMax) + (cMax || cMin)) / 2 : null;
+  const valueP   = compMid ? compMid * diff : costPlus * Math.max(1, diff);  // value-based
+  const floor    = unitCost * 1.1;                             // never price below cost+10%
+
+  let pen  = Math.max(floor, hasComp ? Math.min(compMid * 0.92, costPlus) : costPlus * 0.88);
+  let bal  = Math.max(floor, hasComp ? (costPlus + valueP) / 2 : costPlus);
+  let prem = Math.max(bal * 1.08, valueP, costPlus);
+  pen = _prcCharm(pen); bal = _prcCharm(bal); prem = _prcCharm(prem);
+  if (bal <= pen)  bal  = _prcCharm(pen * 1.12);
+  if (prem <= bal) prem = _prcCharm(bal * 1.15);
+
+  const recommended = goal === 'penetration' ? pen : goal === 'premium' ? prem : bal;
+
+  const cardData = [
+    { key: 'pen',  label: 'سعر الاختراق',  desc: 'لكسب العملاء بسرعة', price: pen },
+    { key: 'bal',  label: 'السعر المتوازن', desc: 'ربح مستقر ونمو',     price: bal },
+    { key: 'prem', label: 'سعر القيمة',    desc: 'لتميّز أعلى وربح أكبر', price: prem },
+  ];
+  const goalKey = goal === 'penetration' ? 'pen' : goal === 'premium' ? 'prem' : 'bal';
+
+  document.getElementById('prcCards').innerHTML = cardData.map(c => {
+    const m = Math.round((c.price - unitCost) / c.price * 100);
+    const profit = Math.round((c.price - direct) * vol - fixed);
+    const best = c.key === goalKey;
+    return `<div class="prc-card${best ? ' best' : ''}">
+      ${best ? '<div class="prc-tag">الموصى به لهدفك</div>' : ''}
+      <div class="prc-name">${c.label}</div>
+      <div class="prc-price">${_prcFmt(c.price)} <sub>ر.س</sub></div>
+      <div class="prc-sub">هامش الربح <b>${m}%</b><br>ربح شهري متوقع <b>${_prcFmt(profit)} ر.س</b></div>
+    </div>`;
+  }).join('');
+
+  const beUnits = recommended > direct ? Math.ceil(fixed / (recommended - direct)) : null;
+  document.getElementById('prcStats').innerHTML = `
+    <div class="prc-stat"><div class="prc-sv">${_prcFmt(Math.round(unitCost))} ر.س</div><div class="prc-sl">تكلفة الوحدة الكاملة</div></div>
+    <div class="prc-stat"><div class="prc-sv">${beUnits != null ? beUnits + ' وحدة' : '—'}</div><div class="prc-sl">نقطة التعادل / شهر</div></div>
+    <div class="prc-stat"><div class="prc-sv">${compMid ? _prcFmt(Math.round(compMid)) + ' ر.س' : '—'}</div><div class="prc-sl">متوسط سعر السوق</div></div>
+    <div class="prc-stat"><div class="prc-sv">${_prcFmt(Math.round(recommended * 1.15))} ر.س</div><div class="prc-sl">الموصى به شامل الضريبة 15%</div></div>`;
+
+  const tips = [];
+  tips.push({ t: `تكلفتك الكاملة للوحدة <b>${_prcFmt(Math.round(unitCost))} ر.س</b> — أي سعر أقل من <b>${_prcFmt(Math.round(floor))} ر.س</b> يعني أنك تبيع بخسارة فعلية.`, c: '' });
+  if (compMid) {
+    const dPct = Math.round((recommended - compMid) / compMid * 100);
+    tips.push({ t: dPct >= 0
+      ? `سعرك الموصى به أعلى من متوسط السوق بـ <b>${dPct}%</b> — مبرَّر إذا أبرزت تميّزك بوضوح في العرض والتسويق.`
+      : `سعرك الموصى به أقل من متوسط السوق بـ <b>${Math.abs(dPct)}%</b> — مناسب لمرحلة كسب العملاء، لكن لا تبقَ فيه طويلاً.`, c: '' });
+  }
+  if (beUnits != null) {
+    const risky = beUnits > vol;
+    tips.push({ t: risky
+      ? `تحتاج بيع <b>${beUnits} وحدة</b> شهرياً للتعادل، ومبيعاتك المتوقعة ${vol} فقط — راجع التكاليف الثابتة أو ارفع السعر.`
+      : `تحتاج بيع <b>${beUnits} وحدة</b> شهرياً لتغطية تكاليفك — أي شيء فوقها ربح صافٍ، ومبيعاتك المتوقعة (${vol}) تتجاوزها.`, c: risky ? 'risk' : '' });
+  }
+  tips.push({ t: `استخدمنا <b>التسعير النفسي</b> (${_prcFmt(recommended)} بدل ${_prcFmt(recommended + 1)}) — يرفع نسبة الشراء دون أثر يُذكر على الربح.`, c: '' });
+  if (goal === 'penetration') tips.push({ t: 'سعر الاختراق مرحلة مؤقتة: حدد موعداً (3-6 أشهر) ثم انتقل تدريجياً للسعر المتوازن.', c: 'warn' });
+  document.getElementById('prcTips').innerHTML = tips.map(x => `<div class="prc-tip ${x.c}">${x.t}</div>`).join('');
+
+  document.getElementById('prcEmpty').style.display = 'none';
+  document.getElementById('prcOut').style.display = 'block';
+
+  _lastPricing = { name, type, direct, fixed, vol, marginPct, cMin, cMax, diff, goal, unitCost, costPlus, compMid, valueP, pen, bal, prem, recommended, beUnits };
+}
+
+async function aiPricingAnalyze() {
+  if (!_lastPricing) return;
+  const out = document.getElementById('prcAiOut');
+  const btn = document.getElementById('prcAiBtn');
+  out.innerHTML = '<div class="spin" style="width:20px;height:20px;border-width:3px;margin:4px auto"></div><div style="text-align:center;font-size:12px;color:var(--t3);margin-top:6px">يحلل تسعيرك...</div>';
+  if (btn) btn.disabled = true;
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session) { out.innerHTML = 'يلزم تسجيل الدخول لتفعيل التحليل الذكي.'; return; }
+    const p = _lastPricing;
+    const prompt = `أنت خبير تسعير للمشاريع الصغيرة في السعودية. حلّل تسعير هذا العرض:
+- الاسم: ${p.name} (${p.type})
+- تكلفة مباشرة للوحدة: ${p.direct} ر.س | تكاليف ثابتة شهرية: ${p.fixed} ر.س | مبيعات متوقعة: ${p.vol} وحدة/شهر
+- أسعار المنافسين: ${p.cMin || '—'} إلى ${p.cMax || '—'} ر.س | مستوى التميّز: ${p.diff} | الهدف: ${p.goal}
+- نتائج النماذج: تكلفة الوحدة ${Math.round(p.unitCost)} ر.س، سعر اختراق ${p.pen}، متوازن ${p.bal}، قيمة ${p.prem}، الموصى به ${p.recommended} ر.س، نقطة التعادل ${p.beUnits ?? '—'} وحدة.
+
+أجب بإيجاز شديد وبهذه البنية فقط:
+1) السعر النهائي الذي أنصح به ولماذا (سطران كحد أقصى)
+2) ثلاث نقاط قصيرة: مخاطرة يجب الانتباه لها، فرصة لرفع متوسط الفاتورة (Bundle/Upsell)، ومتى تراجع السعر
+لا مقدمات ولا خاتمة.`;
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ mode: 'chat', messages: [{ role: 'user', content: prompt }] }),
+    });
+    const data = await res.json();
+    if (data.text) {
+      out.innerHTML = `<div style="font-size:13px;color:var(--t);line-height:2;white-space:pre-wrap">${data.text}</div>`;
+    } else {
+      out.innerHTML = `تعذّر التحليل — <span style="color:var(--bl);cursor:pointer" onclick="aiPricingAnalyze()">حاول مجدداً</span>`;
+    }
+  } catch (e) {
+    out.innerHTML = `خطأ في الاتصال — <span style="color:var(--bl);cursor:pointer" onclick="aiPricingAnalyze()">إعادة المحاولة</span>`;
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 // ═══════════ BRAND LOGO (شعار النشاط) ═══════════
