@@ -34,6 +34,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+section[id],div[id="why"]{scroll-margin-top:150px}
 body{font-family:'PingARLT',sans-serif;background:#fff;color:#0f2426;overflow-x:hidden}
 
 :root{
@@ -296,13 +297,22 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .bb{flex:1;border-radius:3px 3px 0 0;background:rgba(45,110,30,.15);border:1px solid rgba(45,110,30,.18)}
 .bb.hi{background:rgba(45,110,30,.55)}
 
-/* ── Stats Band ── */
+/* ── Demo Booking Band ── */
 .stats-sec{background:linear-gradient(135deg,#0f2426,#162b2e);padding:72px 6%;position:relative;overflow:hidden}
 .stats-sec::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(134,186,114,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
-.stats-wrap{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative;z-index:1;text-align:center}
-.stat-v{font-size:clamp(32px,3.5vw,50px);font-weight:900;color:#fff;line-height:1;margin-bottom:8px}
-.stat-v em{font-style:normal;color:var(--g)}
-.stat-l{font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;font-weight:500}
+.demo-wrap{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:44px;position:relative;z-index:1}
+.demo-h{font-size:clamp(24px,3vw,38px);font-weight:900;color:#fff;line-height:1.25;margin:10px 0 12px;letter-spacing:-.4px}
+.demo-h em{font-style:normal;color:var(--g)}
+.demo-p{font-size:15px;color:rgba(255,255,255,.45);line-height:1.9;max-width:480px;margin-bottom:18px}
+.demo-chips{display:flex;gap:10px;flex-wrap:wrap}
+.demo-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,.55);font-weight:600}
+.demo-chip svg{width:12px;height:12px;stroke:var(--g);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.demo-cta{flex-shrink:0;text-align:center}
+.demo-btn{display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#fff;padding:16px 32px;border-radius:14px;text-decoration:none;font-size:16px;font-weight:700;transition:all .25s;box-shadow:0 6px 24px rgba(134,186,114,.35);white-space:nowrap}
+.demo-btn:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(134,186,114,.45)}
+.demo-btn svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.demo-note{font-size:12px;color:rgba(255,255,255,.35);margin-top:10px}
+@media(max-width:900px){.demo-wrap{flex-direction:column;text-align:center}.demo-p{margin:0 auto 18px}.demo-chips{justify-content:center}}
 
 /* ── How it works ── */
 .how-sec{padding:100px 5%;background:#f7f5ef;position:relative;overflow:hidden}
@@ -316,21 +326,6 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .snum{width:56px;height:56px;border-radius:16px;background:#fff;border:1px solid rgba(44,85,89,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px;font-weight:900;color:var(--dark);box-shadow:0 4px 14px rgba(15,36,38,.07)}
 .st{font-size:17px;font-weight:800;color:var(--dark);margin-bottom:8px}
 .sd{font-size:14px;color:var(--t2);line-height:1.85}
-
-/* ── Testimonials ── */
-.testi-sec{padding:100px 6%;background:#fff}
-.testi-wrap{max-width:1100px;margin:0 auto}
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
-.tc{background:#f8faf7;border:1px solid rgba(44,85,89,.08);border-radius:20px;padding:28px 26px;transition:all .3s}
-.tc:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(15,36,38,.08);border-color:rgba(134,186,114,.28)}
-.tc-stars{display:flex;gap:3px;margin-bottom:16px}
-.tc-star svg{width:14px;height:14px;fill:#f5a623;stroke:none}
-.tc-q{font-size:15px;color:var(--dark);line-height:1.9;margin-bottom:20px}
-.tc-q strong{color:var(--g);font-weight:800}
-.tc-author{display:flex;align-items:center;gap:12px}
-.tc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
-.tc-name{font-size:14px;font-weight:800;color:var(--dark)}
-.tc-role{font-size:12px;color:var(--t3);margin-top:2px}
 
 /* ── Comparison ── */
 .comp-sec{padding:100px 6%;background:#f7f5ef;position:relative;overflow:hidden}
@@ -441,8 +436,6 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
   .hero-ctas{justify-content:center}
   .hero-trust{justify-content:center}
   .plans{grid-template-columns:repeat(2,1fr)}
-  .stats-wrap{grid-template-columns:repeat(2,1fr);gap:28px}
-  .testi-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:900px){
   .bento{grid-template-columns:1fr 1fr}
@@ -464,8 +457,6 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
   .cta-btns{flex-direction:column;align-items:center}
   .ft-grid{grid-template-columns:1fr}
   .ft-bot{flex-direction:column;gap:8px;text-align:center}
-  .stats-wrap{grid-template-columns:repeat(2,1fr)}
-  .testi-grid{grid-template-columns:1fr}
   nav{left:2%;right:2%;padding:0 14px}
   .trust-inner{flex-direction:column;text-align:center}
   .comp-tbl th,.comp-tbl td{padding:10px 12px;font-size:13px}
@@ -555,6 +546,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
     <a href="#features" class="nl">المميزات</a>
     <a href="#pricing" class="nl">الأسعار</a>
     <a href="#how" class="nl">كيف يعمل</a>
+    <a href="#demo" class="nl">اجتماع تجريبي</a>
     <a href="#faq" class="nl">الأسئلة الشائعة</a>
     <a href="/login" class="btn-out">دخول</a>
     <a href="/login#signup" class="btn-green">جرّب مجاناً</a>
@@ -567,6 +559,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
   <a href="#features" class="nl" onclick="closeNav()">المميزات</a>
   <a href="#pricing" class="nl" onclick="closeNav()">الأسعار</a>
   <a href="#how" class="nl" onclick="closeNav()">كيف يعمل</a>
+  <a href="#demo" class="nl" onclick="closeNav()">اجتماع تجريبي</a>
   <a href="#faq" class="nl" onclick="closeNav()">الأسئلة الشائعة</a>
   <a href="/login" class="btn-out">دخول</a>
   <a href="/login#signup" class="btn-green">جرّب مجاناً</a>
@@ -725,7 +718,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
 <!-- Trust Bar -->
 <div class="trust-bar reveal">
   <div class="trust-inner">
-    <span class="trust-lbl">موثوق به من</span>
+    <span class="trust-lbl">مصمّم لأصحاب المشاريع</span>
     <div class="trust-logos">
       <div class="tl"><span class="tl-dot" style="background:var(--sky)"></span>مطاعم ومقاهي</div>
       <div class="tl"><span class="tl-dot" style="background:var(--lav)"></span>مستقلون وفريلانسرز</div>
@@ -846,24 +839,25 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
   </div>
 </section>
 
-<!-- Stats Band -->
-<section class="stats-sec">
-  <div class="stats-wrap">
-    <div class="reveal">
-      <div class="stat-v"><em>+500</em></div>
-      <div class="stat-l">مشروع سعودي<br>يثق بمحسوب</div>
+<!-- Book a Demo -->
+<section class="stats-sec" id="demo">
+  <div class="demo-wrap">
+    <div class="demo-txt reveal">
+      <div class="sol-tag">اجتماع تجريبي</div>
+      <h2 class="demo-h">شوف محسوب يشتغل —<br><em>على مشروعك أنت</em></h2>
+      <p class="demo-p">اجتماع أونلاين مع فريق محسوب: نجاوب أسئلتك، ونوريك كيف يرتّب النظام فواتيرك وتقاريرك وضرائبك خطوة بخطوة.</p>
+      <div class="demo-chips">
+        <span class="demo-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>30 دقيقة</span>
+        <span class="demo-chip"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>أونلاين</span>
+        <span class="demo-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>مجاني تماماً</span>
+      </div>
     </div>
-    <div class="reveal d1">
-      <div class="stat-v"><em>50K+</em></div>
-      <div class="stat-l">فاتورة إلكترونية<br>أُصدرت عبر المنصة</div>
-    </div>
-    <div class="reveal d2">
-      <div class="stat-v"><em>12</em></div>
-      <div class="stat-l">ساعة يوفرها محسوب<br>لصاحب المشروع شهرياً</div>
-    </div>
-    <div class="reveal d3">
-      <div class="stat-v"><em>99.9%</em></div>
-      <div class="stat-l">uptime مضمون<br>لضمان استمرار عملك</div>
+    <div class="demo-cta reveal d1">
+      <a class="demo-btn" href="https://calendly.com/hello-mahsob/30min" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        احجز اجتماعاً تجريبياً ←
+      </a>
+      <div class="demo-note">اختر الوقت اللي يناسبك — التأكيد فوري</div>
     </div>
   </div>
 </section>
@@ -889,70 +883,6 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
         <div class="snum">3</div>
         <div class="st">اعرف وضعك كل يوم</div>
         <div class="sd">الداشبورد يعطيك صورة واضحة عن مشروعك — واسأل محسوب AI عن أي شيء.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section class="testi-sec">
-  <div class="testi-wrap">
-    <div class="reveal" style="text-align:center">
-      <div class="sec-tag">آراء العملاء</div>
-      <h2 class="sec-h">ماذا يقول <em>أصحاب المشاريع</em></h2>
-      <p class="sec-p">أكثر من 500 مشروع سعودي يثق بمحسوب في إدارة ماليته</p>
-    </div>
-    <div class="testi-grid">
-      <div class="tc reveal">
-        <div class="tc-stars">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <p class="tc-q">محسوب وفّر علينا <strong>أكثر من 12 ساعة شهرياً</strong> في إعداد الفواتير والتقارير. الذكاء الاصطناعي يعطينا تحليلات عميقة ما كنا نحصل عليها حتى مع محاسب خارجي.</p>
-        <div class="tc-author">
-          <div class="tc-av" style="background:rgba(134,186,114,.15);border:1px solid rgba(134,186,114,.25);color:#2d6e1e">ص</div>
-          <div>
-            <div class="tc-name">صالح العتيبي</div>
-            <div class="tc-role">مؤسس — شركة تقنية رواد</div>
-          </div>
-        </div>
-      </div>
-      <div class="tc reveal d1">
-        <div class="tc-stars">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <p class="tc-q">أخيراً نظام يتكلم عربي ويفهم الضريبة السعودية. <strong>ما احتجنا محاسب خارجي بعد محسوب</strong> — وفّرنا أكثر من 2,000 ريال شهرياً.</p>
-        <div class="tc-author">
-          <div class="tc-av" style="background:rgba(166,137,181,.15);border:1px solid rgba(166,137,181,.25);color:#7a56a0">ن</div>
-          <div>
-            <div class="tc-name">نورة الغامدي</div>
-            <div class="tc-role">صاحبة — مقهى بيان، الرياض</div>
-          </div>
-        </div>
-      </div>
-      <div class="tc reveal d2">
-        <div class="tc-stars">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <p class="tc-q">ربط نقطة البيع بالمحاسبة تلقائياً غيّر كل شيء. <strong>الآن أعرف وضعي المالي لحظة بلحظة</strong> بدون أي جهد يدوي.</p>
-        <div class="tc-author">
-          <div class="tc-av" style="background:rgba(130,176,199,.15);border:1px solid rgba(130,176,199,.25);color:#1e6080">ف</div>
-          <div>
-            <div class="tc-name">فيصل الشمري</div>
-            <div class="tc-role">مؤسس — وكالة ضفاف للتسويق</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1155,7 +1085,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
     <p class="cta-p reveal">جرّب محسوب اليوم — مجاناً، بدون بطاقة، بدون ضغط.<br>وإذا عندك سؤال، فريقنا على واتساب الحين.</p>
     <div class="cta-btns reveal">
       <a href="/login#signup" class="cta-fill2">جرّبه مجاناً ←</a>
-      <a href="https://wa.me/966560488168" target="_blank" rel="noopener" class="cta-ghost2">تكلم معنا على واتساب</a>
+      <a href="https://calendly.com/hello-mahsob/30min" target="_blank" rel="noopener" class="cta-ghost2">احجز اجتماعاً تجريبياً</a>
     </div>
     <div class="cta-chips reveal">
       <div class="cta-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>معتمد من ZATCA</div>
@@ -1188,6 +1118,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
     </div>
     <div class="ft-col">
       <h4>تواصل</h4>
+      <a href="https://calendly.com/hello-mahsob/30min" target="_blank" rel="noopener">احجز اجتماعاً تجريبياً</a>
       <a href="https://wa.me/966560488168" target="_blank" rel="noopener">واتساب</a>
       <a href="mailto:info@mahsob.sa">info@mahsob.sa</a>
       <a href="/help.html">مركز المساعدة</a>
