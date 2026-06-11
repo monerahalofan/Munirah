@@ -12,82 +12,128 @@
 <link rel="apple-touch-icon" href="img/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Medium.otf') format('opentype');font-weight:600;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:800;font-display:swap}
+@font-face{font-family:'PingARLT';src:url('fonts/PingARLT-Bold.otf') format('opentype');font-weight:900;font-display:swap}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Tajawal',sans-serif;background:#f7f9fc;color:#1a1d2e;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+body{font-family:'PingARLT','Tajawal',sans-serif;background:#fdfcf8;color:#0f2426;min-height:100vh}
 body.dark{background:#0d1117;color:#f0f2f8}
 
-.wrap{width:100%;max-width:400px}
-.logo{text-align:center;margin-bottom:24px}
-.logo-tag{font-size:12px;color:#9aa0b8;margin-top:6px}
+/* ── Split layout ── */
+.split{display:flex;min-height:100vh}
+.form-side{flex:1;display:flex;align-items:center;justify-content:center;padding:44px 24px;background:#fdfcf8;position:relative}
+.form-side::before{content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(44,85,89,.05) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+body.dark .form-side{background:#0d1117}
+.brand-side{width:44%;max-width:580px;background:linear-gradient(160deg,#0f2426 0%,#23474c 55%,#2C5559 100%);position:relative;overflow:hidden;display:flex;align-items:center;padding:64px 56px}
+.brand-side::before{content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(134,186,114,.08) 1px,transparent 1px);
+  background-size:26px 26px;pointer-events:none}
+.brand-side::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 85% 20%,rgba(134,186,114,.16) 0%,transparent 60%),
+             radial-gradient(ellipse 45% 40% at 10% 85%,rgba(130,176,199,.12) 0%,transparent 55%);
+  pointer-events:none}
+.brand-inner{position:relative;z-index:1;color:#fff;max-width:400px}
+.brand-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(134,186,114,.14);border:1px solid rgba(134,186,114,.3);color:#9DC78A;border-radius:30px;padding:6px 16px;font-size:12px;font-weight:700;margin-bottom:24px}
+.brand-dot{width:7px;height:7px;background:#86BA72;border-radius:50%;flex-shrink:0;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.brand-h{font-size:clamp(26px,2.6vw,36px);font-weight:900;line-height:1.25;letter-spacing:-.5px;margin-bottom:14px}
+.brand-h em{font-style:normal;color:#9DC78A}
+.brand-p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:34px}
+.bft{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
+.bft-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bft-ico svg{width:17px;height:17px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bft-ico.g{background:rgba(134,186,114,.16);border:1px solid rgba(134,186,114,.3)}
+.bft-ico.g svg{stroke:#9DC78A}
+.bft-ico.s{background:rgba(130,176,199,.16);border:1px solid rgba(130,176,199,.3)}
+.bft-ico.s svg{stroke:#9cc4d8}
+.bft-ico.p{background:rgba(166,137,181,.16);border:1px solid rgba(166,137,181,.3)}
+.bft-ico.p svg{stroke:#c3a9d1}
+.bft-t{font-size:14px;font-weight:800;margin-bottom:3px}
+.bft-d{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+.brand-quote{margin-top:36px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:18px 20px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.9}
+.brand-quote .bq-a{margin-top:10px;font-size:12px;font-weight:700;color:#9DC78A}
+@media(max-width:960px){.brand-side{display:none}}
 
-.card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.wrap{width:100%;max-width:410px;position:relative;z-index:1}
+.logo{text-align:center;margin-bottom:22px}
+.logo-tag{font-size:12px;color:#7a9da0;margin-top:6px}
+
+.card{background:#fff;border:1px solid rgba(44,85,89,.09);border-radius:20px;padding:30px 28px;box-shadow:0 12px 40px rgba(15,36,38,.07),0 2px 8px rgba(15,36,38,.03)}
 body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
-body.dark .card{background:#161b27;border-color:rgba(255,255,255,.07)}
-.tabs{display:flex;gap:6px;margin-bottom:22px;background:#f0f2f7;border-radius:12px;padding:5px;position:relative}
+.tabs{display:flex;gap:5px;margin-bottom:22px;background:rgba(44,85,89,.06);border-radius:13px;padding:5px;position:relative}
 body.dark .tabs{background:#1e2535}
-.tab{flex:1;padding:10px;border:none;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#5a6080;transition:all .25s}
-.tab.on{background:#fff;color:#1a1d2e;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.tab:hover:not(.on){color:#1a1d2e}
+.tab{flex:1;padding:10px;border:none;border-radius:9px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#3d6b70;transition:all .25s}
+.tab.on{background:#fff;color:#0f2426;font-weight:700;border:1px solid rgba(134,186,114,.3);box-shadow:0 2px 8px rgba(15,36,38,.07)}
+.tab:hover:not(.on){color:#0f2426}
 body.dark .tab.on{background:#252d3d;color:#f0f2f8}
-.ff{display:flex;flex-direction:column;gap:4px;margin-bottom:13px}
-.fl{font-size:12px;color:#9aa0b8;font-weight:500}
-.fl span{color:#e8394a;margin-right:2px}
-.fi{background:#f7f9fc;border:1.5px solid rgba(0,0,0,.08);border-radius:11px;padding:13px 15px;font-size:14px;color:#1a1d2e;font-family:'Tajawal',sans-serif;direction:rtl;outline:none;width:100%;transition:all .2s}
-.fi:focus{border-color:#86BA72;background:#fff;box-shadow:0 0 0 4px rgba(134,186,114,.1)}
-.fi:hover:not(:focus){border-color:rgba(134,186,114,.4);background:#fff}
+.ff{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
+.fl{font-size:12px;color:#3d6b70;font-weight:600}
+.fl span{color:#c93545;margin-right:2px}
+.fi{background:#f8faf6;border:1.5px solid rgba(44,85,89,.12);border-radius:12px;padding:13px 15px;font-size:14px;color:#0f2426;font-family:inherit;direction:rtl;outline:none;width:100%;transition:all .2s}
+.fi:focus{border-color:#86BA72;background:#fff;box-shadow:0 0 0 4px rgba(134,186,114,.12)}
+.fi:hover:not(:focus){border-color:rgba(134,186,114,.45);background:#fff}
 body.dark .fi{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
 body.dark .fi:focus{background:#252d3d;border-color:#9DC78A}
 /* password strength */
 .pw-bar-wrap{display:flex;gap:4px;margin-top:6px}
-.pw-bar{flex:1;height:4px;border-radius:2px;background:#e8eaf0;transition:background .3s}
+.pw-bar{flex:1;height:4px;border-radius:2px;background:rgba(44,85,89,.1);transition:background .3s}
 .pw-label{font-size:11px;margin-top:5px;font-weight:600;transition:color .3s}
 /* phone */
 .phone-wrap{display:flex;gap:8px}
-.phone-prefix{background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;padding:10px 13px;font-size:14px;color:#5a6080;direction:ltr;white-space:nowrap;min-width:70px;text-align:center}
+.phone-prefix{background:rgba(44,85,89,.06);border:1px solid rgba(44,85,89,.12);border-radius:10px;padding:10px 13px;font-size:14px;color:#3d6b70;direction:ltr;white-space:nowrap;min-width:70px;text-align:center}
 body.dark .phone-prefix{background:#1e2535;border-color:rgba(255,255,255,.1);color:#8892a4}
-.phone-toggle{width:100%;padding:11px;background:transparent;border:1px solid rgba(0,0,0,.12);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:14px;color:#5a6080;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0}
-.phone-toggle:hover{border-color:#86BA72;color:#86BA72;background:rgba(134,186,114,.05)}
+.phone-toggle{width:100%;padding:11px;background:transparent;border:1px solid rgba(44,85,89,.14);border-radius:10px;font-family:inherit;font-size:14px;color:#3d6b70;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0}
+.phone-toggle:hover{border-color:#86BA72;color:#2d6e1e;background:rgba(134,186,114,.05)}
 body.dark .phone-toggle{border-color:rgba(255,255,255,.12);color:#8892a4}
-.phone-box{background:#f8f9fc;border:1px solid rgba(0,0,0,.07);border-radius:11px;padding:16px;margin-top:10px}
+.phone-box{background:#f8faf6;border:1px solid rgba(44,85,89,.08);border-radius:12px;padding:16px;margin-top:10px}
 body.dark .phone-box{background:#1a2030;border-color:rgba(255,255,255,.07)}
 /* otp */
 .otp-wrap{display:flex;gap:8px;justify-content:center;margin:4px 0}
-.otp-digit{width:44px;height:50px;background:#f0f2f7;border:1px solid rgba(0,0,0,.1);border-radius:9px;font-size:22px;font-weight:700;text-align:center;outline:none;font-family:'Tajawal',sans-serif;direction:ltr;transition:border-color .2s}
+.otp-digit{width:44px;height:50px;background:#f8faf6;border:1px solid rgba(44,85,89,.12);border-radius:10px;font-size:22px;font-weight:700;text-align:center;outline:none;font-family:inherit;direction:ltr;transition:border-color .2s}
 .otp-digit:focus{border-color:#86BA72;background:#fff}
 body.dark .otp-digit{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
 /* buttons */
-.btn-main{width:100%;padding:14px;background:linear-gradient(135deg,#86BA72 0%,#5d8f4e 100%);color:#fff;border:none;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:6px;box-shadow:0 4px 14px rgba(134,186,114,.3);position:relative;overflow:hidden}
+.btn-main{width:100%;padding:14px;background:linear-gradient(135deg,#86BA72 0%,#6da259 100%);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:6px;box-shadow:0 4px 16px rgba(134,186,114,.32);position:relative;overflow:hidden}
 .btn-main::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .5s}
-.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(134,186,114,.4)}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(134,186,114,.42)}
 .btn-main:hover::before{left:100%}
 .btn-main:active{transform:translateY(0)}
 .btn-main:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-sm{padding:9px 14px;background:#86BA72;color:#fff;border:none;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.btn-sm{padding:9px 14px;background:#86BA72;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s}
 .btn-sm:disabled{opacity:.5;cursor:not-allowed}
-.btn-ghost{background:transparent;border:none;color:#86BA72;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer;padding:0;margin-top:8px;display:block;width:100%;text-align:center}
-.divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#9aa0b8;font-size:12px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.08)}
+.btn-ghost{background:transparent;border:none;color:#5a8a47;font-family:inherit;font-size:12px;cursor:pointer;padding:0;margin-top:8px;display:block;width:100%;text-align:center}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#7a9da0;font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(44,85,89,.1)}
 body.dark .divider::before,body.dark .divider::after{background:rgba(255,255,255,.08)}
-.btn-social{width:100%;padding:13px;background:#fff;border:1.5px solid rgba(0,0,0,.08);border-radius:11px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;color:#1a1d2e;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
-.btn-social:hover{border-color:#4285F4;background:rgba(66,133,244,.04);transform:translateY(-1px);box-shadow:0 4px 12px rgba(66,133,244,.12)}
-body.dark .btn-social{border-color:rgba(255,255,255,.12);color:#8892a4}
+.btn-social{width:100%;padding:13px;background:#fff;border:1.5px solid rgba(44,85,89,.12);border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;color:#0f2426;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.btn-social:hover{border-color:rgba(44,85,89,.3);background:#fafbf8;transform:translateY(-1px);box-shadow:0 4px 14px rgba(15,36,38,.08)}
+body.dark .btn-social{border-color:rgba(255,255,255,.12);color:#8892a4;background:transparent}
 .btn-social svg{width:18px;height:18px;flex-shrink:0}
 /* messages */
-.err{background:rgba(232,57,74,.08);border:1px solid rgba(232,57,74,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#e8394a;margin-bottom:12px;display:none}
-.suc{background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.2);border-radius:8px;padding:10px 13px;font-size:13px;color:#86BA72;margin-bottom:12px;display:none}
-.footer-links{text-align:center;margin-top:18px;font-size:13px;color:#9aa0b8}
-.footer-links a{color:#86BA72;text-decoration:none}
-.pricing-btn{display:block;text-align:center;margin-top:14px;font-size:12px;color:#9aa0b8}
-.pricing-btn a{color:#2563eb;text-decoration:none}
+.err{background:rgba(201,53,69,.07);border:1px solid rgba(201,53,69,.2);border-radius:10px;padding:10px 13px;font-size:13px;color:#c93545;margin-bottom:12px;display:none}
+.suc{background:rgba(134,186,114,.1);border:1px solid rgba(134,186,114,.25);border-radius:10px;padding:10px 13px;font-size:13px;color:#2d6e1e;margin-bottom:12px;display:none}
+.footer-links{text-align:center;margin-top:18px;font-size:13px;color:#7a9da0}
+.footer-links a{color:#5a8a47;text-decoration:none}
+.pricing-btn{display:block;text-align:center;margin-top:16px;font-size:12px;color:#7a9da0}
+.pricing-btn a{color:#5a8a47;text-decoration:none;font-weight:700}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-left:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
-.section-title{font-size:11px;font-weight:600;color:#9aa0b8;letter-spacing:.4px;margin:16px 0 10px;display:flex;align-items:center;gap:6px}
-.section-title::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.07)}
+.section-title{font-size:11px;font-weight:600;color:#7a9da0;letter-spacing:.4px;margin:16px 0 10px;display:flex;align-items:center;gap:6px}
+.section-title::after{content:'';flex:1;height:1px;background:rgba(44,85,89,.08)}
 body.dark .section-title::after{background:rgba(255,255,255,.07)}
-.optional-tag{font-size:10px;color:#b0b8d0;font-weight:400}
+.optional-tag{font-size:10px;color:#9db4b7;font-weight:400}
 </style>
 </head>
 <body>
+<div class="split">
+<section class="form-side">
 <div class="wrap">
   <div class="logo">
     <img src="img/logo-full.png" style="width:180px;height:auto;object-fit:contain">
@@ -202,6 +248,43 @@ body.dark .section-title::after{background:rgba(255,255,255,.07)}
   <div class="pricing-btn">
     لا تملك حساباً بعد؟ <a href="pricing.html">شاهد الخطط والأسعار</a>
   </div>
+</div>
+</section>
+
+<aside class="brand-side">
+  <div class="brand-inner">
+    <div class="brand-pill"><span class="brand-dot"></span>منصة محاسبة سعودية · معتمدة من ZATCA</div>
+    <h2 class="brand-h">كل ماليات مشروعك<br><em>في مكان واحد</em></h2>
+    <p class="brand-p">فواتير إلكترونية، نقطة بيع، تقارير لحظية، ومستشار ذكاء اصطناعي يفهمك بالعربي.</p>
+
+    <div class="bft">
+      <div class="bft-ico g"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+      <div>
+        <div class="bft-t">فاتورة ZATCA في 60 ثانية</div>
+        <div class="bft-d">معتمدة بالمرحلتين الأولى والثانية — ترسلها بواتساب أو إيميل</div>
+      </div>
+    </div>
+    <div class="bft">
+      <div class="bft-ico s"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <div>
+        <div class="bft-t">شوف مشروعك لحظة بلحظة</div>
+        <div class="bft-d">ربح وخسارة، تدفق نقدي، وأعلى عملائك ربحية — بدون انتظار آخر الشهر</div>
+      </div>
+    </div>
+    <div class="bft">
+      <div class="bft-ico p"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div>
+        <div class="bft-t">اسأل محسوب AI بالعربي</div>
+        <div class="bft-d">"وش أكثر عميل يجيب لي فلوس؟" — يقرأ بياناتك ويجاوبك بدقة</div>
+      </div>
+    </div>
+
+    <div class="brand-quote">
+      "محسوب وفّر علينا أكثر من 12 ساعة شهرياً — وأخيراً نعرف وضعنا المالي لحظة بلحظة."
+      <div class="bq-a">نورة الغامدي — مقهى بيان، الرياض</div>
+    </div>
+  </div>
+</aside>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -554,6 +637,17 @@ function translateError(msg) {
     return 'خطأ في إعداد الـ Redirect URL — تحقق من إعدادات Supabase';
   return msg;
 }
+
+// Arriving via /login#signup → open signup tab; prefill email captured on the landing page
+if (window.location.hash === '#signup') switchTab('signup');
+try {
+  const pre = localStorage.getItem('mahsoob_signup_email');
+  if (pre) {
+    document.getElementById('signupEmail').value = pre;
+    document.getElementById('loginEmail').value  = pre;
+    localStorage.removeItem('mahsoob_signup_email');
+  }
+} catch (e) { /* storage unavailable — skip prefill */ }
 
 if (localStorage.getItem('mahsoob_theme') === 'dark') {
   document.body.classList.add('dark');

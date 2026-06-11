@@ -57,7 +57,7 @@ body{font-family:'PingARLT',sans-serif;background:#fff;color:#0f2426;overflow-x:
 /* ── Nav ── */
 nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(255,255,255,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  background:rgba(253,252,248,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border:1px solid rgba(44,85,89,.1);border-radius:20px;
   box-shadow:0 4px 24px rgba(15,36,38,.07);transition:top .3s}
 .nav-logo img{height:46px;width:auto}
@@ -80,18 +80,49 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 
 /* ── Hero ── */
 .hero{
-  min-height:100dvh;background:#f4f8f1;
+  min-height:100dvh;background:#f7f5ef;
   background-image:
-    radial-gradient(ellipse 70% 60% at 85% 20%,rgba(134,186,114,.32) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 45% at 8% 80%,rgba(130,176,199,.2) 0%,transparent 55%),
-    radial-gradient(ellipse 40% 35% at 55% 90%,rgba(166,137,181,.12) 0%,transparent 50%);
+    radial-gradient(ellipse 60% 55% at 88% 15%,rgba(134,186,114,.26) 0%,transparent 60%),
+    radial-gradient(ellipse 45% 40% at 5% 78%,rgba(130,176,199,.18) 0%,transparent 55%),
+    radial-gradient(ellipse 35% 30% at 50% 96%,rgba(166,137,181,.13) 0%,transparent 50%),
+    radial-gradient(ellipse 30% 26% at 22% 12%,rgba(197,168,120,.12) 0%,transparent 50%);
   display:grid;grid-template-columns:1fr 1fr;align-items:center;
   padding:calc(var(--nav) + 80px) 6% 64px;gap:60px;
   position:relative;overflow:hidden;
 }
 .hero::before{content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(44,85,89,.07) 1px,transparent 1px);
-  background-size:28px 28px;pointer-events:none;opacity:.6}
+  background-image:
+    linear-gradient(rgba(44,85,89,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(44,85,89,.05) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none}
+
+/* ── Hero floating decorations ── */
+.hero-deco{position:absolute;pointer-events:none;z-index:0}
+.deco-diamond{width:54px;height:54px;background:#fff;border:1px solid rgba(134,186,114,.4);border-radius:14px;transform:rotate(45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(15,36,38,.09);animation:floaty 7s ease-in-out infinite}
+.deco-diamond span{transform:rotate(-45deg);font-size:13px;font-weight:900;color:#2d6e1e}
+.deco-diamond.dk{border-color:rgba(197,168,120,.5)}
+.deco-diamond.dk span{color:#8a6020}
+.deco-chip{background:rgba(255,255,255,.94);border:1px dashed rgba(44,85,89,.28);border-radius:11px;padding:9px 15px;font-size:12px;font-weight:700;color:var(--t2);box-shadow:0 8px 22px rgba(15,36,38,.07);animation:floaty 8.5s ease-in-out infinite;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.deco-chip svg{width:13px;height:13px;stroke:var(--g);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.deco-chip.sky svg{stroke:#1e6080}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+.deco-diamond.dd2{animation-delay:1.6s}
+.deco-chip.dc2{animation-delay:2.4s}
+@media(max-width:1024px){.hero-deco{display:none}}
+
+/* ── Hero email capture ── */
+.hero-cap{display:flex;gap:8px;background:#fff;border:1px solid rgba(44,85,89,.14);border-radius:16px;padding:6px;max-width:440px;box-shadow:0 10px 30px rgba(15,36,38,.08);animation:up .55s .21s ease both;margin-bottom:20px;transition:border-color .2s,box-shadow .2s}
+.hero-cap:focus-within{border-color:var(--g);box-shadow:0 10px 30px rgba(134,186,114,.2)}
+.cap-in{flex:1;min-width:0;border:none;outline:none;background:transparent;padding:10px 14px;font-size:14px;font-family:'PingARLT',sans-serif;color:var(--t)}
+.cap-in::placeholder{color:var(--t3)}
+.cap-btn{background:var(--dark);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;font-family:'PingARLT',sans-serif;cursor:pointer;transition:all .2s;white-space:nowrap}
+.cap-btn:hover{background:#1d3f43;transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,36,38,.2)}
+@media(max-width:640px){
+  .hero-cap{flex-direction:column;background:transparent;border:none;box-shadow:none;padding:0;gap:10px;max-width:none}
+  .hero-cap:focus-within{box-shadow:none}
+  .cap-in{background:#fff;border:1px solid rgba(44,85,89,.16);border-radius:12px;padding:14px 16px}
+  .cap-btn{padding:14px}
+}
 .hero-text{position:relative;z-index:1}
 .hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(134,186,114,.15);border:1px solid rgba(134,186,114,.3);color:#2d6e1e;border-radius:30px;padding:7px 18px;font-size:13px;font-weight:700;margin-bottom:28px;animation:up .55s ease both}
 .pill-dot{width:7px;height:7px;background:var(--g);border-radius:50%;animation:blink 2s ease infinite;flex-shrink:0}
@@ -274,7 +305,7 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .stat-l{font-size:13px;color:rgba(255,255,255,.38);line-height:1.6;font-weight:500}
 
 /* ── How it works ── */
-.how-sec{padding:100px 5%;background:#f4f8f1;position:relative;overflow:hidden}
+.how-sec{padding:100px 5%;background:#f7f5ef;position:relative;overflow:hidden}
 .how-sec::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(44,85,89,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
 .how-wrap{max-width:880px;margin:0 auto;position:relative;z-index:1}
 .how-h{font-size:clamp(28px,3.5vw,46px);font-weight:900;color:var(--dark);text-align:center;margin-bottom:12px;letter-spacing:-.4px}
@@ -302,7 +333,7 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .tc-role{font-size:12px;color:var(--t3);margin-top:2px}
 
 /* ── Comparison ── */
-.comp-sec{padding:100px 6%;background:#f4f8f1;position:relative;overflow:hidden}
+.comp-sec{padding:100px 6%;background:#f7f5ef;position:relative;overflow:hidden}
 .comp-sec::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(44,85,89,.05) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
 .comp-wrap{max-width:780px;margin:0 auto;position:relative;z-index:1}
 .comp-tbl{width:100%;border-collapse:separate;border-spacing:0;margin-top:48px;background:#fff;border-radius:18px;overflow:hidden;border:1px solid rgba(44,85,89,.09);box-shadow:0 4px 28px rgba(15,36,38,.06)}
@@ -336,7 +367,7 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .faq-item.open .faq-a{display:block}
 
 /* ── Pricing ── */
-.price-sec{padding:100px 5%;background:#f4f8f1;text-align:center}
+.price-sec{padding:100px 5%;background:#f7f5ef;text-align:center}
 .price-wrap{max-width:1120px;margin:0 auto}
 .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px}
 .plan{background:#fff;border:1px solid rgba(44,85,89,.09);border-radius:18px;padding:28px 20px;text-align:right;transition:all .3s;position:relative}
@@ -550,10 +581,10 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
     </div>
     <h1>ماليات مشروعك —<br>تحت <em>سيطرتك</em></h1>
     <p class="hero-p">محسوب يتكفل بالفواتير والحسابات والضرائب — وأنت تركّز على اللي تحب. بالعربي، بالسعودي، وبفهم حقيقي لمشروعك.</p>
-    <div class="hero-ctas">
-      <a href="/login#signup" class="cta-fill">ابدأ مجاناً ←</a>
-      <a href="#features" class="cta-ghost">اكتشف المميزات</a>
-    </div>
+    <form class="hero-cap" onsubmit="goSignup(event)">
+      <input class="cap-in" id="capEmail" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني" dir="rtl">
+      <button class="cap-btn" type="submit">ابدأ مجاناً ←</button>
+    </form>
     <div class="hero-trust">
       <div class="htag">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -676,6 +707,18 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
       </div>
 
     </div>
+  </div>
+
+  <!-- Floating brand decorations -->
+  <div class="hero-deco deco-diamond" style="top:17%;left:45%"><span>ر.س</span></div>
+  <div class="hero-deco deco-diamond dk dd2" style="bottom:16%;left:38%"><span>15%</span></div>
+  <div class="hero-deco deco-chip" style="top:12%;left:10%">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    فاتورة مُسدّدة — 4,200 ر.س
+  </div>
+  <div class="hero-deco deco-chip sky dc2" style="bottom:9%;left:14%">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    تقرير VAT جاهز للتقديم
   </div>
 </section>
 
@@ -1194,6 +1237,14 @@ document.addEventListener('click', e => {
   const m = document.getElementById('mnav'), b = document.querySelector('.hbg');
   if (m.classList.contains('open') && !m.contains(e.target) && !b?.contains(e.target)) closeNav();
 });
+
+// Hero email capture → signup with prefill
+function goSignup(e) {
+  e.preventDefault();
+  const v = document.getElementById('capEmail').value.trim();
+  if (v) localStorage.setItem('mahsoob_signup_email', v);
+  window.location.href = '/login#signup';
+}
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
