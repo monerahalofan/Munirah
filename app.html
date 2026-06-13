@@ -3612,7 +3612,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           </div>
           <div>
             <div style="font-size:14px;font-weight:700;color:#000">لم يتم الربط بعد</div>
-            <div style="font-size:11px;color:var(--t3)">يلزم ربط النظام بـ ZATCA لإصدار فواتير معتمدة رسمياً</div>
+            <div style="font-size:11px;color:var(--t3)">يلزم ربط النظام بـ ZATCA لإصدار فواتير متوافقة مع المرحلة الثانية</div>
           </div>
         </div>
       </div>
@@ -9170,7 +9170,7 @@ async function issueZ(){
     const footer = brand.invoice_footer;
     const terms = brand.invoice_terms;
 
-    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '✅ فاتورة ضريبية معتمدة (المرحلة 1)';
+    const statusLabel = inv.onboarded ? '✅ مُرسَلة لزاتكا' : '✅ فاتورة ضريبية متوافقة (المرحلة 1)';
     const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(inv.qr)}`;
 
     let rows = '';
