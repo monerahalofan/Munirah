@@ -96,19 +96,16 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
     linear-gradient(rgba(44,85,89,.05) 1px,transparent 1px),
     linear-gradient(90deg,rgba(44,85,89,.05) 1px,transparent 1px);
   background-size:48px 48px;pointer-events:none;z-index:0}
-.hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;animation:up .8s .15s ease both}
+.hero-bg{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;animation:up .8s .15s ease both;pointer-events:none}
 .hero-bg img{
-  position:absolute;
-  left:0;top:0;
-  height:100%;width:58%;
-  object-fit:cover;
-  object-position:center center;
-  -webkit-mask-image:linear-gradient(to left,transparent 0%,#000 18%,#000 100%);
-  mask-image:linear-gradient(to left,transparent 0%,#000 18%,#000 100%);
+  width:100%;
+  max-width:680px;
+  height:auto;
+  display:block;
 }
 @media(max-width:1024px){
-  .hero-bg{position:relative;height:auto;display:flex;justify-content:center;margin-top:8px}
-  .hero-bg img{position:relative;left:auto;top:auto;width:92%;max-width:560px;height:auto;object-fit:contain;-webkit-mask-image:none;mask-image:none}
+  .hero-bg{justify-content:center;margin-top:8px}
+  .hero-bg img{max-width:520px;width:92%}
 }
 
 /* ── Hero floating decorations ── */
