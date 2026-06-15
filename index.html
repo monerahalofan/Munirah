@@ -96,20 +96,20 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
     linear-gradient(rgba(44,85,89,.05) 1px,transparent 1px),
     linear-gradient(90deg,rgba(44,85,89,.05) 1px,transparent 1px);
   background-size:48px 48px;pointer-events:none;z-index:0}
-.hero::after{content:'';position:absolute;inset:0;
-  background-image:url('img/hero-header.svg');
-  background-repeat:no-repeat;
-  background-position:left center;
-  background-size:auto 92%;
-  pointer-events:none;z-index:0;
-  opacity:.95;
-  animation:up .8s .15s ease both;
+.hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;animation:up .8s .15s ease both}
+.hero-bg img{
+  position:absolute;
+  left:-2%;bottom:0;
+  height:82%;width:auto;
+  max-width:60%;
+  object-fit:contain;
+  object-position:left bottom;
 }
 @media(max-width:1024px){
-  .hero::after{background-position:left bottom;background-size:120% auto;opacity:.35}
+  .hero-bg img{left:50%;transform:translateX(-50%);height:auto;width:90%;max-width:520px;opacity:.5}
 }
 @media(max-width:640px){
-  .hero::after{background-size:140% auto;background-position:center bottom;opacity:.25}
+  .hero-bg img{width:110%;max-width:none;opacity:.35}
 }
 
 /* ── Hero floating decorations ── */
@@ -449,7 +449,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
 
 /* ── Responsive ── */
 @media(max-width:1024px){
-  .hero{padding-top:calc(var(--nav) + 96px);padding-bottom:calc(45vw + 64px);min-height:auto;justify-content:center}
+  .hero{padding-top:calc(var(--nav) + 96px);padding-bottom:64px;min-height:auto;justify-content:center}
   .hero-text{text-align:center}
   .hero-p{margin-right:auto;margin-left:auto}
   .hero-ctas{justify-content:center}
@@ -586,6 +586,9 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
 
 <!-- Hero -->
 <section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <img src="img/hero-header.svg" alt="">
+  </div>
   <div class="hero-text">
     <div class="hero-pill">
       <span class="pill-dot"></span>
