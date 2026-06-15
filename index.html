@@ -142,6 +142,8 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 
 /* ── Interactive Panel ── */
 .panel{position:relative;z-index:1;animation:up .55s .3s ease both}
+.hero-visual{display:flex;align-items:center;justify-content:center}
+.hero-visual img{width:100%;height:auto;max-width:720px;display:block;filter:drop-shadow(0 30px 60px rgba(15,36,38,.12))}
 .ptabs{display:flex;gap:3px;background:rgba(15,36,38,.06);border:1px solid rgba(15,36,38,.08);border-radius:12px;padding:4px;margin-bottom:16px}
 .ptab{flex:1;padding:9px 6px;border-radius:8px;font-size:12px;font-weight:600;color:var(--t3);cursor:pointer;text-align:center;transition:all .22s;border:none;background:none;font-family:'PingARLT',sans-serif}
 .ptab.on{background:#fff;color:var(--dark);border:1px solid rgba(44,85,89,.12);box-shadow:0 2px 8px rgba(15,36,38,.08)}
@@ -572,8 +574,8 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
       <span class="pill-dot"></span>
       محاسبة بالذكاء الاصطناعي · متوافق ZATCA
     </div>
-    <h1>ماليات مشروعك —<br>تحت <em>سيطرتك</em></h1>
-    <p class="hero-p">محسوب يتكفل بالفواتير والحسابات والضرائب — وأنت تركّز على اللي تحب. بالعربي، بالسعودي، وبفهم حقيقي لمشروعك.</p>
+    <h1>فلوس مشروعك،<br><em>بطريقة جديدة كلياً</em></h1>
+    <p class="hero-p">تابع حركة فلوس مشروعك بطريقة تفهمها — وبمميزات ذكية تشتغل عنك.</p>
     <form class="hero-cap" onsubmit="goSignup(event)">
       <input class="cap-in" id="capEmail" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني" dir="rtl">
       <button class="cap-btn" type="submit">ابدأ مجاناً ←</button>
@@ -594,8 +596,13 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
     </div>
   </div>
 
-  <!-- Interactive Panel -->
-  <div class="panel">
+  <!-- Hero Visual -->
+  <div class="panel hero-visual">
+    <img src="img/hero-header.svg" alt="محسوب — تابع حركة فلوس مشروعك" loading="eager">
+  </div>
+
+  <!-- Interactive Panel (hidden, kept for reference) -->
+  <div class="panel" style="display:none">
     <div class="ptabs" role="tablist">
       <button class="ptab on" onclick="tab('inv',this)" role="tab">فاتورة</button>
       <button class="ptab" onclick="tab('ai',this)" role="tab">مستشار AI</button>
