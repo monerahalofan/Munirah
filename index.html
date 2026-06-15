@@ -99,16 +99,16 @@ nav{position:fixed;left:3%;right:3%;z-index:200;height:var(--nav);padding:0 22px
 .hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;animation:up .8s .15s ease both}
 .hero-bg img{
   position:absolute;
-  left:0;top:50%;
-  transform:translateY(-50%);
-  height:auto;width:50%;
-  max-height:88%;
-  object-fit:contain;
-  object-position:left center;
+  left:0;top:0;
+  height:100%;width:58%;
+  object-fit:cover;
+  object-position:center center;
+  -webkit-mask-image:linear-gradient(to left,transparent 0%,#000 18%,#000 100%);
+  mask-image:linear-gradient(to left,transparent 0%,#000 18%,#000 100%);
 }
 @media(max-width:1024px){
-  .hero-bg{position:relative;height:auto;display:flex;justify-content:center;margin-top:24px}
-  .hero-bg img{position:relative;left:auto;top:auto;transform:none;width:90%;max-width:520px;height:auto;opacity:.85}
+  .hero-bg{position:relative;height:auto;display:flex;justify-content:center;margin-top:8px}
+  .hero-bg img{position:relative;left:auto;top:auto;width:92%;max-width:560px;height:auto;object-fit:contain;-webkit-mask-image:none;mask-image:none}
 }
 
 /* ── Hero floating decorations ── */
@@ -584,7 +584,7 @@ footer{background:#0a1a1c;padding:52px 5% 28px}
 <!-- Hero -->
 <section class="hero">
   <div class="hero-bg" aria-hidden="true">
-    <img src="img/hero-header.svg" alt="">
+    <img src="img/hero-header.png" alt="">
   </div>
   <div class="hero-text">
     <div class="hero-pill">
