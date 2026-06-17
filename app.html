@@ -4420,61 +4420,65 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 
 <!-- USERS PAGE -->
 <div class="pg" id="pg-usrs">
-  <div class="g3" style="margin-bottom:16px">
-    <div class="kc B"><div class="kl">إجمالي المستخدمين</div><div class="kv B" id="u-total">3</div></div>
-    <div class="kc G"><div class="kl">نشطون الآن</div><div class="kv G" id="u-active">3</div></div>
-    <div class="kc A"><div class="kl">الدور الحالي</div><div class="kv A" id="u-current-role" style="font-size:14px">مدير</div></div>
+
+  <!-- Header strip with stats -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:linear-gradient(135deg,#86BA72 0%,#6fa05e 100%);border-radius:14px;padding:14px;color:#fff">
+      <div style="font-size:11px;opacity:.9;margin-bottom:4px">👥 إجمالي الفريق</div>
+      <div style="font-size:24px;font-weight:900" id="u-total">—</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:4px">📬 دعوات معلّقة</div>
+      <div style="font-size:24px;font-weight:900;color:#a8854a" id="u-pending">—</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:4px">🛡 دورك الحالي</div>
+      <div style="font-size:14px;font-weight:800;color:#2C5559;margin-top:6px" id="u-my-role">—</div>
+    </div>
   </div>
 
-  <div class="g2" style="margin-bottom:16px">
-    <div class="card">
-      <div class="sh"><div class="st">المستخدمون</div>
-        <button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="document.getElementById('addUserForm').style.display=document.getElementById('addUserForm').style.display==='none'?'block':'none'">＋ إضافة</button>
+  <!-- Invite form -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="sh">
+      <div>
+        <div class="st">إدارة الفريق</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">ادعوا أعضاء فريقك بإيميلهم وحدّدوا صلاحياتهم</div>
       </div>
-      <div id="addUserForm" style="display:none;background:var(--bg3);border-radius:var(--Rs);padding:13px;margin-bottom:13px;border:1px solid var(--b)">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">📧 سندعو المستخدم بإيميله. سيستلم رابط للتسجيل وحسابه يربط تلقائياً بنشاطك.</div>
-        <div class="fg" style="margin-bottom:10px">
-          <div class="ff"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="nu-email" type="email" placeholder="cashier@example.com" dir="ltr"/></div>
-          <div class="ff"><label class="fl">الاسم للعرض</label><input class="fi" id="nu-name" placeholder="اسم الكاشير"/></div>
-          <div class="ff"><label class="fl">الدور</label>
-            <select class="fi" id="nu-role">
-              <option value="cashier">كاشير — فواتير ومبيعات فقط</option>
-              <option value="accountant">محاسب — تقارير وضرائب</option>
-              <option value="admin">مدير — صلاحيات كاملة</option>
-              <option value="viewer">مُشاهد — قراءة فقط</option>
-            </select>
-          </div>
-          <div class="ff" style="align-self:flex-end"><button class="btn bp" id="inviteBtn" style="width:100%;padding:9px" onclick="inviteTeamMember()">📨 إرسال دعوة</button></div>
-        </div>
-      </div>
-      <div id="usersList"></div>
-      <div id="pendingInvites" style="margin-top:14px"></div>
+      <button class="btn bp" style="font-size:13px;padding:8px 14px" onclick="toggleInviteForm()">＋ دعوة عضو</button>
     </div>
-
-    <div class="card">
-      <div class="st" style="margin-bottom:13px">الصلاحيات حسب الدور</div>
-      <div style="display:flex;flex-direction:column;gap:11px">
-        <div style="background:var(--blb);border:1px solid var(--blB);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:13px;font-weight:600;color:var(--bl);margin-bottom:7px">👑 مدير — صلاحيات كاملة</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            <span class="perm-tag yes">لوحة التحكم</span><span class="perm-tag yes">الفواتير</span><span class="perm-tag yes">التقارير</span><span class="perm-tag yes">الضرائب</span><span class="perm-tag yes">المستخدمون</span><span class="perm-tag yes">المستشار الذكي</span><span class="perm-tag yes">الميزانية</span>
-          </div>
+    <div id="addUserForm" style="display:none;background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.05));border-radius:12px;padding:16px;margin-top:14px;border:1px solid rgba(134,186,114,.25)">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">📧 سيستلم العضو إيميل دعوة. عند تسجيل دخوله بنفس الإيميل، حسابه يربط تلقائياً بنشاطك.</div>
+      <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="ff"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="nu-email" type="email" placeholder="cashier@example.com" dir="ltr"/></div>
+        <div class="ff"><label class="fl">الاسم</label><input class="fi" id="nu-name" placeholder="اسم العضو"/></div>
+        <div class="ff"><label class="fl">الدور الافتراضي</label>
+          <select class="fi" id="nu-role">
+            <option value="cashier">🖥 كاشير</option>
+            <option value="accountant">📊 محاسب</option>
+            <option value="admin">👑 مدير</option>
+            <option value="viewer">👁 مُشاهد</option>
+          </select>
         </div>
-        <div style="background:var(--gb);border:1px solid var(--gB);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:13px;font-weight:600;color:var(--g);margin-bottom:7px">🖥️ كاشير — مبيعات وفواتير</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            <span class="perm-tag yes">إصدار فاتورة</span><span class="perm-tag yes">تسجيل دفعة</span><span class="perm-tag yes">مسح فواتير</span><span class="perm-tag yes">المعاملات</span><span class="perm-tag no">التقارير المالية</span><span class="perm-tag no">الضرائب</span><span class="perm-tag no">إدارة المستخدمين</span>
-          </div>
-        </div>
-        <div style="background:var(--ab);border:1px solid var(--aB);border-radius:var(--Rs);padding:12px">
-          <div style="font-size:13px;font-weight:600;color:var(--a);margin-bottom:7px">📦 مدير المخزون — مخزون وتوريد</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            <span class="perm-tag yes">المخزون</span><span class="perm-tag yes">طلبات التوريد</span><span class="perm-tag yes">تقرير المخزون</span><span class="perm-tag yes">المعاملات</span><span class="perm-tag no">الفواتير</span><span class="perm-tag no">الضرائب</span><span class="perm-tag no">إدارة المستخدمين</span>
-          </div>
-        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn bg2" onclick="toggleInviteForm()">إلغاء</button>
+        <button class="btn bp" id="inviteBtn" onclick="inviteTeamMember()">📨 إرسال الدعوة</button>
       </div>
     </div>
   </div>
+
+  <!-- Members list -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="st" style="margin-bottom:14px">أعضاء الفريق</div>
+    <div id="usersList"></div>
+  </div>
+
+  <!-- Pending invites -->
+  <div class="card" id="pendingCard" style="margin-bottom:16px;display:none">
+    <div class="st" style="margin-bottom:14px">📬 دعوات معلّقة</div>
+    <div id="pendingInvites"></div>
+  </div>
+
 </div>
 
 </main>
@@ -11648,11 +11652,66 @@ function deleteUser(id){
 // Team Management — Real multi-user via Supabase Auth + tenant_users
 // ═══════════════════════════════════════════════════════════════════════
 const ROLE_META = {
-  admin:      { label:'مدير',  color:'#1e6080', bg:'rgba(130,176,199,.12)', desc:'صلاحيات كاملة' },
-  accountant: { label:'محاسب', color:'#a8854a', bg:'rgba(197,168,120,.12)', desc:'تقارير وضرائب' },
-  cashier:    { label:'كاشير', color:'#2d7a1e', bg:'rgba(134,186,114,.12)', desc:'فواتير ومبيعات' },
-  viewer:     { label:'مُشاهد', color:'#666',    bg:'rgba(100,100,100,.1)',  desc:'قراءة فقط' },
+  admin:      { label:'مدير',  icon:'👑', color:'#1e6080', bg:'rgba(130,176,199,.12)', desc:'صلاحيات كاملة' },
+  accountant: { label:'محاسب', icon:'📊', color:'#a8854a', bg:'rgba(197,168,120,.12)', desc:'تقارير وضرائب' },
+  cashier:    { label:'كاشير', icon:'🖥', color:'#2d7a1e', bg:'rgba(134,186,114,.12)', desc:'فواتير ومبيعات' },
+  viewer:     { label:'مُشاهد', icon:'👁', color:'#666',    bg:'rgba(100,100,100,.1)',  desc:'قراءة فقط' },
 };
+
+// Permission catalog — grouped for the UI
+const PERM_GROUPS = [
+  { title:'📊 التقارير والتحليل', perms:[
+    { id:'db',  label:'لوحة التحكم' },
+    { id:'hl',  label:'الصحة المالية' },
+    { id:'cf',  label:'التدفق النقدي' },
+    { id:'st',  label:'القوائم المالية' },
+    { id:'cp',  label:'ربحية العملاء' },
+    { id:'ai',  label:'المستشار الذكي' },
+  ]},
+  { title:'🧾 الفواتير والمبيعات', perms:[
+    { id:'inv',    label:'الفواتير' },
+    { id:'zt',     label:'إصدار فاتورة' },
+    { id:'quotes', label:'عروض الأسعار' },
+    { id:'scan',   label:'مسح الفواتير' },
+    { id:'pos',    label:'نقطة البيع' },
+    { id:'daily',  label:'الإغلاقات اليومية' },
+    { id:'products', label:'المنتجات والخدمات' },
+    { id:'channels', label:'مصادر المبيعات' },
+  ]},
+  { title:'💰 المالية والضرائب', perms:[
+    { id:'tx',     label:'المعاملات' },
+    { id:'bg',     label:'الميزانية' },
+    { id:'tax',    label:'الضرائب والزكاة' },
+    { id:'vat',    label:'تقرير ض.ق.م' },
+    { id:'zakat',  label:'حاسبة الزكاة' },
+    { id:'taxcal', label:'التقويم الضريبي' },
+    { id:'ar',     label:'الفلوس عند الناس' },
+    { id:'coa',    label:'أين أموالي؟' },
+    { id:'gls',    label:'الأهداف المالية' },
+    { id:'ag',     label:'متابعة المستحقات' },
+  ]},
+  { title:'⚙️ الإعدادات والإدارة', perms:[
+    { id:'profile', label:'إعدادات الحساب' },
+    { id:'sub',     label:'الاشتراك' },
+    { id:'brand',   label:'تخصيص الفاتورة' },
+    { id:'zatca',   label:'ربط ZATCA' },
+    { id:'usrs',    label:'إدارة المستخدمين' },
+  ]},
+];
+
+// Default permissions per role (used as template when admin doesn't customize)
+const ROLE_DEFAULTS = {
+  admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','channels',
+          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','ag','profile','sub','brand','zatca','usrs'],
+  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','ag','profile','sub'],
+  cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile'],
+  viewer:  ['db','hl','cf','st','inv','tx','profile'],
+};
+
+function getEffectivePermissions(member) {
+  if (Array.isArray(member.permissions) && member.permissions.length) return member.permissions;
+  return ROLE_DEFAULTS[member.role] || [];
+}
 
 async function inviteTeamMember() {
   const email = (document.getElementById('nu-email').value || '').trim().toLowerCase();
@@ -11680,6 +11739,15 @@ async function inviteTeamMember() {
   }
 }
 
+function toggleInviteForm() {
+  const f = document.getElementById('addUserForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  if (f.style.display === 'block') setTimeout(() => document.getElementById('nu-email').focus(), 100);
+}
+
+// Track local permission edits per user (before save)
+const _permEdits = {};
+
 async function loadTeamMembers() {
   try {
     const { data, error } = await _sb.rpc('list_team_members');
@@ -11688,7 +11756,7 @@ async function loadTeamMembers() {
   } catch (e) {
     console.error('list_team_members failed:', e);
     const list = document.getElementById('usersList');
-    if (list) list.innerHTML = `<div style="padding:14px;color:var(--t3);font-size:12px">شغّل migration: <code>sql/multi_user_invites.sql</code> في Supabase</div>`;
+    if (list) list.innerHTML = `<div style="padding:14px;color:var(--t3);font-size:12px;text-align:center">⚠️ شغّل migration: <code>sql/multi_user_invites.sql</code> في Supabase</div>`;
   }
 }
 
@@ -11697,40 +11765,144 @@ function renderTeamMembers(members, pending) {
   const isAdmin = Auth?.profile?.role === 'admin';
   const list = document.getElementById('usersList');
   const pend = document.getElementById('pendingInvites');
+  const pendCard = document.getElementById('pendingCard');
   if (!list) return;
 
+  // Stats
+  document.getElementById('u-total').textContent = members.length;
+  document.getElementById('u-pending').textContent = pending.length;
+  const myRole = Auth?.profile?.role || '—';
+  const rMeta = ROLE_META[myRole];
+  if (rMeta) document.getElementById('u-my-role').innerHTML = `${rMeta.icon} ${rMeta.label}`;
+
+  // Members list — card per user with expandable permissions
   list.innerHTML = members.length ? members.map(m => {
     const r = ROLE_META[m.role] || ROLE_META.viewer;
     const isMe = m.user_id === myId;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--b);border-radius:10px;margin-bottom:8px;background:var(--bg2)">
-      <div style="width:36px;height:36px;border-radius:50%;background:${r.bg};color:${r.color};display:flex;align-items:center;justify-content:center;font-weight:700">${(m.display_name||m.email||'?').charAt(0).toUpperCase()}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:700;font-size:13px;color:#000">${m.display_name || m.email.split('@')[0]} ${isMe?'<span style="font-size:10px;color:var(--g)">(أنت)</span>':''}</div>
-        <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${m.email}</div>
+    const perms = getEffectivePermissions(m);
+    const customized = Array.isArray(m.permissions) && m.permissions.length > 0;
+    const totalPerms = PERM_GROUPS.reduce((s,g)=>s+g.perms.length,0);
+    return `<div class="member-card" data-uid="${m.user_id}" style="border:1px solid var(--b);border-radius:14px;margin-bottom:12px;background:#fff;overflow:hidden;transition:all .2s">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px">
+        <div style="width:44px;height:44px;border-radius:50%;background:${r.bg};color:${r.color};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex-shrink:0">${(m.display_name||m.email||'?').charAt(0).toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div style="font-weight:800;font-size:14px;color:#000">${m.display_name || m.email.split('@')[0]}</div>
+            ${isMe?'<span style="font-size:10px;background:rgba(134,186,114,.2);color:#2d7a1e;padding:2px 7px;border-radius:8px;font-weight:700">أنت</span>':''}
+            ${customized?'<span style="font-size:10px;background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:8px;font-weight:700">صلاحيات مخصّصة</span>':''}
+          </div>
+          <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right;margin-top:2px">${m.email}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <span style="background:${r.bg};color:${r.color};padding:5px 12px;border-radius:14px;font-size:12px;font-weight:700;white-space:nowrap">${r.icon} ${r.label}</span>
+          ${isAdmin && !isMe ? `<button onclick="toggleMemberPerms('${m.user_id}')" style="background:transparent;border:1px solid var(--b);border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer;color:var(--t2);font-family:inherit">⚙ صلاحيات</button>
+          <button onclick="removeMember('${m.user_id}','${(m.display_name||m.email).replace(/'/g,'')}')" style="background:transparent;border:none;color:#c93545;cursor:pointer;font-size:18px;padding:4px" title="حذف">🗑</button>` : ''}
+        </div>
       </div>
-      <span style="background:${r.bg};color:${r.color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${r.label}</span>
       ${isAdmin && !isMe ? `
-        <select onchange="changeMemberRole('${m.user_id}', this.value)" style="font-size:11px;padding:4px 6px;border:1px solid var(--b);border-radius:6px;background:#fff;cursor:pointer">
-          ${Object.entries(ROLE_META).map(([k,v]) => `<option value="${k}" ${k===m.role?'selected':''}>${v.label}</option>`).join('')}
-        </select>
-        <button onclick="removeMember('${m.user_id}', '${(m.display_name||m.email).replace(/'/g,'')}')" style="background:transparent;border:none;color:#c93545;cursor:pointer;font-size:16px;padding:4px" title="حذف">🗑</button>
+        <div class="perm-panel" id="permPanel-${m.user_id}" style="display:none;border-top:1px solid var(--b);background:#fafafa;padding:16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:13px;font-weight:800;color:#000">تخصيص الصلاحيات</div>
+              <div style="font-size:11px;color:var(--t3)">حدّد الصفحات اللي يقدر يدخلها (<span id="permCount-${m.user_id}">${perms.length}</span>/${totalPerms})</div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button onclick="applyRoleTemplate('${m.user_id}','admin')" style="background:rgba(130,176,199,.12);color:#1e6080;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">👑 مدير</button>
+              <button onclick="applyRoleTemplate('${m.user_id}','accountant')" style="background:rgba(197,168,120,.15);color:#a8854a;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">📊 محاسب</button>
+              <button onclick="applyRoleTemplate('${m.user_id}','cashier')" style="background:rgba(134,186,114,.15);color:#2d7a1e;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">🖥 كاشير</button>
+              <button onclick="applyRoleTemplate('${m.user_id}','viewer')" style="background:rgba(100,100,100,.1);color:#555;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">👁 مُشاهد</button>
+            </div>
+          </div>
+          ${PERM_GROUPS.map(g => `
+            <div style="margin-bottom:14px">
+              <div style="font-size:12px;font-weight:700;color:#2C5559;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+                <span>${g.title}</span>
+                <button onclick="toggleGroup('${m.user_id}','${g.perms.map(p=>p.id).join(',')}')" style="background:transparent;border:none;color:var(--g);font-size:10px;cursor:pointer;font-family:inherit;text-decoration:underline">حدد الكل</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px">
+                ${g.perms.map(p => `
+                  <label class="perm-check" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px;transition:all .15s" onmouseover="this.style.borderColor='#86BA72'" onmouseout="this.style.borderColor='var(--b)'">
+                    <input type="checkbox" class="perm-cb" data-uid="${m.user_id}" data-pid="${p.id}" ${perms.includes(p.id)?'checked':''} onchange="onPermToggle('${m.user_id}')" style="width:16px;height:16px;accent-color:#86BA72;cursor:pointer">
+                    <span style="color:#000;font-weight:500">${p.label}</span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+          <div style="display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--b);padding-top:12px;margin-top:8px">
+            <button onclick="resetMemberPerms('${m.user_id}','${m.role}')" style="background:transparent;border:1px solid var(--b);padding:8px 14px;border-radius:8px;font-size:12px;cursor:pointer;color:var(--t2);font-family:inherit">↺ إرجاع للافتراضي</button>
+            <button class="btn bp" style="padding:8px 18px;font-size:13px" onclick="saveMemberPerms('${m.user_id}')">💾 حفظ الصلاحيات</button>
+          </div>
+        </div>
       ` : ''}
     </div>`;
-  }).join('') : `<div style="padding:14px;color:var(--t3);text-align:center;font-size:12px">لا يوجد أعضاء بعد</div>`;
+  }).join('') : `<div style="padding:24px;color:var(--t3);text-align:center;font-size:13px">لا يوجد أعضاء بعد — اضغطي <b>＋ دعوة عضو</b> لإضافة كاشير أو محاسب</div>`;
 
-  pend.innerHTML = pending.length ? `
-    <div style="font-size:13px;font-weight:700;color:#000;margin-bottom:8px">📬 دعوات معلّقة (${pending.length})</div>
-    ${pending.map(p => {
+  // Pending invites
+  if (pending.length) {
+    pendCard.style.display = 'block';
+    pend.innerHTML = pending.map(p => {
       const r = ROLE_META[p.role] || ROLE_META.viewer;
-      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px dashed var(--b);border-radius:10px;margin-bottom:6px;background:#fffbeb">
+      const daysLeft = Math.max(0, Math.ceil((new Date(p.expires_at) - new Date())/86400000));
+      return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px dashed rgba(168,133,74,.4);border-radius:12px;margin-bottom:8px;background:#fffbeb">
+        <div style="width:38px;height:38px;border-radius:50%;background:rgba(168,133,74,.15);color:#a8854a;display:flex;align-items:center;justify-content:center;font-size:16px">📧</div>
         <div style="flex:1;min-width:0">
-          <div style="font-weight:600;font-size:12px;color:#5a4408;direction:ltr;text-align:right">${p.email}</div>
-          <div style="font-size:10px;color:var(--t3)">دُعي كـ ${r.label} · تنتهي ${new Date(p.expires_at).toLocaleDateString('ar-SA-u-nu-latn')}</div>
+          <div style="font-weight:700;font-size:12px;color:#5a4408;direction:ltr;text-align:right">${p.email}</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">دُعي كـ ${r.icon} ${r.label} · تنتهي خلال ${daysLeft} يوم</div>
         </div>
-        ${isAdmin ? `<button onclick="revokeInvite('${p.invite_id}', '${p.email.replace(/'/g,'')}')" style="background:transparent;border:none;color:#c93545;cursor:pointer;font-size:11px">إلغاء</button>` : ''}
+        ${isAdmin ? `<button onclick="revokeInvite('${p.invite_id}','${p.email.replace(/'/g,'')}')" style="background:transparent;border:1px solid rgba(201,53,69,.3);color:#c93545;padding:5px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit">إلغاء</button>` : ''}
       </div>`;
-    }).join('')}
-  ` : '';
+    }).join('');
+  } else {
+    pendCard.style.display = 'none';
+  }
+}
+
+function toggleMemberPerms(uid) {
+  const p = document.getElementById('permPanel-' + uid);
+  if (!p) return;
+  // Close other open panels
+  document.querySelectorAll('.perm-panel').forEach(el => { if (el.id !== p.id) el.style.display = 'none'; });
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+}
+
+function onPermToggle(uid) {
+  const checked = document.querySelectorAll(`.perm-cb[data-uid="${uid}"]:checked`);
+  const count = document.getElementById('permCount-' + uid);
+  if (count) count.textContent = checked.length;
+}
+
+function applyRoleTemplate(uid, role) {
+  const defaults = ROLE_DEFAULTS[role] || [];
+  document.querySelectorAll(`.perm-cb[data-uid="${uid}"]`).forEach(cb => {
+    cb.checked = defaults.includes(cb.dataset.pid);
+  });
+  onPermToggle(uid);
+  toast({ type:'info', msg:`تم تطبيق صلاحيات ${ROLE_META[role].label} — اضغطي حفظ`, duration:3000 });
+}
+
+function toggleGroup(uid, idsStr) {
+  const ids = idsStr.split(',');
+  const boxes = document.querySelectorAll(`.perm-cb[data-uid="${uid}"]`);
+  const groupBoxes = Array.from(boxes).filter(b => ids.includes(b.dataset.pid));
+  const allChecked = groupBoxes.every(b => b.checked);
+  groupBoxes.forEach(b => b.checked = !allChecked);
+  onPermToggle(uid);
+}
+
+function resetMemberPerms(uid, role) {
+  if (!confirm('إرجاع الصلاحيات للقيم الافتراضية لهذا الدور؟')) return;
+  applyRoleTemplate(uid, role);
+}
+
+async function saveMemberPerms(uid) {
+  const perms = Array.from(document.querySelectorAll(`.perm-cb[data-uid="${uid}"]:checked`)).map(cb => cb.dataset.pid);
+  try {
+    const { error } = await _sb.rpc('update_member_permissions', { target_user_id: uid, perms });
+    if (error) throw error;
+    toast({ type:'success', msg:`تم حفظ ${perms.length} صلاحية ✓` });
+    await loadTeamMembers();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
 }
 
 async function changeMemberRole(userId, newRole) {
@@ -11763,26 +11935,22 @@ async function revokeInvite(inviteId, email) {
 }
 
 // ─── Role-based navigation gating ───────────────────────────────────────
-const ROLE_PERMISSIONS = {
-  admin:      { all: true },
-  accountant: { allowed: ['db','hl','cf','ag','cp','gls','tax','tx','inv','bg','st','vat','zakat','taxcal','ar','quotes','scan','ai','sub','profile','daily'] },
-  cashier:    { allowed: ['inv','zt','quotes','scan','daily','products','pos','channels','tx','profile'] },
-  viewer:     { allowed: ['db','hl','cf','inv','tx','st','profile'] },
-};
-
 function applyRolePermissions() {
   const role = Auth?.profile?.role || 'admin';
-  const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.admin;
-  if (perms.all) return;
+  if (role === 'admin') return; // Admin sees everything
+
+  // Use custom permissions if set, else fall back to role defaults
+  const customPerms = Auth?.profile?.permissions;
+  const allowed = (Array.isArray(customPerms) && customPerms.length) ? customPerms : (ROLE_DEFAULTS[role] || []);
+
   document.querySelectorAll('.ni').forEach(nav => {
     const onclick = nav.getAttribute('onclick') || '';
     const match = onclick.match(/go\('([^']+)'/);
     if (!match) return;
     const page = match[1];
-    if (!perms.allowed.includes(page)) {
-      nav.style.display = 'none';
-    }
+    if (!allowed.includes(page)) nav.style.display = 'none';
   });
+
   // Show role badge in the user pill
   const pill = document.getElementById('userRoleLbl');
   if (pill) {

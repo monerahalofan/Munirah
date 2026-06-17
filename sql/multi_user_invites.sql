@@ -294,5 +294,62 @@ $$;
 
 grant execute on function update_member_role(uuid, text) to authenticated;
 
--- ─── 7. Refresh PostgREST cache ──────────────────────────────────────────
+-- ─── 7. Custom permissions per user (override role defaults) ────────────
+alter table tenant_users add column if not exists permissions jsonb;
+
+create or replace function update_member_permissions(target_user_id uuid, perms jsonb)
+returns json
+language plpgsql
+security definer
+as $$
+declare
+  my_tenant uuid;
+begin
+  select tenant_id into my_tenant from tenant_users
+   where user_id = auth.uid() and role = 'admin' limit 1;
+  if my_tenant is null then raise exception 'unauthorized'; end if;
+  update tenant_users set permissions = perms
+   where tenant_id = my_tenant and user_id = target_user_id;
+  return json_build_object('success', true);
+end;
+$$;
+
+grant execute on function update_member_permissions(uuid, jsonb) to authenticated;
+
+-- Update list_team_members to include permissions
+create or replace function list_team_members()
+returns json
+language plpgsql
+security definer
+as $$
+declare
+  my_tenant uuid;
+begin
+  select tenant_id into my_tenant from tenant_users
+   where user_id = auth.uid() and role = 'admin' limit 1;
+  if my_tenant is null then raise exception 'unauthorized'; end if;
+
+  return json_build_object(
+    'members', (
+      select coalesce(json_agg(json_build_object(
+        'user_id', tu.user_id, 'email', u.email, 'role', tu.role,
+        'display_name', tu.display_name, 'permissions', tu.permissions,
+        'joined_at', tu.created_at, 'last_sign_in', u.last_sign_in_at
+      ) order by tu.created_at), '[]'::json)
+      from tenant_users tu join auth.users u on u.id = tu.user_id
+      where tu.tenant_id = my_tenant
+    ),
+    'pending', (
+      select coalesce(json_agg(json_build_object(
+        'invite_id', id, 'email', email, 'role', role,
+        'display_name', display_name, 'invited_at', created_at, 'expires_at', expires_at
+      ) order by created_at desc), '[]'::json)
+      from tenant_invites where tenant_id = my_tenant
+        and accepted_at is null and expires_at > now()
+    )
+  );
+end;
+$$;
+
+-- ─── 8. Refresh PostgREST cache ──────────────────────────────────────────
 notify pgrst, 'reload schema';
