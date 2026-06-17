@@ -37,7 +37,35 @@ const Auth = {
   },
 
   // Load the tenant (business) associated with this user
+  // Order: 1) accept pending invite  2) existing membership  3) own tenant  4) create new
   async _loadTenant() {
+    // 1. Try to accept any pending invite for this email
+    try {
+      const { data: accept } = await _sb.rpc('accept_pending_invite');
+      if (accept?.success && accept.tenant_id) {
+        console.log('[_loadTenant] accepted invite → tenant:', accept.tenant_id);
+      }
+    } catch (e) { console.warn('[_loadTenant] accept_pending_invite skipped:', e.message); }
+
+    // 2. Check if user is already a member of any tenant (sub-user case)
+    const { data: membership } = await _sb
+      .from('tenant_users')
+      .select('tenant_id, role')
+      .eq('user_id', this.session.user.id)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    if (membership?.tenant_id) {
+      const { data: t } = await _sb.from('tenants').select('*').eq('id', membership.tenant_id).maybeSingle();
+      if (t) {
+        this.tenant = t;
+        console.log('[_loadTenant] loaded via membership:', t.id, 'role:', membership.role);
+        return;
+      }
+    }
+
+    // 3. Try to load own tenant
     const { data, error: selErr } = await _sb
       .from('tenants')
       .select('*')
@@ -51,9 +79,7 @@ const Auth = {
 
     if (!data) {
       console.log('[_loadTenant] creating new tenant...');
-      // First login — create tenant from signup metadata
       const meta = this.session.user.user_metadata || {};
-      // Minimal required fields only — extras update later from profile page
       const payload = {
         owner_id: this.session.user.id,
         name:     meta.business_name || meta.full_name || meta.name || 'مشروعي',

@@ -4432,20 +4432,23 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         <button class="btn bp" style="font-size:12px;padding:5px 11px" onclick="document.getElementById('addUserForm').style.display=document.getElementById('addUserForm').style.display==='none'?'block':'none'">＋ إضافة</button>
       </div>
       <div id="addUserForm" style="display:none;background:var(--bg3);border-radius:var(--Rs);padding:13px;margin-bottom:13px;border:1px solid var(--b)">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">📧 سندعو المستخدم بإيميله. سيستلم رابط للتسجيل وحسابه يربط تلقائياً بنشاطك.</div>
         <div class="fg" style="margin-bottom:10px">
-          <div class="ff"><label class="fl">الاسم</label><input class="fi" id="nu-name" placeholder="اسم المستخدم"/></div>
+          <div class="ff"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="nu-email" type="email" placeholder="cashier@example.com" dir="ltr"/></div>
+          <div class="ff"><label class="fl">الاسم للعرض</label><input class="fi" id="nu-name" placeholder="اسم الكاشير"/></div>
           <div class="ff"><label class="fl">الدور</label>
             <select class="fi" id="nu-role">
+              <option value="cashier">كاشير — فواتير ومبيعات فقط</option>
+              <option value="accountant">محاسب — تقارير وضرائب</option>
               <option value="admin">مدير — صلاحيات كاملة</option>
-              <option value="cashier">كاشير — فواتير ومبيعات</option>
-              <option value="inventory">مدير المخزون — مخزون وطلبات</option>
+              <option value="viewer">مُشاهد — قراءة فقط</option>
             </select>
           </div>
-          <div class="ff"><label class="fl">PIN (4 أرقام)</label><input class="fi" id="nu-pin" type="password" maxlength="4" placeholder="••••"/></div>
-          <div class="ff" style="align-self:flex-end"><button class="btn bp" style="width:100%;padding:9px" onclick="addUser()">إضافة المستخدم</button></div>
+          <div class="ff" style="align-self:flex-end"><button class="btn bp" id="inviteBtn" style="width:100%;padding:9px" onclick="inviteTeamMember()">📨 إرسال دعوة</button></div>
         </div>
       </div>
       <div id="usersList"></div>
+      <div id="pendingInvites" style="margin-top:14px"></div>
     </div>
 
     <div class="card">
@@ -5092,6 +5095,7 @@ function go(id,el){
   if (id === 'pos') closingLoad();
   if (id === 'quotes') quotesLoad();
   if (id === 'exp')    expensesLoad();
+  if (id === 'usrs')   loadTeamMembers();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -11639,6 +11643,164 @@ function deleteUser(id){
   saveUsers();
   applyCurrentUser();
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Team Management — Real multi-user via Supabase Auth + tenant_users
+// ═══════════════════════════════════════════════════════════════════════
+const ROLE_META = {
+  admin:      { label:'مدير',  color:'#1e6080', bg:'rgba(130,176,199,.12)', desc:'صلاحيات كاملة' },
+  accountant: { label:'محاسب', color:'#a8854a', bg:'rgba(197,168,120,.12)', desc:'تقارير وضرائب' },
+  cashier:    { label:'كاشير', color:'#2d7a1e', bg:'rgba(134,186,114,.12)', desc:'فواتير ومبيعات' },
+  viewer:     { label:'مُشاهد', color:'#666',    bg:'rgba(100,100,100,.1)',  desc:'قراءة فقط' },
+};
+
+async function inviteTeamMember() {
+  const email = (document.getElementById('nu-email').value || '').trim().toLowerCase();
+  const name = (document.getElementById('nu-name').value || '').trim();
+  const role = document.getElementById('nu-role').value;
+  if (!email || !email.includes('@')) { toast({ type:'error', msg:'أدخل بريد إلكتروني صحيح' }); return; }
+
+  const btn = document.getElementById('inviteBtn');
+  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
+  try {
+    const { data, error } = await _sb.rpc('invite_user', {
+      email_in: email, role_in: role, display_name_in: name || null,
+    });
+    if (error) throw error;
+    toast({ type:'success', title:'تم إرسال الدعوة',
+      msg:`اطلب من ${email} يسجّل دخوله بنفس الإيميل — وراح يربط تلقائياً.`, duration:8000 });
+    document.getElementById('nu-email').value = '';
+    document.getElementById('nu-name').value = '';
+    document.getElementById('addUserForm').style.display = 'none';
+    await loadTeamMembers();
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل إرسال الدعوة. تأكدي من تشغيل migration: sql/multi_user_invites.sql' });
+  } finally {
+    btn.disabled = false; btn.textContent = '📨 إرسال دعوة';
+  }
+}
+
+async function loadTeamMembers() {
+  try {
+    const { data, error } = await _sb.rpc('list_team_members');
+    if (error) throw error;
+    renderTeamMembers(data?.members || [], data?.pending || []);
+  } catch (e) {
+    console.error('list_team_members failed:', e);
+    const list = document.getElementById('usersList');
+    if (list) list.innerHTML = `<div style="padding:14px;color:var(--t3);font-size:12px">شغّل migration: <code>sql/multi_user_invites.sql</code> في Supabase</div>`;
+  }
+}
+
+function renderTeamMembers(members, pending) {
+  const myId = Auth?.session?.user?.id;
+  const isAdmin = Auth?.profile?.role === 'admin';
+  const list = document.getElementById('usersList');
+  const pend = document.getElementById('pendingInvites');
+  if (!list) return;
+
+  list.innerHTML = members.length ? members.map(m => {
+    const r = ROLE_META[m.role] || ROLE_META.viewer;
+    const isMe = m.user_id === myId;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--b);border-radius:10px;margin-bottom:8px;background:var(--bg2)">
+      <div style="width:36px;height:36px;border-radius:50%;background:${r.bg};color:${r.color};display:flex;align-items:center;justify-content:center;font-weight:700">${(m.display_name||m.email||'?').charAt(0).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:13px;color:#000">${m.display_name || m.email.split('@')[0]} ${isMe?'<span style="font-size:10px;color:var(--g)">(أنت)</span>':''}</div>
+        <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${m.email}</div>
+      </div>
+      <span style="background:${r.bg};color:${r.color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${r.label}</span>
+      ${isAdmin && !isMe ? `
+        <select onchange="changeMemberRole('${m.user_id}', this.value)" style="font-size:11px;padding:4px 6px;border:1px solid var(--b);border-radius:6px;background:#fff;cursor:pointer">
+          ${Object.entries(ROLE_META).map(([k,v]) => `<option value="${k}" ${k===m.role?'selected':''}>${v.label}</option>`).join('')}
+        </select>
+        <button onclick="removeMember('${m.user_id}', '${(m.display_name||m.email).replace(/'/g,'')}')" style="background:transparent;border:none;color:#c93545;cursor:pointer;font-size:16px;padding:4px" title="حذف">🗑</button>
+      ` : ''}
+    </div>`;
+  }).join('') : `<div style="padding:14px;color:var(--t3);text-align:center;font-size:12px">لا يوجد أعضاء بعد</div>`;
+
+  pend.innerHTML = pending.length ? `
+    <div style="font-size:13px;font-weight:700;color:#000;margin-bottom:8px">📬 دعوات معلّقة (${pending.length})</div>
+    ${pending.map(p => {
+      const r = ROLE_META[p.role] || ROLE_META.viewer;
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px dashed var(--b);border-radius:10px;margin-bottom:6px;background:#fffbeb">
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:12px;color:#5a4408;direction:ltr;text-align:right">${p.email}</div>
+          <div style="font-size:10px;color:var(--t3)">دُعي كـ ${r.label} · تنتهي ${new Date(p.expires_at).toLocaleDateString('ar-SA-u-nu-latn')}</div>
+        </div>
+        ${isAdmin ? `<button onclick="revokeInvite('${p.invite_id}', '${p.email.replace(/'/g,'')}')" style="background:transparent;border:none;color:#c93545;cursor:pointer;font-size:11px">إلغاء</button>` : ''}
+      </div>`;
+    }).join('')}
+  ` : '';
+}
+
+async function changeMemberRole(userId, newRole) {
+  try {
+    const { error } = await _sb.rpc('update_member_role', { target_user_id: userId, new_role: newRole });
+    if (error) throw error;
+    toast({ type:'success', msg:'تم تحديث الدور ✓' });
+    await loadTeamMembers();
+  } catch (e) { toast({ type:'error', msg: e.message }); await loadTeamMembers(); }
+}
+
+async function removeMember(userId, name) {
+  if (!confirm(`حذف ${name} من فريقك؟ لن يتمكن من الوصول لبياناتك بعد الحذف.`)) return;
+  try {
+    const { error } = await _sb.rpc('remove_team_member', { target_user_id: userId });
+    if (error) throw error;
+    toast({ type:'success', msg:'تم الحذف' });
+    await loadTeamMembers();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+async function revokeInvite(inviteId, email) {
+  if (!confirm(`إلغاء الدعوة لـ ${email}؟`)) return;
+  try {
+    const { error } = await _sb.rpc('revoke_invite', { invite_id_in: inviteId });
+    if (error) throw error;
+    toast({ type:'success', msg:'تم إلغاء الدعوة' });
+    await loadTeamMembers();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Role-based navigation gating ───────────────────────────────────────
+const ROLE_PERMISSIONS = {
+  admin:      { all: true },
+  accountant: { allowed: ['db','hl','cf','ag','cp','gls','tax','tx','inv','bg','st','vat','zakat','taxcal','ar','quotes','scan','ai','sub','profile','daily'] },
+  cashier:    { allowed: ['inv','zt','quotes','scan','daily','products','pos','channels','tx','profile'] },
+  viewer:     { allowed: ['db','hl','cf','inv','tx','st','profile'] },
+};
+
+function applyRolePermissions() {
+  const role = Auth?.profile?.role || 'admin';
+  const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.admin;
+  if (perms.all) return;
+  document.querySelectorAll('.ni').forEach(nav => {
+    const onclick = nav.getAttribute('onclick') || '';
+    const match = onclick.match(/go\('([^']+)'/);
+    if (!match) return;
+    const page = match[1];
+    if (!perms.allowed.includes(page)) {
+      nav.style.display = 'none';
+    }
+  });
+  // Show role badge in the user pill
+  const pill = document.getElementById('userRoleLbl');
+  if (pill) {
+    const r = ROLE_META[role] || ROLE_META.viewer;
+    pill.textContent = r.label + ' ✓';
+    pill.style.color = r.color;
+  }
+}
+
+// Hook into existing init — call after Auth.boot resolves
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (typeof Auth !== 'undefined' && Auth?.profile) {
+      applyRolePermissions();
+      loadTeamMembers();
+    }
+  }, 1800);
+});
 
 function openRoleModal(){document.getElementById('roleModal').classList.add('open');renderRoleModalList();}
 function closeRoleModal(){document.getElementById('roleModal').classList.remove('open');}
