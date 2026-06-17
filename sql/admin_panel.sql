@@ -35,7 +35,7 @@ select
   t.branch_count,
   t.last_seen_at,
   case
-    when t.plan in ('starter','pro','business') and (t.plan_expires_at is null or t.plan_expires_at > now()) then 'paid_active'
+    when t.plan in ('freelancer','growth','business','enterprise') and (t.plan_expires_at is null or t.plan_expires_at > now()) then 'paid_active'
     when t.plan = 'free' and t.trial_ends_at > now() then 'trial_active'
     when t.plan = 'free' and t.trial_ends_at <= now() then 'trial_expired'
     when t.plan is null then 'no_tenant'
@@ -76,7 +76,7 @@ begin
     raise exception 'unauthorized';
   end if;
 
-  if new_plan not in ('free','starter','pro','business') then
+  if new_plan not in ('free','freelancer','growth','business','enterprise','trial') then
     raise exception 'invalid plan: %', new_plan;
   end if;
 
@@ -122,7 +122,7 @@ begin
     'total_users',     (select count(*) from auth.users),
     'total_tenants',   (select count(*) from tenants),
     'onboarded',       (select count(*) from tenants where onboarded = true),
-    'paying',          (select count(*) from tenants where plan in ('starter','pro','business')),
+    'paying',          (select count(*) from tenants where plan in ('freelancer','growth','business','enterprise')),
     'trial_active',    (select count(*) from tenants where plan = 'free' and trial_ends_at > now()),
     'trial_expired',   (select count(*) from tenants where plan = 'free' and trial_ends_at <= now()),
     'new_today',       (select count(*) from auth.users where created_at > now() - interval '24 hours'),
@@ -130,12 +130,15 @@ begin
     'new_month',       (select count(*) from auth.users where created_at > now() - interval '30 days'),
     'active_today',    (select count(*) from tenants where last_seen_at > now() - interval '24 hours'),
     'mrr',             (select coalesce(sum(case
-                          when plan = 'starter'  then 99
-                          when plan = 'pro'      then 249
-                          when plan = 'business' then 499
+                          when plan = 'freelancer' then 99
+                          when plan = 'growth'     then 199
+                          when plan = 'business'   then 399
                           else 0 end), 0) from tenants where plan_expires_at > now())
   );
 end;
 $$;
 
 grant execute on function admin_stats() to authenticated;
+
+-- ─── 6. Force PostgREST to reload schema cache ───────────────────────────
+notify pgrst, 'reload schema';
