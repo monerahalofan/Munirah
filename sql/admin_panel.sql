@@ -3,6 +3,14 @@
 -- Run in: Supabase Dashboard → SQL Editor → New Query
 -- ══════════════════════════════════════════════════════════════════════════
 
+-- ─── 0. Ensure required columns exist on tenants ─────────────────────────
+alter table tenants add column if not exists last_seen_at timestamptz;
+alter table tenants add column if not exists onboarded boolean default false;
+alter table tenants add column if not exists business_type text;
+alter table tenants add column if not exists branch_count integer default 1;
+alter table tenants add column if not exists trial_ends_at timestamptz;
+alter table tenants add column if not exists plan_expires_at timestamptz;
+
 -- ─── 1. قائمة إيميلات الـ Admins ──────────────────────────────────────────
 -- ⚠️ عدّل القائمة في الدالة لإضافة/حذف admins
 create or replace function is_admin()
