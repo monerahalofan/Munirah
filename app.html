@@ -1396,6 +1396,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
     <div class="ni" onclick="go('ar',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg></span><span>الفلوس عند الناس</span><span class="nbg" style="background:rgba(201,53,69,.12);color:#c93545" id="arBadge"></span></div>
     <div class="ni" onclick="go('exp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><line x1="12" y1="5" x2="12" y2="9"/></svg></span><span>المصاريف والموردون</span><span class="nbg" style="background:rgba(166,137,181,.15);color:#A689B5">جديد</span></div>
+    <div class="ni" onclick="go('inbox',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span><span>الإيصالات الواردة</span><span class="nbg" id="inboxBadge" style="background:rgba(127,197,123,.18);color:#155e5f;display:none">0</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
     <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(206,217,217,.15);color:#7fc57b">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
@@ -1513,6 +1514,22 @@ body.dark .prc-sv{color:#f0f2f8}
       <div style="font-size:11px;color:rgba(21,94,95,.65);line-height:1.6">استمري على هذا الإيقاع — تتبعك اليومي يفرق.</div>
     </div>
     <button onclick="document.getElementById('dailyDoneBanner').style.display='none'" style="background:none;color:#155e5f;border:none;padding:6px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1">×</button>
+  </div>
+
+  <!-- Inbox Card (Driver/Field Receipts pending) -->
+  <div id="dbInboxCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer;transition:all .2s" onclick="go('inbox', null)" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(21,94,95,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+    <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+    </div>
+    <div style="flex:1;min-width:180px">
+      <div style="font-size:14px;font-weight:800;color:#155e5f;display:flex;align-items:center;gap:8px">
+        الإيصالات الواردة
+        <span id="dbInboxBadge" style="background:#a8854a;color:#fff;font-size:11px;padding:2px 9px;border-radius:10px;font-weight:700">0</span>
+      </div>
+      <div style="font-size:12px;color:rgba(21,94,95,.7);margin-top:3px" id="dbInboxSub">إيصالات بانتظار المراجعة من السواقين/العمال</div>
+    </div>
+    <button onclick="event.stopPropagation();openShareCaptureModal()" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">📤 شارك الرابط</button>
+    <button style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">راجعي ←</button>
   </div>
 
   <!-- VAT Reminder Banner -->
@@ -4554,6 +4571,85 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .brand-tpl:has(input:checked) .brand-tpl-card { border-color: var(--brand-color, #ced9d9); box-shadow:0 0 0 3px rgba(206,217,217,.15); }
 </style>
 
+<!-- DRIVER/FIELD RECEIPTS INBOX -->
+<div class="pg" id="pg-inbox">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">الإيصالات الواردة</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">فواتير ومصاريف يرفعها السواقين والعمال من الجوال — راجعيها واعتمديها</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bg2" onclick="loadInbox()">↻ تحديث</button>
+      <button class="btn bp" onclick="openShareCaptureModal()">📤 شارك رابط الرفع</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border-radius:14px;padding:14px">
+      <div style="font-size:11px;opacity:.9">⏳ بانتظار المراجعة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px" id="inbox-pending">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">✓ معتمدة هذا الشهر</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="inbox-approved">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">💰 إجمالي مبلغ معتمد</div>
+      <div style="font-size:18px;font-weight:900;margin-top:4px;color:#155e5f;direction:ltr;text-align:right" id="inbox-amount">0.00 ر.س</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">👥 رافعون نشطون</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="inbox-users">0</div>
+    </div>
+  </div>
+
+  <!-- Inbox list -->
+  <div class="card">
+    <div class="sh">
+      <div class="st">القائمة</div>
+      <select class="fi" id="inboxFilter" onchange="loadInbox()" style="width:auto;min-width:160px;padding:7px 14px">
+        <option value="pending_review">بانتظار المراجعة</option>
+        <option value="all">الكل</option>
+        <option value="approved">المعتمدة</option>
+        <option value="rejected">المرفوضة</option>
+      </select>
+    </div>
+    <div id="inboxList" style="margin-top:14px"></div>
+  </div>
+</div>
+
+<!-- Share capture link modal -->
+<div id="shareCapModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:18px;max-width:460px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(120deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0">
+      <div>
+        <div style="font-size:17px;font-weight:800">📤 شارك رابط الرفع</div>
+        <div style="font-size:11px;opacity:.85;margin-top:2px">أرسليه للسواق أو العامل — يدخل برقم جواله فقط</div>
+      </div>
+      <button onclick="closeShareCaptureModal()" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div style="padding:20px 22px">
+      <div style="background:#f3f5f5;border:1px solid #ced9d9;border-radius:12px;padding:14px;text-align:center;margin-bottom:14px;direction:ltr">
+        <div style="font-size:12px;color:rgba(21,94,95,.65);margin-bottom:6px;text-align:right">الرابط:</div>
+        <div id="capLinkText" style="font-size:13px;font-weight:700;color:#155e5f;word-break:break-all;font-family:monospace">—</div>
+      </div>
+
+      <div id="capQrBox" style="display:flex;justify-content:center;background:#fff;border:1px solid #ced9d9;border-radius:12px;padding:16px;margin-bottom:14px"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn bp" onclick="copyCapLink()" style="padding:11px">📋 نسخ الرابط</button>
+        <button class="btn bg2" onclick="shareCapLinkWhatsApp()" style="padding:11px">💬 إرسال واتساب</button>
+      </div>
+
+      <div style="background:rgba(127,197,123,.08);border:1px solid rgba(127,197,123,.22);border-radius:11px;padding:12px;margin-top:14px;font-size:12px;color:rgba(21,94,95,.85);line-height:1.7">
+        💡 <b>كيف يستخدم السواق؟</b><br>
+        يفتح الرابط من جواله → يدخل رقمه → يستلم رمز OTP → يصور الفاتورة → ترفع لقائمتك مباشرة.
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ACTIVITY LOG -->
 <div class="pg" id="pg-activity">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
@@ -4849,6 +4945,7 @@ const TRANSLATIONS = {
     pgn_exp:'المصاريف والموردون',
     pgn_profile:'إعدادات الحساب', pgn_usrs:'المستخدمون والصلاحيات',
     pgn_activity:'سجل الحركات', nav_activity:'سجل الحركات',
+    pgn_inbox:'الإيصالات الواردة', nav_inbox:'الإيصالات الواردة',
     pgn_admin:'لوحة الإدارة',
 
     // Dashboard hero
@@ -4993,6 +5090,7 @@ const TRANSLATIONS = {
     pgn_exp:'Expenses & Suppliers',
     pgn_profile:'Account Settings', pgn_usrs:'Users & Permissions',
     pgn_activity:'Activity Log', nav_activity:'Activity Log',
+    pgn_inbox:'Incoming Receipts', nav_inbox:'Incoming Receipts',
     pgn_admin:'Admin Panel',
 
     // Dashboard hero
@@ -5173,7 +5271,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',inbox:'الإيصالات الواردة',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -5340,6 +5438,7 @@ function go(id,el){
   if (id === 'profile') { renderCustomerTypeSelector(); loadReminderSettings(); }
   if (id === 'activity') loadActivityLog();
   if (id === 'gls')      loadGoals();
+  if (id === 'inbox')    loadInbox();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -12564,10 +12663,10 @@ const PERM_GROUPS = [
 // Default permissions per role (used as template when admin doesn't customize)
 const ROLE_DEFAULTS = {
   admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','channels',
-          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','brand','zatca','usrs'],
-  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub'],
-  cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile'],
-  viewer:  ['db','hl','cf','st','inv','tx','profile'],
+          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','brand','zatca','usrs','inbox','activity'],
+  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','inbox','activity'],
+  cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile','inbox'],
+  viewer:  ['db','hl','cf','st','inv','tx','profile','activity'],
 };
 
 function getEffectivePermissions(member) {
@@ -12798,6 +12897,183 @@ async function revokeInvite(inviteId, email) {
     await loadTeamMembers();
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Field Receipts Inbox — Review driver/worker uploads
+// ═══════════════════════════════════════════════════════════════════════
+let _inboxCache = [];
+
+async function loadInbox() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  const filter = document.getElementById('inboxFilter')?.value || 'pending_review';
+
+  try {
+    let q = _sb.from('expenses')
+      .select('id, description, amount, receipt_url, expense_date, category, payment_status, created_at, supplier_name, source, created_by')
+      .eq('tenant_id', tid)
+      .eq('source', 'driver_quick_capture')
+      .order('created_at', { ascending: false });
+
+    if (filter === 'pending_review') q = q.eq('category', 'pending_review');
+    else if (filter === 'approved') q = q.neq('category', 'pending_review').neq('category', 'rejected');
+    else if (filter === 'rejected') q = q.eq('category', 'rejected');
+
+    const { data, error } = await q.limit(200);
+    if (error) throw error;
+    _inboxCache = data || [];
+    renderInbox();
+    await refreshInboxStats();
+  } catch (e) {
+    console.error('loadInbox:', e);
+    document.getElementById('inboxList').innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ تأكدي من تشغيل migration المصاريف</div>`;
+  }
+}
+
+async function refreshInboxStats() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+
+  const [{ count: pending }, { data: monthData }] = await Promise.all([
+    _sb.from('expenses').select('*', { count:'exact', head:true })
+       .eq('tenant_id', tid).eq('source','driver_quick_capture').eq('category','pending_review'),
+    _sb.from('expenses').select('amount, category, created_by')
+       .eq('tenant_id', tid).eq('source','driver_quick_capture')
+       .gte('created_at', monthStart.toISOString()),
+  ]);
+
+  const approved = (monthData || []).filter(e => e.category !== 'pending_review' && e.category !== 'rejected');
+  const totalAmount = approved.reduce((s, e) => s + (+e.amount || 0), 0);
+  const uniqueUsers = new Set((monthData || []).map(e => e.created_by).filter(Boolean)).size;
+
+  document.getElementById('inbox-pending').textContent  = pending || 0;
+  document.getElementById('inbox-approved').textContent = approved.length;
+  document.getElementById('inbox-amount').textContent   = totalAmount.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' ر.س';
+  document.getElementById('inbox-users').textContent    = uniqueUsers;
+
+  // Update nav badge
+  const badge = document.getElementById('inboxBadge');
+  if (badge) {
+    if (pending > 0) { badge.style.display='inline-flex'; badge.textContent = pending; }
+    else badge.style.display = 'none';
+  }
+
+  // Update dashboard inbox card
+  const dbCard = document.getElementById('dbInboxCard');
+  const dbBadge = document.getElementById('dbInboxBadge');
+  const dbSub = document.getElementById('dbInboxSub');
+  if (dbCard) {
+    if (pending > 0) {
+      dbCard.style.display = 'flex';
+      if (dbBadge) dbBadge.textContent = pending;
+      if (dbSub) dbSub.textContent = `${pending} إيصال بانتظار المراجعة من السواقين/العمال`;
+    } else {
+      dbCard.style.display = 'none';
+    }
+  }
+}
+
+function renderInbox() {
+  const el = document.getElementById('inboxList');
+  if (!_inboxCache.length) {
+    el.innerHTML = `<div style="text-align:center;padding:36px;color:rgba(21,94,95,.6);font-size:13px">📭 لا توجد إيصالات مطابقة</div>`;
+    return;
+  }
+  el.innerHTML = _inboxCache.map(e => {
+    const pending = e.category === 'pending_review';
+    const rejected = e.category === 'rejected';
+    const time = new Date(e.created_at).toLocaleString('ar-SA-u-nu-latn', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+    const statusBg = pending ? 'rgba(168,133,74,.12)' : rejected ? 'rgba(201,53,69,.1)' : 'rgba(127,197,123,.15)';
+    const statusColor = pending ? '#a8854a' : rejected ? '#c93545' : '#155e5f';
+    const statusLabel = pending ? '⏳ بانتظار' : rejected ? '✗ مرفوض' : '✓ معتمد';
+
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #ced9d9;border-radius:12px;margin-bottom:8px;background:#fff">
+      ${e.receipt_url ? `<img src="${e.receipt_url}" style="width:56px;height:56px;border-radius:10px;object-fit:cover;background:#f3f5f5;cursor:pointer;flex-shrink:0" onclick="window.open('${e.receipt_url}','_blank')">` : '<div style="width:56px;height:56px;border-radius:10px;background:#f3f5f5;display:flex;align-items:center;justify-content:center;color:#ced9d9;font-size:20px;flex-shrink:0">📄</div>'}
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:#155e5f">${e.description || 'إيصال'}</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">${time}${e.supplier_name ? ' · ' + e.supplier_name : ''}</div>
+        ${+e.amount > 0 ? `<div style="font-size:13px;font-weight:800;color:#155e5f;direction:ltr;text-align:right;margin-top:3px">${(+e.amount).toFixed(2)} ر.س</div>` : '<div style="font-size:11px;color:#a8854a;margin-top:3px">⚠️ بدون مبلغ</div>'}
+      </div>
+      <span style="background:${statusBg};color:${statusColor};padding:4px 10px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap">${statusLabel}</span>
+      ${pending ? `<div style="display:flex;gap:6px;flex-shrink:0">
+        <button onclick="approveReceipt('${e.id}')" style="background:#7fc57b;color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✓ اعتمد</button>
+        <button onclick="editReceipt('${e.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
+        <button onclick="rejectReceipt('${e.id}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:7px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✗ رفض</button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function approveReceipt(id) {
+  const r = _inboxCache.find(x => x.id === id);
+  if (!r) return;
+  if (!+r.amount) { toast({ type:'error', msg:'لازم تضيفين المبلغ قبل الاعتماد — اضغطي ✎ تعديل' }); return; }
+  try {
+    const { error } = await _sb.from('expenses').update({ category: 'other', payment_status: 'unpaid' }).eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم اعتماد الإيصال ✓' });
+    logActivity('expense', 'inbox_approve', `اعتماد إيصال: ${r.description || '—'} (${(+r.amount).toFixed(2)} ر.س)`, null, { type:'expense', id });
+    await loadInbox();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+async function rejectReceipt(id) {
+  const r = _inboxCache.find(x => x.id === id);
+  if (!confirm(`رفض هذا الإيصال؟ "${r?.description || ''}"`)) return;
+  try {
+    const { error } = await _sb.from('expenses').update({ category: 'rejected' }).eq('id', id);
+    if (error) throw error;
+    toast({ type:'info', msg:'تم رفض الإيصال' });
+    logActivity('expense', 'inbox_reject', `رفض إيصال: ${r?.description || '—'}`, null, { type:'expense', id });
+    await loadInbox();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+function editReceipt(id) {
+  const r = _inboxCache.find(x => x.id === id);
+  if (!r) return;
+  const newAmount = prompt('أدخلي المبلغ:', r.amount || '');
+  if (newAmount === null) return;
+  const amt = parseFloat(newAmount);
+  if (isNaN(amt) || amt < 0) { toast({ type:'error', msg:'مبلغ غير صحيح' }); return; }
+  const newDesc = prompt('الوصف/التصنيف:', r.description || '') || r.description;
+  _sb.from('expenses').update({ amount: amt, description: newDesc }).eq('id', id)
+    .then(({ error }) => {
+      if (error) toast({ type:'error', msg: error.message });
+      else { toast({ type:'success', msg:'تم التحديث' }); loadInbox(); }
+    });
+}
+
+// ─── Share capture link ──────────────────────────────────────────────
+function openShareCaptureModal() {
+  const tid = Auth?.tenant?.id || '';
+  const link = `${window.location.origin}/capture?t=${tid.slice(0,8)}`;
+  document.getElementById('capLinkText').textContent = link;
+  // Generate QR via free API (no library needed)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(link)}&bgcolor=ffffff&color=155e5f&margin=8`;
+  document.getElementById('capQrBox').innerHTML = `<img src="${qrUrl}" alt="QR" style="width:180px;height:180px;border-radius:8px">`;
+  document.getElementById('shareCapModal').style.display = 'flex';
+  window._currentCapLink = link;
+}
+
+function closeShareCaptureModal() {
+  document.getElementById('shareCapModal').style.display = 'none';
+}
+
+function copyCapLink() {
+  navigator.clipboard.writeText(window._currentCapLink || '').then(() => {
+    toast({ type:'success', msg:'تم نسخ الرابط ✓' });
+  }).catch(() => toast({ type:'error', msg:'فشل النسخ' }));
+}
+
+function shareCapLinkWhatsApp() {
+  const msg = encodeURIComponent(`📸 رابط رفع الإيصالات لمحسوب:\n\n${window._currentCapLink || ''}\n\nادخل، أدخل رقم جوالك، استلم الرمز، وارفع صور الفواتير. شكراً!`);
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+// Auto-refresh inbox badge on load
+window.addEventListener('load', () => setTimeout(refreshInboxStats, 2400));
 
 // ═══════════════════════════════════════════════════════════════════════
 // Activity Log — Track all user actions
