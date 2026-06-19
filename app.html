@@ -1400,6 +1400,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('brand',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span><span>تخصيص الفاتورة</span><span class="nbg" style="background:rgba(197,168,120,.15);color:#a8854a">جديد</span></div>
     <a href="/help.html" target="_blank" class="ni" style="text-decoration:none;color:inherit"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span>مركز المساعدة</span></a>
+    <div class="ni" onclick="go('activity',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span>سجل الحركات</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#2d7a1e">جديد</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1944,21 +1945,134 @@ body.dark .prc-sv{color:#f0f2f8}
 
 <!-- GOALS (NEW) -->
 <div class="pg" id="pg-gls">
-  <div class="g3">
-    <div class="kc G"><div class="kl">الهدف الشهري</div><div class="kv G" id="gTarget">0 ر.س</div><div class="kch">حدد هدفك</div></div>
-    <div class="kc A"><div class="kl">تحقق حتى الآن</div><div class="kv A" id="gAchieved">0 ر.س</div><div class="kch">0% من الهدف</div></div>
-    <div class="kc P"><div class="kl">المتبقي للهدف</div><div class="kv P" id="gRemain">0 ر.س</div><div class="kch">—</div></div>
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">أهدافي المالية</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">حدّد أهدافك وتابع تقدّمك يومياً</div>
+    </div>
+    <button class="btn bp" onclick="openGoalModal()" style="font-size:13px">＋ هدف جديد</button>
   </div>
-  <div class="card" style="margin-bottom:14px">
-    <div class="sh"><div class="st">أهدافي المالية</div><button class="btn bg2" style="font-size:12px;padding:5px 10px" onclick="addGoal()">＋ هدف جديد</button></div>
-    <div id="goalsList">
-      <div style="text-align:center;padding:28px;color:var(--t3)">لا توجد أهداف بعد — اضغط <b>＋ هدف جديد</b> لإضافة هدفك المالي الأول</div>
+
+  <!-- Stats strip -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:14px;padding:14px">
+      <div style="font-size:11px;opacity:.9">🎯 أهداف نشطة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px" id="gls-active">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--t3)">✅ أهداف محقّقة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#86BA72" id="gls-done">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--t3)">📊 معدّل الإنجاز</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#1e6080" id="gls-avg">0%</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:var(--t3)">📅 قريب الموعد</div>
+      <div style="font-size:14px;font-weight:800;margin-top:6px;color:#a8854a" id="gls-soon">—</div>
     </div>
   </div>
-  <div class="card">
-    <div class="st" style="margin-bottom:12px">خطة الوصول للأهداف — AI</div>
-    <div style="background:var(--bg3);border-radius:var(--Rs);padding:14px">
-      <div style="text-align:center;padding:16px;color:var(--t3)">أضف هدفاً مالياً وسيقترح المساعد الذكي خطة للوصول إليه</div>
+
+  <!-- Active goals -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="st">أهدافي الحالية</div></div>
+    <div id="goalsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-top:14px">
+      <div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--t3);font-size:13px">جاري التحميل...</div>
+    </div>
+  </div>
+
+  <!-- AI suggestion -->
+  <div class="card" id="gls-ai-card" style="display:none">
+    <div class="st" style="margin-bottom:12px">🤖 خطة الوصول للأهداف — AI</div>
+    <div id="gls-ai-content" style="background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.06));border-radius:12px;padding:16px"></div>
+  </div>
+</div>
+
+<!-- Goal modal -->
+<div id="goalModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
+  <div style="background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:92vh;overflow:auto">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:18px 18px 0 0">
+      <div>
+        <div style="font-size:17px;font-weight:800" id="goalModalTitle">🎯 هدف جديد</div>
+        <div style="font-size:11px;opacity:.9;margin-top:2px">حدّد ما تبيه وكم وقت تحتاج</div>
+      </div>
+      <button onclick="closeGoalModal()" style="background:transparent;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div style="padding:18px 22px">
+      <input type="hidden" id="goal-id"/>
+
+      <div class="ff" style="margin-bottom:14px"><label class="fl">نوع الهدف *</label>
+        <div id="goal-cat-picker" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+          <div class="goal-cat" data-cat="revenue" onclick="selectGoalCat('revenue')" style="border:2px solid var(--b);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .15s">
+            <div style="font-size:22px">📈</div>
+            <div style="font-weight:700;margin-top:4px">زيادة الإيرادات</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">يتتبع تلقائياً</div>
+          </div>
+          <div class="goal-cat" data-cat="expense_reduction" onclick="selectGoalCat('expense_reduction')" style="border:2px solid var(--b);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .15s">
+            <div style="font-size:22px">💸</div>
+            <div style="font-weight:700;margin-top:4px">تقليل المصاريف</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">يتتبع تلقائياً</div>
+          </div>
+          <div class="goal-cat" data-cat="savings" onclick="selectGoalCat('savings')" style="border:2px solid var(--b);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .15s">
+            <div style="font-size:22px">💰</div>
+            <div style="font-weight:700;margin-top:4px">ادخار</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">تحدّثيه يدوياً</div>
+          </div>
+          <div class="goal-cat" data-cat="custom" onclick="selectGoalCat('custom')" style="border:2px solid var(--b);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .15s">
+            <div style="font-size:22px">🎯</div>
+            <div style="font-weight:700;margin-top:4px">هدف مخصص</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">حسب ما تبين</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ff" style="margin-bottom:12px"><label class="fl">اسم الهدف *</label>
+        <input class="fi" id="goal-name" placeholder="مثال: مبيعات الربع الثاني"/></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="ff"><label class="fl">المبلغ المستهدف *</label>
+          <input class="fi" id="goal-target" type="number" step="0.01" placeholder="0.00" inputmode="decimal"/></div>
+        <div class="ff"><label class="fl">المبلغ المُحقّق الآن</label>
+          <input class="fi" id="goal-current" type="number" step="0.01" placeholder="0.00" inputmode="decimal" value="0"/></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="ff"><label class="fl">تاريخ البداية</label>
+          <input class="fi" id="goal-start" type="date"/></div>
+        <div class="ff"><label class="fl">الموعد النهائي *</label>
+          <input class="fi" id="goal-deadline" type="date"/></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="ff"><label class="fl">الأولوية</label>
+          <select class="fi" id="goal-priority">
+            <option value="1">🔥 عالية</option>
+            <option value="2" selected>⭐ متوسطة</option>
+            <option value="3">📌 منخفضة</option>
+          </select>
+        </div>
+        <div class="ff"><label class="fl">التكرار</label>
+          <select class="fi" id="goal-frequency">
+            <option value="one_time" selected>مرة واحدة</option>
+            <option value="monthly">شهرياً</option>
+            <option value="quarterly">ربع سنوي</option>
+            <option value="yearly">سنوياً</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="ff" style="margin-bottom:14px"><label class="fl">وصف (اختياري)</label>
+        <textarea class="fi" id="goal-desc" rows="2" placeholder="لماذا هذا الهدف مهم؟"></textarea></div>
+
+      <div style="display:flex;gap:8px;justify-content:space-between;border-top:1px solid var(--b);padding-top:14px">
+        <button class="btn bg2" id="goal-del-btn" onclick="deleteGoal()" style="color:#c93545;display:none">🗑 حذف</button>
+        <div style="display:flex;gap:8px;margin-right:auto">
+          <button class="btn bg2" onclick="closeGoalModal()">إلغاء</button>
+          <button class="btn bp" id="goal-save-btn" onclick="saveGoal()">💾 حفظ الهدف</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -4358,6 +4472,55 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .brand-tpl:has(input:checked) .brand-tpl-card { border-color: var(--brand-color, #86BA72); box-shadow:0 0 0 3px rgba(134,186,114,.15); }
 </style>
 
+<!-- ACTIVITY LOG -->
+<div class="pg" id="pg-activity">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">سجل الحركات</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">كل العمليات اللي تمت بينك وبين محسوب</div>
+    </div>
+    <button class="btn bg2" onclick="loadActivityLog()" style="font-size:12px">🔄 تحديث</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+      <div class="ff"><label class="fl">الفئة</label>
+        <select class="fi" id="actFilterCat" onchange="loadActivityLog()">
+          <option value="">كل الفئات</option>
+          <option value="invoice">🧾 الفواتير</option>
+          <option value="closing">🏦 الإغلاقات</option>
+          <option value="expense">💸 المصاريف</option>
+          <option value="supplier">🏪 الموردون</option>
+          <option value="transaction">💰 الإيرادات والمصروفات</option>
+          <option value="quote">📋 عروض الأسعار</option>
+          <option value="member">👥 الفريق</option>
+          <option value="auth">🔐 تسجيل دخول</option>
+          <option value="settings">⚙️ الإعدادات</option>
+          <option value="payment">💳 الدفعات</option>
+        </select>
+      </div>
+      <div class="ff"><label class="fl">المستخدم</label>
+        <select class="fi" id="actFilterUser" onchange="loadActivityLog()">
+          <option value="">كل المستخدمين</option>
+        </select>
+      </div>
+      <div class="ff"><label class="fl">من تاريخ</label>
+        <input class="fi" type="date" id="actFilterFrom" onchange="loadActivityLog()"/>
+      </div>
+      <div class="ff"><label class="fl">إلى تاريخ</label>
+        <input class="fi" type="date" id="actFilterTo" onchange="loadActivityLog()"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card">
+    <div id="actSummary" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px"></div>
+    <div id="actList"></div>
+  </div>
+</div>
+
 <!-- ADMIN PANEL (admins only) -->
 <div class="pg" id="pg-admin">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
@@ -5091,6 +5254,8 @@ function go(id,el){
   if (id === 'usrs')   loadTeamMembers();
   if (id === 'tx')     loadTransactions();
   if (id === 'profile') renderCustomerTypeSelector();
+  if (id === 'activity') loadActivityLog();
+  if (id === 'gls')      loadGoals();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -6476,6 +6641,9 @@ async function saveReconciliation(closingId) {
     });
     if (error) throw error;
     toast({ type:'success', msg:`تمت المطابقة ✓ الفرق: ${(data?.variance||0).toFixed(2)} ر.س` });
+    logActivity('closing', 'closing_reconcile',
+      `مطابقة إغلاق — إيداع ${deposit.toFixed(2)} ر.س — فرق ${(data?.variance||0).toFixed(2)}`,
+      { deposit, variance: data?.variance, breakdown }, { type:'daily_closing', id: closingId });
     closeReconcileModal();
     await closingLoad();
   } catch (e) {
@@ -6899,6 +7067,9 @@ async function expenseSave(payStatus) {
 
     closeExpModal();
     toast({ type:'success', msg:'تم حفظ المصروف ✓' });
+    logActivity('expense', 'expense_create',
+      `مصروف: ${row.description || row.category || 'بدون وصف'} — ${(+row.amount).toLocaleString('en-US')} ر.س`,
+      { amount: row.amount, category: row.category, supplier: supName });
     await expensesLoad();
   } catch (e) {
     toast({ type:'error', msg:'خطأ: ' + e.message });
@@ -7004,6 +7175,7 @@ async function supplierSave() {
 
     closeSupModal();
     toast({ type:'success', msg:'تم حفظ المورد ✓' });
+    logActivity('supplier', 'supplier_create', `إضافة مورد جديد: ${name}`, { name, category: row.category });
     await expensesLoad();
   } catch (e) {
     toast({ type:'error', msg:'خطأ: ' + e.message });
@@ -8976,6 +9148,11 @@ async function saveTx(){
 
     toast({ type:'success', msg:`تم حفظ ${txT==='income'?'الإيراد':'المصروف'} ✓` });
 
+    // Log activity
+    logActivity('transaction', `tx_${txT}_create`,
+      `${txT==='income'?'إيراد':'مصروف'}: ${note} — ${amount.toLocaleString('en-US')} ر.س`,
+      { amount, category: cat, party }, { type:'transaction', id: data.id });
+
     // Auto-post journal entry (best effort)
     if (typeof Journal !== 'undefined' && Journal.postFromTransaction) {
       Journal.postFromTransaction(data).catch(e => console.warn('JE post failed', e));
@@ -9004,22 +9181,255 @@ async function loadTransactions() {
   } catch (e) { console.error('loadTransactions:', e); }
 }
 
-// ── Goals ──────────────────────────────
-function addGoal(){
-  const name=prompt('اسم الهدف الجديد:');
-  if(!name)return;
-  const target=prompt('المبلغ المستهدف (ر.س):');
-  if(!target)return;
-  const current=prompt('المبلغ المحقق حتى الآن (ر.س):');
-  if(!current)return;
-  const pct=Math.min(100,Math.round(parseFloat(current)/parseFloat(target)*100));
-  const color=pct>=75?'var(--g)':pct>=40?'var(--a)':'var(--r)';
-  const list=document.getElementById('goalsList');
-  const div=document.createElement('div');
-  div.className='gl';
-  div.innerHTML=`<div class="glh"><div class="gln">${name}</div><div class="glp" style="color:${color}">${pct}%</div></div><div class="glbg"><div class="glbf" style="width:${pct}%;background:${color}"></div></div><div class="gls"><span>${parseFloat(current).toLocaleString('en-US')} من ${parseFloat(target).toLocaleString('en-US')} ر.س</span></div>`;
-  list.appendChild(div);
+// ═══════════════════════════════════════════════════════════════════════
+// Goals v2 — Real DB persistence + smart tracking
+// ═══════════════════════════════════════════════════════════════════════
+const GOAL_CAT_META = {
+  revenue:           { icon:'📈', label:'زيادة الإيرادات', color:'#86BA72', auto:true },
+  expense_reduction: { icon:'💸', label:'تقليل المصاريف',  color:'#c93545', auto:true },
+  savings:           { icon:'💰', label:'ادخار',            color:'#1e6080', auto:false },
+  customers:         { icon:'👥', label:'عدد العملاء',      color:'#a8854a', auto:false },
+  custom:            { icon:'🎯', label:'هدف مخصص',         color:'#8b5cf6', auto:false },
+};
+
+let _goalsCache = [];
+let _editingGoalId = null;
+
+async function loadGoals() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  try {
+    const { data, error } = await _sb.from('goals').select('*').eq('tenant_id', tid).order('priority').order('deadline', { nullsLast: true });
+    if (error) throw error;
+    _goalsCache = data || [];
+
+    // Refresh auto-tracked goals
+    for (const g of _goalsCache.filter(g => g.auto_track)) {
+      try { await _sb.rpc('refresh_goal_progress', { goal_id_in: g.id }); } catch(_) {}
+    }
+    // Re-fetch after refresh
+    if (_goalsCache.some(g => g.auto_track)) {
+      const { data: refreshed } = await _sb.from('goals').select('*').eq('tenant_id', tid).order('priority').order('deadline', { nullsLast: true });
+      _goalsCache = refreshed || _goalsCache;
+    }
+
+    renderGoalsList();
+    renderGoalsStats();
+  } catch (e) {
+    console.error('loadGoals:', e);
+    const list = document.getElementById('goalsList');
+    if (list) list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّلي migration: <code>sql/goals_v2.sql</code></div>`;
+  }
 }
+
+function renderGoalsStats() {
+  const active = _goalsCache.filter(g => g.status === 'active' || !g.status);
+  const done   = _goalsCache.filter(g => g.status === 'completed' || (+g.current >= +g.target && +g.target > 0));
+  const avgPct = active.length
+    ? Math.round(active.reduce((s, g) => s + Math.min(100, (+g.current / Math.max(1, +g.target)) * 100), 0) / active.length)
+    : 0;
+  const soon = active.filter(g => g.deadline)
+    .sort((a,b) => new Date(a.deadline) - new Date(b.deadline))[0];
+
+  document.getElementById('gls-active').textContent = active.length;
+  document.getElementById('gls-done').textContent   = done.length;
+  document.getElementById('gls-avg').textContent    = avgPct + '%';
+  document.getElementById('gls-soon').textContent   = soon
+    ? `${soon.name} · ${Math.ceil((new Date(soon.deadline) - new Date()) / 86400000)} يوم`
+    : 'لا يوجد';
+}
+
+function renderGoalsList() {
+  const list = document.getElementById('goalsList');
+  if (!_goalsCache.length) {
+    list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--t3);font-size:13px">
+      🎯 لا توجد أهداف بعد<br><span style="font-size:11px;display:block;margin-top:6px">اضغطي <b>＋ هدف جديد</b> لتحديد أول هدف مالي لك</span>
+    </div>`;
+    return;
+  }
+  list.innerHTML = _goalsCache.map(g => {
+    const meta = GOAL_CAT_META[g.category] || GOAL_CAT_META.custom;
+    const target = +g.target || 0;
+    const current = +g.current || 0;
+    const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
+    const status = pct >= 100 ? 'completed' : pct >= 75 ? 'on_track' : pct >= 40 ? 'behind' : 'starting';
+    const statusColor = status === 'completed' ? '#86BA72' : status === 'on_track' ? '#1e6080' : status === 'behind' ? '#a8854a' : '#c93545';
+    const statusLabel = status === 'completed' ? '✓ محقّق' : status === 'on_track' ? '🚀 على المسار' : status === 'behind' ? '⚡ يحتاج جهد' : '🔥 ابدئي بقوة';
+    const daysLeft = g.deadline ? Math.ceil((new Date(g.deadline) - new Date()) / 86400000) : null;
+    const dailyNeeded = (daysLeft && daysLeft > 0 && pct < 100) ? ((target - current) / daysLeft).toFixed(0) : null;
+    const priorityIcon = g.priority === 1 ? '🔥' : g.priority === 2 ? '⭐' : '📌';
+
+    return `<div onclick="openGoalModal('${g.id}')" style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;left:0;height:4px;background:${meta.color}"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:4px">
+        <div style="display:flex;align-items:center;gap:8px;min-width:0">
+          <div style="width:38px;height:38px;border-radius:10px;background:${meta.color}22;color:${meta.color};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${meta.icon}</div>
+          <div style="min-width:0">
+            <div style="font-size:14px;font-weight:800;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.name}</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">${priorityIcon} ${meta.label}${g.auto_track ? ' · 🔄 تلقائي' : ''}</div>
+          </div>
+        </div>
+        <span style="background:${statusColor}1A;color:${statusColor};padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;white-space:nowrap">${statusLabel}</span>
+      </div>
+
+      <div style="margin:14px 0 8px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px">
+          <span style="color:var(--t3)">${current.toLocaleString('en-US')} من ${target.toLocaleString('en-US')} ر.س</span>
+          <span style="font-weight:800;color:${meta.color}">${pct}%</span>
+        </div>
+        <div style="height:8px;background:#eee;border-radius:4px;overflow:hidden">
+          <div style="height:100%;background:linear-gradient(90deg,${meta.color},${meta.color}cc);width:${pct}%;transition:width .4s ease;border-radius:4px"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--b)">
+        ${g.deadline ? `<span>📅 ${daysLeft > 0 ? `${daysLeft} يوم متبقي` : daysLeft === 0 ? 'اليوم' : 'انتهى الموعد'}</span>` : '<span>—</span>'}
+        ${dailyNeeded ? `<span style="color:${meta.color};font-weight:700">💡 ${Number(dailyNeeded).toLocaleString('en-US')} ر.س/يوم</span>` : '<span></span>'}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Render AI suggestion if there are active goals
+  const active = _goalsCache.filter(g => (g.status === 'active' || !g.status) && (+g.current < +g.target));
+  if (active.length) {
+    document.getElementById('gls-ai-card').style.display = 'block';
+    renderGoalsAISuggestion(active);
+  } else {
+    document.getElementById('gls-ai-card').style.display = 'none';
+  }
+}
+
+function renderGoalsAISuggestion(active) {
+  const tips = active.slice(0, 3).map(g => {
+    const meta = GOAL_CAT_META[g.category] || GOAL_CAT_META.custom;
+    const remaining = (+g.target || 0) - (+g.current || 0);
+    const daysLeft = g.deadline ? Math.max(1, Math.ceil((new Date(g.deadline) - new Date()) / 86400000)) : 30;
+    const daily = remaining / daysLeft;
+    const monthly = daily * 30;
+    let tip = '';
+    if (g.category === 'revenue') {
+      tip = `حاولي تزيدي ${monthly.toFixed(0)} ر.س شهرياً أو ${daily.toFixed(0)} ر.س يومياً من الإيرادات.`;
+    } else if (g.category === 'expense_reduction') {
+      tip = `راجعي مصاريفك — استهدفي تقليل ${monthly.toFixed(0)} ر.س شهرياً (ركّزي على الاشتراكات والمصاريف المتكررة).`;
+    } else if (g.category === 'savings') {
+      tip = `حوّلي ${daily.toFixed(0)} ر.س لحساب ادخار يومياً — أو ${monthly.toFixed(0)} ر.س آخر كل شهر.`;
+    } else {
+      tip = `تحتاجين ${remaining.toLocaleString('en-US')} ر.س إضافية في ${daysLeft} يوم — معدّل ${daily.toFixed(0)} ر.س يومياً.`;
+    }
+    return `<div style="padding:10px 12px;background:#fff;border-radius:10px;margin-bottom:8px;border-right:3px solid ${meta.color}">
+      <div style="font-weight:700;font-size:12px;color:#000;margin-bottom:3px">${meta.icon} ${g.name}</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.6">${tip}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('gls-ai-content').innerHTML = tips || '';
+}
+
+function openGoalModal(id) {
+  _editingGoalId = id || null;
+  const g = id ? _goalsCache.find(x => x.id === id) : null;
+  document.getElementById('goalModalTitle').textContent = g ? '✏️ تعديل الهدف' : '🎯 هدف جديد';
+  document.getElementById('goal-id').value = g?.id || '';
+  document.getElementById('goal-name').value = g?.name || '';
+  document.getElementById('goal-target').value = g?.target || '';
+  document.getElementById('goal-current').value = g?.current || 0;
+  document.getElementById('goal-start').value = g?.start_date || new Date().toISOString().slice(0,10);
+  document.getElementById('goal-deadline').value = g?.deadline || '';
+  document.getElementById('goal-priority').value = g?.priority || 2;
+  document.getElementById('goal-frequency').value = g?.frequency || 'one_time';
+  document.getElementById('goal-desc').value = g?.description || '';
+  selectGoalCat(g?.category || 'revenue');
+  document.getElementById('goal-del-btn').style.display = g ? 'inline-flex' : 'none';
+  document.getElementById('goalModal').style.display = 'flex';
+}
+
+function closeGoalModal() {
+  document.getElementById('goalModal').style.display = 'none';
+  _editingGoalId = null;
+}
+
+function selectGoalCat(cat) {
+  document.querySelectorAll('.goal-cat').forEach(el => {
+    const isSel = el.dataset.cat === cat;
+    el.style.border = '2px solid ' + (isSel ? GOAL_CAT_META[cat].color : 'var(--b)');
+    el.style.background = isSel ? GOAL_CAT_META[cat].color + '11' : '#fff';
+  });
+  document.getElementById('goalModal').dataset.selectedCat = cat;
+  // Auto-disable current input for auto-tracked goals
+  const isAuto = GOAL_CAT_META[cat].auto;
+  const curInput = document.getElementById('goal-current');
+  curInput.disabled = isAuto;
+  curInput.title = isAuto ? 'يتم حسابه تلقائياً من المعاملات' : '';
+}
+
+async function saveGoal() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) { toast({ type:'error', msg:'لم يتم تحميل بيانات النشاط' }); return; }
+
+  const name = document.getElementById('goal-name').value.trim();
+  const target = parseFloat(document.getElementById('goal-target').value);
+  if (!name) { toast({ type:'error', msg:'أدخلي اسم الهدف' }); return; }
+  if (!target || target <= 0) { toast({ type:'error', msg:'أدخلي مبلغاً صحيحاً' }); return; }
+
+  const cat = document.getElementById('goalModal').dataset.selectedCat || 'custom';
+  const meta = GOAL_CAT_META[cat];
+
+  const payload = {
+    tenant_id:   tid,
+    name,
+    target,
+    current:     parseFloat(document.getElementById('goal-current').value) || 0,
+    start_date:  document.getElementById('goal-start').value || null,
+    deadline:    document.getElementById('goal-deadline').value || null,
+    priority:    parseInt(document.getElementById('goal-priority').value) || 2,
+    frequency:   document.getElementById('goal-frequency').value,
+    description: document.getElementById('goal-desc').value.trim() || null,
+    category:    cat,
+    color:       meta.color,
+    icon:        meta.icon,
+    auto_track:  meta.auto,
+    status:      'active',
+    updated_at:  new Date().toISOString(),
+  };
+
+  const btn = document.getElementById('goal-save-btn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    let res;
+    if (_editingGoalId) {
+      res = await _sb.from('goals').update(payload).eq('id', _editingGoalId).eq('tenant_id', tid);
+    } else {
+      res = await _sb.from('goals').insert(payload);
+    }
+    if (res.error) throw res.error;
+    toast({ type:'success', msg: _editingGoalId ? 'تم التحديث ✓' : `تم إنشاء الهدف "${name}" ✓` });
+    logActivity('settings', _editingGoalId ? 'goal_update' : 'goal_create',
+      `${_editingGoalId?'تعديل':'إضافة'} هدف: ${name} (${meta.label}) — ${target.toLocaleString('en-US')} ر.س`,
+      { category: cat, target });
+    closeGoalModal();
+    await loadGoals();
+  } catch (e) {
+    toast({ type:'error', msg:'فشل: ' + e.message });
+  } finally {
+    btn.disabled = false; btn.textContent = '💾 حفظ الهدف';
+  }
+}
+
+async function deleteGoal() {
+  if (!_editingGoalId) return;
+  const g = _goalsCache.find(x => x.id === _editingGoalId);
+  if (!confirm(`حذف الهدف "${g?.name || ''}"؟`)) return;
+  try {
+    const { error } = await _sb.from('goals').delete().eq('id', _editingGoalId);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم حذف الهدف' });
+    logActivity('settings', 'goal_delete', `حذف هدف: ${g?.name || ''}`, null);
+    closeGoalModal();
+    await loadGoals();
+  } catch (e) { toast({ type:'error', msg:'فشل: ' + e.message }); }
+}
+
+// Backward compat — old addGoal() was a prompt-based version
+function addGoal() { openGoalModal(); }
 
 // ── Statements ─────────────────────────
 const SCD={
@@ -11953,6 +12363,9 @@ async function inviteTeamMember() {
     if (error) throw error;
     toast({ type:'success', title:'تم إرسال الدعوة',
       msg:`اطلب من ${email} يسجّل دخوله بنفس الإيميل — وراح يربط تلقائياً.`, duration:8000 });
+    logActivity('member', 'member_invite',
+      `دعوة عضو جديد: ${email} (${ROLE_META[role]?.label || role})`,
+      { email, role, name });
     document.getElementById('nu-email').value = '';
     document.getElementById('nu-name').value = '';
     document.getElementById('addUserForm').style.display = 'none';
@@ -12159,6 +12572,134 @@ async function revokeInvite(inviteId, email) {
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+// Activity Log — Track all user actions
+// ═══════════════════════════════════════════════════════════════════════
+const ACT_CAT_META = {
+  invoice:     { icon:'🧾', label:'فاتورة',       color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  closing:     { icon:'🏦', label:'إغلاق يومي',   color:'#1e6080', bg:'rgba(130,176,199,.12)' },
+  expense:     { icon:'💸', label:'مصروف',        color:'#c93545', bg:'rgba(201,53,69,.10)' },
+  supplier:    { icon:'🏪', label:'مورد',         color:'#a8854a', bg:'rgba(197,168,120,.12)' },
+  transaction: { icon:'💰', label:'إيراد/مصروف',  color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  quote:       { icon:'📋', label:'عرض سعر',      color:'#8b5cf6', bg:'rgba(139,92,246,.12)' },
+  member:      { icon:'👥', label:'الفريق',       color:'#1e6080', bg:'rgba(130,176,199,.12)' },
+  auth:        { icon:'🔐', label:'تسجيل دخول',   color:'#666',    bg:'rgba(100,100,100,.10)' },
+  settings:    { icon:'⚙️', label:'إعدادات',      color:'#a8854a', bg:'rgba(197,168,120,.12)' },
+  payment:     { icon:'💳', label:'دفعة',         color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  other:       { icon:'📌', label:'أخرى',         color:'#666',    bg:'rgba(100,100,100,.10)' },
+};
+
+// Helper used by other functions to log actions (fire-and-forget)
+async function logActivity(category, action, description, metadata = null, entity = null) {
+  try {
+    if (!Auth?.tenant?.id) return;
+    await _sb.rpc('log_activity', {
+      category_in:    category,
+      action_in:      action,
+      description_in: description,
+      entity_type_in: entity?.type || null,
+      entity_id_in:   entity?.id   || null,
+      metadata_in:    metadata     || null,
+    });
+  } catch (e) { console.warn('logActivity failed (non-fatal):', e.message); }
+}
+
+async function loadActivityLog() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  const cat  = document.getElementById('actFilterCat').value;
+  const usr  = document.getElementById('actFilterUser').value;
+  const from = document.getElementById('actFilterFrom').value;
+  const to   = document.getElementById('actFilterTo').value;
+
+  let q = _sb.from('activity_log').select('*').eq('tenant_id', tid).order('created_at', { ascending: false }).limit(300);
+  if (cat)  q = q.eq('category', cat);
+  if (usr)  q = q.eq('user_id', usr);
+  if (from) q = q.gte('created_at', from + 'T00:00:00');
+  if (to)   q = q.lte('created_at', to + 'T23:59:59');
+
+  const listEl = document.getElementById('actList');
+  listEl.innerHTML = `<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px">جاري التحميل...</div>`;
+  try {
+    const { data, error } = await q;
+    if (error) throw error;
+    renderActivityLog(data || []);
+    populateActivityUserFilter(data || []);
+  } catch (e) {
+    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّلي migration: <code>sql/activity_log.sql</code></div>`;
+  }
+}
+
+function populateActivityUserFilter(rows) {
+  const sel = document.getElementById('actFilterUser');
+  if (!sel || sel.options.length > 1) return; // already populated
+  const users = new Map();
+  rows.forEach(r => { if (r.user_id) users.set(r.user_id, r.user_name || r.user_email || 'مستخدم'); });
+  users.forEach((name, uid) => {
+    const opt = document.createElement('option');
+    opt.value = uid; opt.textContent = name;
+    sel.appendChild(opt);
+  });
+}
+
+function renderActivityLog(rows) {
+  const listEl = document.getElementById('actList');
+  const sumEl  = document.getElementById('actSummary');
+
+  // Summary by category (top of page)
+  const summary = {};
+  rows.forEach(r => { summary[r.category] = (summary[r.category] || 0) + 1; });
+  sumEl.innerHTML = Object.entries(summary).map(([cat, count]) => {
+    const m = ACT_CAT_META[cat] || ACT_CAT_META.other;
+    return `<div style="background:${m.bg};border:1px solid ${m.color}33;border-radius:10px;padding:10px;text-align:center">
+      <div style="font-size:18px">${m.icon}</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:3px">${m.label}</div>
+      <div style="font-size:16px;font-weight:800;color:${m.color}">${count}</div>
+    </div>`;
+  }).join('') || `<div style="grid-column:1/-1;text-align:center;padding:14px;color:var(--t3);font-size:12px">لا توجد إحصائيات</div>`;
+
+  if (!rows.length) {
+    listEl.innerHTML = `<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">📭 لا توجد حركات بعد — ابدئي باستخدام محسوب وستظهر هنا</div>`;
+    return;
+  }
+
+  // Group by day
+  const groups = {};
+  rows.forEach(r => {
+    const day = (r.created_at || '').slice(0,10);
+    if (!groups[day]) groups[day] = [];
+    groups[day].push(r);
+  });
+
+  const today = new Date().toISOString().slice(0,10);
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  const dayLabel = d => d === today ? 'اليوم' : (d === yesterday ? 'أمس' : new Date(d).toLocaleDateString('ar-SA-u-nu-latn', { weekday:'long', day:'numeric', month:'long' }));
+
+  listEl.innerHTML = Object.entries(groups).map(([day, items]) => `
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:800;color:var(--t2);padding:6px 10px;background:#fafafa;border-radius:8px;margin-bottom:10px;display:inline-block">📅 ${dayLabel(day)} (${items.length})</div>
+      <div style="position:relative;padding-right:18px;border-right:2px solid #eee">
+        ${items.map(r => {
+          const m = ACT_CAT_META[r.category] || ACT_CAT_META.other;
+          const time = new Date(r.created_at).toLocaleTimeString('ar-SA-u-nu-latn', { hour:'2-digit', minute:'2-digit' });
+          return `<div style="position:relative;padding:10px 14px;margin-bottom:8px;background:#fff;border:1px solid var(--b);border-radius:10px">
+            <div style="position:absolute;right:-26px;top:14px;width:18px;height:18px;border-radius:50%;background:${m.bg};border:2px solid ${m.color};display:flex;align-items:center;justify-content:center;font-size:10px">${m.icon}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;font-weight:600;color:#000">${r.description}</div>
+                <div style="font-size:10px;color:var(--t3);margin-top:3px">
+                  ${r.user_name || r.user_email || 'مستخدم'} · <span style="direction:ltr">${time}</span>
+                </div>
+              </div>
+              <span style="background:${m.bg};color:${m.color};padding:3px 9px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap">${m.label}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
 // ─── Customer-type (B2C/B2B) navigation gating ──────────────────────────
 const B2C_HIDDEN_PAGES = ['inv', 'zt', 'quotes']; // قهوة/متجر: نظام الكاشير يصدر الفواتير
 const B2B_HIDDEN_PAGES = ['pos', 'daily', 'channels']; // شركات: ما يحتاجون إغلاقات يومية
@@ -12209,6 +12750,9 @@ async function saveCustomerType() {
     if (error) throw error;
     Auth.tenant.customer_type = _ctSelected;
     _ctOriginal = _ctSelected;
+    logActivity('settings', 'customer_type_change',
+      `تغيير نوع العملاء إلى: ${CT_OPTIONS.find(o => o.id === _ctSelected)?.label || _ctSelected}`,
+      { from: _ctOriginal, to: _ctSelected });
     toast({ type:'success', msg:'تم تحديث نوع العملاء — حدّثي الصفحة لتطبيق التغيير' });
     btn.style.display = 'none';
     btn.disabled = false; btn.textContent = '💾 حفظ التغيير';
@@ -12321,6 +12865,16 @@ async function bootApp() {
       window.location.href = '/login';
       return;
     }
+
+    // Log session start (once per session, not every reload)
+    try {
+      const SESSION_KEY = 'mahsoob_session_logged_' + (Auth.session?.user?.id || '');
+      if (!sessionStorage.getItem(SESSION_KEY)) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        setTimeout(() => logActivity('auth', 'session_start', `تسجيل دخول جديد`,
+          { user_agent: navigator.userAgent }), 500);
+      }
+    } catch(_) {}
 
     // Redirect to onboarding ONLY if explicitly not onboarded (boolean false)
     // Once `onboarded = true` is set, this never fires again for the user
