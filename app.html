@@ -3297,6 +3297,18 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <button class="btn bg2" style="margin-top:12px;font-size:12px;padding:5px 12px;color:var(--r)" onclick="removeProfilePhoto()">حذف الصورة</button>
   </div>
 
+  <!-- Business mode (B2C / B2B) -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh">
+      <div>
+        <div class="st">نوع العملاء</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">يحدد إيش الصفحات اللي تظهر في القائمة</div>
+      </div>
+    </div>
+    <div id="ctSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px"></div>
+    <button class="btn bp" id="ctSaveBtn" style="margin-top:14px;display:none" onclick="saveCustomerType()">💾 حفظ التغيير</button>
+  </div>
+
   <!-- Brand / Business Logo -->
   <div class="card" style="margin-bottom:14px">
     <div class="sh"><div class="st">شعار النشاط التجاري</div></div>
@@ -5078,6 +5090,7 @@ function go(id,el){
   if (id === 'exp')    expensesLoad();
   if (id === 'usrs')   loadTeamMembers();
   if (id === 'tx')     loadTransactions();
+  if (id === 'profile') renderCustomerTypeSelector();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -12146,10 +12159,85 @@ async function revokeInvite(inviteId, email) {
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
 
+// ─── Customer-type (B2C/B2B) navigation gating ──────────────────────────
+const B2C_HIDDEN_PAGES = ['inv', 'zt', 'quotes']; // قهوة/متجر: نظام الكاشير يصدر الفواتير
+const B2B_HIDDEN_PAGES = ['pos', 'daily', 'channels']; // شركات: ما يحتاجون إغلاقات يومية
+
+const CT_OPTIONS = [
+  { id:'b2c',  icon:'🛍', label:'أفراد', hint:'قهوة / متجر / مطعم' },
+  { id:'b2b',  icon:'🏢', label:'شركات', hint:'استشارات / مقاولات' },
+  { id:'both', icon:'🔁', label:'الاثنين', hint:'كل الصفحات' },
+];
+
+let _ctOriginal = null;
+let _ctSelected = null;
+
+function renderCustomerTypeSelector() {
+  const el = document.getElementById('ctSelector');
+  if (!el) return;
+  const current = Auth?.tenant?.customer_type || 'both';
+  _ctOriginal = current;
+  _ctSelected = current;
+  el.innerHTML = CT_OPTIONS.map(o => `
+    <button class="ct-opt ${o.id===current?'sel':''}" data-ct="${o.id}" onclick="selectCustomerType('${o.id}')"
+      style="background:${o.id===current?'rgba(134,186,114,.15)':'#fff'};border:2px solid ${o.id===current?'#86BA72':'var(--b)'};border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .15s;font-family:inherit">
+      <div style="font-size:24px;margin-bottom:6px">${o.icon}</div>
+      <div style="font-size:13px;font-weight:800;color:#000;margin-bottom:3px">${o.label}</div>
+      <div style="font-size:11px;color:var(--t3)">${o.hint}</div>
+    </button>
+  `).join('');
+  document.getElementById('ctSaveBtn').style.display = 'none';
+}
+
+function selectCustomerType(id) {
+  _ctSelected = id;
+  document.querySelectorAll('.ct-opt').forEach(b => {
+    const isSel = b.dataset.ct === id;
+    b.style.background = isSel ? 'rgba(134,186,114,.15)' : '#fff';
+    b.style.borderColor = isSel ? '#86BA72' : 'var(--b)';
+  });
+  document.getElementById('ctSaveBtn').style.display = id !== _ctOriginal ? 'block' : 'none';
+}
+
+async function saveCustomerType() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) { toast({ type:'error', msg:'لم يتم تحميل بيانات النشاط' }); return; }
+  const btn = document.getElementById('ctSaveBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    const { error } = await _sb.from('tenants').update({ customer_type: _ctSelected }).eq('id', tid);
+    if (error) throw error;
+    Auth.tenant.customer_type = _ctSelected;
+    _ctOriginal = _ctSelected;
+    toast({ type:'success', msg:'تم تحديث نوع العملاء — حدّثي الصفحة لتطبيق التغيير' });
+    btn.style.display = 'none';
+    btn.disabled = false; btn.textContent = '💾 حفظ التغيير';
+    setTimeout(() => location.reload(), 1500);
+  } catch (e) {
+    toast({ type:'error', msg:'فشل: ' + e.message });
+    btn.disabled = false; btn.textContent = '💾 حفظ التغيير';
+  }
+}
+
+function applyCustomerTypeFilter() {
+  const ct = Auth?.tenant?.customer_type;
+  if (!ct || ct === 'both') return; // No filter — show everything
+  const hidden = ct === 'b2c' ? B2C_HIDDEN_PAGES : B2B_HIDDEN_PAGES;
+  document.querySelectorAll('.ni').forEach(nav => {
+    const onclick = nav.getAttribute('onclick') || '';
+    const match = onclick.match(/go\('([^']+)'/);
+    if (!match) return;
+    if (hidden.includes(match[1])) nav.style.display = 'none';
+  });
+}
+
 // ─── Role-based navigation gating ───────────────────────────────────────
 function applyRolePermissions() {
   const role = Auth?.profile?.role || 'admin';
-  if (role === 'admin') return; // Admin sees everything
+  if (role === 'admin') {
+    applyCustomerTypeFilter();
+    return;
+  }
 
   // Use custom permissions if set, else fall back to role defaults
   const customPerms = Auth?.profile?.permissions;
@@ -12162,6 +12250,9 @@ function applyRolePermissions() {
     const page = match[1];
     if (!allowed.includes(page)) nav.style.display = 'none';
   });
+
+  // Also apply customer-type filter on top of role-based gating
+  applyCustomerTypeFilter();
 
   // Show role badge in the user pill
   const pill = document.getElementById('userRoleLbl');

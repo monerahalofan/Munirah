@@ -358,6 +358,7 @@ async function finish() {
     // 3) Update tenant profile + mark onboarded
     const { error: e3 } = await _sb.from('tenants').update({
       business_type:     answers.business_type,
+      customer_type:     answers.customer_type,
       branch_count:      answers.branch_count,
       vat_registered:    answers.vat_registered,
       has_inventory:     answers.has_inventory,
