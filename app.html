@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>محسوب — محاسبك المالي الذكي</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#9DC78A">
+<meta name="theme-color" content="#dde5e5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="محسوب">
@@ -27,8 +27,8 @@
 <style>
 :root{
   /* ─── Brand identity palette ─── */
-  --brand-green:#86BA72;     /* أخضر أساسي */
-  --brand-green-h:#7AA866;   /* أخضر أعمق للـ hover */
+  --brand-green:#ced9d9;     /* أخضر أساسي */
+  --brand-green-h:#b8c7c7;   /* أخضر أعمق للـ hover */
   --brand-dark:#2C5559;      /* داكن — أزرق رمادي */
   --brand-khaki:#C5A878;     /* خاكي */
   --brand-purple:#A689B5;    /* بنفسجي */
@@ -47,7 +47,7 @@
   --t1:#000000;
 
   /* ─── Semantic mapping (kept for backwards compat) ─── */
-  --g:#86BA72;--gb:rgba(134,186,114,.1);--gB:rgba(134,186,114,.28);
+  --g:#ced9d9;--gb:rgba(206,217,217,.1);--gB:rgba(206,217,217,.28);
   --r:#dc2f3b;--rb:rgba(220,47,59,.08);--rB:rgba(220,47,59,.2);
   --bl:#82B0C7;--blb:rgba(130,176,199,.12);--blB:rgba(130,176,199,.3);
   --a:#C5A878;--ab:rgba(197,168,120,.14);--aB:rgba(197,168,120,.32);
@@ -83,24 +83,24 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 .ns-chev{display:none}
 
 .ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;color:var(--t2);font-size:13px;margin:1px 0;transition:all .15s;font-weight:500;position:relative}
-.ni:hover{background:rgba(134,186,114,.09);color:var(--dark)}
+.ni:hover{background:rgba(206,217,217,.09);color:var(--dark)}
 .ni:hover .nk{opacity:1;color:var(--g)}
-.ni.on{background:rgba(134,186,114,.12);color:var(--dark);font-weight:700;border:1px solid rgba(134,186,114,.22)}
+.ni.on{background:rgba(206,217,217,.12);color:var(--dark);font-weight:700;border:1px solid rgba(206,217,217,.22)}
 .ni.on .nk{opacity:1;color:var(--g)}
 
 .nk{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.6;transition:.15s;color:var(--t2)}
 
 .nb{margin-right:auto;background:var(--g);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800;min-width:20px;text-align:center}
-.nbg{margin-right:auto;background:rgba(134,186,114,.12);color:#3d7a2a;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;border:1px solid rgba(134,186,114,.2)}
-.ni.on .nbg{background:rgba(134,186,114,.2);color:#3d7a2a}
+.nbg{margin-right:auto;background:rgba(206,217,217,.12);color:#3d7a2a;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;border:1px solid rgba(206,217,217,.2)}
+.ni.on .nbg{background:rgba(206,217,217,.2);color:#3d7a2a}
 .us{padding:12px;border-top:1px solid rgba(44,85,89,.07)}
-.uc{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(134,186,114,.05);border-radius:11px;border:1px solid rgba(134,186,114,.15);transition:.15s;cursor:pointer}
-.uc:hover{background:rgba(134,186,114,.1);border-color:rgba(134,186,114,.3)}
+.uc{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(206,217,217,.05);border-radius:11px;border:1px solid rgba(206,217,217,.15);transition:.15s;cursor:pointer}
+.uc:hover{background:rgba(206,217,217,.1);border-color:rgba(206,217,217,.3)}
 
 /* Upgrade + Logout buttons */
 .us-btn{flex:1;padding:10px;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .2s;border:none}
-.us-btn-upgrade{background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;box-shadow:0 2px 8px rgba(134,186,114,.3)}
-.us-btn-upgrade:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(134,186,114,.4);background:linear-gradient(135deg,#7AA866,#86BA72)}
+.us-btn-upgrade{background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;font-weight:700;box-shadow:0 2px 8px rgba(206,217,217,.45)}
+.us-btn-upgrade:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(206,217,217,.55);background:linear-gradient(135deg,#b8c7c7,#ced9d9)}
 .us-btn-out{background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.22)}
 .us-btn-out:hover{background:rgba(201,53,69,.08);border-color:rgba(201,53,69,.4)}
 .ua{width:28px;height:28px;border-radius:50%;background:var(--blb);border:1px solid var(--blB);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bl);flex-shrink:0}
@@ -109,15 +109,15 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 .tb{padding:12px 22px;border-bottom:1px solid rgba(44,85,89,.07);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:sticky;top:0;z-index:10;box-shadow:0 1px 0 rgba(44,85,89,.04)}
 body.dark .tb{background:rgba(13,17,23,.95);border-color:rgba(255,255,255,.07)}
 .hdr-icon{width:36px;height:36px;border-radius:9px;background:transparent;border:1px solid rgba(44,85,89,.1);color:var(--t2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;transition:all .15s;flex-shrink:0;position:relative}
-.hdr-icon:hover{background:rgba(134,186,114,.09);border-color:rgba(134,186,114,.3);color:var(--g)}
+.hdr-icon:hover{background:rgba(206,217,217,.09);border-color:rgba(206,217,217,.3);color:var(--g)}
 .hdr-badge{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#dc2f3b;color:#fff;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
 .hdr-btn-out{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:transparent;border:1px solid rgba(44,85,89,.14);color:var(--t2);border-radius:9px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;transition:all .22s}
-.hdr-btn-out:hover{border-color:var(--g);color:var(--dark);background:rgba(134,186,114,.07);box-shadow:0 2px 8px rgba(134,186,114,.12)}
-.hdr-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--g);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;box-shadow:0 2px 8px rgba(134,186,114,.28)}
-.hdr-btn-primary:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.36)}
+.hdr-btn-out:hover{border-color:var(--g);color:var(--dark);background:rgba(206,217,217,.07);box-shadow:0 2px 8px rgba(206,217,217,.12)}
+.hdr-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--g);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;box-shadow:0 2px 8px rgba(206,217,217,.28)}
+.hdr-btn-primary:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 6px 16px rgba(206,217,217,.36)}
 .pt{font-size:17px;font-weight:800;color:var(--dark)}
 .btn{padding:8px 16px;border-radius:9px;border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
-.bp{background:#86BA72;color:#fff;box-shadow:0 2px 6px rgba(134,186,114,.25)}.bp:hover{background:#7AA866;transform:translateY(-1px);box-shadow:0 6px 14px rgba(134,186,114,.35)}
+.bp{background:#ced9d9;color:#2C5559;font-weight:700;box-shadow:0 2px 6px rgba(206,217,217,.45)}.bp:hover{background:#b8c7c7;transform:translateY(-1px);box-shadow:0 6px 14px rgba(206,217,217,.55)}
 .bg2{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bg2:hover{background:var(--bg3);color:var(--t)}
 /* Cards */
 .card{background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:var(--R);padding:18px;box-shadow:0 1px 3px rgba(44,85,89,.04)}
@@ -128,12 +128,12 @@ body.dark .card,body.dark .csm{background:#161b27;border-color:rgba(255,255,255,
 /* KPI */
 .kg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
 .kc{background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:16px;padding:20px 22px 18px;position:relative;overflow:hidden;transition:all .28s;box-shadow:0 1px 4px rgba(44,85,89,.04)}
-.kc:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(44,85,89,.09);border-color:rgba(134,186,114,.35)}
+.kc:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(44,85,89,.09);border-color:rgba(206,217,217,.35)}
 body.dark .kc{background:#161b27;border-color:rgba(255,255,255,.08);box-shadow:none}
 body.dark .kc:hover{box-shadow:0 8px 20px rgba(0,0,0,.4)}
 body.dark .qab-new{background:#161b27 !important}
 .kc-icon{position:absolute;top:18px;left:20px;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center}
-.kc.G .kc-icon{background:rgba(134,186,114,.12);border:1px solid rgba(134,186,114,.22);color:#3d7a2a}
+.kc.G .kc-icon{background:rgba(206,217,217,.12);border:1px solid rgba(206,217,217,.22);color:#3d7a2a}
 .kc.R .kc-icon{background:rgba(201,53,69,.09);border:1px solid rgba(201,53,69,.18);color:#c93545}
 .kc.B .kc-icon{background:rgba(130,176,199,.12);border:1px solid rgba(130,176,199,.25);color:#2e6e8a}
 .kc.A .kc-icon{background:rgba(197,168,120,.14);border:1px solid rgba(197,168,120,.28);color:#a8854a}
@@ -166,7 +166,7 @@ body.dark .qab-new{background:#161b27 !important}
 .tbl th{text-align:right;padding:9px 12px;font-size:11px;color:var(--t3);font-weight:700;border-bottom:1px solid rgba(44,85,89,.07);background:rgba(44,85,89,.02);letter-spacing:.04em;text-transform:uppercase}
 .tbl td{padding:11px 12px;font-size:13px;border-bottom:1px solid rgba(44,85,89,.06);color:var(--t2)}
 .tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:rgba(134,186,114,.04)}
+.tbl tr:hover td{background:rgba(206,217,217,.04)}
 .tbl td.tm{color:var(--dark);font-weight:500}
 /* Badge */
 .bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
@@ -179,13 +179,13 @@ body.dark .qab-new{background:#161b27 !important}
 .inv-step{display:flex;align-items:center;gap:10px;flex:1;justify-content:center}
 .inv-step-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
 .inv-step-label{font-size:13px;color:var(--t3);white-space:nowrap;transition:.2s;font-weight:500}
-.inv-step.on .inv-step-num{background:linear-gradient(135deg,#86BA72,#9DC78A);border-color:#86BA72;color:#fff;box-shadow:0 0 0 4px rgba(134,186,114,.2)}
+.inv-step.on .inv-step-num{background:linear-gradient(135deg,#ced9d9,#dde5e5);border-color:#ced9d9;color:#2C5559;box-shadow:0 0 0 4px rgba(206,217,217,.2)}
 .inv-step.on .inv-step-label{color:var(--t);font-weight:700}
-.inv-step.done .inv-step-num{background:rgba(134,186,114,.15);border-color:#86BA72;color:#86BA72}
+.inv-step.done .inv-step-num{background:rgba(206,217,217,.15);border-color:#ced9d9;color:#ced9d9}
 .inv-step.done .inv-step-num::after{content:'✓';font-size:15px}
 .inv-step.done .inv-step-num span{display:none}
 .inv-step-line{flex:0 0 32px;height:2px;background:var(--b)}
-.inv-step.done + .inv-step-line{background:linear-gradient(90deg,#86BA72,#9DC78A)}
+.inv-step.done + .inv-step-line{background:linear-gradient(90deg,#ced9d9,#dde5e5)}
 .inv-step-line{flex:1;height:2px;background:var(--b);max-width:60px;border-radius:2px}
 /* Form */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -301,7 +301,7 @@ body.dark{
   --bg:#0d1117;--bg2:#161b27;--bg3:#1e2535;--bg4:#252d3d;
   --b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
   --t:#f0f2f8;--t2:#8892a4;--t3:#4a5568;
-  --g:#9DC78A;--gb:rgba(157,199,138,.1);--gB:rgba(157,199,138,.2);
+  --g:#dde5e5;--gb:rgba(157,199,138,.1);--gB:rgba(157,199,138,.2);
   --r:#ff5e6b;--rb:rgba(255,94,107,.1);--rB:rgba(255,94,107,.2);
   --bl:#4e8cff;--blb:rgba(78,140,255,.1);--blB:rgba(78,140,255,.2);
   --a:#ffaa33;--ab:rgba(255,170,51,.1);--aB:rgba(255,170,51,.2);
@@ -396,7 +396,7 @@ h1 .sar-icon,h2 .sar-icon{vertical-align:-.1em;width:.8em;height:.8em}
 .toast.out{animation:toastOut .25s forwards}
 body.dark .toast{background:#1e2535}
 .toast-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
-.toast.success .toast-icon{background:rgba(134,186,114,.15);color:#86BA72}
+.toast.success .toast-icon{background:rgba(206,217,217,.15);color:#ced9d9}
 .toast.error   .toast-icon{background:rgba(220,38,38,.15);color:#dc2626}
 .toast.info    .toast-icon{background:rgba(37,99,235,.15);color:#2563eb}
 .toast.warn    .toast-icon{background:rgba(245,158,11,.15);color:#f59e0b}
@@ -412,21 +412,21 @@ body.dark .toast{background:#1e2535}
 body.dark #bottomNav{background:#161b27}
 .bnav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;max-width:600px;margin:0 auto}
 .bnav-item{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;cursor:pointer;color:var(--t3);transition:.15s;font-family:inherit;border-radius:10px}
-.bnav-item:hover{background:rgba(134,186,114,.05)}
-.bnav-item.on{color:#86BA72}
-.bnav-item.on .bnav-icon{background:rgba(134,186,114,.12);transform:translateY(-2px)}
+.bnav-item:hover{background:rgba(206,217,217,.05)}
+.bnav-item.on{color:#ced9d9}
+.bnav-item.on .bnav-icon{background:rgba(206,217,217,.12);transform:translateY(-2px)}
 .bnav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .bnav-label{font-size:10px;font-weight:600}
 .bnav-fab{position:relative}
-.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#86BA72,#9DC78A) !important;color:#fff !important;box-shadow:0 4px 12px rgba(134,186,114,.35);margin-top:-12px}
+.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#ced9d9,#dde5e5) !important;color:#2C5559 !important;box-shadow:0 4px 12px rgba(206,217,217,.35);margin-top:-12px}
 @media(max-width:700px){
   #bottomNav{display:block}
   .main{padding-bottom:78px !important}
 }
 
 /* ═══════════ FAB (Floating Action Button) ═══════════ */
-#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(134,186,114,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
-#fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(134,186,114,.55)}
+#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(206,217,217,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
+#fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(206,217,217,.55)}
 #fab:active{transform:scale(.95)}
 #fab svg{transition:transform .3s}
 #fab.open svg{transform:rotate(135deg)}
@@ -437,7 +437,7 @@ body.dark #bottomNav{background:#161b27}
 .fab-menu.open .fab-item:nth-child(2){animation-delay:.1s}
 .fab-menu.open .fab-item:nth-child(3){animation-delay:.15s}
 .fab-menu.open .fab-item:nth-child(4){animation-delay:.2s}
-.fab-item:hover{transform:translateX(0) scale(1.05);border-color:#86BA72}
+.fab-item:hover{transform:translateX(0) scale(1.05);border-color:#ced9d9}
 body.dark .fab-item{background:#1e2535}
 @keyframes fabSlide{to{transform:translateX(0);opacity:1}}
 @media(max-width:700px){#fab{display:flex}}
@@ -451,12 +451,12 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Animated empty state ═══════════ */
 .empty-state{text-align:center;padding:40px 20px;color:var(--t3)}
-.empty-state-icon{width:72px;height:72px;border-radius:50%;background:rgba(134,186,114,.08);color:#86BA72;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:emptyPulse 2.5s ease-in-out infinite}
+.empty-state-icon{width:72px;height:72px;border-radius:50%;background:rgba(206,217,217,.08);color:#ced9d9;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:emptyPulse 2.5s ease-in-out infinite}
 @keyframes emptyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .empty-state-title{font-size:15px;font-weight:700;color:var(--t);margin-bottom:6px}
 .empty-state-msg{font-size:12px;color:var(--t2);line-height:1.7;max-width:300px;margin:0 auto 14px}
-.empty-state-cta{padding:9px 22px;background:#86BA72;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
-.empty-state-cta:hover{background:#9DC78A;transform:translateY(-2px);box-shadow:0 6px 16px rgba(134,186,114,.3)}
+.empty-state-cta{padding:9px 22px;background:#ced9d9;color:#2C5559;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.empty-state-cta:hover{background:#dde5e5;transform:translateY(-2px);box-shadow:0 6px 16px rgba(206,217,217,.3)}
 
 /* ═══════════ Ripple effect ═══════════ */
 .ripple{position:relative;overflow:hidden}
@@ -471,8 +471,8 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Date Range Picker ═══════════ */
 .dr-opt{padding:11px 16px;cursor:pointer;font-size:13px;color:var(--t);transition:.15s;font-weight:500}
-.dr-opt:hover{background:rgba(134,186,114,.08);color:#86BA72}
-.dr-opt.on{background:rgba(134,186,114,.12);color:#86BA72;font-weight:700}
+.dr-opt:hover{background:rgba(206,217,217,.08);color:#ced9d9}
+.dr-opt.on{background:rgba(206,217,217,.12);color:#ced9d9;font-weight:700}
 
 /* ═══════════ Animated charts ═══════════ */
 .chart-bar{position:relative;cursor:pointer;transition:all .2s}
@@ -493,7 +493,7 @@ body.dark .fab-item{background:#1e2535}
 @keyframes drawLine{to{stroke-dashoffset:0}}
 
 /* Pulse animation for "live" indicators */
-@keyframes pulseLive{0%,100%{box-shadow:0 0 0 0 rgba(134,186,114,.5)}50%{box-shadow:0 0 0 8px rgba(134,186,114,0)}}
+@keyframes pulseLive{0%,100%{box-shadow:0 0 0 0 rgba(206,217,217,.5)}50%{box-shadow:0 0 0 8px rgba(206,217,217,0)}}
 .pulse-live{animation:pulseLive 2s ease-in-out infinite}
 
 /* ═══════════ Skeleton loader ═══════════ */
@@ -506,7 +506,7 @@ body.dark .fab-item{background:#1e2535}
 
 /* ═══════════ Hover pulse on clickable cards ═══════════ */
 .card-clickable{cursor:pointer;transition:all .2s}
-.card-clickable:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(44,85,89,.08);border-color:rgba(134,186,114,.3) !important}
+.card-clickable:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(44,85,89,.08);border-color:rgba(206,217,217,.3) !important}
 
 /* ═══════════ Smooth scroll for the whole app ═══════════ */
 html{scroll-behavior:smooth}
@@ -518,8 +518,8 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 /* ═══════════ Input focus glow ═══════════ */
 .fi:focus,input:focus,textarea:focus,select:focus{
   outline:none;
-  border-color:#86BA72;
-  box-shadow:0 0 0 3px rgba(134,186,114,.12);
+  border-color:#ced9d9;
+  box-shadow:0 0 0 3px rgba(206,217,217,.12);
   transition:all .15s;
 }
 
@@ -529,7 +529,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
 
 /* ── Root extras ── */
 :root{
-  --g2:#9DC78A;
+  --g2:#dde5e5;
   --dark:#0f2426;
   --shadow-sm:0 1px 3px rgba(44,85,89,.06),0 1px 2px rgba(44,85,89,.04);
   --shadow-md:0 4px 16px rgba(44,85,89,.08),0 1px 4px rgba(44,85,89,.04);
@@ -541,7 +541,7 @@ button:active,.qab:active,.bnav-item:active{transform:scale(.97)}
   width:256px;
   background:linear-gradient(180deg,#fff 0%,#fafdfb 100%);
   border-left:1px solid rgba(44,85,89,.07);
-  box-shadow:inset -1px 0 0 rgba(134,186,114,.06);
+  box-shadow:inset -1px 0 0 rgba(206,217,217,.06);
 }
 body.dark .sb{background:linear-gradient(180deg,#161b27 0%,#141922 100%)}
 
@@ -570,14 +570,14 @@ body.dark .lw{background:rgba(22,27,39,.8)}
   position:relative;
 }
 .ni:hover{
-  background:rgba(134,186,114,.09);
+  background:rgba(206,217,217,.09);
   color:#0f2426;
 }
 .ni.on{
-  background:linear-gradient(135deg,rgba(134,186,114,.16),rgba(134,186,114,.08));
+  background:linear-gradient(135deg,rgba(206,217,217,.16),rgba(206,217,217,.08));
   color:#0f2426;font-weight:700;
-  border:1px solid rgba(134,186,114,.22);
-  box-shadow:0 1px 4px rgba(134,186,114,.1);
+  border:1px solid rgba(206,217,217,.22);
+  box-shadow:0 1px 4px rgba(206,217,217,.1);
 }
 .ni.on::before{
   content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);
@@ -588,14 +588,14 @@ body.dark .lw{background:rgba(22,27,39,.8)}
 .nk{opacity:.5;transition:all .15s}
 
 /* Sidebar badges */
-.nb{background:linear-gradient(135deg,#86BA72,#9DC78A);font-size:10px;padding:2px 7px;border-radius:10px;font-weight:800}
+.nb{background:linear-gradient(135deg,#ced9d9,#dde5e5);font-size:10px;padding:2px 7px;border-radius:10px;font-weight:800}
 .nbg{font-size:9px;padding:2px 7px;border-radius:8px;font-weight:800;letter-spacing:.02em}
 
 /* Sidebar user section */
 .us{
   padding:10px 12px 14px;
   border-top:1px solid rgba(44,85,89,.07);
-  background:rgba(134,186,114,.03);
+  background:rgba(206,217,217,.03);
 }
 .uc{
   padding:10px 11px;
@@ -606,9 +606,9 @@ body.dark .lw{background:rgba(22,27,39,.8)}
 }
 body.dark .uc{background:rgba(30,37,53,.6)}
 .uc:hover{
-  background:rgba(134,186,114,.07);
-  border-color:rgba(134,186,114,.25);
-  box-shadow:0 2px 8px rgba(134,186,114,.08);
+  background:rgba(206,217,217,.07);
+  border-color:rgba(206,217,217,.25);
+  box-shadow:0 2px 8px rgba(206,217,217,.08);
 }
 .ua{
   width:32px;height:32px;border-radius:10px;
@@ -619,13 +619,13 @@ body.dark .uc{background:rgba(30,37,53,.6)}
 .un{font-size:13px;font-weight:700;color:var(--t)}
 .up,.uc-role{font-size:11px;color:var(--g);font-weight:600}
 .us-btn-upgrade{
-  background:linear-gradient(135deg,#86BA72 0%,#9DC78A 100%);
+  background:linear-gradient(135deg,#ced9d9 0%,#dde5e5 100%);
   border-radius:10px;font-size:12px;
-  box-shadow:0 2px 10px rgba(134,186,114,.3);
+  box-shadow:0 2px 10px rgba(206,217,217,.3);
 }
 .us-btn-upgrade:hover{
   transform:translateY(-1px);
-  box-shadow:0 6px 18px rgba(134,186,114,.42);
+  box-shadow:0 6px 18px rgba(206,217,217,.42);
 }
 .us-btn-out{border-radius:10px;font-size:12px}
 
@@ -651,10 +651,10 @@ body.dark .pt{color:#f0f2f8}
   transition:all .15s;
 }
 .hdr-icon:hover{
-  background:rgba(134,186,114,.09);
-  border-color:rgba(134,186,114,.28);
+  background:rgba(206,217,217,.09);
+  border-color:rgba(206,217,217,.28);
   color:#2d6e1e;
-  box-shadow:0 2px 8px rgba(134,186,114,.12);
+  box-shadow:0 2px 8px rgba(206,217,217,.12);
 }
 .hdr-btn-out{
   padding:8px 15px;border-radius:10px;
@@ -664,17 +664,17 @@ body.dark .pt{color:#f0f2f8}
 }
 .hdr-btn-out:hover{
   border-color:var(--g);color:#2d6e1e;
-  background:rgba(134,186,114,.07);
+  background:rgba(206,217,217,.07);
 }
 .hdr-btn-primary{
   padding:8px 18px;border-radius:10px;
-  background:linear-gradient(135deg,#86BA72,#9DC78A);
+  background:linear-gradient(135deg,#ced9d9,#dde5e5);
   font-size:13px;font-weight:700;
-  box-shadow:0 2px 10px rgba(134,186,114,.3);
+  box-shadow:0 2px 10px rgba(206,217,217,.3);
 }
 .hdr-btn-primary:hover{
   transform:translateY(-1px);
-  box-shadow:0 6px 18px rgba(134,186,114,.4);
+  box-shadow:0 6px 18px rgba(206,217,217,.4);
 }
 
 /* ── Main area ── */
@@ -700,7 +700,7 @@ body.dark .main{background:#0d1117}
   width:80px;height:80px;border-radius:40px 0 0 0;
   opacity:.04;
 }
-.kc.G{background:linear-gradient(145deg,#f2faf0,#fff);border-color:rgba(134,186,114,.16)}
+.kc.G{background:linear-gradient(145deg,#f2faf0,#fff);border-color:rgba(206,217,217,.16)}
 .kc.G::after{background:var(--g)}
 .kc.R{background:linear-gradient(145deg,#fff8f8,#fff);border-color:rgba(201,53,69,.1)}
 .kc.R::after{background:var(--r)}
@@ -710,14 +710,14 @@ body.dark .main{background:#0d1117}
 .kc.A::after{background:var(--a)}
 .kc.P{background:linear-gradient(145deg,#faf7fd,#fff);border-color:rgba(166,137,181,.14)}
 .kc.P::after{background:var(--p)}
-.kc:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(134,186,114,.28)}
+.kc:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(206,217,217,.28)}
 body.dark .kc.G,body.dark .kc.R,body.dark .kc.B,body.dark .kc.A,body.dark .kc.P{background:#161b27}
 
 .kc-icon{
   position:absolute;top:18px;left:18px;
   width:38px;height:38px;border-radius:11px;
 }
-.kc.G .kc-icon{background:rgba(134,186,114,.14);border:1px solid rgba(134,186,114,.24);color:#2d7a1e}
+.kc.G .kc-icon{background:rgba(206,217,217,.14);border:1px solid rgba(206,217,217,.24);color:#2d7a1e}
 .kc.R .kc-icon{background:rgba(201,53,69,.1);border:1px solid rgba(201,53,69,.2);color:#c93545}
 .kc.B .kc-icon{background:rgba(130,176,199,.14);border:1px solid rgba(130,176,199,.26);color:#1e6080}
 .kc.A .kc-icon{background:rgba(197,168,120,.16);border:1px solid rgba(197,168,120,.3);color:#a8854a}
@@ -755,7 +755,7 @@ body.dark .st{color:#f0f2f8}
   border-radius:20px !important;
   padding:28px 30px !important;
   margin-bottom:22px;
-  border:1px solid rgba(134,186,114,.12) !important;
+  border:1px solid rgba(206,217,217,.12) !important;
   box-shadow:0 8px 32px rgba(15,36,38,.15) !important;
 }
 
@@ -770,11 +770,11 @@ body.dark .st{color:#f0f2f8}
 }
 .qab:hover{
   transform:translateY(-3px);
-  border-color:rgba(134,186,114,.3);
+  border-color:rgba(206,217,217,.3);
   box-shadow:var(--shadow-md);
 }
 body.dark .qab{background:#161b27;border-color:rgba(255,255,255,.08)}
-.qab-new{background:linear-gradient(145deg,#f2faf0,#fff) !important;border-color:rgba(134,186,114,.22) !important}
+.qab-new{background:linear-gradient(145deg,#f2faf0,#fff) !important;border-color:rgba(206,217,217,.22) !important}
 
 /* ── Tables — refined ── */
 .tbl th{
@@ -786,15 +786,15 @@ body.dark .qab{background:#161b27;border-color:rgba(255,255,255,.08)}
 }
 .tbl td{padding:12px 13px;font-size:13px;border-bottom:1px solid rgba(44,85,89,.055)}
 .tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:rgba(134,186,114,.04)}
+.tbl tr:hover td{background:rgba(206,217,217,.04)}
 .tbl td.tm{color:#0f2426;font-weight:600}
 body.dark .tbl th{background:rgba(255,255,255,.03)}
 body.dark .tbl td{border-color:rgba(255,255,255,.05)}
-body.dark .tbl tr:hover td{background:rgba(134,186,114,.06)}
+body.dark .tbl tr:hover td{background:rgba(206,217,217,.06)}
 
 /* ── Badges — refined ── */
 .bdg{border-radius:20px;font-size:11px;font-weight:700;padding:3px 10px}
-.bdg-g{background:rgba(134,186,114,.12);color:#2d7a1e;border:1px solid rgba(134,186,114,.25)}
+.bdg-g{background:rgba(206,217,217,.12);color:#2d7a1e;border:1px solid rgba(206,217,217,.25)}
 .bdg-r{background:rgba(201,53,69,.09);color:#c93545;border:1px solid rgba(201,53,69,.2)}
 .bdg-a{background:rgba(197,168,120,.14);color:#a8854a;border:1px solid rgba(197,168,120,.28)}
 .bdg-b{background:rgba(130,176,199,.12);color:#1e6080;border:1px solid rgba(130,176,199,.26)}
@@ -815,10 +815,10 @@ body.dark .fi{background:#1e2535;border-color:rgba(255,255,255,.12)}
 /* ── Buttons ── */
 .btn{border-radius:10px;font-size:13px;font-weight:700;padding:9px 17px;transition:all .18s}
 .bp{
-  background:linear-gradient(135deg,#86BA72,#9DC78A);
-  box-shadow:0 2px 8px rgba(134,186,114,.28);
+  background:linear-gradient(135deg,#ced9d9,#dde5e5);
+  box-shadow:0 2px 8px rgba(206,217,217,.28);
 }
-.bp:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.38)}
+.bp:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(206,217,217,.38)}
 .bg2{background:transparent;border:1px solid rgba(44,85,89,.15);color:var(--t2)}
 .bg2:hover{background:rgba(44,85,89,.05);border-color:rgba(44,85,89,.25)}
 
@@ -826,7 +826,7 @@ body.dark .fi{background:#1e2535;border-color:rgba(255,255,255,.12)}
 .al{border-radius:11px;padding:12px 14px;margin-bottom:10px}
 .al-r{background:rgba(220,47,59,.06);border:1px solid rgba(220,47,59,.16)}
 .al-a{background:rgba(197,168,120,.09);border:1px solid rgba(197,168,120,.22)}
-.al-g{background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.22)}
+.al-g{background:rgba(206,217,217,.08);border:1px solid rgba(206,217,217,.22)}
 .al-b{background:rgba(130,176,199,.08);border:1px solid rgba(130,176,199,.22)}
 .at2.R{color:#c0392b}.at2.A{color:#a07030}.at2.G{color:#2d7a1e}.at2.B{color:#1e6080}
 
@@ -849,8 +849,8 @@ body.dark .bbl.ai{background:#1e2535}
   border-radius:14px 14px 4px 14px;
 }
 .cta{background:#fafbf9;border:1px solid rgba(44,85,89,.12);border-radius:12px}
-.csnd{border-radius:12px;background:linear-gradient(135deg,#86BA72,#9DC78A);box-shadow:0 3px 10px rgba(134,186,114,.3)}
-.csnd:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,186,114,.4)}
+.csnd{border-radius:12px;background:linear-gradient(135deg,#ced9d9,#dde5e5);box-shadow:0 3px 10px rgba(206,217,217,.3)}
+.csnd:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(206,217,217,.4)}
 
 /* ── Prompt chips ── */
 .cp{
@@ -859,7 +859,7 @@ body.dark .bbl.ai{background:#1e2535}
   font-size:12px;color:var(--t2);font-weight:500;
   transition:all .15s;
 }
-.cp:hover{background:rgba(134,186,114,.09);color:#2d7a1e;border-color:rgba(134,186,114,.25)}
+.cp:hover{background:rgba(206,217,217,.09);color:#2d7a1e;border-color:rgba(206,217,217,.25)}
 
 /* ── Toast notifications ── */
 .toast{
@@ -867,7 +867,7 @@ body.dark .bbl.ai{background:#1e2535}
   box-shadow:0 8px 32px rgba(44,85,89,.15);
   border:1px solid rgba(44,85,89,.08);
 }
-.toast.success .toast-icon{background:rgba(134,186,114,.15);color:#2d7a1e}
+.toast.success .toast-icon{background:rgba(206,217,217,.15);color:#2d7a1e}
 
 /* ── Bottom nav ── */
 #bottomNav{
@@ -876,9 +876,9 @@ body.dark .bbl.ai{background:#1e2535}
   background:#fff;
 }
 body.dark #bottomNav{background:#161b27}
-.bnav-item.on{color:#86BA72}
-.bnav-item.on .bnav-icon{background:rgba(134,186,114,.1)}
-.bnav-fab .bnav-icon{background:linear-gradient(135deg,#86BA72,#9DC78A) !important;box-shadow:0 4px 14px rgba(134,186,114,.38)}
+.bnav-item.on{color:#ced9d9}
+.bnav-item.on .bnav-icon{background:rgba(206,217,217,.1)}
+.bnav-fab .bnav-icon{background:linear-gradient(135deg,#ced9d9,#dde5e5) !important;box-shadow:0 4px 14px rgba(206,217,217,.38)}
 
 /* ── Skeleton ── */
 .skel{background:linear-gradient(90deg,#f4f7f4 25%,#e8f0e8 50%,#f4f7f4 75%);background-size:200% 100%}
@@ -886,24 +886,24 @@ body.dark .skel{background:linear-gradient(90deg,#1e2535 25%,#252d3d 50%,#1e2535
 
 /* ── Empty state ── */
 .empty-state-icon{
-  background:rgba(134,186,114,.09);color:#2d7a1e;
-  border:1px solid rgba(134,186,114,.18);
+  background:rgba(206,217,217,.09);color:#2d7a1e;
+  border:1px solid rgba(206,217,217,.18);
   width:68px;height:68px;border-radius:20px;
-  box-shadow:0 4px 16px rgba(134,186,114,.12);
+  box-shadow:0 4px 16px rgba(206,217,217,.12);
 }
 .empty-state-title{font-size:16px;font-weight:800;color:#0f2426}
-.empty-state-cta{background:linear-gradient(135deg,#86BA72,#9DC78A);border-radius:11px;box-shadow:0 3px 10px rgba(134,186,114,.28)}
+.empty-state-cta{background:linear-gradient(135deg,#ced9d9,#dde5e5);border-radius:11px;box-shadow:0 3px 10px rgba(206,217,217,.28)}
 
 /* ── Invoice stepper ── */
 .inv-step.on .inv-step-num{
-  background:linear-gradient(135deg,#86BA72,#9DC78A);
-  border-color:#86BA72;color:#fff;
-  box-shadow:0 0 0 4px rgba(134,186,114,.18);
+  background:linear-gradient(135deg,#ced9d9,#dde5e5);
+  border-color:#ced9d9;color:#2C5559;
+  box-shadow:0 0 0 4px rgba(206,217,217,.18);
 }
 .inv-step-line{background:rgba(44,85,89,.1)}
 
 /* ── Onboarding ── */
-.obstep.done{background:rgba(134,186,114,.15);border-color:rgba(134,186,114,.35);color:#2d7a1e}
+.obstep.done{background:rgba(206,217,217,.15);border-color:rgba(206,217,217,.35);color:#2d7a1e}
 .obstep.cur{background:rgba(130,176,199,.12);border-color:rgba(130,176,199,.3);color:#1e6080}
 
 /* ── Chart bars tooltip ── */
@@ -912,8 +912,8 @@ body.dark .skel{background:linear-gradient(90deg,#1e2535 25%,#252d3d 50%,#1e2535
 
 /* ── User role cards ── */
 .user-card{border-radius:12px;border:1px solid rgba(44,85,89,.08)}
-.user-card:hover{border-color:rgba(44,85,89,.16);background:rgba(134,186,114,.03)}
-.user-card.active-user{border-color:rgba(134,186,114,.3);background:rgba(134,186,114,.06)}
+.user-card:hover{border-color:rgba(44,85,89,.16);background:rgba(206,217,217,.03)}
+.user-card.active-user{border-color:rgba(206,217,217,.3);background:rgba(206,217,217,.06)}
 
 /* ── Search input ── */
 input[placeholder*="ابحث"],input[placeholder*="بحث"]{
@@ -932,15 +932,15 @@ input[placeholder*="ابحث"],input[placeholder*="بحث"]{
 
 /* ── Scan drop zone ── */
 .scan-drop{border-radius:16px;border-width:2px;border-style:dashed;border-color:rgba(44,85,89,.15);background:#fafbf9}
-.scan-drop:hover,.scan-drop.drag{border-color:var(--g);background:rgba(134,186,114,.06)}
+.scan-drop:hover,.scan-drop.drag{border-color:var(--g);background:rgba(206,217,217,.06)}
 
 /* ── Progress bars ── */
 .progb,.glbg,.cfbg,.clbg,.bb2{background:rgba(44,85,89,.07);border-radius:6px}
 .progf,.glbf,.cfbf,.clbf,.bf2{border-radius:6px;transition:width .8s cubic-bezier(.18,.89,.32,1.28)}
 
 /* ── FAB ── */
-#fab{background:linear-gradient(135deg,#86BA72,#9DC78A);box-shadow:0 8px 28px rgba(134,186,114,.45)}
-#fab:hover{box-shadow:0 12px 36px rgba(134,186,114,.55)}
+#fab{background:linear-gradient(135deg,#ced9d9,#dde5e5);box-shadow:0 8px 28px rgba(206,217,217,.45)}
+#fab:hover{box-shadow:0 12px 36px rgba(206,217,217,.55)}
 .fab-item{border-radius:14px;box-shadow:0 4px 16px rgba(44,85,89,.1)}
 
 /* ── Client rows ── */
@@ -959,7 +959,7 @@ input[placeholder*="ابحث"],input[placeholder*="بحث"]{
 
 /* ── Role badges ── */
 .role-admin{background:rgba(130,176,199,.12);color:#1e6080;border:1px solid rgba(130,176,199,.25);border-radius:20px}
-.role-cashier{background:rgba(134,186,114,.12);color:#2d7a1e;border:1px solid rgba(134,186,114,.25);border-radius:20px}
+.role-cashier{background:rgba(206,217,217,.12);color:#2d7a1e;border:1px solid rgba(206,217,217,.25);border-radius:20px}
 .role-inventory{background:rgba(197,168,120,.12);color:#a8854a;border:1px solid rgba(197,168,120,.26);border-radius:20px}
 
 /* ── Modal ── */
@@ -982,22 +982,22 @@ body.dark #bootLoader{background:#0d1117}
 .db-greet-bar{
   display:flex;align-items:center;justify-content:space-between;
   background:linear-gradient(120deg,#0f2426 0%,#23474c 55%,#2C5559 100%);
-  border:1px solid rgba(134,186,114,.22);border-radius:20px;
+  border:1px solid rgba(206,217,217,.22);border-radius:20px;
   padding:22px 26px;margin-bottom:20px;gap:16px;flex-wrap:wrap;
   position:relative;overflow:hidden;
   box-shadow:0 10px 30px rgba(15,36,38,.16);
 }
 .db-greet-bar::before{
   content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(134,186,114,.09) 1px,transparent 1px);
+  background-image:radial-gradient(circle,rgba(206,217,217,.09) 1px,transparent 1px);
   background-size:26px 26px;pointer-events:none;
 }
 .db-greet-bar::after{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 55% 100% at 10% 50%,rgba(134,186,114,.16) 0%,transparent 60%);
+  background:radial-gradient(ellipse 55% 100% at 10% 50%,rgba(206,217,217,.16) 0%,transparent 60%);
   pointer-events:none;
 }
-body.dark .db-greet-bar{border-color:rgba(134,186,114,.16)}
+body.dark .db-greet-bar{border-color:rgba(206,217,217,.16)}
 .db-greet-left{display:flex;align-items:center;gap:14px;flex:1;min-width:220px;position:relative;z-index:1}
 .db-logo-box{
   width:52px;height:52px;border-radius:14px;flex-shrink:0;
@@ -1005,10 +1005,10 @@ body.dark .db-greet-bar{border-color:rgba(134,186,114,.16)}
   border:1px solid rgba(255,255,255,.18);
   display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-.db-logo-init{font-size:20px;font-weight:900;color:#9DC78A}
+.db-logo-init{font-size:20px;font-weight:900;color:#dde5e5}
 .db-greet-meta{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;margin-bottom:4px}
 .db-greet-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.3px;line-height:1.2}
-.db-greet-em{color:#9DC78A}
+.db-greet-em{color:#dde5e5}
 .db-greet-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;font-weight:500}
 .db-greet-right{display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;z-index:1}
 .db-plan-pill{
@@ -1018,17 +1018,17 @@ body.dark .db-greet-bar{border-color:rgba(134,186,114,.16)}
 }
 .db-plan-dot{
   width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;
-  box-shadow:0 0 0 0 rgba(134,186,114,.5);
+  box-shadow:0 0 0 0 rgba(206,217,217,.5);
   animation:pulseLive 2s ease-in-out infinite;
 }
 .db-ai-btn{
   display:inline-flex;align-items:center;gap:7px;
-  background:linear-gradient(135deg,#86BA72,#9DC78A);
+  background:linear-gradient(135deg,#ced9d9,#dde5e5);
   color:#fff;border:none;border-radius:11px;padding:9px 18px;
   font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
-  box-shadow:0 3px 14px rgba(134,186,114,.35);transition:all .2s;
+  box-shadow:0 3px 14px rgba(206,217,217,.35);transition:all .2s;
 }
-.db-ai-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(134,186,114,.45)}
+.db-ai-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(206,217,217,.45)}
 
 /* ── KPI Cards — Tocly/Premium ── */
 .kg4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
@@ -1045,7 +1045,7 @@ body.dark .kc-new{background:#161b27;border-color:rgba(255,255,255,.07)}
 /* colored top accent per KPI */
 .kc-new{position:relative}
 .kc-new::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;opacity:.9}
-.kc.G.kc-new::before{background:linear-gradient(270deg,#86BA72,rgba(134,186,114,.08))}
+.kc.G.kc-new::before{background:linear-gradient(270deg,#ced9d9,rgba(206,217,217,.08))}
 .kc.R.kc-new::before{background:linear-gradient(270deg,#dc2f3b,rgba(220,47,59,.06))}
 .kc.B.kc-new::before{background:linear-gradient(270deg,#82B0C7,rgba(130,176,199,.08))}
 .kc.A.kc-new::before{background:linear-gradient(270deg,#C5A878,rgba(197,168,120,.08))}
@@ -1055,7 +1055,7 @@ body.dark .kc-new{background:#161b27;border-color:rgba(255,255,255,.07)}
   transition:transform .2s;
 }
 .kc-new:hover .kc-icon-new{transform:scale(1.08)}
-.kc-ig{background:rgba(134,186,114,.14);border:1px solid rgba(134,186,114,.25);color:#2d7a1e}
+.kc-ig{background:rgba(206,217,217,.14);border:1px solid rgba(206,217,217,.25);color:#2d7a1e}
 .kc-ir{background:rgba(201,53,69,.1);border:1px solid rgba(201,53,69,.2);color:#c93545}
 .kc-ib{background:rgba(130,176,199,.14);border:1px solid rgba(130,176,199,.26);color:#1e6080}
 .kc-ia{background:rgba(197,168,120,.15);border:1px solid rgba(197,168,120,.28);color:#a8854a}
@@ -1116,15 +1116,15 @@ body.dark .kv{color:#f0f2f8}
 }
 .db-bar-fill{
   width:100%;border-radius:6px 6px 0 0;
-  background:linear-gradient(to top,rgba(134,186,114,.45),rgba(134,186,114,.16));
-  border:1px solid rgba(134,186,114,.3);
+  background:linear-gradient(to top,rgba(206,217,217,.45),rgba(206,217,217,.16));
+  border:1px solid rgba(206,217,217,.3);
   transition:height 1.2s cubic-bezier(.18,.89,.32,1.28);
   position:relative;
 }
 .db-bar-fill-active{
-  background:linear-gradient(to top,#2d7a1e,#86BA72);
-  border-color:rgba(134,186,114,.4);
-  box-shadow:0 0 16px rgba(134,186,114,.3);
+  background:linear-gradient(to top,#2d7a1e,#ced9d9);
+  border-color:rgba(206,217,217,.4);
+  box-shadow:0 0 16px rgba(206,217,217,.3);
 }
 .db-bar-lbl{
   font-size:9px;color:var(--t3);font-weight:600;
@@ -1148,14 +1148,14 @@ body.dark .kv{color:#f0f2f8}
 .prc-f{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .prc-l{font-size:12px;color:var(--t2);font-weight:600}
 .prc-in{background:#fafbf9;border:1px solid rgba(44,85,89,.13);border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--t);outline:none;width:100%;transition:border-color .15s,box-shadow .15s}
-.prc-in:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(134,186,114,.12)}
+.prc-in:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(206,217,217,.12)}
 body.dark .prc-in{background:#1e2535;border-color:rgba(255,255,255,.1);color:#f0f2f8}
 .prc-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .prc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
 @media(max-width:700px){.prc-cards{grid-template-columns:1fr}}
 .prc-card{border-radius:16px;padding:20px 14px 16px;border:1px solid rgba(44,85,89,.1);text-align:center;position:relative;background:#fff}
 body.dark .prc-card{background:#161b27;border-color:rgba(255,255,255,.08)}
-.prc-card.best{border:2px solid var(--g);box-shadow:0 8px 26px rgba(134,186,114,.18)}
+.prc-card.best{border:2px solid var(--g);box-shadow:0 8px 26px rgba(206,217,217,.18)}
 .prc-tag{position:absolute;top:-10px;right:50%;transform:translateX(50%);background:var(--g);color:#fff;font-size:10px;font-weight:800;padding:3px 12px;border-radius:12px;white-space:nowrap}
 .prc-name{font-size:12px;font-weight:700;color:var(--t3);margin-bottom:8px}
 .prc-price{font-size:25px;font-weight:900;color:#0f2426;line-height:1.1}
@@ -1174,7 +1174,7 @@ body.dark .prc-sv{color:#f0f2f8}
 .prc-tip{font-size:12.5px;line-height:1.75;padding:8px 11px;background:var(--bg3);border-radius:8px;border-right:3px solid var(--g);color:var(--t2)}
 .prc-tip.warn{border-right-color:#C5A878}
 .prc-tip.risk{border-right-color:#dc2f3b}
-.prc-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(134,186,114,.09);border:1px solid rgba(134,186,114,.2);color:#2d7a1e;border-radius:16px;padding:4px 12px;font-size:11px;font-weight:700;margin:3px}
+.prc-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(206,217,217,.09);border:1px solid rgba(206,217,217,.2);color:#2d7a1e;border-radius:16px;padding:4px 12px;font-size:11px;font-weight:700;margin:3px}
 
 /* ── Responsive ── */
 @media(max-width:1100px){
@@ -1205,7 +1205,7 @@ body.dark .prc-sv{color:#f0f2f8}
 </button>
 <div class="fab-menu" id="fabMenu">
   <button class="fab-item" onclick="go('zt',null);closeFab()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86BA72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ced9d9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     فاتورة جديدة
   </button>
   <button class="fab-item" onclick="go('scan',null);closeFab()">
@@ -1226,7 +1226,7 @@ body.dark .prc-sv{color:#f0f2f8}
 <div id="notifPanel" style="display:none;position:fixed;top:60px;left:14px;width:360px;max-width:calc(100% - 28px);max-height:70vh;background:var(--bg2);border:1px solid var(--b);border-radius:14px;box-shadow:0 12px 40px rgba(44,85,89,.18);z-index:120;overflow:hidden;flex-direction:column;animation:notifIn .25s cubic-bezier(.18,.89,.32,1.28)">
   <div style="padding:14px 18px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
     <div style="font-weight:800;font-size:15px" data-i18n="notif_title">الإشعارات</div>
-    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#86BA72;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600" data-i18n="notif_mark_all">قراءة الكل</button>
+    <button id="notifMarkAll" onclick="notifMarkAllRead()" style="background:transparent;border:none;color:#ced9d9;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600" data-i18n="notif_mark_all">قراءة الكل</button>
   </div>
   <div id="notifList" style="flex:1;overflow-y:auto;max-height:60vh">
     <div style="padding:40px 20px;text-align:center;color:var(--t3);font-size:13px">جاري التحميل...</div>
@@ -1235,14 +1235,14 @@ body.dark .prc-sv{color:#f0f2f8}
 <style>
 @keyframes notifIn{0%{opacity:0;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}
 .notif-item{padding:14px 18px;border-bottom:1px solid var(--b);cursor:pointer;transition:.15s;position:relative}
-.notif-item:hover{background:rgba(134,186,114,.04)}
-.notif-item.unread{background:rgba(134,186,114,.05)}
-.notif-item.unread::before{content:'';position:absolute;right:6px;top:18px;width:8px;height:8px;border-radius:50%;background:#86BA72}
+.notif-item:hover{background:rgba(206,217,217,.04)}
+.notif-item.unread{background:rgba(206,217,217,.05)}
+.notif-item.unread::before{content:'';position:absolute;right:6px;top:18px;width:8px;height:8px;border-radius:50%;background:#ced9d9}
 .notif-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:4px;line-height:1.4}
 .notif-body{font-size:12px;color:var(--t2);line-height:1.6}
 .notif-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
 .notif-time{font-size:11px;color:var(--t3)}
-.notif-cta{font-size:12px;color:#86BA72;font-weight:700;cursor:pointer}
+.notif-cta{font-size:12px;color:#ced9d9;font-weight:700;cursor:pointer}
 .notif-prio-high{border-right:3px solid #f59e0b}
 .notif-prio-urgent{border-right:3px solid #dc2626}
 </style>
@@ -1396,11 +1396,11 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('ar',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg></span><span>الفلوس عند الناس</span><span class="nbg" style="background:rgba(201,53,69,.12);color:#c93545" id="arBadge"></span></div>
     <div class="ni" onclick="go('exp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><line x1="12" y1="5" x2="12" y2="9"/></svg></span><span>المصاريف والموردون</span><span class="nbg" style="background:rgba(166,137,181,.15);color:#A689B5">جديد</span></div>
     <div class="ni" onclick="go('sub',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_sub">اشتراكي</span></div>
-    <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#86BA72">Phase 2</span></div>
+    <div class="ni" id="navZatca" onclick="go('zatca',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.45 0 2.82.35 4.03.96"/><path d="M21 5l-9 9"/></svg></span><span>ربط ZATCA</span><span class="nbg" style="background:rgba(206,217,217,.15);color:#ced9d9">Phase 2</span></div>
     <div class="ni" id="navAdmin" onclick="go('admin',this)" style="display:none"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>لوحة الإدارة</span><span class="nbg" style="background:rgba(168,84,74,.12);color:#a8544a">Admin</span></div>
     <div class="ni" onclick="go('brand',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span><span>تخصيص الفاتورة</span><span class="nbg" style="background:rgba(197,168,120,.15);color:#a8854a">جديد</span></div>
     <a href="/help.html" target="_blank" class="ni" style="text-decoration:none;color:inherit"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span>مركز المساعدة</span></a>
-    <div class="ni" onclick="go('activity',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span>سجل الحركات</span><span class="nbg" style="background:rgba(134,186,114,.15);color:#2d7a1e">جديد</span></div>
+    <div class="ni" onclick="go('activity',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span>سجل الحركات</span><span class="nbg" style="background:rgba(206,217,217,.15);color:#2d7a1e">جديد</span></div>
     <div class="ni" onclick="go('profile',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_profile">إعدادات الحساب</span></div>
     <div class="ni" onclick="go('usrs',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span><span data-i18n="nav_usrs">المستخدمون</span></div>
   </nav>
@@ -1433,7 +1433,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <button class="hbg" onclick="togSB()" style="background:transparent;border:none;cursor:pointer;color:var(--t2);padding:6px;border-radius:8px;display:none;align-items:center" aria-label="القائمة">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;color:var(--t2);padding:6px;border-radius:8px;display:flex;align-items:center;transition:.15s" onmouseover="this.style.background='var(--bg3)';this.style.color='#86BA72'" onmouseout="this.style.background='transparent';this.style.color='var(--t2)'" title="القائمة">
+    <button onclick="togSBDesktop()" style="background:transparent;border:none;cursor:pointer;color:var(--t2);padding:6px;border-radius:8px;display:flex;align-items:center;transition:.15s" onmouseover="this.style.background='var(--bg3)';this.style.color='#ced9d9'" onmouseout="this.style.background='transparent';this.style.color='var(--t2)'" title="القائمة">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <div class="pt" id="pt" style="font-size:18px;font-weight:800;color:#000">لوحة التحكم</div>
@@ -1957,13 +1957,13 @@ body.dark .prc-sv{color:#f0f2f8}
 
   <!-- Stats strip -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
-    <div style="background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:14px;padding:14px">
+    <div style="background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:14px;padding:14px">
       <div style="font-size:11px;opacity:.9">🎯 أهداف نشطة</div>
       <div style="font-size:24px;font-weight:900;margin-top:4px" id="gls-active">0</div>
     </div>
     <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
       <div style="font-size:11px;color:var(--t3)">✅ أهداف محقّقة</div>
-      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#86BA72" id="gls-done">0</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#ced9d9" id="gls-done">0</div>
     </div>
     <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
       <div style="font-size:11px;color:var(--t3)">📊 معدّل الإنجاز</div>
@@ -1986,14 +1986,14 @@ body.dark .prc-sv{color:#f0f2f8}
   <!-- AI suggestion -->
   <div class="card" id="gls-ai-card" style="display:none">
     <div class="st" style="margin-bottom:12px">🤖 خطة الوصول للأهداف — AI</div>
-    <div id="gls-ai-content" style="background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.06));border-radius:12px;padding:16px"></div>
+    <div id="gls-ai-content" style="background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(44,85,89,.06));border-radius:12px;padding:16px"></div>
   </div>
 </div>
 
 <!-- Goal modal -->
 <div id="goalModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
   <div style="background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:92vh;overflow:auto">
-    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:18px 18px 0 0">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:18px 18px 0 0">
       <div>
         <div style="font-size:17px;font-weight:800" id="goalModalTitle">🎯 هدف جديد</div>
         <div style="font-size:11px;opacity:.9;margin-top:2px">حدّد ما تبيه وكم وقت تحتاج</div>
@@ -2048,9 +2048,9 @@ body.dark .prc-sv{color:#f0f2f8}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
         <div class="ff"><label class="fl">الأولوية</label>
           <select class="fi" id="goal-priority">
-            <option value="1">🔥 عالية</option>
-            <option value="2" selected>⭐ متوسطة</option>
-            <option value="3">📌 منخفضة</option>
+            <option value="1">عالية</option>
+            <option value="2" selected>متوسطة</option>
+            <option value="3">منخفضة</option>
           </select>
         </div>
         <div class="ff"><label class="fl">التكرار</label>
@@ -2221,12 +2221,12 @@ body.dark .prc-sv{color:#f0f2f8}
 body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .inv-act { padding:4px 8px; font-size:11px; border:1px solid var(--b); background:#fff; border-radius:6px; cursor:pointer; font-family:inherit; font-weight:600; }
 .inv-act:hover { background:var(--bg2); }
-.inv-act.pay { background:#86BA72; color:#fff; border-color:#86BA72; }
+.inv-act.pay { background:#ced9d9; color:#2C5559; border-color:#ced9d9; }
 .inv-act.pay:hover { background:#6da55b; }
 .inv-act.remind { background:#a8854a; color:#fff; border-color:#a8854a; }
 .inv-act.remind:hover { background:#8d7039; }
-.ai-ex { padding:7px 12px; background:#fff; border:1px solid rgba(134,186,114,.3); color:#2C5559; border-radius:8px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; transition:all .2s; }
-.ai-ex:hover { background:rgba(134,186,114,.08); border-color:#86BA72; color:#2C5559; transform:translateY(-1px); }
+.ai-ex { padding:7px 12px; background:#fff; border:1px solid rgba(206,217,217,.3); color:#2C5559; border-radius:8px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; transition:all .2s; }
+.ai-ex:hover { background:rgba(206,217,217,.08); border-color:#ced9d9; color:#2C5559; transform:translateY(-1px); }
 </style>
 
 <!-- CREDIT/DEBIT NOTE MODAL -->
@@ -2315,7 +2315,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <input type="date" id="customDateFrom" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
       <span style="color:var(--t3);font-size:12px">→</span>
       <input type="date" id="customDateTo" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
-      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#86BA72;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
+      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
     </div>
   </div>
   <div class="card">
@@ -2335,11 +2335,11 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 <div class="pg" id="pg-zt">
 
   <!-- AI Invoice Builder -->
-  <div style="background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.06));border:1px solid rgba(134,186,114,.25);border-radius:14px;padding:16px 20px;margin-bottom:18px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(134,186,114,.18) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(44,85,89,.06));border:1px solid rgba(206,217,217,.25);border-radius:14px;padding:16px 20px;margin-bottom:18px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(206,217,217,.18) 0%,transparent 70%);pointer-events:none"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative">
       <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#86BA72,#2C5559);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#2C5559,#1a3f43);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
         </div>
         <div>
@@ -2347,11 +2347,11 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           <div style="font-size:12px;color:var(--t2);margin-top:3px">اكتب وصف الفاتورة بالعربي ومحسوب يكمل لك التفاصيل</div>
         </div>
       </div>
-      <button style="padding:10px 22px;background:linear-gradient(135deg,#86BA72,#2C5559);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px rgba(134,186,114,.35);transition:all .2s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'" onclick="toggleAIInvoice()">جرّب الآن ←</button>
+      <button style="padding:10px 22px;background:linear-gradient(135deg,#2C5559,#1a3f43);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px rgba(206,217,217,.35);transition:all .2s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'" onclick="toggleAIInvoice()">جرّب الآن ←</button>
     </div>
     <div id="ai-inv-form" style="display:none;margin-top:12px">
-      <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتب فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px;border:1.5px solid rgba(134,186,114,.3)"></textarea>
-      <div style="margin-top:10px;padding:12px 14px;background:rgba(134,186,114,.06);border-right:3px solid #86BA72;border-radius:9px;font-size:11px;color:#2C5559;line-height:1.8">
+      <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتب فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px;border:1.5px solid rgba(206,217,217,.3)"></textarea>
+      <div style="margin-top:10px;padding:12px 14px;background:rgba(206,217,217,.06);border-right:3px solid #ced9d9;border-radius:9px;font-size:11px;color:#2C5559;line-height:1.8">
         <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px"><span>💡</span> نصائح للحصول على نتائج دقيقة:</div>
         <div>• <b>اذكر اسم العميل</b> (أحمد، شركة النور، إلخ)</div>
         <div>• <b>وصف الخدمة/المنتج</b> بوضوح</div>
@@ -2507,7 +2507,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 
   <!-- KPIs -->
   <div class="g3" style="margin-bottom:14px">
-    <div class="kc"><div class="kl">إجمالي مبيعات الشهر</div><div class="kv" id="closing-month-total" style="color:#86BA72">0 ر.س</div></div>
+    <div class="kc"><div class="kl">إجمالي مبيعات الشهر</div><div class="kv" id="closing-month-total" style="color:#ced9d9">0 ر.س</div></div>
     <div class="kc"><div class="kl">عدد الإغلاقات</div><div class="kv" id="closing-count">0</div></div>
     <div class="kc"><div class="kl">متوسط الإغلاق اليومي</div><div class="kv" id="closing-avg" style="color:#2C5559">0 ر.س</div></div>
   </div>
@@ -2737,7 +2737,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <!-- Header: stats cards + actions -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px">
     <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
-      <div style="width:42px;height:42px;border-radius:12px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(206,217,217,.12);color:#ced9d9;display:flex;align-items:center;justify-content:center">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
       </div>
       <div>
@@ -2785,7 +2785,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <option value="service">خدمات فقط</option>
       <option value="product">منتجات فقط</option>
     </select>
-    <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 16px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s" onmouseover="this.style.borderColor='#86BA72';this.style.color='#86BA72'" onmouseout="this.style.borderColor='rgba(44,85,89,.2)';this.style.color='#2C5559'">
+    <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 16px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s" onmouseover="this.style.borderColor='#ced9d9';this.style.color='#ced9d9'" onmouseout="this.style.borderColor='rgba(44,85,89,.2)';this.style.color='#2C5559'">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       رفع Excel/CSV
     </button>
@@ -2801,9 +2801,9 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   </div>
 
   <!-- Add / Edit form -->
-  <div id="prod-form" style="display:none;background:#fff;border:1px solid rgba(134,186,114,.3);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(134,186,114,.08)">
+  <div id="prod-form" style="display:none;background:#fff;border:1px solid rgba(206,217,217,.3);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(206,217,217,.08)">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(206,217,217,.12);color:#ced9d9;display:flex;align-items:center;justify-content:center">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </div>
       <div class="st" id="prod-form-title">منتج / خدمة جديدة</div>
@@ -2979,7 +2979,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="flex:1"></div>
     <button onclick="shareVatReport('email')" style="padding:8px 14px;background:transparent;color:var(--t);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">📧 إيميل</button>
     <button onclick="shareVatReport('whatsapp')" style="padding:8px 14px;background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">واتساب</button>
-    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
+    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#ced9d9;color:#2C5559;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
   </div>
 
   <div class="g4">
@@ -3110,7 +3110,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <button class="tc-nav" onclick="taxCalNav(-1)" aria-label="السابق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div style="font-size:16px;font-weight:800;color:#000;min-width:160px;text-align:center" id="tcMonthLabel">—</div>
       <button class="tc-nav" onclick="taxCalNav(1)" aria-label="التالي"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#86BA72;color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" data-i18n="tc_today">اليوم</button>
+      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#ced9d9;color:#2C5559;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" data-i18n="tc_today">اليوم</button>
     </div>
   </div>
 
@@ -3136,7 +3136,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--b);font-size:11px;color:var(--t2)">
         <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#c93545"></span> عاجل</div>
         <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#a8854a"></span> قريب</div>
-        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#86BA72"></span> مُسدّد</div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#ced9d9"></span> مُسدّد</div>
         <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#2C5559"></span> لاحق</div>
       </div>
     </div>
@@ -3162,8 +3162,8 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div style="background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px;margin-top:18px">
     <div style="font-size:15px;font-weight:800;color:#000;margin-bottom:14px">نصائح لإدارة الضرائب</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
-      <div style="background:rgba(134,186,114,.05);border:1px solid rgba(134,186,114,.18);border-radius:12px;padding:14px;display:flex;gap:12px">
-        <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.15);color:#86BA72;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="background:rgba(206,217,217,.05);border:1px solid rgba(206,217,217,.18);border-radius:12px;padding:14px;display:flex;gap:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(206,217,217,.15);color:#ced9d9;display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div><div style="font-size:13px;font-weight:700;color:#000;margin-bottom:4px">خصّص 10% لحساب منفصل</div><div style="font-size:12px;color:var(--t2);line-height:1.6">حوّل 10% من كل دفعة تستلمها لحساب احتياطي ضريبي</div></div>
@@ -3190,12 +3190,12 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .tc-tab.on{background:#2C5559;color:#fff}
 .tc-tab:not(.on):hover{background:rgba(0,0,0,.04);color:var(--t)}
 .tc-nav{width:36px;height:36px;border-radius:9px;background:#fff;border:1px solid var(--b);color:var(--t);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
-.tc-nav:hover{border-color:#86BA72;color:#86BA72}
+.tc-nav:hover{border-color:#ced9d9;color:#ced9d9}
 .tc-wd{text-align:center;font-size:11px;font-weight:700;color:var(--t3);padding:8px 0;letter-spacing:.3px}
 .tc-day{aspect-ratio:1;border-radius:10px;background:#fafafa;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:#000;transition:.15s;position:relative;font-weight:500;min-height:50px}
-.tc-day:hover{background:rgba(134,186,114,.08);border-color:rgba(134,186,114,.25)}
+.tc-day:hover{background:rgba(206,217,217,.08);border-color:rgba(206,217,217,.25)}
 .tc-day.other{color:var(--t3);background:transparent}
-.tc-day.today{background:rgba(134,186,114,.1);border-color:#86BA72;font-weight:800}
+.tc-day.today{background:rgba(206,217,217,.1);border-color:#ced9d9;font-weight:800}
 .tc-day.selected{background:#2C5559;color:#fff;font-weight:800}
 .tc-day.selected .tc-dot{background:#fff !important}
 .tc-dot{width:5px;height:5px;border-radius:50%;margin-top:4px}
@@ -3226,7 +3226,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     return events.map(e => {
       const days = Math.ceil((e.date - today) / 86400000);
       let status, color;
-      if (e.paid)              { status = 'paid';    color = '#86BA72'; }
+      if (e.paid)              { status = 'paid';    color = '#ced9d9'; }
       else if (days < 0)       { status = 'overdue'; color = '#c93545'; }
       else if (days <= 7)      { status = 'urgent';  color = '#c93545'; }
       else if (days <= 30)     { status = 'soon';    color = '#a8854a'; }
@@ -3335,7 +3335,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       const dateStr = `${MONTHS_AR[e.date.getMonth()]} ${e.date.getDate()}, ${e.date.getFullYear()}`;
       const ctaLabel = e.cta === 'zakat' ? 'الحاسبة ←' : 'عرض التقرير ←';
       const daysText = e.paid ? 'مسدّد' : e.days < 0 ? `تأخر ${Math.abs(e.days)} يوم` : e.days === 0 ? 'اليوم' : `بعد ${e.days} يوم`;
-      const bgAlpha = e.color === '#86BA72' ? '.06' : e.color === '#c93545' ? '.05' : e.color === '#a8854a' ? '.06' : '.04';
+      const bgAlpha = e.color === '#ced9d9' ? '.06' : e.color === '#c93545' ? '.05' : e.color === '#a8854a' ? '.06' : '.04';
       return `
         <div style="background:#fff;border:1px solid ${e.color}33;border-radius:12px;padding:14px;position:relative;overflow:hidden">
           <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:${e.color}"></div>
@@ -3428,11 +3428,11 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div class="sh"><div class="st">شعار النشاط التجاري</div></div>
     <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:6px">
       <div style="position:relative;flex-shrink:0">
-        <div id="brand-logo-wrap" style="width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,#86BA72,#9DC78A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:900;overflow:hidden;border:2px solid var(--b);box-shadow:0 8px 24px rgba(134,186,114,.2)">
+        <div id="brand-logo-wrap" style="width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,#ced9d9,#dde5e5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:900;overflow:hidden;border:2px solid var(--b);box-shadow:0 8px 24px rgba(206,217,217,.2)">
           <span id="brand-logo-fallback">M</span>
           <img id="brand-logo-preview" style="display:none;width:100%;height:100%;object-fit:contain;background:#fff" alt=""/>
         </div>
-        <label for="brand-logo-input" style="position:absolute;bottom:-4px;left:-4px;width:32px;height:32px;background:#86BA72;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid var(--bg2);color:#fff" title="تغيير الشعار">
+        <label for="brand-logo-input" style="position:absolute;bottom:-4px;left:-4px;width:32px;height:32px;background:#ced9d9;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid var(--bg2);color:#fff" title="تغيير الشعار">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         </label>
         <input type="file" id="brand-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" style="display:none" onchange="handleBrandLogo(this)"/>
@@ -3452,7 +3452,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           PNG / JPG / SVG · حد أقصى 2MB · يفضّل بخلفية شفافة
         </div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <label for="brand-logo-input" style="padding:8px 16px;background:#86BA72;color:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
+          <label for="brand-logo-input" style="padding:8px 16px;background:#ced9d9;color:#2C5559;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
           <button class="btn bg2" id="brand-logo-remove-btn" style="font-size:12px;padding:8px 14px;color:#dc2626;display:none" onclick="removeBrandLogo()">حذف الشعار</button>
         </div>
       </div>
@@ -3623,7 +3623,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   </div>
 
   <!-- Add form -->
-  <div id="coaAddForm" style="display:none;background:rgba(134,186,114,.06);border:1px solid rgba(134,186,114,.2);border-radius:11px;padding:16px;margin:14px 0">
+  <div id="coaAddForm" style="display:none;background:rgba(206,217,217,.06);border:1px solid rgba(206,217,217,.2);border-radius:11px;padding:16px;margin:14px 0">
     <div style="font-weight:700;margin-bottom:12px">تصنيف مالي جديد</div>
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px">
       <input id="coaNewName" placeholder="مثال: مصاريف الديزل، إيرادات التوصيل" style="padding:10px;border:1px solid var(--bd);border-radius:8px;font-family:inherit">
@@ -3662,8 +3662,8 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         </div>
         <button onclick="document.getElementById('coaLedgerModal').style.display='none'" style="background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--t3)">×</button>
       </div>
-      <div style="padding:14px 22px;background:rgba(134,186,114,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-        <div><div style="font-size:11px;color:var(--t3)" id="lblIn">داخل</div><div style="font-size:17px;font-weight:800;color:#86BA72" id="ledgerDR">0</div></div>
+      <div style="padding:14px 22px;background:rgba(206,217,217,.05);border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div><div style="font-size:11px;color:var(--t3)" id="lblIn">داخل</div><div style="font-size:17px;font-weight:800;color:#ced9d9" id="ledgerDR">0</div></div>
         <div><div style="font-size:11px;color:var(--t3)" id="lblOut">خارج</div><div style="font-size:17px;font-weight:800;color:#e8394a" id="ledgerCR">0</div></div>
         <div><div style="font-size:11px;color:var(--t3)">الرصيد الآن</div><div style="font-size:17px;font-weight:900" id="ledgerBal">0</div></div>
       </div>
@@ -3768,7 +3768,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         إنشاء CSR
       </button>
-      <div id="zcsrResult" style="margin-top:12px;display:none;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.3);border-radius:9px;padding:11px;font-size:11px;color:#2C5559"></div>
+      <div id="zcsrResult" style="margin-top:12px;display:none;background:rgba(206,217,217,.08);border:1px solid rgba(206,217,217,.3);border-radius:9px;padding:11px;font-size:11px;color:#2C5559"></div>
     </div>
 
     <!-- Step 3: Submit OTP -->
@@ -3823,7 +3823,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 
   <!-- KPIs -->
   <div class="g3" style="margin-bottom:14px">
-    <div class="kc"><div class="kl">إجمالي العروض النشطة</div><div class="kv" id="quotes-active-total" style="color:#86BA72">0 ر.س</div></div>
+    <div class="kc"><div class="kl">إجمالي العروض النشطة</div><div class="kv" id="quotes-active-total" style="color:#ced9d9">0 ر.س</div></div>
     <div class="kc"><div class="kl">عدد العروض</div><div class="kv" id="quotes-count">0</div></div>
     <div class="kc"><div class="kl">معدّل التحويل</div><div class="kv" id="quotes-rate" style="color:#2C5559">0%</div></div>
   </div>
@@ -3875,7 +3875,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <div style="background:#fafafa;padding:14px;border-radius:10px;margin-top:16px">
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr" id="q-sub">0.00 ر.س</span></div>
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة 15%</span><span style="direction:ltr" id="q-vat-total">0.00 ر.س</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid #86BA72;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#86BA72" id="q-total">0.00 ر.س</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid #ced9d9;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#ced9d9" id="q-total">0.00 ر.س</span></div>
       </div>
 
       <div class="ff full" style="margin-top:14px"><label class="fl">ملاحظات (تظهر في العرض)</label><textarea class="fi" id="q-notes" rows="2" placeholder="مثال: السعر شامل التوصيل..."></textarea></div>
@@ -4103,9 +4103,9 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       </div>
 
       <!-- Total display -->
-      <div style="background:#f5faf3;border:1px solid rgba(134,186,114,.2);border-radius:10px;padding:14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <div style="background:#f5faf3;border:1px solid rgba(206,217,217,.2);border-radius:10px;padding:14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
         <span style="font-size:13px;color:var(--t3)">الإجمالي (شامل الضريبة)</span>
-        <span style="font-size:20px;font-weight:900;color:#86BA72;direction:ltr" id="exp-total-display">0.00 ر.س</span>
+        <span style="font-size:20px;font-weight:900;color:#ced9d9;direction:ltr" id="exp-total-display">0.00 ر.س</span>
       </div>
 
       <div class="g2" style="gap:12px;margin-bottom:14px">
@@ -4126,7 +4126,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       </div>
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:10px;background:#fafbfd;border-radius:8px;border:1px solid var(--b)">
-        <input type="checkbox" id="exp-vat-ded" style="width:16px;height:16px;accent-color:#86BA72">
+        <input type="checkbox" id="exp-vat-ded" style="width:16px;height:16px;accent-color:#ced9d9">
         <label for="exp-vat-ded" style="font-size:13px;color:#1a1d2e;cursor:pointer">الضريبة قابلة للاسترداد (Input VAT)</label>
       </div>
 
@@ -4356,8 +4356,8 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           <div>
             <label class="fl">اللون الرئيسي</label>
             <div style="display:flex;gap:8px;align-items:center">
-              <input type="color" id="brandColor" value="#86BA72" style="width:50px;height:42px;border:1px solid var(--b);border-radius:9px;cursor:pointer;background:#fff;padding:2px" onchange="brandPreviewUpdate()">
-              <input type="text" id="brandColorHex" class="fi" value="#86BA72" style="direction:ltr;text-align:left" onchange="document.getElementById('brandColor').value=this.value;brandPreviewUpdate()">
+              <input type="color" id="brandColor" value="#ced9d9" style="width:50px;height:42px;border:1px solid var(--b);border-radius:9px;cursor:pointer;background:#fff;padding:2px" onchange="brandPreviewUpdate()">
+              <input type="text" id="brandColorHex" class="fi" value="#ced9d9" style="direction:ltr;text-align:left" onchange="document.getElementById('brandColor').value=this.value;brandPreviewUpdate()">
             </div>
           </div>
           <div>
@@ -4369,7 +4369,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           </div>
         </div>
         <div style="padding:0 20px 16px;display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#86BA72','#2C5559')">سيج الكلاسيكي</button>
+          <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#ced9d9','#2C5559')">سيج الكلاسيكي</button>
           <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#0066CC','#003D7A')">أزرق احترافي</button>
           <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#A689B5','#6B4E7D')">أرجواني</button>
           <button class="btn bg2" style="font-size:11px;padding:5px 10px" onclick="brandSetPalette('#C5A878','#7B5C3E')">ذهبي</button>
@@ -4388,7 +4388,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           <label class="brand-tpl" data-tpl="classic">
             <input type="radio" name="invTpl" value="classic" checked onchange="brandPreviewUpdate()" style="display:none">
             <div class="brand-tpl-card">
-              <div style="height:60px;background:linear-gradient(135deg, var(--brand-color, #86BA72) 0%, var(--accent-color, #2C5559) 100%);border-radius:6px 6px 0 0"></div>
+              <div style="height:60px;background:linear-gradient(135deg, var(--brand-color, #ced9d9) 0%, var(--accent-color, #2C5559) 100%);border-radius:6px 6px 0 0"></div>
               <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
             </div>
             <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">كلاسيكي</div>
@@ -4404,7 +4404,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           <label class="brand-tpl" data-tpl="minimal">
             <input type="radio" name="invTpl" value="minimal" onchange="brandPreviewUpdate()" style="display:none">
             <div class="brand-tpl-card">
-              <div style="height:60px;background:#fafafa;border-bottom:3px solid var(--brand-color, #86BA72);border-radius:6px 6px 0 0"></div>
+              <div style="height:60px;background:#fafafa;border-bottom:3px solid var(--brand-color, #ced9d9);border-radius:6px 6px 0 0"></div>
               <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
             </div>
             <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">بسيط</div>
@@ -4412,7 +4412,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           <label class="brand-tpl" data-tpl="elegant">
             <input type="radio" name="invTpl" value="elegant" onchange="brandPreviewUpdate()" style="display:none">
             <div class="brand-tpl-card">
-              <div style="height:60px;background:#fff;border:2px solid var(--brand-color, #86BA72);border-radius:6px"></div>
+              <div style="height:60px;background:#fff;border:2px solid var(--brand-color, #ced9d9);border-radius:6px"></div>
               <div style="padding:8px"><div style="height:4px;background:#e5e7eb;margin-bottom:4px;border-radius:2px"></div><div style="height:4px;background:#e5e7eb;width:60%;border-radius:2px"></div></div>
             </div>
             <div style="font-size:11px;font-weight:700;text-align:center;margin-top:6px">أنيق</div>
@@ -4469,7 +4469,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .brand-tpl { cursor:pointer; display:block; }
 .brand-tpl-card { border:2px solid var(--b); border-radius:8px; overflow:hidden; transition:all .15s; background:#fff; }
 .brand-tpl input:checked ~ .brand-tpl-card,
-.brand-tpl:has(input:checked) .brand-tpl-card { border-color: var(--brand-color, #86BA72); box-shadow:0 0 0 3px rgba(134,186,114,.15); }
+.brand-tpl:has(input:checked) .brand-tpl-card { border-color: var(--brand-color, #ced9d9); box-shadow:0 0 0 3px rgba(206,217,217,.15); }
 </style>
 
 <!-- ACTIVITY LOG -->
@@ -4488,16 +4488,16 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <div class="ff"><label class="fl">الفئة</label>
         <select class="fi" id="actFilterCat" onchange="loadActivityLog()">
           <option value="">كل الفئات</option>
-          <option value="invoice">🧾 الفواتير</option>
-          <option value="closing">🏦 الإغلاقات</option>
-          <option value="expense">💸 المصاريف</option>
-          <option value="supplier">🏪 الموردون</option>
-          <option value="transaction">💰 الإيرادات والمصروفات</option>
-          <option value="quote">📋 عروض الأسعار</option>
-          <option value="member">👥 الفريق</option>
-          <option value="auth">🔐 تسجيل دخول</option>
-          <option value="settings">⚙️ الإعدادات</option>
-          <option value="payment">💳 الدفعات</option>
+          <option value="invoice">الفواتير</option>
+          <option value="closing">الإغلاقات اليومية</option>
+          <option value="expense">المصاريف</option>
+          <option value="supplier">الموردون</option>
+          <option value="transaction">الإيرادات والمصروفات</option>
+          <option value="quote">عروض الأسعار</option>
+          <option value="member">الفريق</option>
+          <option value="auth">تسجيل دخول</option>
+          <option value="settings">الإعدادات</option>
+          <option value="payment">الدفعات</option>
         </select>
       </div>
       <div class="ff"><label class="fl">المستخدم</label>
@@ -4540,7 +4540,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <!-- Grant subscription card -->
   <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:20px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(206,217,217,.12);color:#ced9d9;display:flex;align-items:center;justify-content:center">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
       <div style="font-size:15px;font-weight:800;color:#000">منح اشتراك مفتوح</div>
@@ -4575,7 +4575,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 
   <!-- Header strip with stats -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
-    <div style="background:linear-gradient(135deg,#86BA72 0%,#6fa05e 100%);border-radius:14px;padding:14px;color:#fff">
+    <div style="background:linear-gradient(135deg,#ced9d9 0%,#6fa05e 100%);border-radius:14px;padding:14px;color:#fff">
       <div style="font-size:11px;opacity:.9;margin-bottom:4px">👥 إجمالي الفريق</div>
       <div style="font-size:24px;font-weight:900" id="u-total">—</div>
     </div>
@@ -4598,17 +4598,17 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       </div>
       <button class="btn bp" style="font-size:13px;padding:8px 14px" onclick="toggleInviteForm()">＋ دعوة عضو</button>
     </div>
-    <div id="addUserForm" style="display:none;background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(44,85,89,.05));border-radius:12px;padding:16px;margin-top:14px;border:1px solid rgba(134,186,114,.25)">
+    <div id="addUserForm" style="display:none;background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(44,85,89,.05));border-radius:12px;padding:16px;margin-top:14px;border:1px solid rgba(206,217,217,.25)">
       <div style="font-size:12px;color:var(--t2);margin-bottom:12px">📧 سيستلم العضو إيميل دعوة. عند تسجيل دخوله بنفس الإيميل، حسابه يربط تلقائياً بنشاطك.</div>
       <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px;margin-bottom:10px">
         <div class="ff"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="nu-email" type="email" placeholder="cashier@example.com" dir="ltr"/></div>
         <div class="ff"><label class="fl">الاسم</label><input class="fi" id="nu-name" placeholder="اسم العضو"/></div>
         <div class="ff"><label class="fl">الدور الافتراضي</label>
           <select class="fi" id="nu-role">
-            <option value="cashier">🖥 كاشير</option>
-            <option value="accountant">📊 محاسب</option>
-            <option value="admin">👑 مدير</option>
-            <option value="viewer">👁 مُشاهد</option>
+            <option value="cashier">كاشير</option>
+            <option value="accountant">محاسب</option>
+            <option value="admin">مدير</option>
+            <option value="viewer">مُشاهد</option>
           </select>
         </div>
       </div>
@@ -4901,7 +4901,7 @@ const TRANSLATIONS = {
     // Page titles
     pgn_db:'Dashboard', pgn_hl:'Financial Health', pgn_cf:'Cash Flow',
     pgn_ag:'Receivables', pgn_cp:'Client Profitability', pgn_gls:'Financial Goals',
-    pgn_tax:'Taxes & Zakat', pgn_pos:'Point of Sale', pgn_channels:'Sales Channels',
+    pgn_tax:'Taxes & Zakat', pgn_pos:'Daily Closings', pgn_channels:'Sales Channels',
     pgn_daily:'Daily Balance', pgn_tx:'Transactions', pgn_inv:'Invoices',
     pgn_bg:'Budget', pgn_vat:'VAT Report', pgn_zakat:'Zakat Calculator',
     pgn_taxcal:'Tax Calendar', pgn_scan:'Scan Invoices', pgn_st:'Financial Statements',
@@ -5091,7 +5091,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -5261,7 +5261,7 @@ function go(id,el){
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
-let _brand = { logo_url:null, brand_color:'#86BA72', accent_color:'#2C5559', invoice_template:'classic',
+let _brand = { logo_url:null, brand_color:'#ced9d9', accent_color:'#2C5559', invoice_template:'classic',
   invoice_footer:'', invoice_terms:'', company_phone:'', company_email:'', company_address:'', company_website:'',
   invoice_show_qr:true, invoice_show_terms:true, invoice_show_signature:false };
 
@@ -5272,7 +5272,7 @@ async function brandLoad() {
     if (t) {
       _brand = {
         logo_url:        t.logo_url || null,
-        brand_color:     t.brand_color || '#86BA72',
+        brand_color:     t.brand_color || '#ced9d9',
         accent_color:    t.accent_color || '#2C5559',
         invoice_template: t.invoice_template || 'classic',
         invoice_footer:  t.invoice_footer || '',
@@ -5536,13 +5536,13 @@ async function zatcaLoad() {
     const block = document.getElementById('zatcaStatusBlock');
     if (cfg?.onboarded) {
       const envLabel = { sandbox:'Sandbox', simulation:'Simulation', production:'Production' }[cfg.environment] || cfg.environment;
-      const envColor = cfg.environment === 'production' ? '#86BA72' : '#a8854a';
+      const envColor = cfg.environment === 'production' ? '#ced9d9' : '#a8854a';
       badge.style.background = `${envColor}22`;
       badge.style.color = envColor;
       badge.textContent = `مربوط — ${envLabel}`;
       block.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(134,186,114,.15);color:#86BA72;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(206,217,217,.15);color:#ced9d9;display:flex;align-items:center;justify-content:center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <div>
@@ -5559,7 +5559,7 @@ async function zatcaLoad() {
     if (subs?.length) {
       sb.style.textAlign = 'right';
       sb.innerHTML = subs.map(s => {
-        const color = s.zatca_status === 'ACCEPTED' ? '#86BA72' : s.zatca_status === 'ACCEPTED_WITH_WARNINGS' ? '#a8854a' : '#c93545';
+        const color = s.zatca_status === 'ACCEPTED' ? '#ced9d9' : s.zatca_status === 'ACCEPTED_WITH_WARNINGS' ? '#a8854a' : '#c93545';
         return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--b);font-size:12px">
           <div>
             <div style="font-weight:600;color:#000">${s.submission_type}</div>
@@ -5625,7 +5625,7 @@ async function zatcaSubmitOtp() {
       el.style.background = 'rgba(201,53,69,.08)'; el.style.border = '1px solid rgba(201,53,69,.3)'; el.style.color = '#c93545';
       el.innerHTML = `<b>✗ فشل الربط:</b> ${data.error}`;
     } else {
-      el.style.background = 'rgba(134,186,114,.08)'; el.style.border = '1px solid rgba(134,186,114,.3)'; el.style.color = '#2C5559';
+      el.style.background = 'rgba(206,217,217,.08)'; el.style.border = '1px solid rgba(206,217,217,.3)'; el.style.color = '#2C5559';
       el.innerHTML = `<b>✓ تم الربط بنجاح!</b><br>${data.message}<br>RequestID: <code>${data.requestID||'-'}</code>`;
       setTimeout(() => zatcaLoad(), 800);
     }
@@ -5739,7 +5739,7 @@ function renderInvoices() {
     const kind = i.invoice_kind || 'invoice';
     const tot = +(i.total || 0);
     const st = computeInvoiceStatus(i, today);
-    const stColor = st === 'paid' ? '#86BA72' : (st === 'overdue' || st === 'rejected') ? '#c93545' : '#a8854a';
+    const stColor = st === 'paid' ? '#ced9d9' : (st === 'overdue' || st === 'rejected') ? '#c93545' : '#a8854a';
     const num = i.invoice_number || i.number || '—';
     const parent = i.parent_invoice_number ? `<div style="font-size:10px;color:var(--t3)">عن: ${i.parent_invoice_number}</div>` : '';
     const buyer = i.buyer_name || i.buyer || i.client_name || '—';
@@ -5794,7 +5794,7 @@ function markInvoicePaid(invId) {
     <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px">
       <span>الإجمالي:</span><span style="direction:ltr;font-weight:600">${total.toFixed(2)} ر.س</span>
     </div>
-    ${paid > 0 ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:#86BA72">
+    ${paid > 0 ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:#ced9d9">
       <span>المدفوع سابقاً:</span><span style="direction:ltr;font-weight:600">${paid.toFixed(2)} ر.س</span>
     </div>` : ''}
     <div style="display:flex;justify-content:space-between;font-size:13px;color:#c93545;font-weight:700;border-top:1px solid #e5e7eb;margin-top:6px;padding-top:6px">
@@ -5883,7 +5883,7 @@ async function viewInvoice(invId) {
       <div style="font-weight:600">${({cash:'نقداً',card:'بطاقة',bank:'تحويل بنكي',wallet:'محفظة',other:'أخرى'})[p.method] || p.method}</div>
       <div style="font-size:10px;color:var(--t3)">${(p.paid_at||'').replace('T',' ').slice(0,16)} ${p.reference?`· ${p.reference}`:''}</div>
     </div>
-    <div style="direction:ltr;font-weight:700;color:#86BA72">+${(+p.amount).toFixed(2)} ر.س</div>
+    <div style="direction:ltr;font-weight:700;color:#ced9d9">+${(+p.amount).toFixed(2)} ر.س</div>
   </div>`).join('') || `<div style="text-align:center;color:var(--t3);padding:14px;font-size:12px">لا توجد دفعات مسجلة</div>`;
 
   const remRows = (rems || []).map(r => `<div style="padding:6px 0;font-size:11px;color:var(--t3);border-bottom:1px dotted #f0f0f0">
@@ -5894,7 +5894,7 @@ async function viewInvoice(invId) {
   const paid = +(inv.amount_paid || 0);
   const due = +(inv.amount_due ?? (total - paid));
   const status = inv.payment_status === 'paid' ? 'مدفوعة بالكامل' : inv.payment_status === 'partial' ? 'مدفوعة جزئياً' : 'غير مدفوعة';
-  const statusColor = inv.payment_status === 'paid' ? '#86BA72' : inv.payment_status === 'partial' ? '#a8854a' : '#c93545';
+  const statusColor = inv.payment_status === 'paid' ? '#ced9d9' : inv.payment_status === 'partial' ? '#a8854a' : '#c93545';
 
   document.getElementById('invDetBody').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
@@ -5925,7 +5925,7 @@ async function viewInvoice(invId) {
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr">${(+(inv.subtotal||0)).toFixed(2)} ر.س</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة</span><span style="direction:ltr">${(+(inv.vat_amount||0)).toFixed(2)} ر.س</span></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #2C5559;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#2C5559">${total.toFixed(2)} ر.س</span></div>
-      ${paid > 0 ? `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:#86BA72"><span>المدفوع</span><span style="direction:ltr">−${paid.toFixed(2)} ر.س</span></div>` : ''}
+      ${paid > 0 ? `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:#ced9d9"><span>المدفوع</span><span style="direction:ltr">−${paid.toFixed(2)} ر.س</span></div>` : ''}
       ${due > 0 ? `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;font-weight:700;color:#c93545"><span>المتبقي</span><span style="direction:ltr">${due.toFixed(2)} ر.س</span></div>` : ''}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
@@ -5972,7 +5972,7 @@ async function printInvoice(invId) {
   const paid = +(inv.amount_paid || 0);
   const due = +(inv.amount_due ?? (total - paid));
   const status = inv.payment_status === 'paid' ? 'مدفوعة بالكامل' : inv.payment_status === 'partial' ? 'مدفوعة جزئياً' : 'غير مدفوعة';
-  const statusColor = inv.payment_status === 'paid' ? '#86BA72' : inv.payment_status === 'partial' ? '#a8854a' : '#c93545';
+  const statusColor = inv.payment_status === 'paid' ? '#ced9d9' : inv.payment_status === 'partial' ? '#a8854a' : '#c93545';
 
   const itemRows = items.map((it, idx) => {
     const qty = +(it.qty || 1);
@@ -5991,7 +5991,7 @@ async function printInvoice(invId) {
     <td>${(p.paid_at||'').slice(0,10)}</td>
     <td>${({cash:'نقداً',card:'بطاقة',bank:'تحويل بنكي',wallet:'محفظة',other:'أخرى'})[p.method] || p.method}</td>
     <td>${p.reference || '—'}</td>
-    <td style="text-align:left;direction:ltr;font-weight:600;color:#86BA72">+${(+p.amount).toFixed(2)}</td>
+    <td style="text-align:left;direction:ltr;font-weight:600;color:#ced9d9">+${(+p.amount).toFixed(2)}</td>
   </tr>`).join('');
 
   const w = window.open('', '_blank', 'width=900,height=1000');
@@ -6008,7 +6008,7 @@ body { margin:0; padding:24px; background:#fff; color:#1a1a1a }
 .h .sub { font-size:12px; color:#666 }
 .h img { max-height:64px; max-width:180px; object-fit:contain }
 .meta { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px }
-.meta .box { background:#fafafa; padding:12px 14px; border-radius:8px; border-right:3px solid #86BA72 }
+.meta .box { background:#fafafa; padding:12px 14px; border-radius:8px; border-right:3px solid #ced9d9 }
 .meta .lbl { font-size:10px; color:#888; margin-bottom:4px }
 .meta .val { font-size:13px; font-weight:700; color:#000 }
 .meta .val2 { font-size:11px; color:#666; direction:ltr; text-align:right; margin-top:2px }
@@ -6018,7 +6018,7 @@ table.items td { padding:8px; border-bottom:1px solid #ececec }
 .tot { background:#fafafa; padding:14px 16px; border-radius:10px; margin-bottom:18px }
 .tot .row { display:flex; justify-content:space-between; padding:5px 0; font-size:13px }
 .tot .row.grand { border-top:2px solid #2C5559; margin-top:6px; padding-top:10px; font-size:16px; font-weight:800; color:#2C5559 }
-.tot .row.paid { color:#86BA72 }
+.tot .row.paid { color:#ced9d9 }
 .tot .row.due { font-weight:700; color:#c93545 }
 .status-pill { display:inline-block; padding:5px 14px; border-radius:18px; font-size:12px; font-weight:700; color:#fff }
 .pay-tbl { width:100%; border-collapse:collapse; margin-top:6px; font-size:11px }
@@ -6026,7 +6026,7 @@ table.items td { padding:8px; border-bottom:1px solid #ececec }
 .pay-tbl td { padding:7px 8px; border-bottom:1px solid #f0f0f0 }
 .foot { margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; font-size:10px; color:#888; text-align:center }
 .actions { text-align:center; margin:14px 0 18px }
-.actions button { padding:10px 24px; background:#86BA72; color:#fff; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; margin:0 4px }
+.actions button { padding:10px 24px; background:#ced9d9; color:#2C5559; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; margin:0 4px }
 .actions button.close { background:#94a3b8 }
 @media print { .no-print { display:none !important } body { padding:0 } }
 </style></head><body>
@@ -6121,7 +6121,7 @@ function renderQuotes() {
   }
 
   const stLabel = { draft:'مسودة', sent:'مُرسلة', accepted:'مقبولة', rejected:'مرفوضة', expired:'منتهية', converted:'تحوّلت لفاتورة' };
-  const stColor = { draft:'#a8854a', sent:'#2C5559', accepted:'#86BA72', rejected:'#c93545', expired:'#9aa0b8', converted:'#86BA72' };
+  const stColor = { draft:'#a8854a', sent:'#2C5559', accepted:'#ced9d9', rejected:'#c93545', expired:'#9aa0b8', converted:'#ced9d9' };
   const today = new Date().toISOString().slice(0,10);
 
   tb.innerHTML = list.map(q => {
@@ -6402,10 +6402,10 @@ async function quoteView(id) {
     <div style="background:#fafafa;padding:14px;border-radius:10px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr">${(+q.subtotal||0).toFixed(2)} ر.س</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة</span><span style="direction:ltr">${(+q.vat_amount||0).toFixed(2)} ر.س</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #86BA72;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#86BA72">${(+q.total||0).toFixed(2)} ر.س</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #ced9d9;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#ced9d9">${(+q.total||0).toFixed(2)} ر.س</span></div>
     </div>
     ${q.notes ? `<div style="background:#fff7e6;border-right:3px solid #a8854a;padding:11px;border-radius:6px;font-size:12px;color:#7a5a2c;margin-bottom:10px"><b>ملاحظات:</b> ${q.notes}</div>` : ''}
-    ${q.terms ? `<div style="background:#fafafa;border-right:3px solid #86BA72;padding:11px;border-radius:6px;font-size:11px;color:#555;line-height:1.7;margin-bottom:14px"><b>الشروط:</b> ${q.terms}</div>` : ''}
+    ${q.terms ? `<div style="background:#fafafa;border-right:3px solid #ced9d9;padding:11px;border-radius:6px;font-size:11px;color:#555;line-height:1.7;margin-bottom:14px"><b>الشروط:</b> ${q.terms}</div>` : ''}
     <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--b);padding-top:14px;flex-wrap:wrap">
       ${q.status !== 'converted' ? `<button class="btn bp" onclick="closeQuoteDetail();quoteConvert('${q.id}')">→ تحويل لفاتورة</button>` : ''}
       ${q.status !== 'converted' ? `<button class="btn bg2" onclick="closeQuoteDetail();openQuoteForm('${q.id}')">✏️ تعديل</button>` : ''}
@@ -6457,7 +6457,7 @@ function closingRender(list) {
   el.innerHTML = list.map(c => {
     const reconciled = !!c.reconciled_at;
     const variance = +c.variance_amount || 0;
-    const varColor = !reconciled ? '#a8854a' : (Math.abs(variance) < 0.01 ? '#86BA72' : variance > 0 ? '#1e6080' : '#c93545');
+    const varColor = !reconciled ? '#a8854a' : (Math.abs(variance) < 0.01 ? '#ced9d9' : variance > 0 ? '#1e6080' : '#c93545');
     const varLabel = !reconciled ? 'لم تتم المطابقة' : (Math.abs(variance) < 0.01 ? '✓ مطابقة تماماً' : `فرق ${variance > 0 ? '+' : ''}${variance.toFixed(2)} ر.س`);
     return `
     <div style="padding:14px 18px;border-bottom:1px solid var(--b);position:relative">
@@ -6467,7 +6467,7 @@ function closingRender(list) {
           <div style="font-size:10px;color:${varColor};font-weight:700;margin-top:3px">${reconciled?'🏦':'⚠️'} ${varLabel}</div>
         </div>
         <div style="text-align:left">
-          <div style="font-weight:800;color:#86BA72;direction:ltr">${(+c.total_sales).toFixed(2)} ر.س</div>
+          <div style="font-weight:800;color:#ced9d9;direction:ltr">${(+c.total_sales).toFixed(2)} ر.س</div>
           <div style="font-size:10px;color:var(--t3);margin-top:2px">إغلاق</div>
         </div>
       </div>
@@ -6479,7 +6479,7 @@ function closingRender(list) {
         ${+c.returns_amount>0 ? `<span style="color:#c93545">↩ ${(+c.returns_amount).toFixed(0)}</span>` : ''}
         ${c.source === 'upload' ? `<span style="color:#8b5cf6">✨ AI</span>` : ''}
       </div>
-      <button onclick="openReconcileModal('${c.id}')" style="margin-top:8px;background:${reconciled?'transparent':'#86BA72'};color:${reconciled?'#86BA72':'#fff'};border:1px solid #86BA72;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">
+      <button onclick="openReconcileModal('${c.id}')" style="margin-top:8px;background:${reconciled?'transparent':'#ced9d9'};color:${reconciled?'#ced9d9':'#fff'};border:1px solid #ced9d9;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">
         ${reconciled ? '🔄 تعديل المطابقة' : '🏦 مطابقة مع الإيداع البنكي'}
       </button>
     </div>`;
@@ -6512,7 +6512,7 @@ function openReconcileModal(closingId) {
 
   m.innerHTML = `
     <div style="background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(15,36,38,.35)">
-      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:18px 18px 0 0">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:18px 18px 0 0">
         <div>
           <div style="font-size:17px;font-weight:800">🏦 مطابقة بنكية</div>
           <div style="font-size:11px;opacity:.9;margin-top:2px">إغلاق ${c.closing_date}${c.branch?` · ${c.branch}`:''}</div>
@@ -6564,9 +6564,9 @@ function openReconcileModal(closingId) {
               <input type="number" step="0.01" placeholder="0.00" inputmode="decimal" data-vkey="${v.key}" value="${breakdown[v.key]||''}" oninput="updateBreakdownSum()" style="width:90px;padding:6px 8px;border:1px solid var(--b);border-radius:7px;font-size:13px;direction:ltr;text-align:left;font-family:inherit"/>
             </div>
           `).join('')}
-          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#fff;border:2px solid #86BA72;border-radius:10px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#fff;border:2px solid #ced9d9;border-radius:10px;margin-top:8px">
             <span style="font-weight:700;font-size:12px">مجموع الأسباب</span>
-            <b id="rec-breakdown-sum" style="direction:ltr;color:#86BA72">0.00 ر.س</b>
+            <b id="rec-breakdown-sum" style="direction:ltr;color:#ced9d9">0.00 ر.س</b>
           </div>
         </div>
 
@@ -6602,7 +6602,7 @@ function updateReconcileVariance() {
   document.getElementById('rec-expected').textContent = expected.toFixed(2) + ' ر.س';
   const v = document.getElementById('rec-variance');
   v.textContent = (variance > 0 ? '+' : '') + variance.toFixed(2) + ' ر.س';
-  v.style.color = Math.abs(variance) < 0.01 ? '#86BA72' : variance > 0 ? '#1e6080' : '#c93545';
+  v.style.color = Math.abs(variance) < 0.01 ? '#ced9d9' : variance > 0 ? '#1e6080' : '#c93545';
   document.getElementById('rec-breakdown-section').style.display = Math.abs(variance) > 0.01 ? 'block' : 'none';
   updateBreakdownSum();
 }
@@ -6765,7 +6765,7 @@ async function closingScan(event) {
       document.getElementById('cl-branch').value   = parsed.branch || '';
       closingCalcVat();
       document.getElementById('closing-manual').classList.add('open');
-      status.innerHTML = `<span style="color:#86BA72">✓ تم استخراج البيانات — راجعها واضغط "حفظ الإغلاق"</span>`;
+      status.innerHTML = `<span style="color:#ced9d9">✓ تم استخراج البيانات — راجعها واضغط "حفظ الإغلاق"</span>`;
     };
     reader.readAsDataURL(file);
   } catch (e) {
@@ -6851,7 +6851,7 @@ const EXP_METHOD = {
   bank_transfer:'تحويل بنكي', cash:'نقدي', card:'بطاقة', e_wallet:'محفظة', other:'أخرى'
 };
 const EXP_STATUS_LABEL = { unpaid:'غير مدفوع', partial:'جزئي', paid:'مدفوع' };
-const EXP_STATUS_COLOR = { unpaid:'#c93545', partial:'#a8854a', paid:'#86BA72' };
+const EXP_STATUS_COLOR = { unpaid:'#c93545', partial:'#a8854a', paid:'#ced9d9' };
 
 async function expensesLoad() {
   try {
@@ -6942,7 +6942,7 @@ function renderExpenses() {
       <td style="padding:11px 14px;font-weight:600;color:var(--t2)">${e.number}</td>
       <td style="padding:11px 14px;font-weight:600">${e.description}</td>
       <td style="padding:11px 14px;color:var(--t2)">${supplier}</td>
-      <td style="padding:11px 14px"><span style="background:rgba(134,186,114,.1);color:#2C5559;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">${catLabel}</span></td>
+      <td style="padding:11px 14px"><span style="background:rgba(206,217,217,.1);color:#2C5559;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">${catLabel}</span></td>
       <td style="padding:11px 14px;color:var(--t3)">${dateStr}</td>
       <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr">${fmt(e.total)} ر.س</td>
       <td style="padding:11px 14px"><span style="color:${stColor};font-weight:700;font-size:12px">${stLabel}</span></td>
@@ -6976,7 +6976,7 @@ function renderSuppliers() {
       <td style="padding:11px 14px;font-weight:700">${s.name}</td>
       <td style="padding:11px 14px;color:var(--t2)">${EXP_CAT[s.category] || s.category || '—'}</td>
       <td style="padding:11px 14px;color:var(--t3)">${termsLbl}</td>
-      <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr;color:${balance > 0 ? '#c93545' : '#86BA72'}">${fmt(balance)} ر.س</td>
+      <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr;color:${balance > 0 ? '#c93545' : '#ced9d9'}">${fmt(balance)} ر.س</td>
       <td style="padding:11px 14px;direction:ltr;text-align:right;color:var(--t2)">${s.phone || '—'}</td>
       <td style="padding:11px 14px;text-align:center">
         <button class="inv-act" onclick="supplierDelete('${s.id}')" title="حذف" style="color:#c93545">🗑</button>
@@ -7416,13 +7416,13 @@ function renderAdminStats(s) {
   if (!el) return;
   const cards = [
     { label:'إجمالي المستخدمين', value:s.total_users, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', color:'#2C5559' },
-    { label:'جدد اليوم', value:s.new_today, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>', color:'#86BA72' },
-    { label:'جدد هذا الأسبوع', value:s.new_week, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', color:'#86BA72' },
+    { label:'جدد اليوم', value:s.new_today, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>', color:'#ced9d9' },
+    { label:'جدد هذا الأسبوع', value:s.new_week, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', color:'#ced9d9' },
     { label:'نشطون اليوم', value:s.active_today, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', color:'#a8854a' },
-    { label:'مدفوع', value:s.paying, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', color:'#86BA72' },
+    { label:'مدفوع', value:s.paying, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', color:'#ced9d9' },
     { label:'تجربة فعّالة', value:s.trial_active, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>', color:'#a8854a' },
     { label:'انتهت التجربة', value:s.trial_expired, icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>', color:'#c93545' },
-    { label:'الإيراد الشهري (MRR)', value:s.mrr + ' ر.س', icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', color:'#86BA72' },
+    { label:'الإيراد الشهري (MRR)', value:s.mrr + ' ر.س', icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', color:'#ced9d9' },
   ];
   el.innerHTML = cards.map(c => `
     <div style="background:#fff;border:1px solid var(--b);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px">
@@ -7445,7 +7445,7 @@ function adminRenderUsers() {
     list.innerHTML = `<div style="padding:30px;text-align:center;color:var(--t3)">لا توجد نتائج</div>`;
     return;
   }
-  const statusColor = { paid_active:'#86BA72', trial_active:'#a8854a', trial_expired:'#c93545', no_tenant:'#94a3b8', inactive:'#94a3b8' };
+  const statusColor = { paid_active:'#ced9d9', trial_active:'#a8854a', trial_expired:'#c93545', no_tenant:'#94a3b8', inactive:'#94a3b8' };
   const statusLabel = { paid_active:'مدفوع', trial_active:'تجربة', trial_expired:'منتهٍ', no_tenant:'لم يكمل', inactive:'متوقف' };
   const planBadge = { free:'تجريبي', starter:'مبتدئ', pro:'احترافي', business:'أعمال' };
   list.innerHTML = filtered.map(u => {
@@ -7454,8 +7454,8 @@ function adminRenderUsers() {
     const signed = u.signed_up_at ? new Date(u.signed_up_at).toLocaleDateString('ar-SA-u-nu-latn') : '—';
     const lastSeen = u.last_seen_at ? new Date(u.last_seen_at).toLocaleDateString('ar-SA-u-nu-latn') : (u.last_sign_in_at ? new Date(u.last_sign_in_at).toLocaleDateString('ar-SA-u-nu-latn') : '—');
     return `
-      <div style="padding:14px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:.15s" onmouseover="this.style.background='rgba(134,186,114,.03)'" onmouseout="this.style.background='transparent'">
-        <div style="width:40px;height:40px;border-radius:50%;background:rgba(134,186,114,.12);color:#86BA72;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${(u.email || '?').charAt(0).toUpperCase()}</div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:.15s" onmouseover="this.style.background='rgba(206,217,217,.03)'" onmouseout="this.style.background='transparent'">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(206,217,217,.12);color:#ced9d9;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${(u.email || '?').charAt(0).toUpperCase()}</div>
         <div style="flex:1;min-width:200px">
           <div style="font-size:13px;font-weight:700;color:#000">${u.tenant_name || '—'}</div>
           <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right">${u.email}</div>
@@ -7469,7 +7469,7 @@ function adminRenderUsers() {
           ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#2C5559;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
         </div>
         <div style="display:flex;gap:6px">
-          <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
+          <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
           <button onclick="adminQuickGrant('${u.email}','free')" title="إلغاء" style="padding:6px 10px;background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">إلغاء</button>
         </div>
       </div>
@@ -7717,12 +7717,12 @@ async function drawSparkline() {
     el.innerHTML = `
       <defs>
         <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#9DC78A" stop-opacity=".25"/>
-          <stop offset="100%" stop-color="#9DC78A" stop-opacity="0"/>
+          <stop offset="0%" stop-color="#dde5e5" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="#dde5e5" stop-opacity="0"/>
         </linearGradient>
       </defs>
       <path d="M${points} L${W},${H} L0,${H} Z" fill="url(#sparkGrad)"/>
-      <path d="M${points}" stroke="#86BA72" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M${points}" stroke="#ced9d9" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     `;
   } catch (e) { /* silent */ }
 }
@@ -7855,7 +7855,7 @@ async function renderHealthScore() {
   }
   const score = Math.round(parts.reduce((a, b) => a + b, 0) / parts.length);
   const arc = document.getElementById('hrArc');
-  const col = score >= 70 ? '#86BA72' : score >= 40 ? '#C5A878' : '#dc2f3b';
+  const col = score >= 70 ? '#ced9d9' : score >= 40 ? '#C5A878' : '#dc2f3b';
   if (arc) arc.setAttribute('stroke', col);
   if (scoreEl) { scoreEl.textContent = score; scoreEl.style.color = col; }
   animateGauge('hrArc', score);
@@ -8135,13 +8135,13 @@ function showTrialExpiredPaywall(status) {
       .pw-plan:nth-child(1){animation-delay:.2s}
       .pw-plan:nth-child(2){animation-delay:.3s}
       .pw-plan:nth-child(3){animation-delay:.4s}
-      .pw-plan:hover{transform:translateY(-4px) !important;border-color:#86BA72 !important;box-shadow:0 12px 32px rgba(134,186,114,.25) !important}
+      .pw-plan:hover{transform:translateY(-4px) !important;border-color:#ced9d9 !important;box-shadow:0 12px 32px rgba(206,217,217,.25) !important}
       .pw-plan.featured{position:relative}
-      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
+      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
       .pw-feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#456050;margin:6px 0}
-      .pw-feat svg{flex-shrink:0;color:#86BA72}
+      .pw-feat svg{flex-shrink:0;color:#ced9d9}
       .pw-cta-main{transition:all .25s}
-      .pw-cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(134,186,114,.5) !important}
+      .pw-cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(206,217,217,.5) !important}
       .pw-logo{animation:float 3s ease-in-out infinite}
     </style>
 
@@ -8150,7 +8150,7 @@ function showTrialExpiredPaywall(status) {
       <!-- Header -->
       <div style="text-align:center;margin-bottom:40px">
         <div class="pw-logo" style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px">
-          <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#86BA72,#9DC78A);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 36px rgba(134,186,114,.4)">
+          <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#ced9d9,#dde5e5);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 36px rgba(206,217,217,.4)">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9z"/>
               <path d="M12 6v6l4 2"/>
@@ -8165,9 +8165,9 @@ function showTrialExpiredPaywall(status) {
             ? 'استخدمت <b style="color:#fff">محسوب</b> لمدة 14 يوماً بكامل الميزات. بياناتك محفوظة، اختر الباقة المناسبة لتستمر بدون انقطاع.'
             : 'اشتراكك غير فعّال حالياً. اختر باقة لتفعيل حسابك واستعادة الوصول الكامل.'}
         </p>
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(134,186,114,.15);border:1px solid rgba(134,186,114,.35);border-radius:20px;padding:6px 16px;margin-top:18px;font-size:12px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
-          <span style="color:#9DC78A;font-weight:700">المنشأة: ${t.name || '—'}</span>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(206,217,217,.15);border:1px solid rgba(206,217,217,.35);border-radius:20px;padding:6px 16px;margin-top:18px;font-size:12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dde5e5" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+          <span style="color:#dde5e5;font-weight:700">المنشأة: ${t.name || '—'}</span>
           <span style="color:#8aa090">· بياناتك محفوظة ومحمية</span>
         </div>
       </div>
@@ -8177,7 +8177,7 @@ function showTrialExpiredPaywall(status) {
 
         <!-- Starter -->
         <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
+          <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">مبتدئ</div>
           <div style="margin:18px 0">
             <span style="font-size:36px;font-weight:900;color:#2C5559">99</span>
@@ -8191,11 +8191,11 @@ function showTrialExpiredPaywall(status) {
         </div>
 
         <!-- Pro (featured) -->
-        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#2C5559;border:2px solid #86BA72;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(134,186,114,.25)" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
+        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#2C5559;border:2px solid #ced9d9;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(206,217,217,.25)" onclick="window.location.href='/pricing'">
+          <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">احترافي</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#86BA72">249</span>
+            <span style="font-size:36px;font-weight:900;color:#ced9d9">249</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -8208,7 +8208,7 @@ function showTrialExpiredPaywall(status) {
 
         <!-- Business -->
         <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
-          <div style="font-size:11px;font-weight:800;color:#86BA72;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
+          <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">أعمال</div>
           <div style="margin:18px 0">
             <span style="font-size:36px;font-weight:900;color:#2C5559">499</span>
@@ -8226,20 +8226,20 @@ function showTrialExpiredPaywall(status) {
 
       <!-- CTA + footer -->
       <div style="text-align:center">
-        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#86BA72,#9DC78A);color:#fff;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(134,186,114,.4)">
+        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(206,217,217,.4)">
           اختر باقتك واشترك ←
         </a>
         <div style="margin-top:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:12px;color:#8aa090">
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dde5e5" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             دفع آمن عبر Tap
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dde5e5" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             إلغاء في أي وقت
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC78A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dde5e5" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             متوافق مع ZATCA
           </div>
         </div>
@@ -8416,7 +8416,7 @@ function filterTxTable() {
 const PLAN_INFO = {
   free:     { name:'تجريبي',   price:0,   color:'#6b7280', desc:'الباقة المجانية' },
   starter:  { name:'مبتدئ',    price:99,  color:'#2563eb', desc:'للمستقلين والمشاريع الصغيرة' },
-  pro:      { name:'احترافي',  price:249, color:'#86BA72', desc:'للمشاريع المتنامية' },
+  pro:      { name:'احترافي',  price:249, color:'#ced9d9', desc:'للمشاريع المتنامية' },
   business: { name:'أعمال',    price:499, color:'#7c3aed', desc:'للشركات والفرق الكبيرة' },
 };
 
@@ -8461,8 +8461,8 @@ async function subLoad() {
       </div>
       <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
         ${currentPlan === 'free' ?
-          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#86BA72);color:#fff;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
-          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#ced9d9);color:#2C5559;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
            ${activeSub && activeSub.status === 'active' ? `<button onclick="subCancel('${activeSub.id}')" style="flex:1;min-width:140px;padding:11px;background:transparent;color:#dc2626;border:1px solid rgba(232,57,74,.3);border-radius:9px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">إلغاء الاشتراك</button>` : ''}`
         }
       </div>
@@ -8492,7 +8492,7 @@ async function subLoad() {
         <tbody>
           ${payments.map(p => {
             const d = new Date(p.paid_at || p.created_at);
-            const status = ({ CAPTURED:['#86BA72','مدفوع'], AUTHORIZED:['#f59e0b','معلّق'], FAILED:['#dc2626','فاشل'], CANCELLED:['#6b7280','ملغي'], INITIATED:['#f59e0b','قيد المعالجة'], IN_PROGRESS:['#f59e0b','قيد المعالجة'] })[p.status] || ['#6b7280', p.status];
+            const status = ({ CAPTURED:['#ced9d9','مدفوع'], AUTHORIZED:['#f59e0b','معلّق'], FAILED:['#dc2626','فاشل'], CANCELLED:['#6b7280','ملغي'], INITIATED:['#f59e0b','قيد المعالجة'], IN_PROGRESS:['#f59e0b','قيد المعالجة'] })[p.status] || ['#6b7280', p.status];
             const meta = p.metadata || {};
             return `
               <tr style="border-top:1px solid var(--bd)">
@@ -8501,7 +8501,7 @@ async function subLoad() {
                 <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700">${parseFloat(p.amount_sar).toFixed(2)} ر.س</td>
                 <td style="padding:11px 14px;text-align:center"><span style="background:${status[0]}20;color:${status[0]};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">${status[1]}</span></td>
                 <td style="padding:11px 14px;text-align:center">
-                  ${p.status === 'CAPTURED' ? `<button onclick="subDownloadInvoice('${p.id}')" style="padding:5px 11px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.3);border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">⬇ PDF</button>` : '—'}
+                  ${p.status === 'CAPTURED' ? `<button onclick="subDownloadInvoice('${p.id}')" style="padding:5px 11px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.3);border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">⬇ PDF</button>` : '—'}
                 </td>
               </tr>
             `;
@@ -8550,8 +8550,8 @@ async function subDownloadInvoice(paymentId) {
 @page { size: A4; margin: 20mm }
 body { font-family: 'Tajawal', sans-serif; color: #2C5559; padding: 0; margin: 0 }
 .wrap { max-width: 700px; margin: 0 auto; padding: 30px }
-.header { display: flex; justify-content: space-between; border-bottom: 2px solid #86BA72; padding-bottom: 18px; margin-bottom: 24px }
-.brand { font-size: 26px; font-weight: 900; color: #86BA72 }
+.header { display: flex; justify-content: space-between; border-bottom: 2px solid #ced9d9; padding-bottom: 18px; margin-bottom: 24px }
+.brand { font-size: 26px; font-weight: 900; color: #ced9d9 }
 .brand-sub { font-size: 12px; color: #888; margin-top: 4px }
 .title { font-size: 20px; font-weight: 700; text-align: left }
 .title-sub { font-size: 12px; color: #888 }
@@ -8561,12 +8561,12 @@ body { font-family: 'Tajawal', sans-serif; color: #2C5559; padding: 0; margin: 0
 .box .val { font-weight: 700 }
 table { width: 100%; border-collapse: collapse; margin-bottom: 18px }
 th, td { padding: 11px 12px; text-align: right; font-size: 13px; border-bottom: 1px solid #e5e5e5 }
-th { background: #86BA72; color: #fff; font-weight: 700 }
+th { background: #ced9d9; color: #fff; font-weight: 700 }
 .totals { float: left; width: 280px; font-size: 14px }
 .totals .row { display: flex; justify-content: space-between; padding: 7px 0 }
-.totals .total { border-top: 2px solid #86BA72; padding-top: 10px; margin-top: 6px; font-weight: 900; font-size: 16px; color: #86BA72 }
+.totals .total { border-top: 2px solid #ced9d9; padding-top: 10px; margin-top: 6px; font-weight: 900; font-size: 16px; color: #ced9d9 }
 .footer { clear: both; text-align: center; font-size: 11px; color: #888; margin-top: 40px; padding-top: 18px; border-top: 1px solid #e5e5e5 }
-.print-btn { position: fixed; top: 20px; left: 20px; background: #86BA72; color: #fff; padding: 10px 18px; border-radius: 9px; border: none; font-weight: 700; cursor: pointer; font-family: inherit }
+.print-btn { position: fixed; top: 20px; left: 20px; background: #ced9d9; color: #fff; padding: 10px 18px; border-radius: 9px; border: none; font-weight: 700; cursor: pointer; font-family: inherit }
 @media print { .print-btn { display: none } }
 </style>
 </head><body>
@@ -8615,7 +8615,7 @@ const COA_TYPES = {
   asset:     { label:'ما أملكه',       short:'أملكه',  color:'#2563eb', bg:'rgba(37,99,235,.08)',  icon:'💰', hint:'النقد، الجهاز، المخزون، مالي عند الناس' },
   liability: { label:'ما عليّ',        short:'عليّ',   color:'#e8394a', bg:'rgba(232,57,74,.08)',  icon:'💸', hint:'موردين، ضرائب، رواتب لم تُدفع بعد' },
   equity:    { label:'حقي في المشروع', short:'ملكيتي', color:'#7c3aed', bg:'rgba(124,58,237,.08)', icon:'🏛️', hint:'رأس المال + الأرباح المتراكمة' },
-  revenue:   { label:'الإيرادات',      short:'إيراد',  color:'#86BA72', bg:'rgba(134,186,114,.08)', icon:'📈', hint:'كل ما يدخل للمشروع' },
+  revenue:   { label:'الإيرادات',      short:'إيراد',  color:'#ced9d9', bg:'rgba(206,217,217,.08)', icon:'📈', hint:'كل ما يدخل للمشروع' },
   cogs:      { label:'تكلفة البضاعة',  short:'تكلفة',  color:'#f59e0b', bg:'rgba(245,158,11,.08)', icon:'📦', hint:'كم كلّفتك البضاعة المباعة' },
   expense:   { label:'المصروفات',      short:'مصروف',  color:'#dc2626', bg:'rgba(220,38,38,.08)',  icon:'📉', hint:'إيجار، رواتب، كهرباء، وقود...' },
 };
@@ -8677,7 +8677,7 @@ function coaRenderStats() {
   const groups = [
     { key:'asset',     label:'ما أملكه',  icon:'💰', color:'#2563eb', bg:'rgba(37,99,235,.06)'  },
     { key:'liability', label:'ما عليّ',   icon:'💸', color:'#e8394a', bg:'rgba(232,57,74,.06)'  },
-    { key:'revenue',   label:'يدخل لي',   icon:'📈', color:'#86BA72', bg:'rgba(134,186,114,.06)' },
+    { key:'revenue',   label:'يدخل لي',   icon:'📈', color:'#ced9d9', bg:'rgba(206,217,217,.06)' },
     { key:'expense',   label:'يخرج مني',  icon:'📉', color:'#dc2626', bg:'rgba(220,38,38,.06)'  },
   ];
   el.innerHTML = groups.map(g => {
@@ -8736,13 +8736,13 @@ function coaRenderTree() {
     const balColor = bal > 0 ? t.color : (bal < 0 ? '#e8394a' : 'var(--t3)');
     const isParent = !a.parent_code;
     return `
-      <div onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:${i === rows.length-1 ? 'none' : '1px solid var(--bd)'};cursor:pointer;transition:background .15s;${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}" onmouseover="this.style.background='rgba(134,186,114,.04)'" onmouseout="this.style.background='${isParent ? 'rgba(0,0,0,.02)' : '#fff'}'">
+      <div onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:${i === rows.length-1 ? 'none' : '1px solid var(--bd)'};cursor:pointer;transition:background .15s;${isParent ? 'background:rgba(0,0,0,.02);font-weight:700' : ''}" onmouseover="this.style.background='rgba(206,217,217,.04)'" onmouseout="this.style.background='${isParent ? 'rgba(0,0,0,.02)' : '#fff'}'">
         ${_coaAdvanced ? `<div style="font-family:Monaco,monospace;font-size:11px;color:var(--t3);min-width:54px">${a.code}</div>` : ''}
         <div style="width:32px;height:32px;border-radius:8px;background:${t.bg};color:${t.color};display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">${t.icon}</div>
         <div style="flex:1;font-size:14px">${a.name_ar}</div>
         <div style="font-size:15px;font-weight:800;color:${balColor};direction:ltr;min-width:100px;text-align:left">${_coaFmt(bal)} <span style="font-size:10px;color:var(--t3);font-weight:500">ر.س</span></div>
         <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
-          <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="padding:6px 10px;background:rgba(134,186,114,.08);border:1px solid rgba(134,186,114,.25);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#86BA72;font-weight:600">الحركة</button>
+          <button onclick="coaShowLedger('${a.code}', '${a.name_ar.replace(/'/g, "\\'")}', '${a.type}')" style="padding:6px 10px;background:rgba(206,217,217,.08);border:1px solid rgba(206,217,217,.25);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#ced9d9;font-weight:600">الحركة</button>
           ${_coaAdvanced ? `<button onclick="coaRename('${a.id}', '${a.name_ar.replace(/'/g, "\\'")}')" style="padding:6px 10px;background:transparent;border:1px solid var(--bd);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:var(--t2)">تعديل</button>` : ''}
           ${_coaAdvanced && !a.is_zatca ? `<button onclick="coaDeactivate('${a.id}')" style="padding:6px 10px;background:transparent;border:1px solid rgba(232,57,74,.2);border-radius:7px;font-family:inherit;font-size:11px;cursor:pointer;color:#e8394a">حذف</button>` : ''}
         </div>
@@ -8826,7 +8826,7 @@ async function coaShowLedger(code, name, type) {
     document.getElementById('ledgerDR').textContent  = _coaFmt(incoming);
     document.getElementById('ledgerCR').textContent  = _coaFmt(outgoing);
     document.getElementById('ledgerBal').textContent = _coaFmt(bal) + ' ر.س';
-    document.getElementById('ledgerBal').style.color = bal >= 0 ? '#86BA72' : '#e8394a';
+    document.getElementById('ledgerBal').style.color = bal >= 0 ? '#ced9d9' : '#e8394a';
 
     if (!entries.length) {
       document.getElementById('ledgerEntries').innerHTML = `
@@ -8846,14 +8846,14 @@ async function coaShowLedger(code, name, type) {
       runBal += change;
       const refLabel = { transaction:'معاملة', invoice:'فاتورة', manual:'يدوي', opening:'افتتاحي' }[e.ref_type] || '—';
       const sign = change >= 0 ? '+' : '';
-      const changeColor = change >= 0 ? '#86BA72' : '#e8394a';
+      const changeColor = change >= 0 ? '#ced9d9' : '#e8394a';
       return `
         <tr>
           <td style="padding:11px 14px;font-size:12px;color:var(--t3)">${e.entry_date}</td>
           <td style="padding:11px 14px;font-size:13px">${e.description || '—'}</td>
           <td style="padding:11px 14px"><span style="display:inline-block;background:rgba(0,0,0,.05);font-size:10px;padding:2px 8px;border-radius:8px;color:var(--t2)">${refLabel}</span></td>
           <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${changeColor};font-size:14px">${sign}${_coaFmt(change)}</td>
-          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#86BA72' : '#e8394a'};font-size:14px">${_coaFmt(runBal)}</td>
+          <td style="padding:11px 14px;text-align:left;direction:ltr;font-weight:700;color:${runBal >= 0 ? '#ced9d9' : '#e8394a'};font-size:14px">${_coaFmt(runBal)}</td>
         </tr>
       `;
     }).join('');
@@ -9187,7 +9187,7 @@ async function loadTransactions() {
 // Goals v2 — Real DB persistence + smart tracking
 // ═══════════════════════════════════════════════════════════════════════
 const GOAL_CAT_META = {
-  revenue:           { icon:'📈', label:'زيادة الإيرادات', color:'#86BA72', auto:true },
+  revenue:           { icon:'📈', label:'زيادة الإيرادات', color:'#ced9d9', auto:true },
   expense_reduction: { icon:'💸', label:'تقليل المصاريف',  color:'#c93545', auto:true },
   savings:           { icon:'💰', label:'ادخار',            color:'#1e6080', auto:false },
   customers:         { icon:'👥', label:'عدد العملاء',      color:'#a8854a', auto:false },
@@ -9255,7 +9255,7 @@ function renderGoalsList() {
     const current = +g.current || 0;
     const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
     const status = pct >= 100 ? 'completed' : pct >= 75 ? 'on_track' : pct >= 40 ? 'behind' : 'starting';
-    const statusColor = status === 'completed' ? '#86BA72' : status === 'on_track' ? '#1e6080' : status === 'behind' ? '#a8854a' : '#c93545';
+    const statusColor = status === 'completed' ? '#ced9d9' : status === 'on_track' ? '#1e6080' : status === 'behind' ? '#a8854a' : '#c93545';
     const statusLabel = status === 'completed' ? '✓ محقّق' : status === 'on_track' ? '🚀 على المسار' : status === 'behind' ? '⚡ يحتاج جهد' : '🔥 ابدئي بقوة';
     const daysLeft = g.deadline ? Math.ceil((new Date(g.deadline) - new Date()) / 86400000) : null;
     const dailyNeeded = (daysLeft && daysLeft > 0 && pct < 100) ? ((target - current) / daysLeft).toFixed(0) : null;
@@ -9530,13 +9530,13 @@ async function _stRenderMonthlyChart() {
       const eh = Math.max(2, (m.exp / max) * 100);
       const delay = i * 0.08;
       const net = m.rev - m.exp;
-      const netColor = net >= 0 ? '#86BA72' : '#dc2626';
+      const netColor = net >= 0 ? '#ced9d9' : '#dc2626';
       return `
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
           <div style="height:140px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative">
-            <div class="chart-bar bar-anim" style="--bar-h:${rh}%;width:20px;background:linear-gradient(to top,#86BA72,#9DC78A);border-radius:5px 5px 0 0;animation-delay:${delay}s">
+            <div class="chart-bar bar-anim" style="--bar-h:${rh}%;width:20px;background:linear-gradient(to top,#ced9d9,#dde5e5);border-radius:5px 5px 0 0;animation-delay:${delay}s">
               <div class="chart-bar-tooltip">
-                <strong style="color:#9DC78A">إيرادات</strong><br>
+                <strong style="color:#dde5e5">إيرادات</strong><br>
                 ${_stFmt(m.rev)} ر.س
               </div>
             </div>
@@ -9560,7 +9560,7 @@ async function _stRenderMonthlyChart() {
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="font-weight:700;font-size:14px">آخر 6 أشهر</div>
           <div style="display:flex;gap:14px;font-size:11px">
-            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#86BA72;border-radius:2px"></span>إيرادات</span>
+            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#ced9d9;border-radius:2px"></span>إيرادات</span>
             <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#dc2626;border-radius:2px"></span>مصروفات</span>
           </div>
         </div>
@@ -9605,16 +9605,16 @@ function _stRenderIncome(accounts, balMap) {
   html += '<div class="sr hd"><span>البند</span><span class="sv">المبلغ (ر.س)</span></div>';
 
   if (revenue.length) {
-    html += '<div class="sr" style="background:rgba(134,186,114,.06);font-weight:700"><span>📈 الإيرادات (يدخل لي)</span><span></span></div>';
+    html += '<div class="sr" style="background:rgba(206,217,217,.06);font-weight:700"><span>📈 الإيرادات (يدخل لي)</span><span></span></div>';
     revenue.forEach(x => html += row(x.name, x.val, { cls:'ind' }));
-    html += row('إجمالي الإيرادات', totalRev, { cls:'tot', style:'background:rgba(134,186,114,.1);font-weight:700' });
+    html += row('إجمالي الإيرادات', totalRev, { cls:'tot', style:'background:rgba(206,217,217,.1);font-weight:700' });
   }
 
   if (cogs.length) {
     html += '<div class="sr" style="background:rgba(245,158,11,.06);font-weight:700;margin-top:8px"><span>📦 تكلفة البضاعة</span><span></span></div>';
     cogs.forEach(x => html += row(x.name, -x.val, { cls:'ind' }));
     html += row('إجمالي التكلفة', -totalCogs, { cls:'tot', style:'background:rgba(245,158,11,.1);font-weight:700' });
-    html += row('مجمل الربح', grossProfit, { cls:'tot', style:`background:${grossProfit>=0?'rgba(134,186,114,.15)':'rgba(232,57,74,.1)'};font-weight:800;font-size:14px;padding:11px 13px` });
+    html += row('مجمل الربح', grossProfit, { cls:'tot', style:`background:${grossProfit>=0?'rgba(206,217,217,.15)':'rgba(232,57,74,.1)'};font-weight:800;font-size:14px;padding:11px 13px` });
   }
 
   if (expense.length) {
@@ -9625,7 +9625,7 @@ function _stRenderIncome(accounts, balMap) {
 
   html += row(netIncome >= 0 ? '✅ صافي الربح' : '⚠️ صافي الخسارة', netIncome, {
     cls:'tot',
-    style:`background:${netIncome>=0?'linear-gradient(135deg,rgba(134,186,114,.2),rgba(134,186,114,.1))':'linear-gradient(135deg,rgba(232,57,74,.2),rgba(232,57,74,.1))'};font-weight:900;font-size:16px;padding:14px 16px;margin-top:8px;border-radius:9px;border:1px solid ${netIncome>=0?'rgba(134,186,114,.3)':'rgba(232,57,74,.3)'}`,
+    style:`background:${netIncome>=0?'linear-gradient(135deg,rgba(206,217,217,.2),rgba(206,217,217,.1))':'linear-gradient(135deg,rgba(232,57,74,.2),rgba(232,57,74,.1))'};font-weight:900;font-size:16px;padding:14px 16px;margin-top:8px;border-radius:9px;border:1px solid ${netIncome>=0?'rgba(206,217,217,.3)':'rgba(232,57,74,.3)'}`,
   });
 
   if (!revenue.length && !expense.length && !cogs.length) {
@@ -9690,7 +9690,7 @@ function _stRenderBalance(accounts, balMap) {
   html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(232,57,74,.15),rgba(124,58,237,.15));font-weight:900;font-size:14px;padding:12px;margin-top:8px"><span>إجمالي (ما عليّ + حقي)</span><span class="sv" style="direction:ltr">${_stFmt(totLE)}</span></div>`;
 
   if (diff < 0.01) {
-    html += '<div style="text-align:center;padding:12px;color:#86BA72;font-size:12px;font-weight:700">✓ الميزانية متوازنة</div>';
+    html += '<div style="text-align:center;padding:12px;color:#ced9d9;font-size:12px;font-weight:700">✓ الميزانية متوازنة</div>';
   } else {
     html += `<div style="text-align:center;padding:12px;color:#e8394a;font-size:12px">⚠️ فرق ${_stFmt(diff)} — تحقق من الحركات</div>`;
   }
@@ -9832,9 +9832,9 @@ function _stRenderCashFlow(accounts, balMap) {
   html += '<div class="sr hd"><span>الحساب النقدي</span><span class="sv">الرصيد (ر.س)</span></div>';
   cashAccts.forEach(a => {
     const v = balMap[a.code] || 0;
-    html += `<div class="sr"><span>${a.name_ar}</span><span class="sv" style="direction:ltr;color:${v>=0?'#86BA72':'#e8394a'};font-weight:700">${_stFmt(v)}</span></div>`;
+    html += `<div class="sr"><span>${a.name_ar}</span><span class="sv" style="direction:ltr;color:${v>=0?'#ced9d9':'#e8394a'};font-weight:700">${_stFmt(v)}</span></div>`;
   });
-  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(134,186,114,.15),rgba(134,186,114,.08));font-weight:900;font-size:15px;padding:13px"><span>إجمالي السيولة المتاحة</span><span class="sv" style="direction:ltr;color:#86BA72">${_stFmt(totalCash)}</span></div>`;
+  html += `<div class="sr tot" style="background:linear-gradient(135deg,rgba(206,217,217,.15),rgba(206,217,217,.08));font-weight:900;font-size:15px;padding:13px"><span>إجمالي السيولة المتاحة</span><span class="sv" style="direction:ltr;color:#ced9d9">${_stFmt(totalCash)}</span></div>`;
   html += '<div style="padding:14px;background:rgba(0,0,0,.02);border-radius:8px;margin-top:12px;font-size:12px;color:var(--t2);line-height:1.7"><strong>ملاحظة:</strong> النسخة الكاملة من قائمة التدفقات (تشغيلية/استثمارية/تمويلية) ستضاف قريباً.</div>';
   html += '</div>';
   document.getElementById('stC').innerHTML = html;
@@ -9935,7 +9935,7 @@ async function issueZ(){
         window._tenantBrand = brand;
       } catch (e) { brand = {}; }
     }
-    const bColor = brand.brand_color  || '#86BA72';
+    const bColor = brand.brand_color  || '#ced9d9';
     const aColor = brand.accent_color || '#2C5559';
     const showQr = brand.invoice_show_qr !== false;
     const showTerms = brand.invoice_show_terms !== false && brand.invoice_terms;
@@ -10215,7 +10215,7 @@ table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
 th{background:#2C5559;color:#fff;padding:8px;text-align:right}
 td{padding:7px 8px;border-bottom:1px solid #e5e7eb}
 tfoot td{background:#f7f9fc;font-weight:700;border-top:2px solid #2C5559}
-.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#86BA72;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
 @media print{.no-print{display:none!important}body{padding:0}}
 </style></head><body>
 <div class="no-print actions">
@@ -10251,9 +10251,9 @@ function exportZakatPDF() {
 <style>@page{size:A4;margin:18mm}*{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}body{margin:0;padding:24px;background:#fff;color:#1a1a1a;line-height:1.7}
 .h{text-align:center;border-bottom:2px solid #2C5559;padding-bottom:18px;margin-bottom:24px}.h h1{font-size:24px;color:#2C5559;margin:0 0 6px}.h .sub{font-size:12px;color:#666}
 .r{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px}.r.head{background:#2C5559;color:#fff;font-weight:700;border:none;border-radius:6px;margin-top:14px}
-.r.ded{color:#c93545}.r.tot{background:#86BA72;color:#fff;font-weight:800;font-size:16px;border-radius:6px;border:none;margin-top:14px}
+.r.ded{color:#c93545}.r.tot{background:#ced9d9;color:#2C5559;font-weight:800;font-size:16px;border-radius:6px;border:none;margin-top:14px}
 .note{background:#fff7e6;border-right:3px solid #a8854a;padding:14px;margin-top:20px;font-size:12px;color:#7a5a2c;line-height:1.8;border-radius:6px}
-.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#86BA72;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
 @media print{.no-print{display:none!important}body{padding:0}}
 </style></head><body>
 <div class="no-print actions">
@@ -10271,7 +10271,7 @@ function exportZakatPDF() {
 <div class="r ded"><span>المصروفات المستحقة</span><span style="direction:ltr">${payable.toFixed(2)}</span></div>
 <div class="r" style="background:#f7f9fc;font-weight:700"><span>وعاء الزكاة</span><span style="direction:ltr">${base.toFixed(2)}</span></div>
 <div class="r" style="background:#f7f9fc"><span>النصاب (595 جرام فضة)</span><span style="direction:ltr">${nisab.toFixed(2)}</span></div>
-<div class="r" style="background:#f7f9fc"><span>هل بلغ النصاب؟</span><span style="font-weight:700;color:${base>=nisab?'#86BA72':'#c93545'}">${base>=nisab?'نعم — تجب الزكاة':'لا — لا تجب'}</span></div>
+<div class="r" style="background:#f7f9fc"><span>هل بلغ النصاب؟</span><span style="font-weight:700;color:${base>=nisab?'#ced9d9':'#c93545'}">${base>=nisab?'نعم — تجب الزكاة':'لا — لا تجب'}</span></div>
 <div class="r tot"><span>الزكاة المستحقة (2.5%)</span><span style="direction:ltr">${zakat.toFixed(2)} ر.س</span></div>
 <div class="note"><b>⚠️ تنبيه شرعي:</b> هذا تقدير مبدئي لأغراض التخطيط المالي. للحصول على الحكم النهائي، يُرجى استشارة عالم شريعة أو محاسب معتمد متخصص في فقه الزكاة المعاصر.</div>
 <div style="margin-top:24px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center">صادر عبر منصة محسوب · ${today}</div>
@@ -10348,8 +10348,8 @@ function renderPosProducts() {
   grid.innerHTML = filtered.map(p => {
     const outOfStock = p.type === 'product' && p.stock != null && p.stock <= 0;
     const isService = p.type === 'service';
-    const accentColor = isService ? '#7c3aed' : '#86BA72';
-    const accentBg    = isService ? 'rgba(124,58,237,.1)' : 'rgba(134,186,114,.1)';
+    const accentColor = isService ? '#7c3aed' : '#ced9d9';
+    const accentBg    = isService ? 'rgba(124,58,237,.1)' : 'rgba(206,217,217,.1)';
     return `<div onclick="${outOfStock ? '' : `addToCart(${p.id})`}"
       style="background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 12px;text-align:center;cursor:${outOfStock ? 'not-allowed' : 'pointer'};opacity:${outOfStock ? '.45' : '1'};transition:all .15s;box-shadow:0 1px 3px rgba(44,85,89,.04)"
       onmouseenter="if(!${outOfStock}){this.style.borderColor='${accentColor}';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px ${accentBg}'}"
@@ -11034,8 +11034,8 @@ function renderProducts(){
   if(!filtered.length){
     if (products.length === 0) {
       list.innerHTML = `
-        <div style="grid-column:1/-1;background:#fff;border:2px dashed rgba(134,186,114,.3);border-radius:18px;padding:48px 24px;text-align:center">
-          <div style="width:80px;height:80px;border-radius:50%;background:rgba(134,186,114,.1);color:#86BA72;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:emptyPulse 2.5s ease infinite">
+        <div style="grid-column:1/-1;background:#fff;border:2px dashed rgba(206,217,217,.3);border-radius:18px;padding:48px 24px;text-align:center">
+          <div style="width:80px;height:80px;border-radius:50%;background:rgba(206,217,217,.1);color:#ced9d9;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:emptyPulse 2.5s ease infinite">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           </div>
           <div style="font-size:18px;font-weight:800;color:#000;margin-bottom:8px">ابدأ بإضافة منتجاتك وخدماتك</div>
@@ -11063,11 +11063,11 @@ function renderProducts(){
   // Card grid
   list.innerHTML = filtered.map(p => {
     const isService = p.type === 'service';
-    const accentColor = isService ? '#8b6ea0' : '#86BA72';
-    const accentBg    = isService ? 'rgba(166,137,181,.12)' : 'rgba(134,186,114,.12)';
+    const accentColor = isService ? '#8b6ea0' : '#ced9d9';
+    const accentBg    = isService ? 'rgba(166,137,181,.12)' : 'rgba(206,217,217,.12)';
     const stockStatus = !isService && p.stock != null
       ? p.stock > 5
-        ? { color:'#86BA72', bg:'rgba(134,186,114,.1)', text:`المخزون: ${p.stock}` }
+        ? { color:'#ced9d9', bg:'rgba(206,217,217,.1)', text:`المخزون: ${p.stock}` }
         : p.stock > 0
           ? { color:'#a8854a', bg:'rgba(197,168,120,.15)', text:`متبقي: ${p.stock}` }
           : { color:'#c93545', bg:'rgba(201,53,69,.1)', text:'نفد المخزون' }
@@ -11097,7 +11097,7 @@ function renderProducts(){
           ${stockStatus ? `<span style="background:${stockStatus.bg};color:${stockStatus.color};font-size:10px;font-weight:700;padding:4px 10px;border-radius:10px;white-space:nowrap">${stockStatus.text}</span>` : ''}
         </div>
         <div style="display:flex;gap:6px">
-          <button onclick="addProdToInvoice(${p.id})" style="flex:1;padding:8px;background:rgba(134,186,114,.1);color:#86BA72;border:1px solid rgba(134,186,114,.25);border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px">
+          <button onclick="addProdToInvoice(${p.id})" style="flex:1;padding:8px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.25);border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             فاتورة
           </button>
@@ -11650,7 +11650,7 @@ function processFile(file) {
       if (!pdfPreview) {
         pdfPreview = document.createElement('div');
         pdfPreview.id = 'pdfPreview';
-        pdfPreview.style.cssText = 'background:linear-gradient(135deg,rgba(134,186,114,.08),rgba(134,186,114,.02));border:1px solid rgba(134,186,114,.25);border-radius:14px;padding:40px 20px;text-align:center;color:#2C5559';
+        pdfPreview.style.cssText = 'background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(206,217,217,.02));border:1px solid rgba(206,217,217,.25);border-radius:14px;padding:40px 20px;text-align:center;color:#2C5559';
         previewImg.parentNode.insertBefore(pdfPreview, previewImg);
       }
       const sizeMB = (file.size / 1024 / 1024).toFixed(2);
@@ -11799,7 +11799,7 @@ function ensureProgressBar() {
   wrap.style.cssText = 'width:80%;max-width:300px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:14px auto 0;overflow:hidden';
   bar = document.createElement('div');
   bar.id = 'scanProgressBar';
-  bar.style.cssText = 'width:0%;height:100%;background:linear-gradient(90deg,#86BA72,#9DC78A);transition:width .2s ease;border-radius:2px';
+  bar.style.cssText = 'width:0%;height:100%;background:linear-gradient(90deg,#ced9d9,#dde5e5);transition:width .2s ease;border-radius:2px';
   wrap.appendChild(bar);
   overlay.appendChild(wrap);
   return bar;
@@ -12162,7 +12162,7 @@ function renderQuickActions(role){
 
   // Brand identity palette — one accent per action
   const C = {
-    green : { main:'#86BA72', bg:'rgba(134,186,114,.1)',  br:'rgba(134,186,114,.2)',  brh:'rgba(134,186,114,.55)',  sh:'rgba(134,186,114,.16)' },
+    green : { main:'#ced9d9', bg:'rgba(206,217,217,.1)',  br:'rgba(206,217,217,.2)',  brh:'rgba(206,217,217,.55)',  sh:'rgba(206,217,217,.16)' },
     sky   : { main:'#82B0C7', bg:'rgba(130,176,199,.12)', br:'rgba(130,176,199,.22)', brh:'rgba(130,176,199,.55)', sh:'rgba(130,176,199,.16)' },
     purple: { main:'#A689B5', bg:'rgba(166,137,181,.12)', br:'rgba(166,137,181,.22)', brh:'rgba(166,137,181,.55)', sh:'rgba(166,137,181,.16)' },
     khaki : { main:'#C5A878', bg:'rgba(197,168,120,.13)', br:'rgba(197,168,120,.24)', brh:'rgba(197,168,120,.6)',  sh:'rgba(197,168,120,.18)' },
@@ -12292,7 +12292,7 @@ function deleteUser(id){
 const ROLE_META = {
   admin:      { label:'مدير',  icon:'👑', color:'#1e6080', bg:'rgba(130,176,199,.12)', desc:'صلاحيات كاملة' },
   accountant: { label:'محاسب', icon:'📊', color:'#a8854a', bg:'rgba(197,168,120,.12)', desc:'تقارير وضرائب' },
-  cashier:    { label:'كاشير', icon:'🖥', color:'#2d7a1e', bg:'rgba(134,186,114,.12)', desc:'فواتير ومبيعات' },
+  cashier:    { label:'كاشير', icon:'🖥', color:'#2d7a1e', bg:'rgba(206,217,217,.12)', desc:'فواتير ومبيعات' },
   viewer:     { label:'مُشاهد', icon:'👁', color:'#666',    bg:'rgba(100,100,100,.1)',  desc:'قراءة فقط' },
 };
 
@@ -12428,7 +12428,7 @@ function renderTeamMembers(members, pending) {
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
             <div style="font-weight:800;font-size:14px;color:#000">${m.display_name || m.email.split('@')[0]}</div>
-            ${isMe?'<span style="font-size:10px;background:rgba(134,186,114,.2);color:#2d7a1e;padding:2px 7px;border-radius:8px;font-weight:700">أنت</span>':''}
+            ${isMe?'<span style="font-size:10px;background:rgba(206,217,217,.2);color:#2d7a1e;padding:2px 7px;border-radius:8px;font-weight:700">أنت</span>':''}
             ${customized?'<span style="font-size:10px;background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:8px;font-weight:700">صلاحيات مخصّصة</span>':''}
           </div>
           <div style="font-size:11px;color:var(--t3);direction:ltr;text-align:right;margin-top:2px">${m.email}</div>
@@ -12449,7 +12449,7 @@ function renderTeamMembers(members, pending) {
             <div style="display:flex;gap:6px;flex-wrap:wrap">
               <button onclick="applyRoleTemplate('${m.user_id}','admin')" style="background:rgba(130,176,199,.12);color:#1e6080;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">👑 مدير</button>
               <button onclick="applyRoleTemplate('${m.user_id}','accountant')" style="background:rgba(197,168,120,.15);color:#a8854a;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">📊 محاسب</button>
-              <button onclick="applyRoleTemplate('${m.user_id}','cashier')" style="background:rgba(134,186,114,.15);color:#2d7a1e;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">🖥 كاشير</button>
+              <button onclick="applyRoleTemplate('${m.user_id}','cashier')" style="background:rgba(206,217,217,.15);color:#2d7a1e;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">🖥 كاشير</button>
               <button onclick="applyRoleTemplate('${m.user_id}','viewer')" style="background:rgba(100,100,100,.1);color:#555;border:none;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-weight:700;font-family:inherit">👁 مُشاهد</button>
             </div>
           </div>
@@ -12461,8 +12461,8 @@ function renderTeamMembers(members, pending) {
               </div>
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px">
                 ${g.perms.map(p => `
-                  <label class="perm-check" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px;transition:all .15s" onmouseover="this.style.borderColor='#86BA72'" onmouseout="this.style.borderColor='var(--b)'">
-                    <input type="checkbox" class="perm-cb" data-uid="${m.user_id}" data-pid="${p.id}" ${perms.includes(p.id)?'checked':''} onchange="onPermToggle('${m.user_id}')" style="width:16px;height:16px;accent-color:#86BA72;cursor:pointer">
+                  <label class="perm-check" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid var(--b);border-radius:9px;cursor:pointer;font-size:12px;transition:all .15s" onmouseover="this.style.borderColor='#ced9d9'" onmouseout="this.style.borderColor='var(--b)'">
+                    <input type="checkbox" class="perm-cb" data-uid="${m.user_id}" data-pid="${p.id}" ${perms.includes(p.id)?'checked':''} onchange="onPermToggle('${m.user_id}')" style="width:16px;height:16px;accent-color:#ced9d9;cursor:pointer">
                     <span style="color:#000;font-weight:500">${p.label}</span>
                   </label>
                 `).join('')}
@@ -12578,16 +12578,16 @@ async function revokeInvite(inviteId, email) {
 // Activity Log — Track all user actions
 // ═══════════════════════════════════════════════════════════════════════
 const ACT_CAT_META = {
-  invoice:     { icon:'🧾', label:'فاتورة',       color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  invoice:     { icon:'🧾', label:'فاتورة',       color:'#ced9d9', bg:'rgba(206,217,217,.12)' },
   closing:     { icon:'🏦', label:'إغلاق يومي',   color:'#1e6080', bg:'rgba(130,176,199,.12)' },
   expense:     { icon:'💸', label:'مصروف',        color:'#c93545', bg:'rgba(201,53,69,.10)' },
   supplier:    { icon:'🏪', label:'مورد',         color:'#a8854a', bg:'rgba(197,168,120,.12)' },
-  transaction: { icon:'💰', label:'إيراد/مصروف',  color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  transaction: { icon:'💰', label:'إيراد/مصروف',  color:'#ced9d9', bg:'rgba(206,217,217,.12)' },
   quote:       { icon:'📋', label:'عرض سعر',      color:'#8b5cf6', bg:'rgba(139,92,246,.12)' },
   member:      { icon:'👥', label:'الفريق',       color:'#1e6080', bg:'rgba(130,176,199,.12)' },
   auth:        { icon:'🔐', label:'تسجيل دخول',   color:'#666',    bg:'rgba(100,100,100,.10)' },
   settings:    { icon:'⚙️', label:'إعدادات',      color:'#a8854a', bg:'rgba(197,168,120,.12)' },
-  payment:     { icon:'💳', label:'دفعة',         color:'#86BA72', bg:'rgba(134,186,114,.12)' },
+  payment:     { icon:'💳', label:'دفعة',         color:'#ced9d9', bg:'rgba(206,217,217,.12)' },
   other:       { icon:'📌', label:'أخرى',         color:'#666',    bg:'rgba(100,100,100,.10)' },
 };
 
@@ -12723,7 +12723,7 @@ function renderCustomerTypeSelector() {
   _ctSelected = current;
   el.innerHTML = CT_OPTIONS.map(o => `
     <button class="ct-opt ${o.id===current?'sel':''}" data-ct="${o.id}" onclick="selectCustomerType('${o.id}')"
-      style="background:${o.id===current?'rgba(134,186,114,.15)':'#fff'};border:2px solid ${o.id===current?'#86BA72':'var(--b)'};border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .15s;font-family:inherit">
+      style="background:${o.id===current?'rgba(206,217,217,.15)':'#fff'};border:2px solid ${o.id===current?'#ced9d9':'var(--b)'};border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .15s;font-family:inherit">
       <div style="font-size:24px;margin-bottom:6px">${o.icon}</div>
       <div style="font-size:13px;font-weight:800;color:#000;margin-bottom:3px">${o.label}</div>
       <div style="font-size:11px;color:var(--t3)">${o.hint}</div>
@@ -12736,8 +12736,8 @@ function selectCustomerType(id) {
   _ctSelected = id;
   document.querySelectorAll('.ct-opt').forEach(b => {
     const isSel = b.dataset.ct === id;
-    b.style.background = isSel ? 'rgba(134,186,114,.15)' : '#fff';
-    b.style.borderColor = isSel ? '#86BA72' : 'var(--b)';
+    b.style.background = isSel ? 'rgba(206,217,217,.15)' : '#fff';
+    b.style.borderColor = isSel ? '#ced9d9' : 'var(--b)';
   });
   document.getElementById('ctSaveBtn').style.display = id !== _ctOriginal ? 'block' : 'none';
 }
