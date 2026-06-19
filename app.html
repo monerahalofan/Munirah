@@ -1487,6 +1487,34 @@ body.dark .prc-sv{color:#f0f2f8}
 <!-- DASHBOARD -->
 <div class="pg on" id="pg-db">
 
+  <!-- Daily Activity Reminder Banner -->
+  <div id="dailyReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(168,133,74,.1),rgba(168,133,74,.04));border:1px solid rgba(168,133,74,.28);border-radius:14px;padding:14px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="width:38px;height:38px;border-radius:50%;background:rgba(168,133,74,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8854a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:13px;font-weight:800;color:#5a4408;margin-bottom:2px" id="dailyRemTitle">ما سجلتي أي عملية اليوم</div>
+      <div style="font-size:11px;color:#7a5a1a;line-height:1.6" id="dailyRemSub">دقيقة واحدة تخليك تتابع تدفقك المالي. ابدئي الآن.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="go('tx', null)" style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">＋ سجلي معاملة</button>
+      <button onclick="go('pos', null)" style="background:#fff;color:#5a4408;border:1px solid rgba(168,133,74,.4);padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">🏦 إغلاق يومي</button>
+      <button onclick="dismissDailyReminder()" style="background:none;color:#a8854a;border:none;padding:8px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1" title="إخفاء">×</button>
+    </div>
+  </div>
+
+  <!-- Daily Activity Done Banner (positive reinforcement) -->
+  <div id="dailyDoneBanner" style="display:none;background:linear-gradient(135deg,rgba(127,197,123,.12),rgba(127,197,123,.04));border:1px solid rgba(127,197,123,.3);border-radius:14px;padding:12px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="width:34px;height:34px;border-radius:50%;background:rgba(127,197,123,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#155e5f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:13px;font-weight:800;color:#155e5f" id="dailyDoneTitle">ممتاز! سجلتي <span id="dailyDoneCount">0</span> عملية اليوم</div>
+      <div style="font-size:11px;color:rgba(21,94,95,.65);line-height:1.6">استمري على هذا الإيقاع — تتبعك اليومي يفرق.</div>
+    </div>
+    <button onclick="document.getElementById('dailyDoneBanner').style.display='none'" style="background:none;color:#155e5f;border:none;padding:6px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1">×</button>
+  </div>
+
   <!-- VAT Reminder Banner -->
   <div id="vatReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.04));border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:14px 20px;margin-bottom:18px;align-items:center;gap:14px;flex-wrap:wrap">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -3424,6 +3452,59 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <button class="btn bp" id="ctSaveBtn" style="margin-top:14px;display:none" onclick="saveCustomerType()">💾 حفظ التغيير</button>
   </div>
 
+  <!-- Daily Reminder Settings -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh">
+      <div>
+        <div class="st">التذكير اليومي</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">يذكّرك إذا ما سجلتي عمليات اليوم — بانر داخل التطبيق أو رسالة واتساب</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;background:rgba(127,197,123,.06);border:1px solid rgba(127,197,123,.18);border-radius:11px;padding:12px;margin-top:14px;cursor:pointer" onclick="toggleReminderEnabled()">
+      <input type="checkbox" id="remEnabled" style="width:18px;height:18px;accent-color:#7fc57b;cursor:pointer" onchange="onReminderChange()">
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:#155e5f">تفعيل التذكير اليومي</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.65)">لو ما سجلتي معاملة اليوم، نذكّرك</div>
+      </div>
+    </div>
+
+    <div id="remDetails" style="display:none;margin-top:14px">
+      <div class="ff">
+        <label class="fl">قنوات التذكير</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #ced9d9;border-radius:10px;padding:8px 12px;cursor:pointer;font-size:12px;flex:1;min-width:140px">
+            <input type="checkbox" class="rem-channel" value="in_app" checked style="accent-color:#7fc57b" onchange="onReminderChange()">
+            🔔 بانر داخل التطبيق
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #ced9d9;border-radius:10px;padding:8px 12px;cursor:pointer;font-size:12px;flex:1;min-width:140px">
+            <input type="checkbox" class="rem-channel" value="whatsapp" style="accent-color:#7fc57b" onchange="onReminderChange()">
+            💬 رسالة واتساب
+          </label>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+        <div class="ff">
+          <label class="fl">وقت التذكير (واتساب)</label>
+          <select class="fi" id="remHour" onchange="onReminderChange()">
+            <option value="18">6:00 مساءً</option>
+            <option value="19">7:00 مساءً</option>
+            <option value="20" selected>8:00 مساءً</option>
+            <option value="21">9:00 مساءً</option>
+            <option value="22">10:00 مساءً</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="fl">رقم الواتساب</label>
+          <input class="fi" id="remPhone" type="tel" placeholder="+9665xxxxxxxx" dir="ltr" oninput="onReminderChange()">
+        </div>
+      </div>
+
+      <button class="btn bp" id="remSaveBtn" style="margin-top:8px;display:none" onclick="saveReminderSettings()">💾 حفظ الإعدادات</button>
+    </div>
+  </div>
+
   <!-- Brand / Business Logo -->
   <div class="card" style="margin-bottom:14px">
     <div class="sh"><div class="st">شعار النشاط التجاري</div></div>
@@ -5256,7 +5337,7 @@ function go(id,el){
   if (id === 'exp')    expensesLoad();
   if (id === 'usrs')   loadTeamMembers();
   if (id === 'tx')     loadTransactions();
-  if (id === 'profile') renderCustomerTypeSelector();
+  if (id === 'profile') { renderCustomerTypeSelector(); loadReminderSettings(); }
   if (id === 'activity') loadActivityLog();
   if (id === 'gls')      loadGoals();
 }
@@ -9706,6 +9787,149 @@ function _stRenderBalance(accounts, balMap) {
 }
 
 // ──────────── VAT Deadline Reminder ─────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════
+// Daily Activity Reminder — Smart in-app banner
+// ═══════════════════════════════════════════════════════════════════════
+async function checkDailyActivityReminder() {
+  if (!Auth?.tenant?.id || Auth?.tenant?.reminder_enabled === false) return;
+
+  // Don't re-show within 6 hours of dismissal today
+  const today = new Date().toISOString().slice(0,10);
+  const dismissKey = 'dailyRemDismissed_' + today;
+  const dismissed = parseInt(localStorage.getItem(dismissKey) || '0', 10);
+  if (Date.now() - dismissed < 6 * 60 * 60 * 1000) return;
+
+  try {
+    const { data, error } = await _sb.rpc('has_activity_today');
+    if (error) throw error;
+
+    const reminderBanner = document.getElementById('dailyReminderBanner');
+    const doneBanner     = document.getElementById('dailyDoneBanner');
+
+    if (data?.has_activity) {
+      // Positive reinforcement (only once per day, dismissible)
+      const seenKey = 'dailyDoneSeen_' + today;
+      if (localStorage.getItem(seenKey)) return;
+      document.getElementById('dailyDoneCount').textContent = data.total || 0;
+      doneBanner.style.display = 'flex';
+      localStorage.setItem(seenKey, '1');
+    } else {
+      // Personalized message based on time of day
+      const hour = new Date().getHours();
+      const title = document.getElementById('dailyRemTitle');
+      const sub   = document.getElementById('dailyRemSub');
+      if (hour < 12) {
+        title.textContent = 'صباح الخير 🌅 ما سجلتي معاملات بعد';
+        sub.textContent = 'ابدئي يومك بتسجيل أول إيراد أو مصروف.';
+      } else if (hour < 17) {
+        title.textContent = 'ما سجلتي أي عملية اليوم';
+        sub.textContent = 'دقيقة وحدة تخليك تتابع تدفقك المالي. ابدئي الآن.';
+      } else {
+        title.textContent = 'يوم على وشك ينتهي ⏰';
+        sub.textContent = 'قبل ما تختمي اليوم، سجلي إغلاقك أو معاملاتك المالية.';
+      }
+      reminderBanner.style.display = 'flex';
+      // Log impression
+      _sb.rpc('log_reminder_action', { channel_in: 'in_app', status_in: 'sent' }).catch(()=>{});
+    }
+  } catch (e) {
+    console.warn('checkDailyActivityReminder:', e.message);
+  }
+}
+
+function dismissDailyReminder() {
+  document.getElementById('dailyReminderBanner').style.display = 'none';
+  const today = new Date().toISOString().slice(0,10);
+  localStorage.setItem('dailyRemDismissed_' + today, String(Date.now()));
+  _sb.rpc('log_reminder_action', { channel_in: 'in_app', status_in: 'dismissed' }).catch(()=>{});
+}
+
+// ─── Reminder settings UI ──────────────────────────────────────────────
+let _remOriginal = {};
+
+function loadReminderSettings() {
+  const t = Auth?.tenant;
+  if (!t) return;
+  const enabled  = t.reminder_enabled !== false;
+  const hour     = t.reminder_hour || 20;
+  const channels = Array.isArray(t.reminder_channels) ? t.reminder_channels : ['in_app'];
+  const phone    = t.reminder_phone || '';
+
+  _remOriginal = { enabled, hour, channels: channels.join(','), phone };
+  document.getElementById('remEnabled').checked = enabled;
+  document.getElementById('remDetails').style.display = enabled ? 'block' : 'none';
+  document.getElementById('remHour').value = hour;
+  document.getElementById('remPhone').value = phone;
+  document.querySelectorAll('.rem-channel').forEach(cb => { cb.checked = channels.includes(cb.value); });
+  document.getElementById('remSaveBtn').style.display = 'none';
+}
+
+function toggleReminderEnabled() {
+  const cb = document.getElementById('remEnabled');
+  cb.checked = !cb.checked;
+  onReminderChange();
+}
+
+function onReminderChange() {
+  const enabled = document.getElementById('remEnabled').checked;
+  document.getElementById('remDetails').style.display = enabled ? 'block' : 'none';
+  const channels = [...document.querySelectorAll('.rem-channel:checked')].map(cb => cb.value);
+  const hour     = parseInt(document.getElementById('remHour').value);
+  const phone    = document.getElementById('remPhone').value.trim();
+
+  const changed = enabled !== _remOriginal.enabled
+    || channels.join(',') !== _remOriginal.channels
+    || hour !== _remOriginal.hour
+    || phone !== _remOriginal.phone;
+
+  document.getElementById('remSaveBtn').style.display = changed ? 'block' : 'none';
+}
+
+async function saveReminderSettings() {
+  const enabled  = document.getElementById('remEnabled').checked;
+  const channels = [...document.querySelectorAll('.rem-channel:checked')].map(cb => cb.value);
+  const hour     = parseInt(document.getElementById('remHour').value) || 20;
+  const phone    = document.getElementById('remPhone').value.trim() || null;
+
+  // Validate phone if WhatsApp channel enabled
+  if (channels.includes('whatsapp') && (!phone || !/^\+?\d{10,15}$/.test(phone.replace(/\s/g,'')))) {
+    toast({ type:'error', msg:'أدخلي رقم واتساب صحيح (مع رمز الدولة +966)' });
+    return;
+  }
+
+  const btn = document.getElementById('remSaveBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    const { error } = await _sb.rpc('update_reminder_settings', {
+      enabled_in:  enabled,
+      hour_in:     hour,
+      channels_in: channels,
+      phone_in:    phone,
+    });
+    if (error) throw error;
+
+    // Update Auth.tenant in memory
+    Auth.tenant.reminder_enabled  = enabled;
+    Auth.tenant.reminder_hour     = hour;
+    Auth.tenant.reminder_channels = channels;
+    Auth.tenant.reminder_phone    = phone;
+
+    logActivity('settings', 'reminder_update',
+      `تحديث إعدادات التذكير اليومي — ${enabled ? 'مفعّل' : 'معطّل'} ${channels.length ? '(' + channels.join('، ') + ')' : ''}`,
+      { enabled, channels, hour, has_phone: !!phone });
+
+    _remOriginal = { enabled, hour, channels: channels.join(','), phone: phone || '' };
+    btn.style.display = 'none';
+    toast({ type:'success', msg:'تم حفظ إعدادات التذكير ✓' });
+  } catch (e) {
+    toast({ type:'error', msg:'فشل: ' + (e.message || 'حدث خطأ') });
+  } finally {
+    btn.disabled = false; btn.textContent = '💾 حفظ الإعدادات';
+  }
+}
+
+window.addEventListener('load', () => setTimeout(checkDailyActivityReminder, 2200));
+
 async function checkVatReminder() {
   // Only show if tenant is VAT-registered
   if (!Auth.tenant?.vat_registered) return;
