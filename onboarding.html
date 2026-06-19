@@ -106,10 +106,11 @@ body{font-family:'PingARLT',sans-serif;background:#fff;color:#2C5559;min-height:
 <script src="js/auth.js"></script>
 <script src="js/onboarding-data.js"></script>
 <script>
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 8;
 let step = 0;
 const answers = {
   business_type: null,
+  customer_type: null,
   branch_count: 1,
   vat_registered: null,
   has_inventory: null,
@@ -117,6 +118,18 @@ const answers = {
   fiscal_year_start: 1,
   goals: [],
 };
+
+const CUSTOMER_TYPES = [
+  { id:'b2c',  icon:'🛍', name:'أفراد (B2C)',
+    desc:'زبائني أفراد — قهوة، مطعم، متجر، صيدلية',
+    hint:'نخفّي صفحة الفواتير لأن نظام الكاشير يصدرها' },
+  { id:'b2b',  icon:'🏢', name:'شركات (B2B)',
+    desc:'زبائني شركات ومؤسسات — استشارات، مقاولات، توريد',
+    hint:'فواتير وعروض أسعار رسمية حسب متطلبات الشركات' },
+  { id:'both', icon:'🔁', name:'الاثنين معاً',
+    desc:'أبيع للأفراد والشركات في نفس الوقت',
+    hint:'كل الصفحات متاحة لك' },
+];
 
 // ─── Auth boot — only proceed if authenticated and NOT onboarded ──────────
 (async () => {
@@ -171,6 +184,33 @@ function render() {
   else if (step === 1) {
     c.innerHTML = `
       <div class="step-label">السؤال 2 من ${TOTAL_STEPS}</div>
+      <div class="step-title">مين زبائنك؟</div>
+      <div class="step-desc">نخصص الواجهات حسب نوع نشاطك — تظهر فقط الصفحات اللي تحتاجها.</div>
+      <div class="options" id="ctOpts">
+        ${CUSTOMER_TYPES.map(t => `
+          <button class="opt ${answers.customer_type === t.id ? 'sel' : ''}" data-id="${t.id}">
+            <div class="opt-icon" style="font-size:20px">${t.icon}</div>
+            <div class="opt-text">
+              <div class="opt-name">${t.name}</div>
+              <div class="opt-desc">${t.desc}</div>
+              <div class="opt-desc" style="margin-top:4px;color:#86BA72;font-size:11px">💡 ${t.hint}</div>
+            </div>
+          </button>
+        `).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn btn-back" onclick="back()">رجوع</button>
+        <button class="btn btn-next" onclick="next()" ${!answers.customer_type ? 'disabled' : ''}>التالي</button>
+      </div>
+    `;
+    document.querySelectorAll('#ctOpts .opt').forEach(el => {
+      el.onclick = () => { answers.customer_type = el.dataset.id; render(); };
+    });
+  }
+
+  else if (step === 2) {
+    c.innerHTML = `
+      <div class="step-label">السؤال 3 من ${TOTAL_STEPS}</div>
       <div class="step-title">كم فرع عندك؟</div>
       <div class="step-desc">ننشئ مركز تكلفة لكل فرع — يعطيك تقارير منفصلة.</div>
       <div class="input-grp">
@@ -187,9 +227,9 @@ function render() {
     `;
   }
 
-  else if (step === 2) {
+  else if (step === 3) {
     c.innerHTML = `
-      <div class="step-label">السؤال 3 من ${TOTAL_STEPS}</div>
+      <div class="step-label">السؤال 4 من ${TOTAL_STEPS}</div>
       <div class="step-title">عندك ضريبة قيمة مضافة (VAT 15%)؟</div>
       <div class="step-desc">إذا كنت مسجّل في الضريبة، نضيف لك تصنيفات الضريبة تلقائياً ونساعدك بإعداد إقراراتك.</div>
       <div class="yn">
@@ -203,9 +243,9 @@ function render() {
     `;
   }
 
-  else if (step === 3) {
+  else if (step === 4) {
     c.innerHTML = `
-      <div class="step-label">السؤال 4 من ${TOTAL_STEPS}</div>
+      <div class="step-label">السؤال 5 من ${TOTAL_STEPS}</div>
       <div class="step-title">تبيع بضاعة أو منتجات؟</div>
       <div class="step-desc">يعني تشتري بضاعة وتبيعها. لو نعم، نضيف لك متابعة المخزون وتكلفة البضاعة المباعة.</div>
       <div class="yn">
@@ -219,9 +259,9 @@ function render() {
     `;
   }
 
-  else if (step === 4) {
+  else if (step === 5) {
     c.innerHTML = `
-      <div class="step-label">السؤال 5 من ${TOTAL_STEPS}</div>
+      <div class="step-label">السؤال 6 من ${TOTAL_STEPS}</div>
       <div class="step-title">عندك موظفين أو عاملين؟</div>
       <div class="step-desc">لو عندك موظفين، نضيف لك متابعة الرواتب والتأمينات الاجتماعية (GOSI).</div>
       <div class="yn">
@@ -235,10 +275,10 @@ function render() {
     `;
   }
 
-  else if (step === 5) {
+  else if (step === 6) {
     const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
     c.innerHTML = `
-      <div class="step-label">السؤال 6 من ${TOTAL_STEPS}</div>
+      <div class="step-label">السؤال 7 من ${TOTAL_STEPS}</div>
       <div class="step-title">بداية سنتك المالية؟</div>
       <div class="step-desc">معظم الشركات في السعودية تبدأ من يناير (هجري أو ميلادي).</div>
       <div class="input-grp">
@@ -257,14 +297,14 @@ function render() {
     `;
   }
 
-  else if (step === 6) {
+  else if (step === 7) {
     const goalOpts = [
       'زيادة الإيرادات', 'تقليل المصاريف', 'تحسين التدفق النقدي',
       'متابعة الفروع', 'الامتثال الضريبي', 'إدارة المخزون',
       'التوسع والنمو', 'تقارير دقيقة',
     ];
     c.innerHTML = `
-      <div class="step-label">السؤال 7 من ${TOTAL_STEPS}</div>
+      <div class="step-label">السؤال 8 من ${TOTAL_STEPS}</div>
       <div class="step-title">أهم 3 أهداف ماليّة عندك؟</div>
       <div class="step-desc">نخصص لوحة المتابعة و KPIs بناءً على أهدافك.</div>
       <div class="checks" id="goals">

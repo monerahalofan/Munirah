@@ -1369,7 +1369,6 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('hl',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span data-i18n="nav_hl">صحتي المالية</span></div>
     <div class="ns" data-i18n="ns_ai">الذكاء المالي</div>
     <div class="ni" onclick="go('cf',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.5-1.5.5-3 0-4.5C20 4 17 2 12 2 7 2 4 4 3 7.5c-.5 1.5-.5 3 0 4.5"/><path d="M3 12c.5 1.5 1 3 2 4.5C6.5 19 9 21 12 22c3-1 5.5-3 7-5.5 1-1.5 1.5-3 2-4.5"/></svg></span><span data-i18n="nav_cf">تدفق الكاش</span><span class="nbg" data-i18n="badge_smart">ذكي</span></div>
-    <div class="ni" onclick="go('ag',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span data-i18n="nav_ag">من يدين لي؟</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ni" onclick="go('cp',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-i18n="nav_cp">أرباحي من العملاء</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
     <div class="ni" onclick="go('pricing',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.83z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><span data-i18n="nav_pricing">تسعير المنتج</span><span class="nbg">AI</span></div>
     <div class="ni" onclick="go('gls',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span data-i18n="nav_gls">أهدافي المالية</span><span class="nbg" data-i18n="badge_new">جديد</span></div>
@@ -1868,28 +1867,6 @@ body.dark .prc-sv{color:#f0f2f8}
 </div>
 
 <!-- AGING (NEW) -->
-<div class="pg" id="pg-ag">
-  <div class="g4">
-    <div class="kc G"><div class="kl">0-30 يوم</div><div class="kv G">0 ر.س</div><div class="kch">لا يوجد</div></div>
-    <div class="kc A"><div class="kl">31-60 يوم</div><div class="kv A">0 ر.س</div><div class="kch">لا يوجد</div></div>
-    <div class="kc R"><div class="kl">61-90 يوم</div><div class="kv R">0 ر.س</div><div class="kch">لا يوجد</div></div>
-    <div class="kc P"><div class="kl">أكثر من 90 يوم</div><div class="kv P">0 ر.س</div><div class="kch">لا يوجد</div></div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="sh"><div class="st">العملاء اللي عليهم فلوس</div></div>
-      <div id="agingList" style="text-align:center;padding:28px;color:var(--t3)">
-        لا توجد فواتير معلقة — أضف فواتير لتشوف العملاء اللي عليهم فلوس
-      </div>
-    </div>
-    <div class="card">
-      <div class="sh"><div class="st">توصيات التحصيل الذكية</div></div>
-      <div style="text-align:center;padding:28px;color:var(--t3)">
-        ستظهر التوصيات تلقائياً عند وجود فواتير متأخرة
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- CLIENTS PAGE -->
 <div class="pg" id="pg-cp">
@@ -4937,7 +4914,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',ag:'متابعة المستحقات',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'نقطة البيع',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -5100,6 +5077,7 @@ function go(id,el){
   if (id === 'quotes') quotesLoad();
   if (id === 'exp')    expensesLoad();
   if (id === 'usrs')   loadTeamMembers();
+  if (id === 'tx')     loadTransactions();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -5109,7 +5087,8 @@ let _brand = { logo_url:null, brand_color:'#86BA72', accent_color:'#2C5559', inv
 
 async function brandLoad() {
   try {
-    const { data: t } = await _sb.from('tenants').select('*').maybeSingle();
+    const tid_ = Auth?.tenant?.id;
+    const { data: t } = tid_ ? await _sb.from('tenants').select('*').eq('id', tid_).maybeSingle() : { data: null };
     if (t) {
       _brand = {
         logo_url:        t.logo_url || null,
@@ -5311,8 +5290,8 @@ async function brandUploadLogo(event) {
     alert('نوع الملف غير مدعوم. استخدم PNG/JPG/SVG/WebP'); return;
   }
   try {
-    const { data: t } = await _sb.from('tenants').select('id').maybeSingle();
-    if (!t) { alert('لم يُعثر على الحساب'); return; }
+    const t = { id: Auth?.tenant?.id };
+    if (!t.id) { alert('لم يُعثر على الحساب'); return; }
     const ext = file.name.split('.').pop().toLowerCase();
     const path = `${t.id}/logo-${Date.now()}.${ext}`;
     const { data: up, error: upErr } = await _sb.storage.from('logos').upload(path, file, { upsert:true });
@@ -6079,9 +6058,10 @@ async function quoteSave() {
   btn.disabled = true; btn.textContent = '⏳ جاري الحفظ...';
 
   try {
-    const { data: tenant } = await _sb.from('tenants').select('id').maybeSingle();
+    const tenant = { id: Auth?.tenant?.id };
+    if (!tenant.id) throw new Error('لم يتم تحميل بيانات النشاط');
     const payload = {
-      tenant_id:     tenant?.id,
+      tenant_id:     tenant.id,
       client_name:   client,
       client_email:  document.getElementById('q-email').value.trim() || null,
       client_phone:  document.getElementById('q-phone').value.trim() || null,
@@ -6285,19 +6265,33 @@ async function closingLoad() {
   }
 }
 
+let _closingsCache = [];
+
 function closingRender(list) {
+  _closingsCache = list;
   const el = document.getElementById('closing-list');
   if (!list.length) {
     el.innerHTML = `<div style="text-align:center;padding:30px;color:var(--t3);font-size:13px">لا توجد إغلاقات بعد</div>`;
     return;
   }
-  el.innerHTML = list.map(c => `
-    <div style="padding:14px 18px;border-bottom:1px solid var(--b);cursor:pointer" onclick="closingView('${c.id}')">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-weight:700;font-size:13px">${c.closing_date}${c.branch ? ` · ${c.branch}` : ''}</div>
-        <div style="font-weight:800;color:#86BA72;direction:ltr">${(+c.total_sales).toFixed(2)} ر.س</div>
+  el.innerHTML = list.map(c => {
+    const reconciled = !!c.reconciled_at;
+    const variance = +c.variance_amount || 0;
+    const varColor = !reconciled ? '#a8854a' : (Math.abs(variance) < 0.01 ? '#86BA72' : variance > 0 ? '#1e6080' : '#c93545');
+    const varLabel = !reconciled ? 'لم تتم المطابقة' : (Math.abs(variance) < 0.01 ? '✓ مطابقة تماماً' : `فرق ${variance > 0 ? '+' : ''}${variance.toFixed(2)} ر.س`);
+    return `
+    <div style="padding:14px 18px;border-bottom:1px solid var(--b);position:relative">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;cursor:pointer" onclick="openReconcileModal('${c.id}')">
+        <div>
+          <div style="font-weight:700;font-size:13px">${c.closing_date}${c.branch ? ` · ${c.branch}` : ''}</div>
+          <div style="font-size:10px;color:${varColor};font-weight:700;margin-top:3px">${reconciled?'🏦':'⚠️'} ${varLabel}</div>
+        </div>
+        <div style="text-align:left">
+          <div style="font-weight:800;color:#86BA72;direction:ltr">${(+c.total_sales).toFixed(2)} ر.س</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">إغلاق</div>
+        </div>
       </div>
-      <div style="display:flex;gap:10px;font-size:10px;color:var(--t3);flex-wrap:wrap">
+      <div style="display:flex;gap:10px;font-size:10px;color:var(--t3);flex-wrap:wrap;margin-top:6px">
         ${+c.cash_amount>0 ? `<span>💵 ${(+c.cash_amount).toFixed(0)}</span>` : ''}
         ${+c.card_amount>0 ? `<span>💳 ${(+c.card_amount).toFixed(0)}</span>` : ''}
         ${+c.bank_amount>0 ? `<span>🏦 ${(+c.bank_amount).toFixed(0)}</span>` : ''}
@@ -6305,12 +6299,180 @@ function closingRender(list) {
         ${+c.returns_amount>0 ? `<span style="color:#c93545">↩ ${(+c.returns_amount).toFixed(0)}</span>` : ''}
         ${c.source === 'upload' ? `<span style="color:#8b5cf6">✨ AI</span>` : ''}
       </div>
-    </div>`).join('');
+      <button onclick="openReconcileModal('${c.id}')" style="margin-top:8px;background:${reconciled?'transparent':'#86BA72'};color:${reconciled?'#86BA72':'#fff'};border:1px solid #86BA72;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">
+        ${reconciled ? '🔄 تعديل المطابقة' : '🏦 مطابقة مع الإيداع البنكي'}
+      </button>
+    </div>`;
+  }).join('');
+}
+
+// ─── Bank Reconciliation Modal ─────────────────────────────────────────
+const VARIANCE_CATEGORIES = [
+  { key:'tips',          label:'💰 بقشيش الموظفين',     positive:false, hint:'مبلغ احتفظ به الموظفون كبقشيش' },
+  { key:'cash_shortage', label:'❌ عجز نقدي',            positive:false, hint:'فرق غير مفسر — احتمال خطأ كاشير' },
+  { key:'bank_fees',     label:'🏦 رسوم بنك',            positive:false, hint:'عمولات الإيداع أو الشبكة' },
+  { key:'cash_refund',   label:'↩️ مرتجع نقدي',          positive:false, hint:'مبالغ أُرجعت للعملاء كاش بعد الإغلاق' },
+  { key:'petty_cash',    label:'🧾 مصاريف نقدية',        positive:false, hint:'مشتريات صغيرة من صندوق الكاشير' },
+  { key:'extra_cash',    label:'➕ كاش زائد',            positive:true,  hint:'مبلغ غير مفسر زائد' },
+  { key:'other',         label:'📝 أخرى',                positive:false, hint:'سبب آخر' },
+];
+
+function openReconcileModal(closingId) {
+  const c = _closingsCache.find(x => x.id === closingId);
+  if (!c) return;
+  let m = document.getElementById('reconcileModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'reconcileModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  const expectedCash = (+c.cash_amount||0) - (+c.returns_amount||0);
+  const breakdown = c.variance_breakdown || {};
+
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(15,36,38,.35)">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#86BA72,#6fa05e);color:#fff;border-radius:18px 18px 0 0">
+        <div>
+          <div style="font-size:17px;font-weight:800">🏦 مطابقة بنكية</div>
+          <div style="font-size:11px;opacity:.9;margin-top:2px">إغلاق ${c.closing_date}${c.branch?` · ${c.branch}`:''}</div>
+        </div>
+        <button onclick="closeReconcileModal()" style="background:transparent;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div style="background:#fafafa;border:1px solid var(--b);border-radius:12px;padding:12px;margin-bottom:14px">
+          <div style="font-size:11px;color:var(--t3);margin-bottom:8px">📊 الإجمالي حسب نظام الكاشير</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+            <div>إجمالي المبيعات: <b style="direction:ltr;float:left">${(+c.total_sales).toFixed(2)}</b></div>
+            <div>الكاش: <b style="direction:ltr;float:left">${(+c.cash_amount||0).toFixed(2)}</b></div>
+            <div>الشبكة: <b style="direction:ltr;float:left">${(+c.card_amount||0).toFixed(2)}</b></div>
+            <div>المرتجعات: <b style="direction:ltr;float:left;color:#c93545">${(+c.returns_amount||0).toFixed(2)}</b></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div class="ff"><label class="fl">💵 المبلغ الفعلي المُودع *</label>
+            <input class="fi" id="rec-deposit" type="number" step="0.01" placeholder="0.00" inputmode="decimal" value="${c.bank_deposit_amount||''}" oninput="updateReconcileVariance()"/></div>
+          <div class="ff"><label class="fl">📅 تاريخ الإيداع</label>
+            <input class="fi" id="rec-date" type="date" value="${c.bank_deposit_date||c.closing_date}"/></div>
+          <div class="ff"><label class="fl">🧾 رقم العملية البنكية</label>
+            <input class="fi" id="rec-ref" placeholder="مرجع/رقم العملية" value="${c.bank_deposit_ref||''}"/></div>
+          <div class="ff"><label class="fl">💰 كاش متبقّي في الخزنة</label>
+            <input class="fi" id="rec-safe" type="number" step="0.01" placeholder="0.00" inputmode="decimal" value="${c.cash_in_safe||0}" oninput="updateReconcileVariance()"/></div>
+        </div>
+
+        <div style="background:#fff8e6;border:1px solid #f0d28b;border-radius:12px;padding:12px;margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:12px;color:#5a4408">المتوقع إيداعه (كاش − مرتجعات − خزنة):</span>
+            <b id="rec-expected" style="direction:ltr;color:#5a4408">${expectedCash.toFixed(2)} ر.س</b>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px dashed #f0d28b;padding-top:6px;margin-top:6px">
+            <span style="font-size:13px;font-weight:800">⚖ الفرق:</span>
+            <b id="rec-variance" style="direction:ltr;font-size:15px;color:#5a4408">0.00 ر.س</b>
+          </div>
+        </div>
+
+        <div id="rec-breakdown-section" style="margin-bottom:14px;display:none">
+          <div style="font-size:13px;font-weight:800;color:#000;margin-bottom:8px">📋 وين راح الفرق؟</div>
+          <div style="font-size:11px;color:var(--t3);margin-bottom:10px">قسّم الفرق حسب السبب. المجموع لازم يساوي الفرق أعلاه.</div>
+          ${VARIANCE_CATEGORIES.map(v => `
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#fafafa;border:1px solid var(--b);border-radius:10px;margin-bottom:6px">
+              <div style="flex:1">
+                <div style="font-size:12px;font-weight:700;color:#000">${v.label}</div>
+                <div style="font-size:10px;color:var(--t3)">${v.hint}</div>
+              </div>
+              <input type="number" step="0.01" placeholder="0.00" inputmode="decimal" data-vkey="${v.key}" value="${breakdown[v.key]||''}" oninput="updateBreakdownSum()" style="width:90px;padding:6px 8px;border:1px solid var(--b);border-radius:7px;font-size:13px;direction:ltr;text-align:left;font-family:inherit"/>
+            </div>
+          `).join('')}
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#fff;border:2px solid #86BA72;border-radius:10px;margin-top:8px">
+            <span style="font-weight:700;font-size:12px">مجموع الأسباب</span>
+            <b id="rec-breakdown-sum" style="direction:ltr;color:#86BA72">0.00 ر.س</b>
+          </div>
+        </div>
+
+        <div class="ff" style="margin-bottom:14px">
+          <label class="fl">📝 ملاحظات (اختياري)</label>
+          <textarea class="fi" id="rec-note" rows="2" placeholder="أي ملاحظات تخص هذا الإغلاق...">${c.variance_note||''}</textarea>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--b);padding-top:14px">
+          <button class="btn bg2" onclick="closeReconcileModal()">إلغاء</button>
+          <button class="btn bp" id="recSaveBtn" onclick="saveReconciliation('${c.id}')">💾 حفظ المطابقة</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+  setTimeout(updateReconcileVariance, 100);
+}
+
+function closeReconcileModal() {
+  const m = document.getElementById('reconcileModal');
+  if (m) m.style.display = 'none';
+}
+
+function updateReconcileVariance() {
+  const c = _closingsCache.find(x => document.getElementById('rec-deposit'));
+  if (!c) return;
+  const deposit = parseFloat(document.getElementById('rec-deposit').value) || 0;
+  const safe    = parseFloat(document.getElementById('rec-safe').value) || 0;
+  const cls = _closingsCache.find(x => document.getElementById('recSaveBtn').getAttribute('onclick').includes(x.id));
+  if (!cls) return;
+  const expected = (+cls.cash_amount||0) + (+cls.card_amount||0) + (+cls.bank_amount||0) + (+cls.wallet_amount||0) - (+cls.returns_amount||0) - safe;
+  const variance = deposit - expected;
+  document.getElementById('rec-expected').textContent = expected.toFixed(2) + ' ر.س';
+  const v = document.getElementById('rec-variance');
+  v.textContent = (variance > 0 ? '+' : '') + variance.toFixed(2) + ' ر.س';
+  v.style.color = Math.abs(variance) < 0.01 ? '#86BA72' : variance > 0 ? '#1e6080' : '#c93545';
+  document.getElementById('rec-breakdown-section').style.display = Math.abs(variance) > 0.01 ? 'block' : 'none';
+  updateBreakdownSum();
+}
+
+function updateBreakdownSum() {
+  const inputs = document.querySelectorAll('#reconcileModal input[data-vkey]');
+  let sum = 0;
+  inputs.forEach(i => { sum += parseFloat(i.value) || 0; });
+  const el = document.getElementById('rec-breakdown-sum');
+  if (el) el.textContent = sum.toFixed(2) + ' ر.س';
+}
+
+async function saveReconciliation(closingId) {
+  const deposit = parseFloat(document.getElementById('rec-deposit').value);
+  if (!deposit || deposit < 0) { toast({ type:'error', msg:'أدخلي مبلغ الإيداع' }); return; }
+  const safe = parseFloat(document.getElementById('rec-safe').value) || 0;
+  const date = document.getElementById('rec-date').value || null;
+  const ref  = document.getElementById('rec-ref').value.trim() || null;
+  const note = document.getElementById('rec-note').value.trim() || null;
+
+  const breakdown = {};
+  document.querySelectorAll('#reconcileModal input[data-vkey]').forEach(i => {
+    const v = parseFloat(i.value);
+    if (v && v !== 0) breakdown[i.dataset.vkey] = v;
+  });
+
+  const btn = document.getElementById('recSaveBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    const { data, error } = await _sb.rpc('reconcile_closing', {
+      closing_id_in: closingId,
+      bank_deposit_in: deposit,
+      bank_deposit_date_in: date,
+      bank_deposit_ref_in: ref,
+      cash_in_safe_in: safe,
+      breakdown_in: breakdown,
+      note_in: note,
+    });
+    if (error) throw error;
+    toast({ type:'success', msg:`تمت المطابقة ✓ الفرق: ${(data?.variance||0).toFixed(2)} ر.س` });
+    closeReconcileModal();
+    await closingLoad();
+  } catch (e) {
+    toast({ type:'error', msg:'فشل: ' + (e.message || 'خطأ غير معروف') });
+    btn.disabled = false; btn.textContent = '💾 حفظ المطابقة';
+  }
 }
 
 function closingView(id) {
-  // Could open a modal — for now scroll to top showing details
-  toast({ type:'info', msg:'سيتم إضافة عرض التفاصيل قريباً' });
+  openReconcileModal(id);
 }
 
 async function closingSave() {
@@ -6323,9 +6485,10 @@ async function closingSave() {
   try {
     const subtotal = total / 1.15;
     const vat = total - subtotal;
-    const { data: tenant } = await _sb.from('tenants').select('id').maybeSingle();
+    const tenant = { id: Auth?.tenant?.id };
+    if (!tenant.id) throw new Error('لم يتم تحميل بيانات النشاط');
     const { error } = await _sb.from('daily_closings').insert({
-      tenant_id:       tenant?.id,
+      tenant_id:       tenant.id,
       closing_date:    date,
       branch:          document.getElementById('cl-branch').value.trim() || null,
       total_sales:     total,
@@ -6692,8 +6855,8 @@ async function expenseSave(payStatus) {
                   || (_suppliersCache.find(s => s.id === supId)?.name || null);
 
   try {
-    const { data: tenantRow } = await _sb.from('tenants').select('id').maybeSingle();
-    const tid = tenantRow?.id;
+    const tid = Auth?.tenant?.id;
+    if (!tid) throw new Error('لم يتم تحميل بيانات النشاط');
 
     // Get next expense number
     const { data: numData } = await _sb.rpc('next_expense_number', { p_tenant_id: tid });
@@ -6761,8 +6924,8 @@ async function expPaySave() {
   if (!amount) { toast({ type:'error', msg:'أدخل المبلغ' }); return; }
 
   try {
-    const { data: tenantRow2 } = await _sb.from('tenants').select('id').maybeSingle();
-    const tid = tenantRow2?.id;
+    const tid = Auth?.tenant?.id;
+    if (!tid) throw new Error('لم يتم تحميل بيانات النشاط');
     const { error } = await _sb.from('expense_payments').insert({
       expense_id:     expId,
       tenant_id:      tid,
@@ -6807,8 +6970,8 @@ async function supplierSave() {
   btn.disabled = true; btn.textContent = '...';
 
   try {
-    const { data: tenantRow3 } = await _sb.from('tenants').select('id').maybeSingle();
-    const tid = tenantRow3?.id;
+    const tid = Auth?.tenant?.id;
+    if (!tid) throw new Error('لم يتم تحميل بيانات النشاط — حدّثي الصفحة');
     const row = {
       tenant_id:     tid,
       name,
@@ -8760,22 +8923,72 @@ function setTT(t){
   document.getElementById('tbOut').className=t==='expense'?'btn bp':'btn bg2';
   document.getElementById('tbOut').style.flex='1';
 }
-function saveTx(){
-  const a=document.getElementById('tAmt').value;
-  if(!a||parseFloat(a)<=0){alert('أدخل مبلغاً');return;}
-  const desc=document.getElementById('tDesc').value||(txT==='income'?'إيراد':'مصروف');
-  const party=document.getElementById('tParty').value||'—';
-  const cat=document.getElementById('tCat').value||'أخرى';
-  const date=document.getElementById('tDate').value;
-  const sign=txT==='income'?'+':'-';
-  const col=txT==='income'?'var(--g)':'var(--r)';
-  const bc=txT==='income'?'bdg-b':'bdg-a';
-  const tb=document.getElementById('txTb');
-  const row=document.createElement('tr');
-  row.innerHTML=`<td class="tm">${desc}</td><td>${party}</td><td><span class="bdg ${bc}">${cat}</span></td><td>${date}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${parseFloat(a).toLocaleString('en-US')}</td>`;
-  tb.insertBefore(row,tb.firstChild);
-  document.getElementById('addTxW').style.display='none';
-  ['tAmt','tDesc','tParty'].forEach(id=>document.getElementById(id).value='');
+async function saveTx(){
+  const amount = parseFloat(document.getElementById('tAmt').value);
+  if(!amount || amount <= 0){ toast({ type:'error', msg:'أدخل مبلغاً صحيحاً' }); return; }
+  const tid = Auth?.tenant?.id;
+  if (!tid) { toast({ type:'error', msg:'لم يتم تحميل بيانات النشاط — حدّثي الصفحة' }); return; }
+
+  const note  = document.getElementById('tDesc').value || (txT==='income' ? 'إيراد' : 'مصروف');
+  const party = document.getElementById('tParty').value || null;
+  const cat   = document.getElementById('tCat').value || 'أخرى';
+  const date  = document.getElementById('tDate').value || new Date().toISOString().slice(0,10);
+
+  try {
+    const row = {
+      tenant_id:  tid,
+      created_by: Auth?.session?.user?.id || null,
+      type:       txT,
+      amount,
+      category:   cat,
+      party,
+      note,
+      date,
+    };
+    const { data, error } = await _sb.from('transactions').insert(row).select().single();
+    if (error) throw error;
+
+    // Optimistic UI: prepend to table
+    const sign = txT==='income' ? '+' : '-';
+    const col  = txT==='income' ? 'var(--g)' : 'var(--r)';
+    const bc   = txT==='income' ? 'bdg-b' : 'bdg-a';
+    const tb   = document.getElementById('txTb');
+    if (tb) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="tm">${note}</td><td>${party||'—'}</td><td><span class="bdg ${bc}">${cat}</span></td><td>${date}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${amount.toLocaleString('en-US')}</td>`;
+      tb.insertBefore(tr, tb.firstChild);
+    }
+    document.getElementById('addTxW').style.display = 'none';
+    ['tAmt','tDesc','tParty'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+
+    toast({ type:'success', msg:`تم حفظ ${txT==='income'?'الإيراد':'المصروف'} ✓` });
+
+    // Auto-post journal entry (best effort)
+    if (typeof Journal !== 'undefined' && Journal.postFromTransaction) {
+      Journal.postFromTransaction(data).catch(e => console.warn('JE post failed', e));
+    }
+  } catch (e) {
+    toast({ type:'error', msg:'فشل الحفظ: ' + (e.message || 'حدث خطأ') });
+  }
+}
+
+// Reload transactions from DB on page open
+async function loadTransactions() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  try {
+    const { data } = await _sb.from('transactions')
+      .select('*').eq('tenant_id', tid)
+      .order('date', { ascending: false }).limit(200);
+    const tb = document.getElementById('txTb');
+    if (!tb) return;
+    tb.innerHTML = (data || []).map(t => {
+      const sign = t.type==='income' ? '+' : '-';
+      const col  = t.type==='income' ? 'var(--g)' : 'var(--r)';
+      const bc   = t.type==='income' ? 'bdg-b' : 'bdg-a';
+      return `<tr><td class="tm">${t.note||'—'}</td><td>${t.party||'—'}</td><td><span class="bdg ${bc}">${t.category||'أخرى'}</span></td><td>${t.date||(t.created_at||'').slice(0,10)}</td><td style="direction:ltr;color:${col};font-weight:600">${sign}${(+t.amount).toLocaleString('en-US')}</td></tr>`;
+    }).join('') || `<tr><td colspan="5" style="text-align:center;padding:28px;color:var(--t3)">لا توجد معاملات بعد</td></tr>`;
+  } catch (e) { console.error('loadTransactions:', e); }
 }
 
 // ── Goals ──────────────────────────────
@@ -11688,7 +11901,6 @@ const PERM_GROUPS = [
     { id:'ar',     label:'الفلوس عند الناس' },
     { id:'coa',    label:'أين أموالي؟' },
     { id:'gls',    label:'الأهداف المالية' },
-    { id:'ag',     label:'متابعة المستحقات' },
   ]},
   { title:'⚙️ الإعدادات والإدارة', perms:[
     { id:'profile', label:'إعدادات الحساب' },
@@ -11702,8 +11914,8 @@ const PERM_GROUPS = [
 // Default permissions per role (used as template when admin doesn't customize)
 const ROLE_DEFAULTS = {
   admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','channels',
-          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','ag','profile','sub','brand','zatca','usrs'],
-  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','ag','profile','sub'],
+          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','brand','zatca','usrs'],
+  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub'],
   cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile'],
   viewer:  ['db','hl','cf','st','inv','tx','profile'],
 };
