@@ -99,7 +99,7 @@ nav::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 
 /* Upgrade + Logout buttons */
 .us-btn{flex:1;padding:10px;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .2s;border:none}
-.us-btn-upgrade{background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;font-weight:700;box-shadow:0 2px 8px rgba(206,217,217,.45)}
+.us-btn-upgrade{background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;font-weight:700;box-shadow:0 2px 8px rgba(206,217,217,.45)}
 .us-btn-upgrade:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(206,217,217,.55);background:linear-gradient(135deg,#b8c7c7,#ced9d9)}
 .us-btn-out{background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.22)}
 .us-btn-out:hover{background:rgba(201,53,69,.08);border-color:rgba(201,53,69,.4)}
@@ -117,7 +117,7 @@ body.dark .tb{background:rgba(13,17,23,.95);border-color:rgba(255,255,255,.07)}
 .hdr-btn-primary:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 6px 16px rgba(206,217,217,.36)}
 .pt{font-size:17px;font-weight:800;color:var(--dark)}
 .btn{padding:8px 16px;border-radius:9px;border:none;font-family:'PingARLT','Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
-.bp{background:#ced9d9;color:#2C5559;font-weight:700;box-shadow:0 2px 6px rgba(206,217,217,.45)}.bp:hover{background:#b8c7c7;transform:translateY(-1px);box-shadow:0 6px 14px rgba(206,217,217,.55)}
+.bp{background:#ced9d9;color:#155e5f;font-weight:700;box-shadow:0 2px 6px rgba(206,217,217,.45)}.bp:hover{background:#b8c7c7;transform:translateY(-1px);box-shadow:0 6px 14px rgba(206,217,217,.55)}
 .bg2{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bg2:hover{background:var(--bg3);color:var(--t)}
 /* Cards */
 .card{background:#fff;border:1px solid rgba(44,85,89,.08);border-radius:var(--R);padding:18px;box-shadow:0 1px 3px rgba(44,85,89,.04)}
@@ -179,7 +179,7 @@ body.dark .qab-new{background:#161b27 !important}
 .inv-step{display:flex;align-items:center;gap:10px;flex:1;justify-content:center}
 .inv-step-num{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--b);color:var(--t3);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
 .inv-step-label{font-size:13px;color:var(--t3);white-space:nowrap;transition:.2s;font-weight:500}
-.inv-step.on .inv-step-num{background:linear-gradient(135deg,#ced9d9,#dde5e5);border-color:#ced9d9;color:#2C5559;box-shadow:0 0 0 4px rgba(206,217,217,.2)}
+.inv-step.on .inv-step-num{background:linear-gradient(135deg,#ced9d9,#dde5e5);border-color:#ced9d9;color:#155e5f;box-shadow:0 0 0 4px rgba(206,217,217,.2)}
 .inv-step.on .inv-step-label{color:var(--t);font-weight:700}
 .inv-step.done .inv-step-num{background:rgba(206,217,217,.15);border-color:#ced9d9;color:#ced9d9}
 .inv-step.done .inv-step-num::after{content:'✓';font-size:15px}
@@ -418,14 +418,14 @@ body.dark #bottomNav{background:#161b27}
 .bnav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .bnav-label{font-size:10px;font-weight:600}
 .bnav-fab{position:relative}
-.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#ced9d9,#dde5e5) !important;color:#2C5559 !important;box-shadow:0 4px 12px rgba(206,217,217,.35);margin-top:-12px}
+.bnav-fab .bnav-icon{width:42px;height:42px;background:linear-gradient(135deg,#ced9d9,#dde5e5) !important;color:#155e5f !important;box-shadow:0 4px 12px rgba(206,217,217,.35);margin-top:-12px}
 @media(max-width:700px){
   #bottomNav{display:block}
   .main{padding-bottom:78px !important}
 }
 
 /* ═══════════ FAB (Floating Action Button) ═══════════ */
-#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(206,217,217,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
+#fab{display:none;position:fixed;bottom:90px;left:18px;z-index:90;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(206,217,217,.4);align-items:center;justify-content:center;transition:all .25s;font-family:inherit}
 #fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(206,217,217,.55)}
 #fab:active{transform:scale(.95)}
 #fab svg{transition:transform .3s}
@@ -455,7 +455,7 @@ body.dark .fab-item{background:#1e2535}
 @keyframes emptyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .empty-state-title{font-size:15px;font-weight:700;color:var(--t);margin-bottom:6px}
 .empty-state-msg{font-size:12px;color:var(--t2);line-height:1.7;max-width:300px;margin:0 auto 14px}
-.empty-state-cta{padding:9px 22px;background:#ced9d9;color:#2C5559;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.empty-state-cta{padding:9px 22px;background:#ced9d9;color:#155e5f;border:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
 .empty-state-cta:hover{background:#dde5e5;transform:translateY(-2px);box-shadow:0 6px 16px rgba(206,217,217,.3)}
 
 /* ═══════════ Ripple effect ═══════════ */
@@ -478,7 +478,7 @@ body.dark .fab-item{background:#1e2535}
 .chart-bar{position:relative;cursor:pointer;transition:all .2s}
 .chart-bar:hover{filter:brightness(1.1);transform:translateY(-2px)}
 .chart-bar-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#2C5559;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10}
-.chart-bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#2C5559}
+.chart-bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#155e5f}
 .chart-bar:hover .chart-bar-tooltip{opacity:1}
 @keyframes barGrow{0%{height:0}100%{height:var(--bar-h)}}
 .bar-anim{animation:barGrow 1s cubic-bezier(.18,.89,.32,1.28) both}
@@ -897,7 +897,7 @@ body.dark .skel{background:linear-gradient(90deg,#1e2535 25%,#252d3d 50%,#1e2535
 /* ── Invoice stepper ── */
 .inv-step.on .inv-step-num{
   background:linear-gradient(135deg,#ced9d9,#dde5e5);
-  border-color:#ced9d9;color:#2C5559;
+  border-color:#ced9d9;color:#155e5f;
   box-shadow:0 0 0 4px rgba(206,217,217,.18);
 }
 .inv-step-line{background:rgba(44,85,89,.1)}
@@ -981,20 +981,20 @@ body.dark #bootLoader{background:#0d1117}
 /* ── Greeting Strip — brand hero ── */
 .db-greet-bar{
   display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(120deg,#0f2426 0%,#23474c 55%,#2C5559 100%);
-  border:1px solid rgba(206,217,217,.22);border-radius:20px;
+  background:linear-gradient(120deg,#ced9d9 0%,#a8d39e 55%,#7fc57b 100%);
+  border:1px solid rgba(21,94,95,.18);border-radius:20px;
   padding:22px 26px;margin-bottom:20px;gap:16px;flex-wrap:wrap;
   position:relative;overflow:hidden;
-  box-shadow:0 10px 30px rgba(15,36,38,.16);
+  box-shadow:0 10px 30px rgba(127,197,123,.18);
 }
 .db-greet-bar::before{
   content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(206,217,217,.09) 1px,transparent 1px);
+  background-image:radial-gradient(circle,rgba(21,94,95,.07) 1px,transparent 1px);
   background-size:26px 26px;pointer-events:none;
 }
 .db-greet-bar::after{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 55% 100% at 10% 50%,rgba(206,217,217,.16) 0%,transparent 60%);
+  background:radial-gradient(ellipse 55% 100% at 10% 50%,rgba(255,255,255,.25) 0%,transparent 60%);
   pointer-events:none;
 }
 body.dark .db-greet-bar{border-color:rgba(206,217,217,.16)}
@@ -1006,15 +1006,15 @@ body.dark .db-greet-bar{border-color:rgba(206,217,217,.16)}
   display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
 .db-logo-init{font-size:20px;font-weight:900;color:#dde5e5}
-.db-greet-meta{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;margin-bottom:4px}
-.db-greet-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.3px;line-height:1.2}
-.db-greet-em{color:#dde5e5}
-.db-greet-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;font-weight:500}
+.db-greet-meta{font-size:11px;color:rgba(21,94,95,.65);font-weight:600;margin-bottom:4px}
+.db-greet-name{font-size:20px;font-weight:900;color:#155e5f;letter-spacing:-.3px;line-height:1.2}
+.db-greet-em{color:#0a3d3e}
+.db-greet-sub{font-size:12px;color:rgba(21,94,95,.75);margin-top:3px;font-weight:500}
 .db-greet-right{display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;z-index:1}
 .db-plan-pill{
   display:inline-flex;align-items:center;gap:7px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-  border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#d6edc8;
+  background:rgba(255,255,255,.5);border:1px solid rgba(21,94,95,.18);
+  border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#155e5f;
 }
 .db-plan-dot{
   width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;
@@ -1023,10 +1023,10 @@ body.dark .db-greet-bar{border-color:rgba(206,217,217,.16)}
 }
 .db-ai-btn{
   display:inline-flex;align-items:center;gap:7px;
-  background:linear-gradient(135deg,#ced9d9,#dde5e5);
-  color:#fff;border:none;border-radius:11px;padding:9px 18px;
+  background:#fff;
+  color:#155e5f;border:1px solid rgba(21,94,95,.18);border-radius:11px;padding:9px 18px;
   font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
-  box-shadow:0 3px 14px rgba(206,217,217,.35);transition:all .2s;
+  box-shadow:0 3px 14px rgba(21,94,95,.18);transition:all .2s;
 }
 .db-ai-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(206,217,217,.45)}
 
@@ -1957,7 +1957,7 @@ body.dark .prc-sv{color:#f0f2f8}
 
   <!-- Stats strip -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
-    <div style="background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:14px;padding:14px">
+    <div style="background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#155e5f;border-radius:14px;padding:14px">
       <div style="font-size:11px;opacity:.9">🎯 أهداف نشطة</div>
       <div style="font-size:24px;font-weight:900;margin-top:4px" id="gls-active">0</div>
     </div>
@@ -1993,7 +1993,7 @@ body.dark .prc-sv{color:#f0f2f8}
 <!-- Goal modal -->
 <div id="goalModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px">
   <div style="background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:92vh;overflow:auto">
-    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:18px 18px 0 0">
+    <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#155e5f;border-radius:18px 18px 0 0">
       <div>
         <div style="font-size:17px;font-weight:800" id="goalModalTitle">🎯 هدف جديد</div>
         <div style="font-size:11px;opacity:.9;margin-top:2px">حدّد ما تبيه وكم وقت تحتاج</div>
@@ -2215,18 +2215,18 @@ body.dark .prc-sv{color:#f0f2f8}
 <style>
 .invF,.inv-filt { padding:5px 12px; background:transparent; border:1px solid var(--b); color:var(--t2); border-radius:7px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; transition:all .12s; }
 .invF:hover,.inv-filt:hover { background:var(--bg2); }
-.invF.on,.inv-filt.on { background:#2C5559; color:#fff; border-color:#2C5559; }
+.invF.on,.inv-filt.on { background:#2C5559; color:#fff; border-color:#155e5f; }
 .tgl-tab { padding:7px 18px; background:transparent; border:none; border-radius:8px; font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; color:var(--t2); transition:all .15s; }
 .tgl-tab.on { background:#fff; color:#1a1d2e; box-shadow:0 1px 4px rgba(0,0,0,.1); font-weight:700; }
 body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 .inv-act { padding:4px 8px; font-size:11px; border:1px solid var(--b); background:#fff; border-radius:6px; cursor:pointer; font-family:inherit; font-weight:600; }
 .inv-act:hover { background:var(--bg2); }
-.inv-act.pay { background:#ced9d9; color:#2C5559; border-color:#ced9d9; }
+.inv-act.pay { background:#ced9d9; color:#155e5f; border-color:#ced9d9; }
 .inv-act.pay:hover { background:#6da55b; }
 .inv-act.remind { background:#a8854a; color:#fff; border-color:#a8854a; }
 .inv-act.remind:hover { background:#8d7039; }
-.ai-ex { padding:7px 12px; background:#fff; border:1px solid rgba(206,217,217,.3); color:#2C5559; border-radius:8px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; transition:all .2s; }
-.ai-ex:hover { background:rgba(206,217,217,.08); border-color:#ced9d9; color:#2C5559; transform:translateY(-1px); }
+.ai-ex { padding:7px 12px; background:#fff; border:1px solid rgba(206,217,217,.3); color:#155e5f; border-radius:8px; font-family:inherit; font-size:11px; cursor:pointer; text-align:right; line-height:1.5; transition:all .2s; }
+.ai-ex:hover { background:rgba(206,217,217,.08); border-color:#ced9d9; color:#155e5f; transform:translateY(-1px); }
 </style>
 
 <!-- CREDIT/DEBIT NOTE MODAL -->
@@ -2315,7 +2315,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <input type="date" id="customDateFrom" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
       <span style="color:var(--t3);font-size:12px">→</span>
       <input type="date" id="customDateTo" class="fi" style="width:140px;padding:6px 8px;font-size:12px">
-      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
+      <button onclick="applyCustomDate()" style="padding:7px 14px;background:#ced9d9;color:#155e5f;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">تطبيق</button>
     </div>
   </div>
   <div class="card">
@@ -2351,7 +2351,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
     <div id="ai-inv-form" style="display:none;margin-top:12px">
       <textarea id="ai-inv-text" class="fi" rows="3" placeholder="اكتب فاتورتك بأسلوبك..." style="resize:vertical;font-family:inherit;line-height:1.7;width:100%;box-sizing:border-box;font-size:13px;border:1.5px solid rgba(206,217,217,.3)"></textarea>
-      <div style="margin-top:10px;padding:12px 14px;background:rgba(206,217,217,.06);border-right:3px solid #ced9d9;border-radius:9px;font-size:11px;color:#2C5559;line-height:1.8">
+      <div style="margin-top:10px;padding:12px 14px;background:rgba(206,217,217,.06);border-right:3px solid #ced9d9;border-radius:9px;font-size:11px;color:#155e5f;line-height:1.8">
         <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px"><span>💡</span> نصائح للحصول على نتائج دقيقة:</div>
         <div>• <b>اذكر اسم العميل</b> (أحمد، شركة النور، إلخ)</div>
         <div>• <b>وصف الخدمة/المنتج</b> بوضوح</div>
@@ -2509,7 +2509,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div class="g3" style="margin-bottom:14px">
     <div class="kc"><div class="kl">إجمالي مبيعات الشهر</div><div class="kv" id="closing-month-total" style="color:#ced9d9">0 ر.س</div></div>
     <div class="kc"><div class="kl">عدد الإغلاقات</div><div class="kv" id="closing-count">0</div></div>
-    <div class="kc"><div class="kl">متوسط الإغلاق اليومي</div><div class="kv" id="closing-avg" style="color:#2C5559">0 ر.س</div></div>
+    <div class="kc"><div class="kl">متوسط الإغلاق اليومي</div><div class="kv" id="closing-avg" style="color:#155e5f">0 ر.س</div></div>
   </div>
 
   <div class="g2" style="gap:14px;align-items:flex-start">
@@ -2764,7 +2764,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       </div>
     </div>
     <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px">
-      <div style="width:42px;height:42px;border-radius:12px;background:rgba(44,85,89,.1);color:#2C5559;display:flex;align-items:center;justify-content:center">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(44,85,89,.1);color:#155e5f;display:flex;align-items:center;justify-content:center">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       </div>
       <div>
@@ -2785,7 +2785,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <option value="service">خدمات فقط</option>
       <option value="product">منتجات فقط</option>
     </select>
-    <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 16px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s" onmouseover="this.style.borderColor='#ced9d9';this.style.color='#ced9d9'" onmouseout="this.style.borderColor='rgba(44,85,89,.2)';this.style.color='#2C5559'">
+    <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 16px;background:#fff;color:#155e5f;border:1px solid rgba(44,85,89,.2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s" onmouseover="this.style.borderColor='#ced9d9';this.style.color='#ced9d9'" onmouseout="this.style.borderColor='rgba(44,85,89,.2)';this.style.color='#2C5559'">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       رفع Excel/CSV
     </button>
@@ -2979,7 +2979,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="flex:1"></div>
     <button onclick="shareVatReport('email')" style="padding:8px 14px;background:transparent;color:var(--t);border:1px solid var(--bd);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">📧 إيميل</button>
     <button onclick="shareVatReport('whatsapp')" style="padding:8px 14px;background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:9px;font-family:inherit;font-size:12px;cursor:pointer">واتساب</button>
-    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#ced9d9;color:#2C5559;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
+    <button onclick="exportZatcaVat()" style="padding:8px 16px;background:#ced9d9;color:#155e5f;border:none;border-radius:9px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⬇ تصدير ZATCA</button>
   </div>
 
   <div class="g4">
@@ -3110,7 +3110,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <button class="tc-nav" onclick="taxCalNav(-1)" aria-label="السابق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div style="font-size:16px;font-weight:800;color:#000;min-width:160px;text-align:center" id="tcMonthLabel">—</div>
       <button class="tc-nav" onclick="taxCalNav(1)" aria-label="التالي"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#ced9d9;color:#2C5559;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" data-i18n="tc_today">اليوم</button>
+      <button onclick="taxCalToday()" style="margin-right:8px;padding:8px 16px;background:#ced9d9;color:#155e5f;border:none;border-radius:10px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" data-i18n="tc_today">اليوم</button>
     </div>
   </div>
 
@@ -3452,7 +3452,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
           PNG / JPG / SVG · حد أقصى 2MB · يفضّل بخلفية شفافة
         </div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <label for="brand-logo-input" style="padding:8px 16px;background:#ced9d9;color:#2C5559;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
+          <label for="brand-logo-input" style="padding:8px 16px;background:#ced9d9;color:#155e5f;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">رفع شعار جديد</label>
           <button class="btn bg2" id="brand-logo-remove-btn" style="font-size:12px;padding:8px 14px;color:#dc2626;display:none" onclick="removeBrandLogo()">حذف الشعار</button>
         </div>
       </div>
@@ -3768,7 +3768,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         إنشاء CSR
       </button>
-      <div id="zcsrResult" style="margin-top:12px;display:none;background:rgba(206,217,217,.08);border:1px solid rgba(206,217,217,.3);border-radius:9px;padding:11px;font-size:11px;color:#2C5559"></div>
+      <div id="zcsrResult" style="margin-top:12px;display:none;background:rgba(206,217,217,.08);border:1px solid rgba(206,217,217,.3);border-radius:9px;padding:11px;font-size:11px;color:#155e5f"></div>
     </div>
 
     <!-- Step 3: Submit OTP -->
@@ -3825,7 +3825,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div class="g3" style="margin-bottom:14px">
     <div class="kc"><div class="kl">إجمالي العروض النشطة</div><div class="kv" id="quotes-active-total" style="color:#ced9d9">0 ر.س</div></div>
     <div class="kc"><div class="kl">عدد العروض</div><div class="kv" id="quotes-count">0</div></div>
-    <div class="kc"><div class="kl">معدّل التحويل</div><div class="kv" id="quotes-rate" style="color:#2C5559">0%</div></div>
+    <div class="kc"><div class="kl">معدّل التحويل</div><div class="kv" id="quotes-rate" style="color:#155e5f">0%</div></div>
   </div>
 
   <div class="card">
@@ -3960,7 +3960,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div class="g3" style="margin-bottom:18px">
     <div class="kc"><div class="kl">مصاريف هذا الشهر</div><div class="kv" id="exp-month-total" style="color:#c93545">0 ر.س</div></div>
     <div class="kc"><div class="kl">مستحق للموردين</div><div class="kv" id="exp-unpaid-total" style="color:#a8854a">0 ر.س</div></div>
-    <div class="kc"><div class="kl">عدد الموردين النشطين</div><div class="kv" id="exp-suppliers-count" style="color:#2C5559">0</div></div>
+    <div class="kc"><div class="kl">عدد الموردين النشطين</div><div class="kv" id="exp-suppliers-count" style="color:#155e5f">0</div></div>
   </div>
 
   <!-- Tabs -->
@@ -4585,7 +4585,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
     <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:14px">
       <div style="font-size:11px;color:var(--t3);margin-bottom:4px">🛡 دورك الحالي</div>
-      <div style="font-size:14px;font-weight:800;color:#2C5559;margin-top:6px" id="u-my-role">—</div>
+      <div style="font-size:14px;font-weight:800;color:#155e5f;margin-top:6px" id="u-my-role">—</div>
     </div>
   </div>
 
@@ -5924,7 +5924,7 @@ async function viewInvoice(invId) {
     <div style="background:#fafafa;padding:14px;border-radius:10px;margin-bottom:18px">
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>قبل الضريبة</span><span style="direction:ltr">${(+(inv.subtotal||0)).toFixed(2)} ر.س</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>الضريبة</span><span style="direction:ltr">${(+(inv.vat_amount||0)).toFixed(2)} ر.س</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #2C5559;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#2C5559">${total.toFixed(2)} ر.س</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #2C5559;margin-top:4px;font-size:15px;font-weight:800"><span>الإجمالي</span><span style="direction:ltr;color:#155e5f">${total.toFixed(2)} ر.س</span></div>
       ${paid > 0 ? `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:#ced9d9"><span>المدفوع</span><span style="direction:ltr">−${paid.toFixed(2)} ر.س</span></div>` : ''}
       ${due > 0 ? `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;font-weight:700;color:#c93545"><span>المتبقي</span><span style="direction:ltr">${due.toFixed(2)} ر.س</span></div>` : ''}
     </div>
@@ -6004,7 +6004,7 @@ async function printInvoice(invId) {
 body { margin:0; padding:24px; background:#fff; color:#1a1a1a }
 .h { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #2C5559; padding-bottom:16px; margin-bottom:22px }
 .h .left { text-align:right }
-.h h1 { font-size:24px; color:#2C5559; margin:0 0 6px }
+.h h1 { font-size:24px; color:#155e5f; margin:0 0 6px }
 .h .sub { font-size:12px; color:#666 }
 .h img { max-height:64px; max-width:180px; object-fit:contain }
 .meta { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px }
@@ -6017,7 +6017,7 @@ table.items th { background:#2C5559; color:#fff; padding:9px 8px; text-align:rig
 table.items td { padding:8px; border-bottom:1px solid #ececec }
 .tot { background:#fafafa; padding:14px 16px; border-radius:10px; margin-bottom:18px }
 .tot .row { display:flex; justify-content:space-between; padding:5px 0; font-size:13px }
-.tot .row.grand { border-top:2px solid #2C5559; margin-top:6px; padding-top:10px; font-size:16px; font-weight:800; color:#2C5559 }
+.tot .row.grand { border-top:2px solid #2C5559; margin-top:6px; padding-top:10px; font-size:16px; font-weight:800; color:#155e5f }
 .tot .row.paid { color:#ced9d9 }
 .tot .row.due { font-weight:700; color:#c93545 }
 .status-pill { display:inline-block; padding:5px 14px; border-radius:18px; font-size:12px; font-weight:700; color:#fff }
@@ -6026,7 +6026,7 @@ table.items td { padding:8px; border-bottom:1px solid #ececec }
 .pay-tbl td { padding:7px 8px; border-bottom:1px solid #f0f0f0 }
 .foot { margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; font-size:10px; color:#888; text-align:center }
 .actions { text-align:center; margin:14px 0 18px }
-.actions button { padding:10px 24px; background:#ced9d9; color:#2C5559; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; margin:0 4px }
+.actions button { padding:10px 24px; background:#ced9d9; color:#155e5f; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:700; margin:0 4px }
 .actions button.close { background:#94a3b8 }
 @media print { .no-print { display:none !important } body { padding:0 } }
 </style></head><body>
@@ -6040,7 +6040,7 @@ table.items td { padding:8px; border-bottom:1px solid #ececec }
     ${sellerVat ? `<div class="sub">الرقم الضريبي: ${sellerVat}</div>` : ''}
     <div class="sub">فاتورة ضريبية</div>
   </div>
-  ${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div style="font-size:28px;font-weight:900;color:#2C5559">${sellerName}</div>`}
+  ${logoUrl ? `<img src="${logoUrl}" alt="logo">` : `<div style="font-size:28px;font-weight:900;color:#155e5f">${sellerName}</div>`}
 </div>
 <div class="meta">
   <div class="box"><div class="lbl">رقم الفاتورة</div><div class="val">${num}</div></div>
@@ -6512,7 +6512,7 @@ function openReconcileModal(closingId) {
 
   m.innerHTML = `
     <div style="background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(15,36,38,.35)">
-      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#2C5559;border-radius:18px 18px 0 0">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#b8c7c7);color:#155e5f;border-radius:18px 18px 0 0">
         <div>
           <div style="font-size:17px;font-weight:800">🏦 مطابقة بنكية</div>
           <div style="font-size:11px;opacity:.9;margin-top:2px">إغلاق ${c.closing_date}${c.branch?` · ${c.branch}`:''}</div>
@@ -6942,7 +6942,7 @@ function renderExpenses() {
       <td style="padding:11px 14px;font-weight:600;color:var(--t2)">${e.number}</td>
       <td style="padding:11px 14px;font-weight:600">${e.description}</td>
       <td style="padding:11px 14px;color:var(--t2)">${supplier}</td>
-      <td style="padding:11px 14px"><span style="background:rgba(206,217,217,.1);color:#2C5559;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">${catLabel}</span></td>
+      <td style="padding:11px 14px"><span style="background:rgba(206,217,217,.1);color:#155e5f;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">${catLabel}</span></td>
       <td style="padding:11px 14px;color:var(--t3)">${dateStr}</td>
       <td style="padding:11px 14px;text-align:left;font-weight:700;direction:ltr">${fmt(e.total)} ر.س</td>
       <td style="padding:11px 14px"><span style="color:${stColor};font-weight:700;font-size:12px">${stLabel}</span></td>
@@ -7466,7 +7466,7 @@ function adminRenderUsers() {
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
           <span style="background:${sc}1A;color:${sc};font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${sl}</span>
-          ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#2C5559;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
+          ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#155e5f;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
         </div>
         <div style="display:flex;gap:6px">
           <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
@@ -8137,7 +8137,7 @@ function showTrialExpiredPaywall(status) {
       .pw-plan:nth-child(3){animation-delay:.4s}
       .pw-plan:hover{transform:translateY(-4px) !important;border-color:#ced9d9 !important;box-shadow:0 12px 32px rgba(206,217,217,.25) !important}
       .pw-plan.featured{position:relative}
-      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
+      .pw-plan.featured::before{content:'الأكثر شيوعاً';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;font-size:10px;font-weight:800;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
       .pw-feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#456050;margin:6px 0}
       .pw-feat svg{flex-shrink:0;color:#ced9d9}
       .pw-cta-main{transition:all .25s}
@@ -8176,11 +8176,11 @@ function showTrialExpiredPaywall(status) {
       <div class="pw-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:30px">
 
         <!-- Starter -->
-        <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+        <div class="pw-plan" style="background:#fff;color:#155e5f;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
           <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">STARTER</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">مبتدئ</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#2C5559">99</span>
+            <span style="font-size:36px;font-weight:900;color:#155e5f">99</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -8191,7 +8191,7 @@ function showTrialExpiredPaywall(status) {
         </div>
 
         <!-- Pro (featured) -->
-        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#2C5559;border:2px solid #ced9d9;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(206,217,217,.25)" onclick="window.location.href='/pricing'">
+        <div class="pw-plan featured" style="background:linear-gradient(135deg,#fff 0%,#f7f9f5 100%);color:#155e5f;border:2px solid #ced9d9;border-radius:18px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .25s;transform:scale(1.04);box-shadow:0 12px 32px rgba(206,217,217,.25)" onclick="window.location.href='/pricing'">
           <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">PRO</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">احترافي</div>
           <div style="margin:18px 0">
@@ -8207,11 +8207,11 @@ function showTrialExpiredPaywall(status) {
         </div>
 
         <!-- Business -->
-        <div class="pw-plan" style="background:#fff;color:#2C5559;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
+        <div class="pw-plan" style="background:#fff;color:#155e5f;border:2px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 24px;text-align:center;cursor:pointer;transition:all .25s" onclick="window.location.href='/pricing'">
           <div style="font-size:11px;font-weight:800;color:#ced9d9;letter-spacing:1.5px;margin-bottom:8px">BUSINESS</div>
           <div style="font-size:18px;font-weight:800;margin-bottom:6px">أعمال</div>
           <div style="margin:18px 0">
-            <span style="font-size:36px;font-weight:900;color:#2C5559">499</span>
+            <span style="font-size:36px;font-weight:900;color:#155e5f">499</span>
             <span style="font-size:13px;color:#8aa090">ر.س / شهر</span>
           </div>
           <div style="border-top:1px solid #eef2e4;padding-top:14px;text-align:right">
@@ -8226,7 +8226,7 @@ function showTrialExpiredPaywall(status) {
 
       <!-- CTA + footer -->
       <div style="text-align:center">
-        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#2C5559;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(206,217,217,.4)">
+        <a href="/pricing" class="pw-cta-main" style="display:inline-block;background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;padding:16px 48px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(206,217,217,.4)">
           اختر باقتك واشترك ←
         </a>
         <div style="margin-top:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:12px;color:#8aa090">
@@ -8461,7 +8461,7 @@ async function subLoad() {
       </div>
       <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
         ${currentPlan === 'free' ?
-          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#ced9d9);color:#2C5559;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
+          `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:var(--g,#ced9d9);color:#155e5f;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">ترقية الباقة ←</a>` :
           `<a href="/pricing" style="flex:1;min-width:140px;text-align:center;padding:11px;background:rgba(206,217,217,.1);color:#ced9d9;border:1px solid rgba(206,217,217,.3);border-radius:9px;text-decoration:none;font-weight:700;font-size:13px">تغيير الباقة</a>
            ${activeSub && activeSub.status === 'active' ? `<button onclick="subCancel('${activeSub.id}')" style="flex:1;min-width:140px;padding:11px;background:transparent;color:#dc2626;border:1px solid rgba(232,57,74,.3);border-radius:9px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer">إلغاء الاشتراك</button>` : ''}`
         }
@@ -8548,7 +8548,7 @@ async function subDownloadInvoice(paymentId) {
 <head><meta charset="UTF-8"><title>فاتورة ${paymentId.slice(0,8)}</title>
 <style>
 @page { size: A4; margin: 20mm }
-body { font-family: 'Tajawal', sans-serif; color: #2C5559; padding: 0; margin: 0 }
+body { font-family: 'Tajawal', sans-serif; color: #155e5f; padding: 0; margin: 0 }
 .wrap { max-width: 700px; margin: 0 auto; padding: 30px }
 .header { display: flex; justify-content: space-between; border-bottom: 2px solid #ced9d9; padding-bottom: 18px; margin-bottom: 24px }
 .brand { font-size: 26px; font-weight: 900; color: #ced9d9 }
@@ -10210,12 +10210,12 @@ function exportVatPDF() {
   w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير VAT</title>
 <style>@page{size:A4;margin:14mm}*{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}body{margin:0;padding:24px;background:#fff;color:#1a1a1a}
 .h{display:flex;justify-content:space-between;border-bottom:2px solid #2C5559;padding-bottom:14px;margin-bottom:18px}
-.h h1{font-size:22px;color:#2C5559;margin:0}.h .meta{text-align:left;font-size:12px;color:#666}
+.h h1{font-size:22px;color:#155e5f;margin:0}.h .meta{text-align:left;font-size:12px;color:#666}
 table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
 th{background:#2C5559;color:#fff;padding:8px;text-align:right}
 td{padding:7px 8px;border-bottom:1px solid #e5e7eb}
 tfoot td{background:#f7f9fc;font-weight:700;border-top:2px solid #2C5559}
-.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#155e5f;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
 @media print{.no-print{display:none!important}body{padding:0}}
 </style></head><body>
 <div class="no-print actions">
@@ -10249,11 +10249,11 @@ function exportZakatPDF() {
   const tenant = Auth?.tenant?.name || 'محسوب';
   w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>تقرير الزكاة</title>
 <style>@page{size:A4;margin:18mm}*{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}body{margin:0;padding:24px;background:#fff;color:#1a1a1a;line-height:1.7}
-.h{text-align:center;border-bottom:2px solid #2C5559;padding-bottom:18px;margin-bottom:24px}.h h1{font-size:24px;color:#2C5559;margin:0 0 6px}.h .sub{font-size:12px;color:#666}
+.h{text-align:center;border-bottom:2px solid #2C5559;padding-bottom:18px;margin-bottom:24px}.h h1{font-size:24px;color:#155e5f;margin:0 0 6px}.h .sub{font-size:12px;color:#666}
 .r{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px}.r.head{background:#2C5559;color:#fff;font-weight:700;border:none;border-radius:6px;margin-top:14px}
-.r.ded{color:#c93545}.r.tot{background:#ced9d9;color:#2C5559;font-weight:800;font-size:16px;border-radius:6px;border:none;margin-top:14px}
+.r.ded{color:#c93545}.r.tot{background:#ced9d9;color:#155e5f;font-weight:800;font-size:16px;border-radius:6px;border:none;margin-top:14px}
 .note{background:#fff7e6;border-right:3px solid #a8854a;padding:14px;margin-top:20px;font-size:12px;color:#7a5a2c;line-height:1.8;border-radius:6px}
-.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#2C5559;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
+.actions{text-align:center;margin:14px 0}.actions button{padding:10px 24px;background:#ced9d9;color:#155e5f;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700}
 @media print{.no-print{display:none!important}body{padding:0}}
 </style></head><body>
 <div class="no-print actions">
@@ -11047,7 +11047,7 @@ function renderProducts(){
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               إضافة منتج
             </button>
-            <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 18px;background:#fff;color:#2C5559;border:1px solid rgba(44,85,89,.25);border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+            <button onclick="document.getElementById('prod-import-file').click()" style="padding:9px 18px;background:#fff;color:#155e5f;border:1px solid rgba(44,85,89,.25);border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               رفع Excel
             </button>
@@ -11650,7 +11650,7 @@ function processFile(file) {
       if (!pdfPreview) {
         pdfPreview = document.createElement('div');
         pdfPreview.id = 'pdfPreview';
-        pdfPreview.style.cssText = 'background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(206,217,217,.02));border:1px solid rgba(206,217,217,.25);border-radius:14px;padding:40px 20px;text-align:center;color:#2C5559';
+        pdfPreview.style.cssText = 'background:linear-gradient(135deg,rgba(206,217,217,.08),rgba(206,217,217,.02));border:1px solid rgba(206,217,217,.25);border-radius:14px;padding:40px 20px;text-align:center;color:#155e5f';
         previewImg.parentNode.insertBefore(pdfPreview, previewImg);
       }
       const sizeMB = (file.size / 1024 / 1024).toFixed(2);
@@ -12455,7 +12455,7 @@ function renderTeamMembers(members, pending) {
           </div>
           ${PERM_GROUPS.map(g => `
             <div style="margin-bottom:14px">
-              <div style="font-size:12px;font-weight:700;color:#2C5559;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+              <div style="font-size:12px;font-weight:700;color:#155e5f;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
                 <span>${g.title}</span>
                 <button onclick="toggleGroup('${m.user_id}','${g.perms.map(p=>p.id).join(',')}')" style="background:transparent;border:none;color:var(--g);font-size:10px;cursor:pointer;font-family:inherit;text-decoration:underline">حدد الكل</button>
               </div>
