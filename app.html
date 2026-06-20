@@ -1551,6 +1551,50 @@ body.dark .prc-sv{color:#f0f2f8}
 
 <div class="pg on" id="pg-db">
 
+  <!-- Anomaly Alerts (auto-rendered) -->
+  <div id="anomalyAlerts" style="display:none;margin-bottom:14px"></div>
+
+  <!-- PWA Install Card -->
+  <div id="pwaInstallCard" style="display:none;background:linear-gradient(135deg,rgba(127,197,123,.12),rgba(206,217,217,.08));border:1px solid rgba(127,197,123,.3);border-radius:14px;padding:14px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:14px;font-weight:800;color:#155e5f">📱 أضف محسوب لشاشة جوالك</div>
+      <div style="font-size:11px;color:rgba(21,94,95,.7);margin-top:3px">دخول أسرع، إشعارات، يشتغل بدون إنترنت لحالات معينة</div>
+    </div>
+    <button id="pwaInstallBtn" onclick="pwaInstall()" style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 3px 10px rgba(127,197,123,.3)">⚡ تثبيت الآن</button>
+    <button onclick="pwaDismiss()" style="background:none;color:#155e5f;border:none;padding:8px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1" title="إخفاء">×</button>
+  </div>
+
+  <!-- iOS Install Instructions Modal -->
+  <div id="pwaIOSModal" style="display:none;position:fixed;inset:0;background:rgba(15,36,38,.7);z-index:1500;align-items:center;justify-content:center;padding:14px">
+    <div style="background:#fff;border-radius:20px;max-width:380px;width:100%;max-height:90vh;overflow:auto;animation:tourPop .3s ease">
+      <div style="background:linear-gradient(135deg,#7fc57b,#a8d39e);padding:24px 22px;text-align:center;border-radius:20px 20px 0 0">
+        <div style="width:64px;height:64px;background:#fff;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#155e5f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div style="font-size:17px;font-weight:800;color:#155e5f">أضف محسوب للشاشة الرئيسية</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.85);margin-top:4px">خطوات سهلة على iPhone / iPad</div>
+      </div>
+      <div style="padding:20px 22px">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f3f5f5;border-radius:11px;margin-bottom:10px">
+          <div style="width:30px;height:30px;border-radius:50%;background:#155e5f;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0">1</div>
+          <div style="flex:1;font-size:13px;color:#155e5f"><b>اضغط زر المشاركة</b><br><span style="font-size:11px;color:rgba(21,94,95,.7)">المربع وفيه سهم لفوق ⬆️ — في شريط Safari السفلي</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f3f5f5;border-radius:11px;margin-bottom:10px">
+          <div style="width:30px;height:30px;border-radius:50%;background:#155e5f;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0">2</div>
+          <div style="flex:1;font-size:13px;color:#155e5f"><b>اختر "Add to Home Screen"</b><br><span style="font-size:11px;color:rgba(21,94,95,.7)">"إضافة إلى الشاشة الرئيسية" بالعربي</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f3f5f5;border-radius:11px;margin-bottom:14px">
+          <div style="width:30px;height:30px;border-radius:50%;background:#155e5f;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0">3</div>
+          <div style="flex:1;font-size:13px;color:#155e5f"><b>اضغط "Add" / "إضافة"</b><br><span style="font-size:11px;color:rgba(21,94,95,.7)">في الأعلى يمين — وخلاص! 🎉</span></div>
+        </div>
+        <button onclick="document.getElementById('pwaIOSModal').style.display='none'" style="width:100%;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border:none;padding:12px;border-radius:11px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer">فهمت ✓</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Daily Activity Reminder Banner -->
   <div id="dailyReminderBanner" style="display:none;background:linear-gradient(135deg,rgba(168,133,74,.1),rgba(168,133,74,.04));border:1px solid rgba(168,133,74,.28);border-radius:14px;padding:14px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap">
     <div style="width:38px;height:38px;border-radius:50%;background:rgba(168,133,74,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -1630,6 +1674,25 @@ body.dark .prc-sv{color:#f0f2f8}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         استشر AI
       </button>
+    </div>
+  </div>
+
+  <!-- Performance Comparison Card -->
+  <div id="perfCompareCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:18px;padding:18px 20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(21,94,95,.04)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:15px;font-weight:800;color:#155e5f">⚡ مقارنة الأداء</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">شوف كيف يومك مقارنة بنفس اليوم اللي قبله</div>
+      </div>
+      <div style="display:flex;gap:4px;background:#f3f5f5;border-radius:10px;padding:3px">
+        <button id="perfTab-day"   class="perf-tab on"  onclick="switchPerfTab('day')"   style="border:none;background:#fff;color:#155e5f;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 1px 3px rgba(21,94,95,.08)">يومي</button>
+        <button id="perfTab-week"  class="perf-tab" onclick="switchPerfTab('week')"  style="border:none;background:transparent;color:rgba(21,94,95,.65);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">أسبوعي</button>
+        <button id="perfTab-month" class="perf-tab" onclick="switchPerfTab('month')" style="border:none;background:transparent;color:rgba(21,94,95,.65);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">شهري</button>
+      </div>
+    </div>
+
+    <div id="perfMetrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+      <!-- Filled by JS -->
     </div>
   </div>
 
@@ -4178,8 +4241,21 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn bg2" onclick="expRefresh()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/></svg> تحديث</button>
       <button class="btn bg2" onclick="supplierNew()">＋ مورد جديد</button>
+      <button class="btn bg2" onclick="recurringNew()" style="color:#1e6080;border-color:rgba(130,176,199,.4);background:rgba(130,176,199,.08)">🔄 مصروف متكرّر</button>
       <button class="btn bp"  onclick="expenseNew()">＋ مصروف جديد</button>
     </div>
+  </div>
+
+  <!-- Recurring Due Banner -->
+  <div id="recurringDueBanner" style="display:none;background:linear-gradient(135deg,rgba(130,176,199,.12),rgba(130,176,199,.05));border:1px solid rgba(130,176,199,.28);border-radius:14px;padding:14px 18px;margin-bottom:16px;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="width:38px;height:38px;border-radius:50%;background:rgba(130,176,199,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e6080" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+    </div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:13px;font-weight:800;color:#1e6080;margin-bottom:2px"><span id="recurringDueCount">0</span> مصروف متكرّر مستحق</div>
+      <div style="font-size:11px;color:rgba(30,96,128,.85);line-height:1.6">سجّل بضغطة وحدة بدل تعبئة كل واحد يدوياً.</div>
+    </div>
+    <button onclick="generateRecurringNow()" id="genRecBtn" style="background:linear-gradient(135deg,#1e6080,#82B0C7);color:#fff;border:none;padding:8px 16px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">⚡ سجّل الكل تلقائياً</button>
   </div>
 
   <!-- KPIs -->
@@ -4190,9 +4266,24 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   </div>
 
   <!-- Tabs -->
-  <div style="display:flex;gap:4px;background:#f0f2f7;border-radius:12px;padding:4px;width:fit-content;margin-bottom:18px">
+  <div style="display:flex;gap:4px;background:#f0f2f7;border-radius:12px;padding:4px;width:fit-content;margin-bottom:18px;flex-wrap:wrap">
     <button id="expTab-exp" class="tgl-tab on" onclick="expSwitchTab('exp')">المصاريف</button>
     <button id="expTab-sup" class="tgl-tab"    onclick="expSwitchTab('sup')">الموردون</button>
+    <button id="expTab-rec" class="tgl-tab"    onclick="expSwitchTab('rec')">🔄 متكرّرة <span id="recTabBadge" style="display:none;background:#1e6080;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;margin-right:4px"></span></button>
+  </div>
+
+  <!-- Recurring tab content (hidden by default) -->
+  <div id="expPanel-rec" style="display:none">
+    <div class="card">
+      <div class="sh">
+        <div class="st">المصاريف المتكرّرة</div>
+        <button class="btn bp" onclick="recurringNew()">＋ مصروف متكرّر جديد</button>
+      </div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.7">
+        ضِف المصاريف اللي تتكرّر بانتظام (إيجار، رواتب، إنترنت، تأمين) — محسوب يحفظها تلقائياً في موعدها.
+      </div>
+      <div id="recurringList"></div>
+    </div>
   </div>
 
   <!-- ── EXPENSES TAB ── -->
@@ -4282,7 +4373,13 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <div class="g2" style="gap:12px;margin-bottom:14px">
         <div class="ff full">
           <label class="fl">الوصف *</label>
-          <input class="fi" id="exp-desc" placeholder="مثال: إيجار المكتب — يناير">
+          <input class="fi" id="exp-desc" placeholder="مثال: إيجار المكتب — يناير" oninput="onExpenseDescInput(this)">
+          <div id="expSmartHint" style="display:none;margin-top:6px;padding:8px 12px;background:linear-gradient(135deg,rgba(127,197,123,.1),rgba(206,217,217,.15));border:1px solid rgba(127,197,123,.3);border-radius:9px;font-size:11px;color:#155e5f;align-items:center;gap:8px">
+            <span>🤖 اقتراح ذكي:</span>
+            <span id="expSmartLabel" style="font-weight:800"></span>
+            <button type="button" onclick="applySmartCategory()" style="margin-right:auto;background:#155e5f;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">✓ تطبيق</button>
+            <button type="button" onclick="document.getElementById('expSmartHint').style.display='none'" style="background:none;border:none;color:#155e5f;cursor:pointer;font-size:14px;line-height:1;padding:0 2px">×</button>
+          </div>
         </div>
         <div class="ff full">
           <label class="fl">التصنيف *</label>
@@ -5559,14 +5656,14 @@ function go(id,el){
   if (id === 'ar') arLoad();
   if (id === 'pos') closingLoad();
   if (id === 'quotes') quotesLoad();
-  if (id === 'exp')    expensesLoad();
+  if (id === 'exp')    { expensesLoad(); loadRecurringExpenses(); }
   if (id === 'usrs')   loadTeamMembers();
   if (id === 'tx')     loadTransactions();
   if (id === 'profile') { renderCustomerTypeSelector(); loadReminderSettings(); }
   if (id === 'activity') loadActivityLog();
   if (id === 'gls')      loadGoals();
   if (id === 'inbox')    loadInbox();
-  if (id === 'db')       loadB2CDashboard();
+  if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); }
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -6063,6 +6160,7 @@ function renderInvoices() {
       if (st === 'overdue' || st === 'pending' || st === 'sent') {
         actions.push(`<button class="inv-act remind" onclick="sendInvoiceReminder('${i.id}')" title="إرسال تذكير">⏰ تذكير</button>`);
       }
+      actions.push(`<button class="inv-act" onclick="sendInvoiceWhatsApp('${i.id}')" title="إرسال بالواتساب" style="color:#25d366;border-color:rgba(37,211,102,.4);background:rgba(37,211,102,.08)">💬 واتساب</button>`);
       if (st === 'cleared' || st === 'reported' || st === 'paid' || st === 'sent') {
         actions.push(`<button class="inv-act" onclick="openNoteModal('credit_note','${i.id}')" title="مرتجع">↩</button>`);
       }
@@ -6163,7 +6261,73 @@ function sendInvoiceReminder(invId) {
     channel: 'whatsapp',
     message: msg,
   }).then(() => {}).catch(() => {});
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  const phone = (inv.buyer_phone || inv.client_phone || '').replace(/[^\d]/g,'');
+  const url = phone
+    ? `https://wa.me/${phone.startsWith('966')?phone:'966'+phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ─── Send invoice (not reminder) via WhatsApp ──────────────────────────
+function sendInvoiceWhatsApp(invId) {
+  const inv = _invoicesCache.find(i => i.id === invId);
+  if (!inv) return;
+  const num = inv.invoice_number || inv.number;
+  const total = (+inv.total || 0).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  const subtotal = (+inv.subtotal || 0).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  const vat = (+inv.vat_amount || 0).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  const buyer = inv.buyer_name || inv.buyer || inv.client_name || 'عميلنا الكريم';
+  const issue = inv.issue_date || (inv.created_at || '').slice(0,10);
+  const due = inv.due_date;
+  const tenant = Auth?.tenant?.name || 'محسوب';
+  const items = Array.isArray(inv.items) ? inv.items : [];
+
+  // Build items list (max 5 lines for readability)
+  let itemsText = '';
+  if (items.length) {
+    const display = items.slice(0, 5);
+    itemsText = '\n📋 *البنود:*\n' + display.map(it => {
+      const desc = it.desc || it.name || 'بند';
+      const qty = +(it.qty || 1);
+      const price = (+it.price || 0).toFixed(2);
+      return `• ${desc} (${qty}× ${price})`;
+    }).join('\n');
+    if (items.length > 5) itemsText += `\n... و ${items.length - 5} بند آخر`;
+  }
+
+  const viewUrl = `${window.location.origin}/app#invoice=${invId}`;
+
+  const msg = `*${tenant}* 🧾
+
+السلام عليكم ${buyer}،
+
+أرسلنا لكم فاتورة جديدة:
+
+🔢 *رقم الفاتورة:* ${num}
+📅 *تاريخ الإصدار:* ${issue}${due ? `\n⏰ *الاستحقاق:* ${due}` : ''}
+${itemsText}
+
+💰 *المبلغ قبل الضريبة:* ${subtotal} ر.س
+🇸🇦 *ضريبة القيمة المضافة (15%):* ${vat} ر.س
+✅ *الإجمالي:* *${total} ر.س*
+
+شكراً لتعاملكم معنا 🌷`;
+
+  const phone = (inv.buyer_phone || inv.client_phone || '').replace(/[^\d]/g,'');
+  const url = phone
+    ? `https://wa.me/${phone.startsWith('966')?phone:'966'+phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+  // Log it
+  _sb.from('invoice_reminders').insert({
+    tenant_id: inv.tenant_id,
+    invoice_id: invId,
+    channel: 'whatsapp',
+    message: msg,
+  }).then(()=>{}).catch(()=>{});
+
+  try { logActivity('invoice', 'invoice_send_whatsapp', `إرسال فاتورة بالواتساب: ${num} → ${buyer}`, { phone:!!phone }, { type:'invoice', id: invId }); } catch(_) {}
+  window.open(url, '_blank');
 }
 
 async function viewInvoice(invId) {
@@ -6250,6 +6414,7 @@ async function viewInvoice(invId) {
     <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--b);padding-top:14px;flex-wrap:wrap">
       ${due > 0 ? `<button class="btn bp" onclick="closeInvDetail();markInvoicePaid('${invId}')">+ تسجيل دفعة</button>` : ''}
       ${due > 0 ? `<button class="btn bg2" onclick="sendInvoiceReminder('${invId}')">⏰ إرسال تذكير</button>` : ''}
+      <button class="btn bg2" onclick="sendInvoiceWhatsApp('${invId}')" style="background:rgba(37,211,102,.1);color:#1e8c4d;border-color:rgba(37,211,102,.35)">💬 إرسال بالواتساب</button>
       <button class="btn bg2" onclick="closeInvDetail();openNoteModal('credit_note','${invId}')">↩ مرتجع</button>
       <button class="btn bg2" onclick="printInvoice('${invId}')">🖨 طباعة</button>
       <button class="btn bg2" onclick="closeInvDetail()">إغلاق</button>
@@ -7209,11 +7374,793 @@ function expUpdateKPIs() {
 }
 
 function expSwitchTab(tab) {
-  ['exp','sup'].forEach(t => {
-    document.getElementById(`expTab-${t}`).classList.toggle('on', t === tab);
-    document.getElementById(`expTabContent-${t}`).style.display = t === tab ? 'block' : 'none';
+  ['exp','sup','rec'].forEach(t => {
+    const tabBtn = document.getElementById(`expTab-${t}`);
+    if (tabBtn) tabBtn.classList.toggle('on', t === tab);
+    const content = document.getElementById(`expTabContent-${t}`) || document.getElementById(`expPanel-${t}`);
+    if (content) content.style.display = t === tab ? 'block' : 'none';
   });
+  if (tab === 'rec') loadRecurringExpenses();
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Performance Comparison — Today vs same day prior, this week vs last, etc.
+// ═══════════════════════════════════════════════════════════════════════
+let _perfData = null;
+let _perfTab = 'day';
+
+async function loadPerformance() {
+  if (!Auth?.tenant?.id) return;
+  try {
+    const { data, error } = await _sb.rpc('compare_performance');
+    if (error) throw error;
+    if (data?.error) return;
+    _perfData = data;
+    document.getElementById('perfCompareCard').style.display = 'block';
+    renderPerfMetrics();
+  } catch (e) {
+    console.warn('compare_performance:', e.message);
+  }
+}
+
+function switchPerfTab(tab) {
+  _perfTab = tab;
+  ['day','week','month'].forEach(t => {
+    const el = document.getElementById('perfTab-' + t);
+    if (!el) return;
+    const active = t === tab;
+    el.style.background = active ? '#fff' : 'transparent';
+    el.style.color = active ? '#155e5f' : 'rgba(21,94,95,.65)';
+    el.style.boxShadow = active ? '0 1px 3px rgba(21,94,95,.08)' : 'none';
+  });
+  renderPerfMetrics();
+}
+
+function fmtNum(n) {
+  return (+n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function pctChange(current, baseline) {
+  if (!baseline || baseline === 0) return { val: current > 0 ? 100 : 0, formatted: current > 0 ? 'جديد' : '—' };
+  const pct = ((current - baseline) / Math.abs(baseline)) * 100;
+  return { val: pct, formatted: (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%' };
+}
+
+function metricCard(opts) {
+  // opts: { icon, label, current, baseline, baseline_label, inverted, currency }
+  const change = pctChange(+opts.current, +opts.baseline);
+  // For expenses, going DOWN is good
+  const goodWhenLower = !!opts.inverted;
+  const isGood = goodWhenLower ? change.val < 0 : change.val > 0;
+  const isFlat = Math.abs(change.val) < 0.5;
+  const color = isFlat ? '#a8854a' : isGood ? '#155e5f' : '#c93545';
+  const bg    = isFlat ? 'rgba(168,133,74,.08)' : isGood ? 'rgba(127,197,123,.1)' : 'rgba(201,53,69,.07)';
+  const border = isFlat ? 'rgba(168,133,74,.2)' : isGood ? 'rgba(127,197,123,.25)' : 'rgba(201,53,69,.2)';
+  const arrow = isFlat ? '→' : change.val > 0 ? '↑' : '↓';
+  const valueStr = opts.currency === false ? (+opts.current).toLocaleString('en-US') : fmtNum(opts.current) + ' ر.س';
+  const baselineStr = opts.currency === false ? (+opts.baseline).toLocaleString('en-US') : fmtNum(opts.baseline) + ' ر.س';
+
+  return `<div style="background:${bg};border:1px solid ${border};border-radius:13px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(21,94,95,.7);font-weight:600;margin-bottom:5px">
+      ${opts.icon} ${opts.label}
+    </div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <div style="font-size:18px;font-weight:900;color:#155e5f;direction:ltr;text-align:right">${valueStr}</div>
+      <div style="background:${color};color:#fff;padding:3px 9px;border-radius:8px;font-size:11px;font-weight:800;white-space:nowrap;direction:ltr">
+        ${arrow} ${change.formatted}
+      </div>
+    </div>
+    <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:5px;direction:ltr;text-align:right">
+      ${opts.baseline_label}: ${baselineStr}
+    </div>
+  </div>`;
+}
+
+function renderPerfMetrics() {
+  if (!_perfData) return;
+  const el = document.getElementById('perfMetrics');
+  let html = '';
+
+  if (_perfTab === 'day') {
+    // Today vs Yesterday + Today vs Same Day Last Week
+    html = [
+      metricCard({
+        icon:'📈', label:'إيرادات اليوم',
+        current: _perfData.today.revenue,
+        baseline: _perfData.yesterday.revenue,
+        baseline_label: 'أمس',
+      }),
+      metricCard({
+        icon:'📉', label:'مصاريف اليوم',
+        current: _perfData.today.expense,
+        baseline: _perfData.yesterday.expense,
+        baseline_label: 'أمس',
+        inverted: true,
+      }),
+      metricCard({
+        icon:'💰', label:'صافي اليوم',
+        current: _perfData.today.net,
+        baseline: _perfData.yesterday.net,
+        baseline_label: 'أمس',
+      }),
+      metricCard({
+        icon:'📅', label:'إيرادات اليوم',
+        current: _perfData.today.revenue,
+        baseline: _perfData.same_day_last_week.revenue,
+        baseline_label: 'نفس اليوم الأسبوع اللي راح',
+      }),
+    ].join('');
+  } else if (_perfTab === 'week') {
+    // This week so far vs Last week same period
+    html = [
+      metricCard({
+        icon:'📈', label:'إيرادات هذا الأسبوع',
+        current: _perfData.this_week.revenue,
+        baseline: _perfData.last_week.revenue,
+        baseline_label: 'نفس الفترة الأسبوع اللي راح',
+      }),
+      metricCard({
+        icon:'📉', label:'مصاريف هذا الأسبوع',
+        current: _perfData.this_week.expense,
+        baseline: _perfData.last_week.expense,
+        baseline_label: 'الأسبوع اللي راح',
+        inverted: true,
+      }),
+      metricCard({
+        icon:'💰', label:'صافي هذا الأسبوع',
+        current: _perfData.this_week.net,
+        baseline: _perfData.last_week.net,
+        baseline_label: 'الأسبوع اللي راح',
+      }),
+      metricCard({
+        icon:'🏦', label:'إغلاقات هذا الأسبوع',
+        current: _perfData.this_week.closing,
+        baseline: _perfData.last_week.closing,
+        baseline_label: 'الأسبوع اللي راح',
+      }),
+    ].join('');
+  } else {
+    // Month
+    html = [
+      metricCard({
+        icon:'📈', label:'إيرادات هذا الشهر',
+        current: _perfData.this_month.revenue,
+        baseline: _perfData.last_month.revenue,
+        baseline_label: 'نفس الفترة الشهر اللي راح',
+      }),
+      metricCard({
+        icon:'📉', label:'مصاريف هذا الشهر',
+        current: _perfData.this_month.expense,
+        baseline: _perfData.last_month.expense,
+        baseline_label: 'الشهر اللي راح',
+        inverted: true,
+      }),
+      metricCard({
+        icon:'💰', label:'صافي هذا الشهر',
+        current: _perfData.this_month.net,
+        baseline: _perfData.last_month.net,
+        baseline_label: 'الشهر اللي راح',
+      }),
+      metricCard({
+        icon:'📅', label:'إيرادات اليوم',
+        current: _perfData.today.revenue,
+        baseline: _perfData.same_day_last_month.revenue,
+        baseline_label: 'نفس اليوم الشهر اللي راح',
+      }),
+    ].join('');
+  }
+
+  el.innerHTML = html;
+}
+
+window.addEventListener('load', () => setTimeout(loadPerformance, 2500));
+
+// ═══════════════════════════════════════════════════════════════════════
+// Anomaly Detection — Smart financial alerts
+// ═══════════════════════════════════════════════════════════════════════
+const ANOMALY_SEVERITY = {
+  high:   { bg:'linear-gradient(135deg,rgba(201,53,69,.12),rgba(201,53,69,.04))', border:'rgba(201,53,69,.32)', text:'#c93545', dot:'#c93545' },
+  medium: { bg:'linear-gradient(135deg,rgba(168,133,74,.12),rgba(168,133,74,.04))', border:'rgba(168,133,74,.32)', text:'#a8854a', dot:'#a8854a' },
+  low:    { bg:'linear-gradient(135deg,rgba(130,176,199,.1),rgba(130,176,199,.03))',  border:'rgba(130,176,199,.32)', text:'#1e6080', dot:'#1e6080' },
+};
+
+async function loadAnomalies() {
+  if (!Auth?.tenant?.id) return;
+  try {
+    const { data, error } = await _sb.rpc('detect_anomalies');
+    if (error) throw error;
+    renderAnomalies(data?.anomalies || []);
+  } catch (e) {
+    // Silent fail — anomaly detection is non-critical
+    console.warn('detect_anomalies:', e.message);
+  }
+}
+
+function renderAnomalies(anomalies) {
+  const container = document.getElementById('anomalyAlerts');
+  if (!container) return;
+
+  if (!anomalies.length) {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+
+  container.style.display = 'flex';
+  container.style.flexDirection = 'column';
+  container.style.gap = '10px';
+
+  container.innerHTML = anomalies.map(a => {
+    const sev = ANOMALY_SEVERITY[a.severity] || ANOMALY_SEVERITY.medium;
+    const itemsHtml = a.items ? `<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">${
+      a.items.slice(0,3).map(it => `<div style="background:rgba(255,255,255,.55);border-radius:8px;padding:6px 10px;font-size:11px;display:flex;justify-content:space-between;align-items:center">
+        <span style="color:#155e5f;font-weight:600">${it.description || '—'}</span>
+        <span style="color:${sev.text};font-weight:800;direction:ltr">${(+it.amount).toLocaleString('en-US',{minimumFractionDigits:2})} ر.س (${it.multiplier}×)</span>
+      </div>`).join('')
+    }${a.items.length > 3 ? `<div style="font-size:10px;color:rgba(21,94,95,.55);text-align:center;padding:3px">و ${a.items.length - 3} مصروف آخر</div>` : ''}</div>` : '';
+
+    return `<div style="background:${sev.bg};border:1px solid ${sev.border};border-radius:14px;padding:14px 18px;display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+      <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${a.icon || '⚠️'}</div>
+      <div style="flex:1;min-width:200px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="width:6px;height:6px;border-radius:50%;background:${sev.dot};box-shadow:0 0 0 4px ${sev.dot}22"></span>
+          <span style="font-size:14px;font-weight:800;color:${sev.text}">${a.title}</span>
+        </div>
+        <div style="font-size:12px;color:#155e5f;line-height:1.7">${a.message}</div>
+        ${itemsHtml}
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0;align-items:center">
+        ${a.cta_page ? `<button onclick="go('${a.cta_page}', null)" style="background:${sev.text};color:#fff;border:none;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap">${a.cta_label || 'افتح'}</button>` : ''}
+        <button onclick="dismissAnomaly('${a.type}')" style="background:transparent;color:${sev.text};border:none;padding:6px 8px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1" title="إخفاء حتى الغد">×</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Log impression once per session per anomaly
+  try {
+    const sessionKey = 'anomaly_seen_' + new Date().toISOString().slice(0,10);
+    const seen = JSON.parse(sessionStorage.getItem(sessionKey) || '[]');
+    const newOnes = anomalies.filter(a => !seen.includes(a.type));
+    if (newOnes.length) {
+      newOnes.forEach(a => {
+        logActivity('settings', 'anomaly_detected',
+          `كشف ${a.title}`,
+          { type: a.type, severity: a.severity });
+      });
+      sessionStorage.setItem(sessionKey, JSON.stringify([...seen, ...newOnes.map(a => a.type)]));
+    }
+  } catch(_) {}
+}
+
+async function dismissAnomaly(type) {
+  // Optimistic UI hide
+  const container = document.getElementById('anomalyAlerts');
+  const alerts = container?.children || [];
+  Array.from(alerts).forEach(el => {
+    if (el.outerHTML.includes(`dismissAnomaly('${type}')`)) el.style.display = 'none';
+  });
+  // Persist dismissal
+  try {
+    await _sb.rpc('dismiss_anomaly', { anomaly_type_in: type });
+    logActivity('settings', 'anomaly_dismiss', `تجاهل تنبيه شذوذ (${type})`, { type });
+  } catch (e) { console.warn('dismiss_anomaly:', e.message); }
+  // Hide container if all dismissed
+  const stillVisible = Array.from(container.children).some(el => el.style.display !== 'none');
+  if (!stillVisible) container.style.display = 'none';
+}
+
+window.addEventListener('load', () => setTimeout(loadAnomalies, 3000));
+
+// ═══════════════════════════════════════════════════════════════════════
+// PWA Install Prompt — "Add to Home Screen"
+// ═══════════════════════════════════════════════════════════════════════
+let _pwaDeferredPrompt = null;
+
+function isPWAStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+}
+
+function isIOSDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function pwaShouldShow() {
+  if (isPWAStandalone()) return false; // Already installed
+  const dismissed = parseInt(localStorage.getItem('pwa_dismissed_at') || '0', 10);
+  // Don't re-nag within 7 days
+  if (Date.now() - dismissed < 7 * 24 * 60 * 60 * 1000) return false;
+  // On iOS, only show after 2 visits (avoid harassing new users)
+  if (isIOSDevice()) {
+    const visits = parseInt(localStorage.getItem('pwa_visit_count') || '0', 10);
+    if (visits < 2) return false;
+  }
+  return true;
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _pwaDeferredPrompt = e;
+  if (pwaShouldShow()) showPWACard();
+});
+
+window.addEventListener('appinstalled', () => {
+  localStorage.setItem('pwa_installed', '1');
+  document.getElementById('pwaInstallCard').style.display = 'none';
+  if (typeof toast === 'function') toast({ type:'success', msg:'تم تثبيت محسوب على شاشتك 🎉' });
+  try { logActivity('settings', 'pwa_install', 'تثبيت التطبيق على الشاشة الرئيسية'); } catch(_) {}
+});
+
+function showPWACard() {
+  const card = document.getElementById('pwaInstallCard');
+  if (!card) return;
+  card.style.display = 'flex';
+  const btn = document.getElementById('pwaInstallBtn');
+  // On iOS, change button text since there's no programmatic install
+  if (isIOSDevice() && !_pwaDeferredPrompt) {
+    if (btn) btn.textContent = '📖 شوف الخطوات';
+  }
+}
+
+async function pwaInstall() {
+  if (_pwaDeferredPrompt) {
+    _pwaDeferredPrompt.prompt();
+    const choice = await _pwaDeferredPrompt.userChoice;
+    if (choice?.outcome === 'accepted') {
+      document.getElementById('pwaInstallCard').style.display = 'none';
+    } else {
+      pwaDismiss();
+    }
+    _pwaDeferredPrompt = null;
+  } else if (isIOSDevice()) {
+    // Show iOS instructions
+    document.getElementById('pwaIOSModal').style.display = 'flex';
+  } else {
+    // Generic instructions
+    if (typeof toast === 'function') {
+      toast({ type:'info', title:'تثبيت التطبيق',
+        msg:'في Chrome/Edge: اضغط القائمة (⋮) → "تثبيت محسوب" أو "Install App"', duration: 7000 });
+    }
+  }
+}
+
+function pwaDismiss() {
+  document.getElementById('pwaInstallCard').style.display = 'none';
+  localStorage.setItem('pwa_dismissed_at', String(Date.now()));
+}
+
+// Track visits + show card after delay (for iOS or if prompt fires late)
+window.addEventListener('load', () => {
+  try {
+    const visits = parseInt(localStorage.getItem('pwa_visit_count') || '0', 10);
+    localStorage.setItem('pwa_visit_count', String(visits + 1));
+  } catch(_) {}
+  setTimeout(() => {
+    if (pwaShouldShow() && (isIOSDevice() || _pwaDeferredPrompt)) showPWACard();
+  }, 5000);
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Smart Expense Categorization — Local rules + Claude AI fallback
+// ═══════════════════════════════════════════════════════════════════════
+const EXPENSE_KEYWORD_MAP = [
+  // category, label, keywords (any match wins)
+  { id:'rent',         label:'إيجار',                kw:['إيجار','إيجار محل','إيجار مكتب','إيجار مستودع','إيجار عمارة','إيجار شقة','rent','rental'] },
+  { id:'salaries',     label:'رواتب',                kw:['راتب','رواتب','مكافأة','مكافآت','حوافز','بدل','بدلات','مستحقات','الراتب','الموظف','الموظفين','الكاشير','عامل','عمال','salary','salaries','payroll','gosi','تأمينات اجتماعية'] },
+  { id:'utilities',    label:'مرافق (كهرباء، ماء)',  kw:['كهرباء','ماء','مياه','الكهربا','فاتورة كهرباء','فاتورة ماء','شركة الكهرباء','المياه الوطنية','utility','electricity','water'] },
+  { id:'internet',     label:'إنترنت واتصالات',     kw:['إنترنت','انترنت','نت','stc','زين','موبايلي','شركة الاتصالات','اتصالات','جوال','هاتف','telecom','internet','wifi','sim','شريحة'] },
+  { id:'supplies',     label:'مستلزمات',             kw:['مستلزمات','مشتريات','تموين','مواد','بضاعة','استلام','شراء','مادة','أدوات','adoor','أكواب','ورق','أدوات مكتبية','تشغيل','supplies','materials','مواد خام','بن','حليب','سكر','شاي','عصير','قهوة'] },
+  { id:'marketing',    label:'تسويق وإعلان',         kw:['تسويق','إعلان','إعلانات','حملة','حملات','سوشيال','سناب','تويتر','إنستقرام','فيسبوك','تيك توك','منصة','marketing','ads','campaign','meta','google ads','snapchat'] },
+  { id:'maintenance',  label:'صيانة وإصلاح',         kw:['صيانة','إصلاح','تصليح','عطل','كهربائي','سباك','نجار','تصليح كهرباء','تصليح مكيف','مكيف','تكييف','maintenance','repair'] },
+  { id:'insurance',    label:'تأمين',                kw:['تأمين','الوطنية للتأمين','تأمين عام','تأمين شامل','تأمين طبي','تأمين سيارة','insurance','بوليصة'] },
+  { id:'transport',    label:'نقل ومواصلات',         kw:['بنزين','وقود','محروقات','بترول','أرامكو','محطة','مواصلات','تكسي','أوبر','كريم','تاكسي','شحن','توصيل','aramco','fuel','gasoline','uber','careem'] },
+  { id:'food',         label:'وجبات وضيافة',         kw:['وجبة','وجبات','ضيافة','إفطار','غداء','عشاء','مطعم','مقهى','كافيه','meal','dinner','lunch','breakfast','reception'] },
+  { id:'subscriptions',label:'اشتراكات',             kw:['اشتراك','اشتراكات','تجديد','rascom','renewal','subscription','زهور','منصة','programs','برامج','license','رخصة'] },
+  { id:'bank_fees',    label:'رسوم بنكية',           kw:['عمولة','عمولات','رسوم بنك','رسوم تحويل','رسوم سداد','swift','transfer fees','bank fees'] },
+  { id:'taxes',        label:'ضرائب وزكاة',          kw:['زكاة','ضريبة','vat','الزكاة','ضرائب','tax','إقرار','zatca','هيئة الزكاة'] },
+  { id:'cleaning',     label:'نظافة',                kw:['نظافة','تنظيف','منظفات','صابون','مكنسة','عاملة نظافة','شركة نظافة','cleaning'] },
+  { id:'professional', label:'خدمات مهنية',          kw:['محاسب','محامي','استشاري','استشارة','مكتب محاسبة','محاسبه','استشاره','accounting','consultant','lawyer'] },
+];
+
+let _smartCatTimer = null;
+let _smartSuggested = null;
+
+function onExpenseDescInput(inputEl) {
+  const desc = (inputEl.value || '').trim();
+  if (desc.length < 3) {
+    document.getElementById('expSmartHint').style.display = 'none';
+    return;
+  }
+  // Quick local match — instant
+  const local = detectCategoryLocal(desc);
+  if (local) {
+    showSmartSuggestion(local);
+    return;
+  }
+  // Debounce AI call for longer descriptions only
+  clearTimeout(_smartCatTimer);
+  if (desc.length >= 8) {
+    _smartCatTimer = setTimeout(() => detectCategoryAI(desc), 900);
+  }
+}
+
+function detectCategoryLocal(desc) {
+  const lower = desc.toLowerCase();
+  for (const cat of EXPENSE_KEYWORD_MAP) {
+    for (const kw of cat.kw) {
+      if (lower.includes(kw.toLowerCase())) {
+        return { id: cat.id, label: cat.label, source: 'local' };
+      }
+    }
+  }
+  return null;
+}
+
+async function detectCategoryAI(desc) {
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session) return;
+    const cats = EXPENSE_KEYWORD_MAP.map(c => `${c.id}=${c.label}`).join(', ');
+    const prompt = `أنت مصنّف مصاريف. صنّف هذا الوصف لواحد فقط من التصنيفات. أعد فقط الـ id بدون شرح.\n\nالتصنيفات: ${cats}\n\nالوصف: "${desc}"\n\nالـ id فقط:`;
+
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+      body: JSON.stringify({
+        messages: [{ role:'user', content: prompt }],
+        max_tokens: 20,
+      }),
+    });
+    const data = await res.json();
+    const reply = (data?.content?.[0]?.text || data?.text || '').trim().toLowerCase();
+    const matched = EXPENSE_KEYWORD_MAP.find(c => reply.includes(c.id));
+    if (matched) showSmartSuggestion({ id: matched.id, label: matched.label, source: 'ai' });
+  } catch (e) {
+    console.warn('detectCategoryAI:', e.message);
+  }
+}
+
+function showSmartSuggestion(suggestion) {
+  _smartSuggested = suggestion;
+  const hint = document.getElementById('expSmartHint');
+  const label = document.getElementById('expSmartLabel');
+  if (!hint || !label) return;
+  label.textContent = suggestion.label + (suggestion.source === 'ai' ? ' (AI)' : '');
+  hint.style.display = 'flex';
+
+  // If category is still 'other' (default), auto-apply silently — no need to ask
+  const catSel = document.getElementById('exp-cat');
+  if (catSel && catSel.value === 'other') {
+    applySmartCategory();
+    hint.style.background = 'linear-gradient(135deg,rgba(127,197,123,.18),rgba(127,197,123,.06))';
+    label.textContent = '✓ ' + suggestion.label + (suggestion.source === 'ai' ? ' (AI)' : '');
+  }
+}
+
+function applySmartCategory() {
+  if (!_smartSuggested) return;
+  const sel = document.getElementById('exp-cat');
+  if (sel && [...sel.options].some(o => o.value === _smartSuggested.id)) {
+    sel.value = _smartSuggested.id;
+  }
+  // Subtle confirm
+  const hint = document.getElementById('expSmartHint');
+  if (hint) {
+    hint.style.background = 'linear-gradient(135deg,rgba(127,197,123,.18),rgba(127,197,123,.06))';
+    document.getElementById('expSmartLabel').textContent = '✓ ' + _smartSuggested.label;
+    setTimeout(() => { hint.style.display = 'none'; }, 1500);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// Recurring Expenses
+// ═══════════════════════════════════════════════════════════════════════
+let _recurringCache = [];
+let _editingRecurringId = null;
+
+const FREQ_LABELS = {
+  weekly:    { label:'أسبوعياً',   color:'#7fc57b' },
+  monthly:   { label:'شهرياً',     color:'#1e6080' },
+  quarterly: { label:'ربع سنوي',   color:'#a8854a' },
+  yearly:    { label:'سنوياً',     color:'#A689B5' },
+};
+
+async function loadRecurringExpenses() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  try {
+    const { data, error } = await _sb.from('recurring_expenses')
+      .select('*').eq('tenant_id', tid).order('next_due_date', { ascending:true });
+    if (error) throw error;
+    _recurringCache = data || [];
+    renderRecurringList();
+    checkRecurringDue();
+  } catch (e) {
+    console.error('loadRecurringExpenses:', e);
+    document.getElementById('recurringList').innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّل migration: <code>sql/recurring_expenses.sql</code></div>`;
+  }
+}
+
+function renderRecurringList() {
+  const el = document.getElementById('recurringList');
+  if (!_recurringCache.length) {
+    el.innerHTML = `<div style="text-align:center;padding:36px;color:rgba(21,94,95,.6);font-size:13px">
+      🔄 لا توجد مصاريف متكرّرة بعد<br>
+      <span style="font-size:11px;display:block;margin-top:6px">اضغط <b>＋ مصروف متكرّر جديد</b> لإضافة إيجار، راتب، أو أي مصروف ثابت</span>
+    </div>`;
+    return;
+  }
+  const today = new Date().toISOString().slice(0,10);
+  el.innerHTML = _recurringCache.map(r => {
+    const due = r.next_due_date;
+    const overdue = due <= today;
+    const f = FREQ_LABELS[r.frequency] || FREQ_LABELS.monthly;
+    const dueLabel = overdue ? '🔴 مستحق الآن' : `📅 ${due}`;
+    const dueColor = overdue ? '#c93545' : 'rgba(21,94,95,.7)';
+    const inactive = !r.active;
+
+    return `<div style="background:#fff;border:1px solid ${overdue?'rgba(201,53,69,.3)':'#ced9d9'};border-radius:13px;padding:14px;margin-bottom:10px;${inactive?'opacity:.55':''}">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="width:40px;height:40px;border-radius:11px;background:${f.color}22;color:${f.color};display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">
+          🔄
+        </div>
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:14px;font-weight:800;color:#155e5f">${r.description}</div>
+          <div style="font-size:11px;color:rgba(21,94,95,.65);margin-top:2px">${r.supplier_name || r.category || '—'}</div>
+        </div>
+        <div style="text-align:left">
+          <div style="font-size:15px;font-weight:800;color:#155e5f;direction:ltr">${(+r.amount).toLocaleString('en-US',{minimumFractionDigits:2})} ر.س</div>
+          <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:4px">
+            <span style="background:${f.color}1A;color:${f.color};padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700">${f.label}</span>
+            <span style="font-size:10px;font-weight:700;color:${dueColor}">${dueLabel}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px dashed #ced9d9;padding-top:10px;margin-top:10px;flex-wrap:wrap;gap:6px">
+        <div style="font-size:10px;color:rgba(21,94,95,.55)">
+          ${r.generated_count > 0 ? `🔢 سُجّل ${r.generated_count} مرة` : 'لم يُسجّل بعد'} ${r.last_generated_at ? '· آخر مرة ' + new Date(r.last_generated_at).toLocaleDateString('ar-SA-u-nu-latn') : ''}
+        </div>
+        <div style="display:flex;gap:6px">
+          ${overdue && r.active ? `<button onclick="generateSingleRecurring('${r.id}')" style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border:none;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">⚡ سجّل الآن</button>` : ''}
+          <button onclick="toggleRecurringActive('${r.id}', ${!r.active})" style="background:#fff;color:${r.active?'#a8854a':'#155e5f'};border:1px solid #ced9d9;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">${r.active?'⏸ إيقاف':'▶ تفعيل'}</button>
+          <button onclick="recurringEdit('${r.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
+          <button onclick="recurringDelete('${r.id}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function checkRecurringDue() {
+  const today = new Date().toISOString().slice(0,10);
+  const due = _recurringCache.filter(r => r.active && r.next_due_date <= today);
+  const banner = document.getElementById('recurringDueBanner');
+  const badge  = document.getElementById('recTabBadge');
+  if (due.length) {
+    if (banner) { banner.style.display = 'flex'; document.getElementById('recurringDueCount').textContent = due.length; }
+    if (badge)  { badge.style.display = 'inline-block'; badge.textContent = due.length; }
+  } else {
+    if (banner) banner.style.display = 'none';
+    if (badge)  badge.style.display = 'none';
+  }
+}
+
+async function generateRecurringNow() {
+  const btn = document.getElementById('genRecBtn');
+  btn.disabled = true; btn.textContent = 'جاري التسجيل...';
+  try {
+    const { data, error } = await _sb.rpc('generate_due_recurring_expenses');
+    if (error) throw error;
+    toast({ type:'success', msg:`تم تسجيل ${data?.created || 0} مصروف متكرّر ✓` });
+    logActivity('expense', 'recurring_generate', `تسجيل ${data?.created || 0} مصروف متكرّر تلقائياً`, { count: data?.created });
+    await loadRecurringExpenses();
+    if (typeof expensesLoad === 'function') await expensesLoad();
+  } catch (e) {
+    toast({ type:'error', msg:'فشل: ' + e.message });
+  } finally {
+    btn.disabled = false; btn.textContent = '⚡ سجّل الكل تلقائياً';
+  }
+}
+
+async function generateSingleRecurring(id) {
+  // Just call the bulk generate — RPC handles all due, this one is also due
+  await generateRecurringNow();
+}
+
+async function toggleRecurringActive(id, newState) {
+  try {
+    const { error } = await _sb.from('recurring_expenses').update({ active: newState, updated_at: new Date().toISOString() }).eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg: newState ? 'تم التفعيل' : 'تم الإيقاف' });
+    await loadRecurringExpenses();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+async function recurringDelete(id) {
+  const r = _recurringCache.find(x => x.id === id);
+  if (!confirm(`حذف "${r?.description}"؟ المصاريف اللي اتسجّلت قبل تبقى موجودة.`)) return;
+  try {
+    const { error } = await _sb.from('recurring_expenses').delete().eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم الحذف' });
+    await loadRecurringExpenses();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Recurring expense modal ──────────────────────────────────────────
+function recurringNew() {
+  _editingRecurringId = null;
+  openRecurringModal(null);
+}
+
+function recurringEdit(id) {
+  const r = _recurringCache.find(x => x.id === id);
+  if (!r) return;
+  _editingRecurringId = id;
+  openRecurringModal(r);
+}
+
+function openRecurringModal(r) {
+  let m = document.getElementById('recurringModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'recurringModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  const suppliers = (_suppliersCache || []);
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:92vh;overflow:auto">
+      <div style="padding:18px 22px;border-bottom:1px solid #ced9d9;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0">
+        <div>
+          <div style="font-size:17px;font-weight:800">🔄 ${r ? 'تعديل مصروف متكرّر' : 'مصروف متكرّر جديد'}</div>
+          <div style="font-size:11px;opacity:.85;margin-top:2px">يحفظ تلقائياً في موعده كل مرة</div>
+        </div>
+        <button onclick="closeRecurringModal()" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer;line-height:1">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div class="ff" style="margin-bottom:12px"><label class="fl">الوصف *</label>
+          <input class="fi" id="rec-desc" placeholder="إيجار المحل، راتب الكاشير..." value="${r?.description || ''}"/></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="ff"><label class="fl">المبلغ *</label>
+            <input class="fi" id="rec-amount" type="number" step="0.01" placeholder="0.00" value="${r?.amount || ''}"/></div>
+          <div class="ff"><label class="fl">التصنيف</label>
+            <select class="fi" id="rec-cat">
+              <option value="rent" ${r?.category==='rent'?'selected':''}>إيجار</option>
+              <option value="salaries" ${r?.category==='salaries'?'selected':''}>رواتب</option>
+              <option value="utilities" ${r?.category==='utilities'?'selected':''}>كهرباء وماء</option>
+              <option value="internet" ${r?.category==='internet'?'selected':''}>إنترنت واتصالات</option>
+              <option value="insurance" ${r?.category==='insurance'?'selected':''}>تأمين</option>
+              <option value="subscriptions" ${r?.category==='subscriptions'?'selected':''}>اشتراكات</option>
+              <option value="maintenance" ${r?.category==='maintenance'?'selected':''}>صيانة</option>
+              <option value="other" ${r?.category==='other'?'selected':''}>أخرى</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ff" style="margin-bottom:12px"><label class="fl">المورد (اختياري)</label>
+          <select class="fi" id="rec-supplier">
+            <option value="">— بدون مورد —</option>
+            ${suppliers.map(s => `<option value="${s.id}" ${r?.supplier_id===s.id?'selected':''}>${s.name}</option>`).join('')}
+          </select>
+        </div>
+
+        <div style="background:rgba(127,197,123,.06);border:1px solid rgba(127,197,123,.2);border-radius:12px;padding:14px;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:800;color:#155e5f;margin-bottom:10px">⏰ جدولة التكرار</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="ff"><label class="fl">التكرار</label>
+              <select class="fi" id="rec-freq">
+                <option value="weekly"    ${r?.frequency==='weekly'?'selected':''}>أسبوعياً</option>
+                <option value="monthly"   ${(r?.frequency==='monthly')||!r?'selected':''}>شهرياً</option>
+                <option value="quarterly" ${r?.frequency==='quarterly'?'selected':''}>ربع سنوي</option>
+                <option value="yearly"    ${r?.frequency==='yearly'?'selected':''}>سنوياً</option>
+              </select>
+            </div>
+            <div class="ff"><label class="fl">تاريخ الاستحقاق التالي *</label>
+              <input class="fi" id="rec-due" type="date" value="${r?.next_due_date || new Date(Date.now()+86400000).toISOString().slice(0,10)}"/></div>
+          </div>
+          <div class="ff" style="margin-top:10px"><label class="fl">تاريخ النهاية (اختياري — اتركه فاضي للأبد)</label>
+            <input class="fi" id="rec-end" type="date" value="${r?.end_date || ''}"/></div>
+        </div>
+
+        <label style="display:flex;align-items:center;gap:8px;background:#fafafa;border:1px solid #ced9d9;border-radius:10px;padding:10px 12px;cursor:pointer;margin-bottom:14px">
+          <input type="checkbox" id="rec-auto" ${(r?.auto_post !== false) ? 'checked' : ''} style="width:16px;height:16px;accent-color:#7fc57b">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:#155e5f">تسجيل تلقائي</div>
+            <div style="font-size:10px;color:rgba(21,94,95,.65)">يحفظ المصروف تلقائياً في يوم الاستحقاق</div>
+          </div>
+        </label>
+
+        <div class="ff" style="margin-bottom:14px"><label class="fl">ملاحظات (اختياري)</label>
+          <textarea class="fi" id="rec-notes" rows="2" placeholder="مثلاً: يُدفع كاش لصاحب العمارة في 1 من كل شهر">${r?.notes || ''}</textarea></div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid #ced9d9;padding-top:14px">
+          <button class="btn bg2" onclick="closeRecurringModal()">إلغاء</button>
+          <button class="btn bp" id="recSaveModalBtn" onclick="saveRecurring()">💾 ${r ? 'حفظ التعديل' : 'إنشاء'}</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+function closeRecurringModal() {
+  const m = document.getElementById('recurringModal');
+  if (m) m.style.display = 'none';
+  _editingRecurringId = null;
+}
+
+async function saveRecurring() {
+  const desc   = document.getElementById('rec-desc').value.trim();
+  const amount = parseFloat(document.getElementById('rec-amount').value);
+  if (!desc) { toast({ type:'error', msg:'أدخل الوصف' }); return; }
+  if (!amount || amount <= 0) { toast({ type:'error', msg:'أدخل مبلغاً صحيحاً' }); return; }
+
+  const tid = Auth?.tenant?.id;
+  if (!tid) { toast({ type:'error', msg:'لم يتم تحميل بيانات النشاط' }); return; }
+
+  const supId   = document.getElementById('rec-supplier').value || null;
+  const supName = supId ? (_suppliersCache.find(s => s.id === supId)?.name || null) : null;
+
+  const payload = {
+    tenant_id:      tid,
+    description:    desc,
+    amount,
+    category:       document.getElementById('rec-cat').value,
+    supplier_id:    supId,
+    supplier_name:  supName,
+    frequency:      document.getElementById('rec-freq').value,
+    next_due_date:  document.getElementById('rec-due').value,
+    end_date:       document.getElementById('rec-end').value || null,
+    auto_post:      document.getElementById('rec-auto').checked,
+    notes:          document.getElementById('rec-notes').value.trim() || null,
+    active:         true,
+    updated_at:     new Date().toISOString(),
+  };
+
+  const btn = document.getElementById('recSaveModalBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    let res;
+    if (_editingRecurringId) {
+      res = await _sb.from('recurring_expenses').update(payload).eq('id', _editingRecurringId);
+    } else {
+      payload.start_date = payload.next_due_date;
+      res = await _sb.from('recurring_expenses').insert(payload);
+    }
+    if (res.error) throw res.error;
+    toast({ type:'success', msg: _editingRecurringId ? 'تم التعديل ✓' : `تم إنشاء "${desc}" — يحفظ كل ${FREQ_LABELS[payload.frequency].label}` });
+    logActivity('expense', _editingRecurringId?'recurring_update':'recurring_create',
+      `${_editingRecurringId?'تعديل':'إضافة'} مصروف متكرّر: ${desc} (${FREQ_LABELS[payload.frequency].label})`,
+      { amount, frequency: payload.frequency });
+    closeRecurringModal();
+    await loadRecurringExpenses();
+  } catch (e) {
+    toast({ type:'error', msg: 'فشل: ' + e.message });
+  } finally {
+    btn.disabled = false; btn.textContent = '💾 إنشاء';
+  }
+}
+
+// Auto-check overdue recurring expenses on app load + show dashboard prompt
+async function checkRecurringOnBoot() {
+  if (!Auth?.tenant?.id) return;
+  try {
+    const { data } = await _sb.rpc('count_overdue_recurring');
+    if (data && data > 0) {
+      // Soft prompt via toast on dashboard
+      if (typeof toast === 'function') {
+        setTimeout(() => toast({
+          type:'info',
+          title:'مصاريف متكرّرة مستحقة',
+          msg:`عندك ${data} مصروف متكرّر مستحق — افتح "المصاريف والموردون → متكرّرة" وسجّل بضغطة`,
+          duration: 7000,
+        }), 4500);
+      }
+    }
+  } catch(_) {}
+}
+window.addEventListener('load', () => setTimeout(checkRecurringOnBoot, 3500));
 
 function expFilter(f, btn) {
   _expFilter = f;
@@ -10741,11 +11688,36 @@ function newInvoice(){
   document.getElementById('zCollectBtns').style.display='flex';
 }
 function sendInvoiceWA(){
-  const ref=document.getElementById('zRef').textContent;
-  const total=document.getElementById('zGr').textContent;
-  const msg=encodeURIComponent(`مرحباً، يرجى الاطلاع على ${ref} بقيمة ${total} — صادرة من محسوب.`);
-  window.open('https://wa.me/?text='+msg,'_blank');
+  const ref     = document.getElementById('zRef')?.textContent || 'فاتورة';
+  const total   = document.getElementById('zGr')?.textContent || '—';
+  const subtotal= document.getElementById('zSub')?.textContent || '—';
+  const vat     = document.getElementById('zVat')?.textContent || '—';
+  const buyer   = document.getElementById('zBuyerName')?.value || document.getElementById('zBuyer')?.value || 'عميلنا الكريم';
+  const phone   = (document.getElementById('zBuyerPhone')?.value || document.getElementById('zBuyPhone')?.value || '').replace(/[^\d]/g,'');
+  const tenant  = Auth?.tenant?.name || 'محسوب';
+  const today   = new Date().toLocaleDateString('ar-SA-u-nu-latn');
+
+  const msg = `*${tenant}* 🧾
+
+السلام عليكم ${buyer}،
+
+أرسلنا لكم فاتورة جديدة:
+
+🔢 *${ref}*
+📅 *تاريخ الإصدار:* ${today}
+
+💰 *قبل الضريبة:* ${subtotal}
+🇸🇦 *ضريبة القيمة المضافة (15%):* ${vat}
+✅ *الإجمالي:* *${total}*
+
+شكراً لتعاملكم معنا 🌷`;
+
+  const url = phone
+    ? `https://wa.me/${phone.startsWith('966')?phone:'966'+phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
   document.getElementById('zSentBadge').style.display='inline-flex';
+  try { logActivity('invoice', 'invoice_send_whatsapp_new', `إرسال فاتورة بالواتساب: ${ref}`, { phone:!!phone }); } catch(_) {}
   setInvStep(3);
 }
 function sendInvoiceEmail(){
