@@ -169,7 +169,7 @@ body{
     </div>
 
     <div id="otpStep" class="hidden">
-      <div class="auth-h">أدخلي رمز التحقق</div>
+      <div class="auth-h">أدخل رمز التحقق</div>
       <div class="auth-p" id="otpHint">—</div>
 
       <div class="otp-wrap">
@@ -204,7 +204,7 @@ body{
       <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
     </div>
     <div class="cap-title">رفع فاتورة جديدة</div>
-    <div class="cap-sub">صوّري الفاتورة أو ارفعي صورة من الجوال</div>
+    <div class="cap-sub">صوّر الفاتورة أو ارفع صورة من الجوال</div>
 
     <div class="cap-actions">
       <input type="file" id="filePick" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this)">
@@ -279,7 +279,7 @@ function setBtn(id, loading, text) {
 async function sendOtp() {
   clearMsgs();
   const raw = document.getElementById('phoneIn').value.trim();
-  if (!raw || raw.length < 9) { showErr('أدخلي رقم جوال صحيح'); return; }
+  if (!raw || raw.length < 9) { showErr('أدخل رقم جوال صحيح'); return; }
   _phone = '+966' + raw.replace(/^0/, '');
   setBtn('sendBtn', true);
   const { error } = await sb.auth.signInWithOtp({ phone: _phone });
@@ -299,7 +299,7 @@ function otpNext(el, idx) {
 
 async function verifyOtp() {
   const code = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
-  if (code.length < 6) { showErr('أدخلي الرمز المكوّن من 6 أرقام'); return; }
+  if (code.length < 6) { showErr('أدخل الرمز المكوّن من 6 أرقام'); return; }
   setBtn('verifyBtn', true);
   const { data, error } = await sb.auth.verifyOtp({ phone: _phone, token: code, type: 'sms' });
   setBtn('verifyBtn', false, 'دخول ←');

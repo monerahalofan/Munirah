@@ -1381,7 +1381,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('pos',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span data-i18n="nav_pos">الإغلاقات اليومية</span></div>
     <div class="ni" onclick="go('channels',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span><span data-i18n="nav_channels">مصادر المبيعات</span></div>
     <div class="ni" onclick="go('daily',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span data-i18n="nav_daily">الموازنة اليومية</span></div>
-    <div class="ni" onclick="go('tx',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="nav_tx">سجلي المالي</span></div>
+    <div class="ni" onclick="go('tx',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span data-i18n="nav_tx">سجّل المالي</span></div>
     <div class="ni" onclick="go('inv',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span data-i18n="nav_inv">فواتيري</span><span class="nb" id="invBadge"></span></div>
     <div class="ni" onclick="go('quotes',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span>عروض الأسعار</span><span class="nbg" style="background:rgba(168,134,75,.12);color:#a8854a">جديد</span></div>
     <div class="ni" onclick="go('bg',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span data-i18n="nav_bg">ميزانيتي</span></div>
@@ -1557,11 +1557,11 @@ body.dark .prc-sv{color:#f0f2f8}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8854a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     </div>
     <div style="flex:1;min-width:200px">
-      <div style="font-size:13px;font-weight:800;color:#5a4408;margin-bottom:2px" id="dailyRemTitle">ما سجلتي أي عملية اليوم</div>
-      <div style="font-size:11px;color:#7a5a1a;line-height:1.6" id="dailyRemSub">دقيقة واحدة تخليك تتابع تدفقك المالي. ابدئي الآن.</div>
+      <div style="font-size:13px;font-weight:800;color:#5a4408;margin-bottom:2px" id="dailyRemTitle">ما سجّلت أي عملية اليوم</div>
+      <div style="font-size:11px;color:#7a5a1a;line-height:1.6" id="dailyRemSub">دقيقة واحدة تخليك تتابع تدفقك المالي. ابدأ الآن.</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button onclick="go('tx', null)" style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">＋ سجلي معاملة</button>
+      <button onclick="go('tx', null)" style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">＋ سجّل معاملة</button>
       <button onclick="go('pos', null)" style="background:#fff;color:#5a4408;border:1px solid rgba(168,133,74,.4);padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">🏦 إغلاق يومي</button>
       <button onclick="dismissDailyReminder()" style="background:none;color:#a8854a;border:none;padding:8px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1" title="إخفاء">×</button>
     </div>
@@ -1573,7 +1573,7 @@ body.dark .prc-sv{color:#f0f2f8}
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#155e5f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <div style="flex:1;min-width:200px">
-      <div style="font-size:13px;font-weight:800;color:#155e5f" id="dailyDoneTitle">ممتاز! سجلتي <span id="dailyDoneCount">0</span> عملية اليوم</div>
+      <div style="font-size:13px;font-weight:800;color:#155e5f" id="dailyDoneTitle">ممتاز! سجّلت <span id="dailyDoneCount">0</span> عملية اليوم</div>
       <div style="font-size:11px;color:rgba(21,94,95,.65);line-height:1.6">استمري على هذا الإيقاع — تتبعك اليومي يفرق.</div>
     </div>
     <button onclick="document.getElementById('dailyDoneBanner').style.display='none'" style="background:none;color:#155e5f;border:none;padding:6px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1">×</button>
@@ -1592,7 +1592,7 @@ body.dark .prc-sv{color:#f0f2f8}
       <div style="font-size:12px;color:rgba(21,94,95,.7);margin-top:3px" id="dbInboxSub">إيصالات بانتظار المراجعة من السواقين/العمال</div>
     </div>
     <button onclick="event.stopPropagation();openShareCaptureModal()" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">📤 شارك الرابط</button>
-    <button style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">راجعي ←</button>
+    <button style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">راجع ←</button>
   </div>
 
   <!-- VAT Reminder Banner -->
@@ -2132,7 +2132,7 @@ body.dark .prc-sv{color:#f0f2f8}
           <div class="goal-cat" data-cat="custom" onclick="selectGoalCat('custom')" style="border:2px solid var(--b);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .15s">
             <div style="font-size:22px">🎯</div>
             <div style="font-weight:700;margin-top:4px">هدف مخصص</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px">حسب ما تبين</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px">حسب ما تبغى</div>
           </div>
         </div>
       </div>
@@ -2387,10 +2387,10 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 <div class="pg" id="pg-bg">
   <div class="g2" style="margin-bottom:14px">
     <div class="kc B"><div class="kl">الميزانية المخططة</div><div class="kv B" id="bgPlanned">0 ر.س</div></div>
-    <div class="kc A"><div class="kl">الإنفاق الفعلي</div><div class="kv A" id="bgActual">0 ر.س</div><div class="kch up" id="bgSaved">—</div></div>
+    <div class="kc A"><div class="kl">الإنفاق الفعّل</div><div class="kv A" id="bgActual">0 ر.س</div><div class="kch up" id="bgSaved">—</div></div>
   </div>
   <div class="card">
-    <div class="sh"><div class="st">الميزانية مقابل الفعلي</div></div>
+    <div class="sh"><div class="st">الميزانية مقابل الفعّل</div></div>
     <div id="budgetBars" style="text-align:center;padding:28px;color:var(--t3)">لا توجد فئات ميزانية بعد — أضف فئة جديدة لبدء التتبع</div>
   </div>
 </div>
@@ -2468,7 +2468,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         <div>• <b>الكمية</b> لو في أكثر من بند</div>
       </div>
       <div style="margin-top:10px">
-        <div style="font-size:11px;color:var(--t3);font-weight:600;margin-bottom:6px">أمثلة جاهزة (اضغطي للاستخدام):</div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600;margin-bottom:6px">أمثلة جاهزة (اضغط للاستخدام):</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
           <button class="ai-ex" onclick="aiExample(this)">فاتورة لأحمد عن تصميم موقع بقيمة 5000 ريال شاملة الضريبة</button>
           <button class="ai-ex" onclick="aiExample(this)">فاتورة لشركة النور: 3 ساعات استشارات بـ 400 للساعة + تطوير تطبيق 8000</button>
@@ -2772,12 +2772,12 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 
     <!-- Cash on hand -->
     <div class="card">
-      <div class="st" style="margin-bottom:10px">العد الفعلي للنقد</div>
+      <div class="st" style="margin-bottom:10px">العد الفعّل للنقد</div>
       <div style="display:flex;gap:8px;align-items:center">
         <input class="fi" id="daily-actual" type="number" placeholder="0.00" inputmode="decimal" oninput="calcDailyBalance()" style="flex:1"/>
         <span style="font-size:13px;color:var(--t3)">ر.س</span>
       </div>
-      <div style="font-size:11px;color:var(--t3);margin-top:6px">النقد الفعلي في الصندوق آخر اليوم</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:6px">النقد الفعّل في الصندوق آخر اليوم</div>
     </div>
 
   </div>
@@ -2824,7 +2824,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
         <div style="font-size:18px;font-weight:700;color:var(--bl)" id="daily-expected">0.00 ر.س</div>
       </div>
       <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">العد الفعلي</div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">العد الفعّل</div>
         <div style="font-size:18px;font-weight:700;color:var(--t1)" id="daily-actual-display">0.00 ر.س</div>
       </div>
       <div style="background:var(--bg3);border-radius:var(--Rs);padding:12px;text-align:center">
@@ -2947,7 +2947,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 <div class="pg" id="pg-ai">
   <div class="cw">
     <div class="cm" id="chatM">
-      <div class="mr"><div class="mav ai">🤖</div><div class="bbl ai">مرحباً! أنا محاسبك المالي الذكي.<br><br>أستطيع تحليل وضعك المالي، اكتشاف المشاكل قبل حدوثها، وتقديم توصيات مبنية على بياناتك الفعلية. اسألني بالعربي بشكل طبيعي.</div></div>
+      <div class="mr"><div class="mav ai">🤖</div><div class="bbl ai">مرحباً! أنا محاسبك المالي الذكي.<br><br>أستطيع تحليل وضعك المالي، اكتشاف المشاكل قبل حدوثها، وتقديم توصيات مبنية على بياناتك الفعّلة. اسألني بالعربي بشكل طبيعي.</div></div>
     </div>
     <div class="cft">
       <div class="cps">
@@ -3148,7 +3148,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <span class="ai3">☪️</span>
     <div class="ab3">
       <div class="at3 B">حاسبة الزكاة التفاعلية</div>
-      <div class="as3">عدّل الأرقام حسب وضعك الفعلي — ستُحسب الزكاة تلقائياً. النصاب الحالي: 595 جرام فضة ≈ 16,450 ر.س</div>
+      <div class="as3">عدّل الأرقام حسب وضعك الفعّل — ستُحسب الزكاة تلقائياً. النصاب الحالي: 595 جرام فضة ≈ 16,450 ر.س</div>
     </div>
   </div>
 
@@ -3537,9 +3537,9 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div class="sh">
       <div>
         <div class="st">الجولة التعريفية</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:3px">شاهدي شرح ميزات محسوب من جديد</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">شاهد شرح ميزات محسوب من جديد</div>
       </div>
-      <button class="btn bg2" onclick="startTour(true)" style="font-size:12px">▶ شاهدي الجولة</button>
+      <button class="btn bg2" onclick="startTour(true)" style="font-size:12px">▶ شاهد الجولة</button>
     </div>
   </div>
 
@@ -3548,7 +3548,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div class="sh">
       <div>
         <div class="st">التذكير اليومي</div>
-        <div style="font-size:12px;color:var(--t3);margin-top:3px">يذكّرك إذا ما سجلتي عمليات اليوم — بانر داخل التطبيق أو رسالة واتساب</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">يذكّرك إذا ما سجّلت عمليات اليوم — بانر داخل التطبيق أو رسالة واتساب</div>
       </div>
     </div>
 
@@ -3556,7 +3556,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       <input type="checkbox" id="remEnabled" style="width:18px;height:18px;accent-color:#7fc57b;cursor:pointer" onchange="onReminderChange()">
       <div style="flex:1">
         <div style="font-size:13px;font-weight:700;color:#155e5f">تفعيل التذكير اليومي</div>
-        <div style="font-size:11px;color:rgba(21,94,95,.65)">لو ما سجلتي معاملة اليوم، نذكّرك</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.65)">لو ما سجّلت معاملة اليوم، نذكّرك</div>
       </div>
     </div>
 
@@ -3948,7 +3948,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="padding:18px 20px;border-bottom:1px solid var(--b)">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
         <div style="width:26px;height:26px;border-radius:50%;background:#2C5559;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">3</div>
-        <div style="font-size:14px;font-weight:700;color:#000">أدخلي رمز OTP من بوابة Fatoora</div>
+        <div style="font-size:14px;font-weight:700;color:#000">أدخل رمز OTP من بوابة Fatoora</div>
       </div>
       <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#92500a;line-height:1.7">
         احصلي على OTP من <b>fatoora.zatca.gov.sa</b> ← Onboard New Solution. الرمز صالح لمدة <b>ساعة واحدة فقط</b>.
@@ -4650,7 +4650,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
     <div>
       <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">الإيصالات الواردة</div>
-      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">فواتير ومصاريف يرفعها السواقين والعمال من الجوال — راجعيها واعتمديها</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">فواتير ومصاريف يرفعها السواقين والعمال من الجوال — راجعها واعتمدها</div>
     </div>
     <div style="display:flex;gap:8px">
       <button class="btn bg2" onclick="loadInbox()">↻ تحديث</button>
@@ -4699,7 +4699,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(120deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0">
       <div>
         <div style="font-size:17px;font-weight:800">📤 شارك رابط الرفع</div>
-        <div style="font-size:11px;opacity:.85;margin-top:2px">أرسليه للسواق أو العامل — يدخل برقم جواله فقط</div>
+        <div style="font-size:11px;opacity:.85;margin-top:2px">أرسله للسواق أو العامل — يدخل برقم جواله فقط</div>
       </div>
       <button onclick="closeShareCaptureModal()" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer;line-height:1">×</button>
     </div>
@@ -4995,7 +4995,7 @@ const TRANSLATIONS = {
     nav_db:'البداية', nav_hl:'صحتي المالية', nav_cf:'تدفق الكاش',
     nav_ag:'من يدين لي؟', nav_cp:'أرباحي من العملاء', nav_gls:'أهدافي المالية',
     nav_tax:'الضرائب والزكاة', nav_pos:'الإغلاقات اليومية', nav_channels:'مصادر المبيعات',
-    nav_daily:'الموازنة اليومية', nav_tx:'سجلي المالي', nav_inv:'فواتيري',
+    nav_daily:'الموازنة اليومية', nav_tx:'سجّل المالي', nav_inv:'فواتيري',
     nav_bg:'ميزانيتي', nav_vat:'تقرير الضريبة', nav_zakat:'احسب زكاتي',
     nav_taxcal:'مواعيد الضريبة', nav_scan:'مسح الفواتير', nav_st:'تقاريري المالية',
     nav_zt:'فاتورة جديدة', nav_products:'خدماتي ومنتجاتي', nav_ai:'اسأل محسوب',
@@ -5736,7 +5736,7 @@ async function brandUploadLogo(event) {
     document.getElementById('brandLogoPreview').innerHTML = `<img src="${pub.publicUrl}" style="max-width:100%;max-height:100%;object-fit:contain">`;
     document.getElementById('brandRemoveLogoBtn').style.display = 'inline-flex';
     brandPreviewUpdate();
-    toast({ type:'success', msg:'تم رفع الشعار. اضغطي حفظ التغييرات لتثبيته' });
+    toast({ type:'success', msg:'تم رفع الشعار. اضغط حفظ التغييرات لتثبيته' });
   } catch (e) {
     alert('خطأ: ' + e.message);
   }
@@ -6786,7 +6786,7 @@ function openReconcileModal(closingId) {
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-          <div class="ff"><label class="fl">💵 المبلغ الفعلي المُودع *</label>
+          <div class="ff"><label class="fl">💵 المبلغ الفعّل المُودع *</label>
             <input class="fi" id="rec-deposit" type="number" step="0.01" placeholder="0.00" inputmode="decimal" value="${c.bank_deposit_amount||''}" oninput="updateReconcileVariance()"/></div>
           <div class="ff"><label class="fl">📅 تاريخ الإيداع</label>
             <input class="fi" id="rec-date" type="date" value="${c.bank_deposit_date||c.closing_date}"/></div>
@@ -6872,7 +6872,7 @@ function updateBreakdownSum() {
 
 async function saveReconciliation(closingId) {
   const deposit = parseFloat(document.getElementById('rec-deposit').value);
-  if (!deposit || deposit < 0) { toast({ type:'error', msg:'أدخلي مبلغ الإيداع' }); return; }
+  if (!deposit || deposit < 0) { toast({ type:'error', msg:'أدخل مبلغ الإيداع' }); return; }
   const safe = parseFloat(document.getElementById('rec-safe').value) || 0;
   const date = document.getElementById('rec-date').value || null;
   const ref  = document.getElementById('rec-ref').value.trim() || null;
@@ -7086,7 +7086,7 @@ async function arLoad() {
     if (badge) badge.textContent = data.length;
   } catch (e) {
     console.error('arLoad:', e);
-    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:#c93545">شغّلي SQL: <code>sql/invoice_advanced.sql</code> في Supabase</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:#c93545">شغّل SQL: <code>sql/invoice_advanced.sql</code> في Supabase</td></tr>`;
   }
 }
 
@@ -8072,7 +8072,7 @@ async function renderHealthScore() {
   const margin = rev > 0 ? (rev - exp) / rev : null;
   const profitability = margin == null ? null : clamp(margin / 0.45 * 100);
 
-  // التحصيل والالتزامات من الفواتير الفعلية
+  // التحصيل والالتزامات من الفواتير الفعّلة
   let collection = null, commitments = null;
   try {
     if (Auth?.tenant?.id) {
@@ -8188,7 +8188,7 @@ function calcPricing() {
     <div class="prc-stat"><div class="prc-sv">${_prcFmt(Math.round(recommended * 1.15))} ر.س</div><div class="prc-sl">الموصى به شامل الضريبة 15%</div></div>`;
 
   const tips = [];
-  tips.push({ t: `تكلفتك الكاملة للوحدة <b>${_prcFmt(Math.round(unitCost))} ر.س</b> — أي سعر أقل من <b>${_prcFmt(Math.round(floor))} ر.س</b> يعني أنك تبيع بخسارة فعلية.`, c: '' });
+  tips.push({ t: `تكلفتك الكاملة للوحدة <b>${_prcFmt(Math.round(unitCost))} ر.س</b> — أي سعر أقل من <b>${_prcFmt(Math.round(floor))} ر.س</b> يعني أنك تبيع بخسارة فعّلة.`, c: '' });
   if (compMid) {
     const dPct = Math.round((recommended - compMid) / compMid * 100);
     tips.push({ t: dPct >= 0
@@ -9475,7 +9475,7 @@ async function loadGoals() {
   } catch (e) {
     console.error('loadGoals:', e);
     const list = document.getElementById('goalsList');
-    if (list) list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّلي migration: <code>sql/goals_v2.sql</code></div>`;
+    if (list) list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّل migration: <code>sql/goals_v2.sql</code></div>`;
   }
 }
 
@@ -9500,7 +9500,7 @@ function renderGoalsList() {
   const list = document.getElementById('goalsList');
   if (!_goalsCache.length) {
     list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--t3);font-size:13px">
-      🎯 لا توجد أهداف بعد<br><span style="font-size:11px;display:block;margin-top:6px">اضغطي <b>＋ هدف جديد</b> لتحديد أول هدف مالي لك</span>
+      🎯 لا توجد أهداف بعد<br><span style="font-size:11px;display:block;margin-top:6px">اضغط <b>＋ هدف جديد</b> لتحديد أول هدف مالي لك</span>
     </div>`;
     return;
   }
@@ -9511,7 +9511,7 @@ function renderGoalsList() {
     const pct = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
     const status = pct >= 100 ? 'completed' : pct >= 75 ? 'on_track' : pct >= 40 ? 'behind' : 'starting';
     const statusColor = status === 'completed' ? '#ced9d9' : status === 'on_track' ? '#1e6080' : status === 'behind' ? '#a8854a' : '#c93545';
-    const statusLabel = status === 'completed' ? '✓ محقّق' : status === 'on_track' ? '🚀 على المسار' : status === 'behind' ? '⚡ يحتاج جهد' : '🔥 ابدئي بقوة';
+    const statusLabel = status === 'completed' ? '✓ محقّق' : status === 'on_track' ? '🚀 على المسار' : status === 'behind' ? '⚡ يحتاج جهد' : '🔥 ابدأ بقوة';
     const daysLeft = g.deadline ? Math.ceil((new Date(g.deadline) - new Date()) / 86400000) : null;
     const dailyNeeded = (daysLeft && daysLeft > 0 && pct < 100) ? ((target - current) / daysLeft).toFixed(0) : null;
     const priorityIcon = g.priority === 1 ? '🔥' : g.priority === 2 ? '⭐' : '📌';
@@ -9567,11 +9567,11 @@ function renderGoalsAISuggestion(active) {
     if (g.category === 'revenue') {
       tip = `حاولي تزيدي ${monthly.toFixed(0)} ر.س شهرياً أو ${daily.toFixed(0)} ر.س يومياً من الإيرادات.`;
     } else if (g.category === 'expense_reduction') {
-      tip = `راجعي مصاريفك — استهدفي تقليل ${monthly.toFixed(0)} ر.س شهرياً (ركّزي على الاشتراكات والمصاريف المتكررة).`;
+      tip = `راجع مصاريفك — استهدفي تقليل ${monthly.toFixed(0)} ر.س شهرياً (ركّزي على الاشتراكات والمصاريف المتكررة).`;
     } else if (g.category === 'savings') {
       tip = `حوّلي ${daily.toFixed(0)} ر.س لحساب ادخار يومياً — أو ${monthly.toFixed(0)} ر.س آخر كل شهر.`;
     } else {
-      tip = `تحتاجين ${remaining.toLocaleString('en-US')} ر.س إضافية في ${daysLeft} يوم — معدّل ${daily.toFixed(0)} ر.س يومياً.`;
+      tip = `تحتاج ${remaining.toLocaleString('en-US')} ر.س إضافية في ${daysLeft} يوم — معدّل ${daily.toFixed(0)} ر.س يومياً.`;
     }
     return `<div style="padding:10px 12px;background:#fff;border-radius:10px;margin-bottom:8px;border-right:3px solid ${meta.color}">
       <div style="font-weight:700;font-size:12px;color:#000;margin-bottom:3px">${meta.icon} ${g.name}</div>
@@ -9624,8 +9624,8 @@ async function saveGoal() {
 
   const name = document.getElementById('goal-name').value.trim();
   const target = parseFloat(document.getElementById('goal-target').value);
-  if (!name) { toast({ type:'error', msg:'أدخلي اسم الهدف' }); return; }
-  if (!target || target <= 0) { toast({ type:'error', msg:'أدخلي مبلغاً صحيحاً' }); return; }
+  if (!name) { toast({ type:'error', msg:'أدخل اسم الهدف' }); return; }
+  if (!target || target <= 0) { toast({ type:'error', msg:'أدخل مبلغاً صحيحاً' }); return; }
 
   const cat = document.getElementById('goalModal').dataset.selectedCat || 'custom';
   const meta = GOAL_CAT_META[cat];
@@ -9992,14 +9992,14 @@ async function checkDailyActivityReminder() {
       const title = document.getElementById('dailyRemTitle');
       const sub   = document.getElementById('dailyRemSub');
       if (hour < 12) {
-        title.textContent = 'صباح الخير 🌅 ما سجلتي معاملات بعد';
-        sub.textContent = 'ابدئي يومك بتسجيل أول إيراد أو مصروف.';
+        title.textContent = 'صباح الخير 🌅 ما سجّلت معاملات بعد';
+        sub.textContent = 'ابدأ يومك بتسجيل أول إيراد أو مصروف.';
       } else if (hour < 17) {
-        title.textContent = 'ما سجلتي أي عملية اليوم';
-        sub.textContent = 'دقيقة وحدة تخليك تتابع تدفقك المالي. ابدئي الآن.';
+        title.textContent = 'ما سجّلت أي عملية اليوم';
+        sub.textContent = 'دقيقة وحدة تخليك تتابع تدفقك المالي. ابدأ الآن.';
       } else {
         title.textContent = 'يوم على وشك ينتهي ⏰';
-        sub.textContent = 'قبل ما تختمي اليوم، سجلي إغلاقك أو معاملاتك المالية.';
+        sub.textContent = 'قبل ما تختمي اليوم، سجّل إغلاقك أو معاملاتك المالية.';
       }
       reminderBanner.style.display = 'flex';
       // Log impression
@@ -10066,7 +10066,7 @@ async function saveReminderSettings() {
 
   // Validate phone if WhatsApp channel enabled
   if (channels.includes('whatsapp') && (!phone || !/^\+?\d{10,15}$/.test(phone.replace(/\s/g,'')))) {
-    toast({ type:'error', msg:'أدخلي رقم واتساب صحيح (مع رمز الدولة +966)' });
+    toast({ type:'error', msg:'أدخل رقم واتساب صحيح (مع رمز الدولة +966)' });
     return;
   }
 
@@ -11638,7 +11638,7 @@ async function ask(text){
   if(cH.length===1){
     const ctx=getFinancialContext();
     cH.unshift(
-      {role:'user',content:`فيما يلي البيانات الفعلية لمشروعي في محسوب:\n${ctx}\nاستخدم هذه البيانات الدقيقة في كل إجاباتك.`},
+      {role:'user',content:`فيما يلي البيانات الفعّلة لمشروعي في محسوب:\n${ctx}\nاستخدم هذه البيانات الدقيقة في كل إجاباتك.`},
       {role:'assistant',content:'مفهوم، اطلعت على بيانات مشروعك بالكامل وسأبني تحليلي عليها.'}
     );
   }
@@ -11724,7 +11724,7 @@ function getFinancialContext() {
     `المشروع: ${prof.bizName||ud.name||'—'}`,
     `التاريخ اليوم: ${today.toLocaleDateString('ar-SA-u-nu-latn')}`,
     '',
-    '═══ البيانات الفعلية في النظام ═══',
+    '═══ البيانات الفعّلة في النظام ═══',
     `إجمالي الفواتير في النظام: ${allInv.length} فاتورة`,
     allInv.length > 0 ? `  - مدفوعة: ${paidInv.length} فاتورة (${totalPaidAmount.toLocaleString('en-US')} ر.س)` : '',
     allInv.length > 0 ? `  - معلقة/مرسلة: ${pendingInv.length} فاتورة (${totalPendingAmount.toLocaleString('en-US')} ر.س)` : '',
@@ -11734,19 +11734,19 @@ function getFinancialContext() {
     chTotal > 0 ? `مبيعات التوصيل صافي (${thisMonth}): ${chTotal.toLocaleString('en-US')} ر.س` : '',
     lastDaily ? `آخر توازن يومي (${dailyDates[0]}): فرق ${lastDaily.diff>=0?'+':''}${(lastDaily.diff||0).toLocaleString('en-US')} ر.س` : '',
     '',
-    '═══ بيانات الملف الشخصي (تقديرات الإعداد — ليست أرقاماً فعلية) ═══',
+    '═══ بيانات الملف الشخصي (تقديرات الإعداد — ليست أرقاماً فعّلة) ═══',
     ud.rev > 0 ? `الإيرادات الشهرية المُقدَّرة (أدخلها المستخدم): ${(ud.rev||0).toLocaleString('en-US')} ر.س` : '',
     ud.exp > 0 ? `المصروفات الشهرية المُقدَّرة (أدخلها المستخدم): ${(ud.exp||0).toLocaleString('en-US')} ر.س` : '',
     ud.bal > 0 ? `الرصيد المُقدَّر (أدخله المستخدم): ${(ud.bal||0).toLocaleString('en-US')} ر.س` : '',
     ud.target > 0 ? `الهدف الشهري: ${(ud.target||0).toLocaleString('en-US')} ر.س` : '',
     '',
     '═══ بيانات أخرى ═══',
-    `عدد العملاء المسجلين: ${clClients.length}`,
+    `عدد العملاء المسجّلن: ${clClients.length}`,
     topCl ? `أبرز العملاء: ${topCl}` : '',
     `المنتجات والخدمات: ${products.length} بند`,
     lowStock ? `مخزون منخفض: ${lowStock}` : '',
     '',
-    !hasRealData ? '⚠️ تنبيه مهم: لا توجد بيانات فعلية مسجّلة في النظام بعد (لا فواتير مدفوعة، لا مبيعات). الأرقام المتاحة هي تقديرات أدخلها المستخدم فقط.' : '',
+    !hasRealData ? '⚠️ تنبيه مهم: لا توجد بيانات فعّلة مسجّلة في النظام بعد (لا فواتير مدفوعة، لا مبيعات). الأرقام المتاحة هي تقديرات أدخلها المستخدم فقط.' : '',
   ].filter(l => l !== undefined && l !== null && l !== '');
 
   return lines.join('\n');
@@ -11987,7 +11987,7 @@ async function generateInvoiceFromText() {
     setTimeout(()=>{btn.textContent='▶ إنشاء الفاتورة';btn.disabled=false;},1500);
   } catch(e) {
     console.error('AI invoice creation failed:', e);
-    alert('تعذّر إنشاء الفاتورة: ' + (e.message || 'خطأ غير معروف') + '\n\nراجعي وحدة التحكم (Console) لتفاصيل أكثر.');
+    alert('تعذّر إنشاء الفاتورة: ' + (e.message || 'خطأ غير معروف') + '\n\nراجع وحدة التحكم (Console) لتفاصيل أكثر.');
     btn.textContent='▶ إنشاء الفاتورة'; btn.disabled=false;
   }
 }
@@ -12874,7 +12874,7 @@ function renderTeamMembers(members, pending) {
         </div>
       ` : ''}
     </div>`;
-  }).join('') : `<div style="padding:24px;color:var(--t3);text-align:center;font-size:13px">لا يوجد أعضاء بعد — اضغطي <b>＋ دعوة عضو</b> لإضافة كاشير أو محاسب</div>`;
+  }).join('') : `<div style="padding:24px;color:var(--t3);text-align:center;font-size:13px">لا يوجد أعضاء بعد — اضغط <b>＋ دعوة عضو</b> لإضافة كاشير أو محاسب</div>`;
 
   // Pending invites
   if (pending.length) {
@@ -12916,7 +12916,7 @@ function applyRoleTemplate(uid, role) {
     cb.checked = defaults.includes(cb.dataset.pid);
   });
   onPermToggle(uid);
-  toast({ type:'info', msg:`تم تطبيق صلاحيات ${ROLE_META[role].label} — اضغطي حفظ`, duration:3000 });
+  toast({ type:'info', msg:`تم تطبيق صلاحيات ${ROLE_META[role].label} — اضغط حفظ`, duration:3000 });
 }
 
 function toggleGroup(uid, idsStr) {
@@ -12982,7 +12982,7 @@ const TOUR_COMMON_INTRO = [
     icon: '👋',
     title: 'مرحباً بك في محسوب!',
     subtitle: 'محاسبك المالي الذكي بالعربي',
-    body: 'محسوب يخلّيك تتابعين فلوس مشروعك بكل سهولة — من فواتير وإيرادات ومصاريف وضرائب — كله في مكان واحد بالعربي.',
+    body: 'محسوب يخلّك تتابعين فلوس مشروعك بكل سهولة — من فواتير وإيرادات ومصاريف وضرائب — كله في مكان واحد بالعربي.',
     features: [
       { icon:'🤖', name:'ذكاء اصطناعي', desc:'يقرأ فواتيرك وإغلاقاتك تلقائياً' },
       { icon:'🇸🇦', name:'متوافق ZATCA', desc:'فواتير ضريبية معتمدة من الزكاة' },
@@ -12994,13 +12994,13 @@ const TOUR_COMMON_INTRO = [
 const TOUR_COMMON_END = [
   {
     icon:'🎯',
-    title:'حدّدي أهدافك',
+    title:'حدّد أهدافك',
     subtitle:'حقّقي ما تطمحين له',
-    body:'حدّدي أهدافك المالية (زيادة الإيرادات، تقليل المصاريف، ادخار) ومحسوب يتتبّع تقدّمك تلقائياً مع نصائح ذكية للوصول.',
+    body:'حدّد أهدافك المالية (زيادة الإيرادات، تقليل المصاريف، ادخار) ومحسوب يتتبّع تقدّمك تلقائياً مع نصائح ذكية للوصول.',
     nav: 'gls',
     features: [
       { icon:'📈', name:'تتبع تلقائي', desc:'إيراداتك ومصاريفك تنعكس على الأهداف' },
-      { icon:'💡', name:'نصائح يومية', desc:'كم تحتاجين يومياً للوصول لهدفك' },
+      { icon:'💡', name:'نصائح يومية', desc:'كم تحتاج يومياً للوصول لهدفك' },
     ],
   },
   {
@@ -13018,9 +13018,9 @@ const TOUR_COMMON_END = [
     icon:'✨',
     title:'يلا نبدأ!',
     subtitle:'كل شي جاهز',
-    body:'جولتنا انتهت. تقدرين دائماً تعيدين تشغيل الجولة من <b>إعدادات الحساب</b>. لو احتجتي أي مساعدة، اضغطي زر "استشر محسوب" في الأعلى.',
+    body:'جولتنا انتهت. تقدر دائماً تعيدين تشغيل الجولة من <b>إعدادات الحساب</b>. لو احتجت أي مساعدة، اضغط زر "استشر محسوب" في الأعلى.',
     features: [
-      { icon:'💬', name:'مساعد ذكي 24/7', desc:'اسأليه عن أي شي مالي' },
+      { icon:'💬', name:'مساعد ذكي 24/7', desc:'اسأله عن أي شي مالي' },
       { icon:'📚', name:'مركز المساعدة', desc:'شروحات وأدلة استخدام' },
     ],
   },
@@ -13031,10 +13031,10 @@ const TOUR_B2C_STEPS = [
     icon:'🏦',
     title:'الإغلاقات اليومية',
     subtitle:'الأهم لمشروعك',
-    body:'كل يوم ارفعي تقرير إغلاق نظام الكاشير (Foodics، Marn، أي نظام) ومحسوب يستخرج الكاش، الشبكة، الضريبة، والمرتجعات تلقائياً بالـ AI.',
+    body:'كل يوم ارفع تقرير إغلاق نظام الكاشير (Foodics، Marn، أي نظام) ومحسوب يستخرج الكاش، الشبكة، الضريبة، والمرتجعات تلقائياً بالـ AI.',
     nav: 'pos',
     features: [
-      { icon:'📸', name:'صوّري التقرير', desc:'الـ AI يقرأ الأرقام في 5 ثواني' },
+      { icon:'📸', name:'صوّر التقرير', desc:'الـ AI يقرأ الأرقام في 5 ثواني' },
       { icon:'🔍', name:'تتبع تفصيلي', desc:'حسب الفرع والوقت والمصدر' },
     ],
   },
@@ -13042,7 +13042,7 @@ const TOUR_B2C_STEPS = [
     icon:'⚖',
     title:'مطابقة الإيداع البنكي',
     subtitle:'وين راحت فلوسك؟',
-    body:'بعد كل إغلاق، أدخلي المبلغ الفعلي اللي وصل حسابك البنكي. محسوب يقارن ويبيّن الفرق ويصنّفه (بقشيش، عجز، رسوم بنك، إلخ).',
+    body:'بعد كل إغلاق، أدخل المبلغ الفعّل اللي وصل حسابك البنكي. محسوب يقارن ويبيّن الفرق ويصنّفه (بقشيش، عجز، رسوم بنك، إلخ).',
     nav: 'pos',
     features: [
       { icon:'💰', name:'7 تصنيفات للفرق', desc:'بقشيش، عجز، رسوم، مرتجعات، مصاريف...' },
@@ -13053,11 +13053,11 @@ const TOUR_B2C_STEPS = [
     icon:'📥',
     title:'الإيصالات الواردة',
     subtitle:'السواقين والعمال يرفعون فواتيرهم',
-    body:'شاركي رابط مع السواق أو العامل — يدخل برقم جواله فقط، يصوّر الفاتورة، وترجع لصندوقك بانتظار المراجعة.',
+    body:'شارك رابط مع السواق أو العامل — يدخل برقم جواله فقط، يصوّر الفاتورة، وترجع لصندوقك بانتظار المراجعة.',
     nav: 'inbox',
     features: [
       { icon:'📱', name:'بدون حساب', desc:'OTP بالجوال فقط' },
-      { icon:'✅', name:'اعتمدي بضغطة', desc:'تنتقل مباشرة للمصاريف' },
+      { icon:'✅', name:'اعتمد بضغطة', desc:'تنتقل مباشرة للمصاريف' },
     ],
   },
 ];
@@ -13164,7 +13164,7 @@ function prevTourStep() {
 }
 
 function skipTour() {
-  if (confirm('تخطي الجولة التعريفية؟ تقدرين تعيدينها لاحقاً من الإعدادات.')) completeTour();
+  if (confirm('تخطي الجولة التعريفية؟ تقدر تعيدينها لاحقاً من الإعدادات.')) completeTour();
 }
 
 function completeTour() {
@@ -13292,7 +13292,7 @@ function renderInbox() {
 async function approveReceipt(id) {
   const r = _inboxCache.find(x => x.id === id);
   if (!r) return;
-  if (!+r.amount) { toast({ type:'error', msg:'لازم تضيفين المبلغ قبل الاعتماد — اضغطي ✎ تعديل' }); return; }
+  if (!+r.amount) { toast({ type:'error', msg:'لازم تضيفين المبلغ قبل الاعتماد — اضغط ✎ تعديل' }); return; }
   try {
     const { error } = await _sb.from('expenses').update({ category: 'other', payment_status: 'unpaid' }).eq('id', id);
     if (error) throw error;
@@ -13317,7 +13317,7 @@ async function rejectReceipt(id) {
 function editReceipt(id) {
   const r = _inboxCache.find(x => x.id === id);
   if (!r) return;
-  const newAmount = prompt('أدخلي المبلغ:', r.amount || '');
+  const newAmount = prompt('أدخل المبلغ:', r.amount || '');
   if (newAmount === null) return;
   const amt = parseFloat(newAmount);
   if (isNaN(amt) || amt < 0) { toast({ type:'error', msg:'مبلغ غير صحيح' }); return; }
@@ -13413,7 +13413,7 @@ async function loadActivityLog() {
     renderActivityLog(data || []);
     populateActivityUserFilter(data || []);
   } catch (e) {
-    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّلي migration: <code>sql/activity_log.sql</code></div>`;
+    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّل migration: <code>sql/activity_log.sql</code></div>`;
   }
 }
 
@@ -13446,7 +13446,7 @@ function renderActivityLog(rows) {
   }).join('') || `<div style="grid-column:1/-1;text-align:center;padding:14px;color:var(--t3);font-size:12px">لا توجد إحصائيات</div>`;
 
   if (!rows.length) {
-    listEl.innerHTML = `<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">📭 لا توجد حركات بعد — ابدئي باستخدام محسوب وستظهر هنا</div>`;
+    listEl.innerHTML = `<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">📭 لا توجد حركات بعد — ابدأ باستخدام محسوب وستظهر هنا</div>`;
     return;
   }
 
