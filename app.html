@@ -1489,6 +1489,66 @@ body.dark .prc-sv{color:#f0f2f8}
 </div>
 
 <!-- DASHBOARD -->
+<!-- ═══════════ WELCOME TOUR MODAL ═══════════ -->
+<div id="tourModal" style="display:none;position:fixed;inset:0;background:rgba(15,36,38,.7);z-index:1500;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(4px)">
+  <div style="background:#fff;border-radius:24px;max-width:540px;width:100%;max-height:94vh;overflow:auto;box-shadow:0 30px 80px rgba(15,36,38,.4);animation:tourPop .35s ease">
+
+    <!-- Hero header -->
+    <div id="tourHero" style="background:linear-gradient(135deg,#7fc57b 0%,#a8d39e 50%,#ced9d9 100%);padding:36px 28px;position:relative;overflow:hidden;border-radius:24px 24px 0 0">
+      <div style="position:absolute;top:0;right:0;left:0;bottom:0;background-image:radial-gradient(circle,rgba(255,255,255,.15) 1px,transparent 1px);background-size:24px 24px;opacity:.6"></div>
+      <div style="position:relative;z-index:1;text-align:center">
+        <div id="tourIcon" style="width:80px;height:80px;margin:0 auto 14px;background:#fff;border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(21,94,95,.18)">
+          <span id="tourIconText" style="font-size:42px">👋</span>
+        </div>
+        <div id="tourTitle" style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">مرحباً بك في محسوب!</div>
+        <div id="tourSubtitle" style="font-size:13px;color:rgba(21,94,95,.85);margin-top:6px;font-weight:600">دعنا نأخذك في جولة سريعة</div>
+      </div>
+    </div>
+
+    <!-- Body content -->
+    <div style="padding:24px 28px">
+      <div id="tourBody" style="font-size:14px;line-height:1.9;color:#155e5f"></div>
+
+      <!-- Feature highlights area -->
+      <div id="tourFeatures" style="margin-top:16px;display:grid;gap:10px"></div>
+    </div>
+
+    <!-- Progress + Actions -->
+    <div style="padding:14px 28px 24px;border-top:1px solid #ced9d9">
+      <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:14px" id="tourDots"></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="skipTour()" style="background:none;border:none;color:rgba(21,94,95,.6);font-size:12px;cursor:pointer;font-family:inherit;font-weight:600">تخطي الجولة</button>
+        <div style="flex:1"></div>
+        <button id="tourPrevBtn" onclick="prevTourStep()" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">← السابق</button>
+        <button id="tourNextBtn" onclick="nextTourStep()" style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 3px 12px rgba(21,94,95,.15)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes tourPop {
+  0% { transform: scale(.9) translateY(20px); opacity: 0 }
+  100% { transform: scale(1) translateY(0); opacity: 1 }
+}
+.tour-dot { width:8px; height:8px; border-radius:50%; background:#ced9d9; transition:all .25s }
+.tour-dot.active { background:#7fc57b; width:24px; border-radius:4px }
+.tour-feature {
+  display:flex; align-items:center; gap:12px; padding:12px 14px;
+  background:rgba(127,197,123,.06); border:1px solid rgba(127,197,123,.18);
+  border-radius:12px;
+}
+.tour-feature-icon {
+  width:36px; height:36px; border-radius:10px;
+  background:rgba(127,197,123,.15); color:#155e5f;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.tour-feature-text { flex:1; min-width:0 }
+.tour-feature-name { font-size:13px; font-weight:800; color:#155e5f }
+.tour-feature-desc { font-size:11px; color:rgba(21,94,95,.7); line-height:1.6; margin-top:2px }
+</style>
+
 <div class="pg on" id="pg-db">
 
   <!-- Daily Activity Reminder Banner -->
@@ -3470,6 +3530,17 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
     <div id="ctSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px"></div>
     <button class="btn bp" id="ctSaveBtn" style="margin-top:14px;display:none" onclick="saveCustomerType()">💾 حفظ التغيير</button>
+  </div>
+
+  <!-- Welcome Tour -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh">
+      <div>
+        <div class="st">الجولة التعريفية</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:3px">شاهدي شرح ميزات محسوب من جديد</div>
+      </div>
+      <button class="btn bg2" onclick="startTour(true)" style="font-size:12px">▶ شاهدي الجولة</button>
+    </div>
   </div>
 
   <!-- Daily Reminder Settings -->
@@ -12900,6 +12971,216 @@ async function revokeInvite(inviteId, email) {
     await loadTeamMembers();
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Welcome Tour — First-time onboarding walkthrough
+// ═══════════════════════════════════════════════════════════════════════
+
+// Shared steps
+const TOUR_COMMON_INTRO = [
+  {
+    icon: '👋',
+    title: 'مرحباً بك في محسوب!',
+    subtitle: 'محاسبك المالي الذكي بالعربي',
+    body: 'محسوب يخلّيك تتابعين فلوس مشروعك بكل سهولة — من فواتير وإيرادات ومصاريف وضرائب — كله في مكان واحد بالعربي.',
+    features: [
+      { icon:'🤖', name:'ذكاء اصطناعي', desc:'يقرأ فواتيرك وإغلاقاتك تلقائياً' },
+      { icon:'🇸🇦', name:'متوافق ZATCA', desc:'فواتير ضريبية معتمدة من الزكاة' },
+      { icon:'🔒', name:'بياناتك آمنة', desc:'مشفّرة وموثوقة ومحفوظة' },
+    ],
+  },
+];
+
+const TOUR_COMMON_END = [
+  {
+    icon:'🎯',
+    title:'حدّدي أهدافك',
+    subtitle:'حقّقي ما تطمحين له',
+    body:'حدّدي أهدافك المالية (زيادة الإيرادات، تقليل المصاريف، ادخار) ومحسوب يتتبّع تقدّمك تلقائياً مع نصائح ذكية للوصول.',
+    nav: 'gls',
+    features: [
+      { icon:'📈', name:'تتبع تلقائي', desc:'إيراداتك ومصاريفك تنعكس على الأهداف' },
+      { icon:'💡', name:'نصائح يومية', desc:'كم تحتاجين يومياً للوصول لهدفك' },
+    ],
+  },
+  {
+    icon:'👥',
+    title:'فريقك معك',
+    subtitle:'مستخدمين متعددين بصلاحيات',
+    body:'ادعي فريقك بإيميلهم — كاشير، محاسب، أو مشاهد — وكل واحد يشوف بس اللي يخصّه. حماية كاملة لبياناتك المالية.',
+    nav: 'usrs',
+    features: [
+      { icon:'📧', name:'دعوة بالإيميل', desc:'كل واحد بحسابه المنفصل' },
+      { icon:'🛡', name:'صلاحيات دقيقة', desc:'29 صلاحية قابلة للتخصيص' },
+    ],
+  },
+  {
+    icon:'✨',
+    title:'يلا نبدأ!',
+    subtitle:'كل شي جاهز',
+    body:'جولتنا انتهت. تقدرين دائماً تعيدين تشغيل الجولة من <b>إعدادات الحساب</b>. لو احتجتي أي مساعدة، اضغطي زر "استشر محسوب" في الأعلى.',
+    features: [
+      { icon:'💬', name:'مساعد ذكي 24/7', desc:'اسأليه عن أي شي مالي' },
+      { icon:'📚', name:'مركز المساعدة', desc:'شروحات وأدلة استخدام' },
+    ],
+  },
+];
+
+const TOUR_B2C_STEPS = [
+  {
+    icon:'🏦',
+    title:'الإغلاقات اليومية',
+    subtitle:'الأهم لمشروعك',
+    body:'كل يوم ارفعي تقرير إغلاق نظام الكاشير (Foodics، Marn، أي نظام) ومحسوب يستخرج الكاش، الشبكة، الضريبة، والمرتجعات تلقائياً بالـ AI.',
+    nav: 'pos',
+    features: [
+      { icon:'📸', name:'صوّري التقرير', desc:'الـ AI يقرأ الأرقام في 5 ثواني' },
+      { icon:'🔍', name:'تتبع تفصيلي', desc:'حسب الفرع والوقت والمصدر' },
+    ],
+  },
+  {
+    icon:'⚖',
+    title:'مطابقة الإيداع البنكي',
+    subtitle:'وين راحت فلوسك؟',
+    body:'بعد كل إغلاق، أدخلي المبلغ الفعلي اللي وصل حسابك البنكي. محسوب يقارن ويبيّن الفرق ويصنّفه (بقشيش، عجز، رسوم بنك، إلخ).',
+    nav: 'pos',
+    features: [
+      { icon:'💰', name:'7 تصنيفات للفرق', desc:'بقشيش، عجز، رسوم، مرتجعات، مصاريف...' },
+      { icon:'📊', name:'تقارير شهرية', desc:'مين هو السبب الرئيسي للفروقات' },
+    ],
+  },
+  {
+    icon:'📥',
+    title:'الإيصالات الواردة',
+    subtitle:'السواقين والعمال يرفعون فواتيرهم',
+    body:'شاركي رابط مع السواق أو العامل — يدخل برقم جواله فقط، يصوّر الفاتورة، وترجع لصندوقك بانتظار المراجعة.',
+    nav: 'inbox',
+    features: [
+      { icon:'📱', name:'بدون حساب', desc:'OTP بالجوال فقط' },
+      { icon:'✅', name:'اعتمدي بضغطة', desc:'تنتقل مباشرة للمصاريف' },
+    ],
+  },
+];
+
+const TOUR_B2B_STEPS = [
+  {
+    icon:'🧾',
+    title:'إصدار فواتير ZATCA',
+    subtitle:'فواتير ضريبية معتمدة',
+    body:'أصدري فواتير متوافقة 100% مع ZATCA Phase 1 — تتضمن UBL XML، رمز QR، والحساب التلقائي للضريبة.',
+    nav: 'zt',
+    features: [
+      { icon:'⚡', name:'في أقل من دقيقة', desc:'العميل، البنود، والإجمالي — تلقائياً' },
+      { icon:'📤', name:'إرسال للعميل', desc:'بريد إلكتروني أو واتساب أو PDF' },
+    ],
+  },
+  {
+    icon:'📋',
+    title:'عروض الأسعار',
+    subtitle:'من العرض للفاتورة بضغطة',
+    body:'أصدري عروض أسعار احترافية للعملاء، وحوّليها لفاتورة ضريبية لما يوافقون — بدون إعادة إدخال أي بيان.',
+    nav: 'quotes',
+    features: [
+      { icon:'🔄', name:'تحويل ذكي', desc:'عرض موافَق عليه → فاتورة ZATCA' },
+      { icon:'📊', name:'متابعة الحالة', desc:'مرسلة، قيد المراجعة، مقبولة، مرفوضة' },
+    ],
+  },
+  {
+    icon:'💰',
+    title:'الفلوس عند الناس',
+    subtitle:'متابعة المتأخرات',
+    body:'شوفي مين دفع، مين متأخر، وقد إيش بكل عميل — مع تذكيرات تلقائية لما يقترب موعد الاستحقاق.',
+    nav: 'ar',
+    features: [
+      { icon:'⏰', name:'تذكير العملاء', desc:'بالواتساب أو الإيميل تلقائياً' },
+      { icon:'📊', name:'تصنيف بالعمر', desc:'حالي، 30، 60، 90+ يوم' },
+    ],
+  },
+];
+
+let _tourSteps = [];
+let _tourCurrentStep = 0;
+
+function buildTourSteps() {
+  const ct = Auth?.tenant?.customer_type || 'both';
+  const specific = ct === 'b2c' ? TOUR_B2C_STEPS : ct === 'b2b' ? TOUR_B2B_STEPS : [...TOUR_B2C_STEPS, ...TOUR_B2B_STEPS];
+  _tourSteps = [...TOUR_COMMON_INTRO, ...specific, ...TOUR_COMMON_END];
+}
+
+function startTour(force) {
+  if (!Auth?.tenant) { setTimeout(() => startTour(force), 800); return; }
+  if (!force && localStorage.getItem('mahsoob_tour_completed')) return;
+  buildTourSteps();
+  _tourCurrentStep = 0;
+  renderTourStep();
+  document.getElementById('tourModal').style.display = 'flex';
+}
+
+function renderTourStep() {
+  const s = _tourSteps[_tourCurrentStep];
+  if (!s) return;
+  document.getElementById('tourIconText').textContent = s.icon;
+  document.getElementById('tourTitle').textContent = s.title;
+  document.getElementById('tourSubtitle').textContent = s.subtitle;
+  document.getElementById('tourBody').innerHTML = s.body;
+
+  // Features
+  const fEl = document.getElementById('tourFeatures');
+  fEl.innerHTML = (s.features || []).map(f => `
+    <div class="tour-feature">
+      <div class="tour-feature-icon">${f.icon}</div>
+      <div class="tour-feature-text">
+        <div class="tour-feature-name">${f.name}</div>
+        <div class="tour-feature-desc">${f.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Progress dots
+  const dotsEl = document.getElementById('tourDots');
+  dotsEl.innerHTML = _tourSteps.map((_, i) =>
+    `<div class="tour-dot${i === _tourCurrentStep ? ' active' : ''}"></div>`
+  ).join('');
+
+  // Buttons
+  const prev = document.getElementById('tourPrevBtn');
+  const next = document.getElementById('tourNextBtn');
+  prev.style.visibility = _tourCurrentStep === 0 ? 'hidden' : 'visible';
+  const isLast = _tourCurrentStep === _tourSteps.length - 1;
+  next.textContent = isLast ? '🚀 يلا نبدأ' : 'التالي ←';
+}
+
+function nextTourStep() {
+  if (_tourCurrentStep < _tourSteps.length - 1) {
+    _tourCurrentStep++;
+    renderTourStep();
+  } else {
+    completeTour();
+  }
+}
+
+function prevTourStep() {
+  if (_tourCurrentStep > 0) { _tourCurrentStep--; renderTourStep(); }
+}
+
+function skipTour() {
+  if (confirm('تخطي الجولة التعريفية؟ تقدرين تعيدينها لاحقاً من الإعدادات.')) completeTour();
+}
+
+function completeTour() {
+  localStorage.setItem('mahsoob_tour_completed', '1');
+  document.getElementById('tourModal').style.display = 'none';
+  try { logActivity('settings', 'tour_complete', `أكملت الجولة التعريفية (${_tourSteps.length} خطوة)`, null); } catch(_) {}
+}
+
+// Auto-start tour for first-time users (3 sec after boot to let UI settle)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (typeof Auth !== 'undefined' && Auth?.tenant && Auth?.tenant?.onboarded !== false) {
+      startTour();
+    }
+  }, 2800);
+});
 
 // ═══════════════════════════════════════════════════════════════════════
 // Field Receipts Inbox — Review driver/worker uploads
