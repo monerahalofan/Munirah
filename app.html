@@ -1633,6 +1633,59 @@ body.dark .prc-sv{color:#f0f2f8}
     </div>
   </div>
 
+  <!-- B2C: Today's Snapshot (only renders for B2C cafe/retail) -->
+  <div id="b2cTodayCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:18px;padding:18px 20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(21,94,95,.04)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:15px;font-weight:800;color:#155e5f">ملخّص اليوم</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px" id="b2cTodayDate">—</div>
+      </div>
+      <button onclick="go('pos', null)" style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border:none;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 3px 10px rgba(127,197,123,.25)">＋ إغلاق اليوم</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+      <!-- Today's closing total -->
+      <div style="background:rgba(127,197,123,.08);border:1px solid rgba(127,197,123,.18);border-radius:12px;padding:12px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(21,94,95,.7);font-weight:600;margin-bottom:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>
+          إغلاق اليوم
+        </div>
+        <div style="font-size:18px;font-weight:900;color:#155e5f;direction:ltr;text-align:right" id="b2cToday-closing">— ر.س</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px" id="b2cToday-closingMeta">لم يُرفع بعد</div>
+      </div>
+
+      <!-- Bank reconciliation -->
+      <div style="background:rgba(130,176,199,.08);border:1px solid rgba(130,176,199,.2);border-radius:12px;padding:12px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(21,94,95,.7);font-weight:600;margin-bottom:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="2" y2="7"/><line x1="12" y1="2" x2="22" y2="7"/><line x1="4" y1="10" x2="4" y2="18"/><line x1="20" y1="10" x2="20" y2="18"/><line x1="2" y1="21" x2="22" y2="21"/></svg>
+          فرق الإيداع البنكي
+        </div>
+        <div style="font-size:18px;font-weight:900;direction:ltr;text-align:right" id="b2cToday-variance">— ر.س</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px" id="b2cToday-varianceMeta">بانتظار المطابقة</div>
+      </div>
+
+      <!-- Today's expenses -->
+      <div style="background:rgba(201,53,69,.06);border:1px solid rgba(201,53,69,.16);border-radius:12px;padding:12px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(21,94,95,.7);font-weight:600;margin-bottom:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+          مصاريف اليوم
+        </div>
+        <div style="font-size:18px;font-weight:900;color:#c93545;direction:ltr;text-align:right" id="b2cToday-expenses">— ر.س</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px" id="b2cToday-expensesMeta">— عملية</div>
+      </div>
+
+      <!-- Pending receipts -->
+      <div style="background:rgba(168,133,74,.08);border:1px solid rgba(168,133,74,.2);border-radius:12px;padding:12px;cursor:pointer" onclick="go('inbox', null)">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(21,94,95,.7);font-weight:600;margin-bottom:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          إيصالات بانتظار
+        </div>
+        <div style="font-size:18px;font-weight:900;color:#a8854a" id="b2cToday-pending">—</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px">من السواقين/العمال</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Quick Actions (JS renders here) -->
   <div id="quickActions" style="display:grid;gap:10px;margin-bottom:20px"></div>
   <div id="smA"></div>
@@ -5513,6 +5566,7 @@ function go(id,el){
   if (id === 'activity') loadActivityLog();
   if (id === 'gls')      loadGoals();
   if (id === 'inbox')    loadInbox();
+  if (id === 'db')       loadB2CDashboard();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -12568,32 +12622,50 @@ function renderQuickActions(role){
     teal  : { main:'#2C5559', bg:'rgba(44,85,89,.08)',    br:'rgba(44,85,89,.16)',    brh:'rgba(44,85,89,.45)',    sh:'rgba(44,85,89,.14)' },
   };
 
-  const QUICK = [
-    {
-      page:'zt', title:t('qa_invoice'), sub:t('qa_invoice_sub'), c:C.green,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
-    },
-    {
-      page:'scan', title:t('qa_scan'), sub:t('qa_scan_sub'), c:C.sky,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
-    },
-    {
-      page:'pos', title:t('qa_pos'), sub:t('qa_pos_sub'), c:C.khaki,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
-    },
-    {
-      page:'vat', title:t('qa_vat'), sub:t('qa_vat_sub'), c:C.teal,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>`,
-    },
-    {
-      page:'tx', title:t('qa_expense'), sub:t('qa_expense_sub'), c:C.olive,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
-    },
-    {
-      page:'ai', title:t('qa_ai'), sub:t('qa_ai_sub'), c:C.purple,
-      svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg>`,
-    },
+  // SVG library
+  const SVG = {
+    invoice:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+    scan:      `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
+    closing:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>`,
+    bank:      `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="2" y2="7"/><line x1="12" y1="2" x2="22" y2="7"/><line x1="4" y1="10" x2="4" y2="18"/><line x1="8" y1="10" x2="8" y2="18"/><line x1="12" y1="10" x2="12" y2="18"/><line x1="16" y1="10" x2="16" y2="18"/><line x1="20" y1="10" x2="20" y2="18"/><line x1="2" y1="21" x2="22" y2="21"/></svg>`,
+    inbox:     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+    expense:   `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    vat:       `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>`,
+    quote:     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    ai:        `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg>`,
+  };
+
+  // Customer-type aware quick action sets
+  const ct = Auth?.tenant?.customer_type || 'both';
+
+  const ACTIONS_B2C = [
+    { page:'pos',   title:'إغلاق يومي',     sub:'ارفع تقرير الكاشير',     c:C.green,  svg:SVG.closing },
+    { page:'pos',   title:'مطابقة بنكية',   sub:'قارن مع الإيداع',       c:C.teal,   svg:SVG.bank },
+    { page:'tx',    title:'سجّل مصروف',      sub:'مصاريف اليوم',           c:C.olive,  svg:SVG.expense },
+    { page:'inbox', title:'إيصالات السواق',  sub:'مراجعة الفواتير الواردة', c:C.khaki,  svg:SVG.inbox },
+    { page:'scan',  title:'مسح فاتورة',     sub:'فاتورة مورد بالـ AI',    c:C.sky,    svg:SVG.scan },
+    { page:'ai',    title:'استشر AI',        sub:'تحليل ذكي فوري',         c:C.purple, svg:SVG.ai },
   ];
+
+  const ACTIONS_B2B = [
+    { page:'zt',     title:t('qa_invoice'), sub:t('qa_invoice_sub'), c:C.green,  svg:SVG.invoice },
+    { page:'quotes', title:'عرض سعر',        sub:'عرض جديد للعميل',         c:C.khaki,  svg:SVG.quote },
+    { page:'scan',   title:t('qa_scan'),    sub:t('qa_scan_sub'),    c:C.sky,    svg:SVG.scan },
+    { page:'tx',     title:t('qa_expense'), sub:t('qa_expense_sub'), c:C.olive,  svg:SVG.expense },
+    { page:'vat',    title:t('qa_vat'),     sub:t('qa_vat_sub'),     c:C.teal,   svg:SVG.vat },
+    { page:'ai',     title:t('qa_ai'),      sub:t('qa_ai_sub'),      c:C.purple, svg:SVG.ai },
+  ];
+
+  const ACTIONS_BOTH = [
+    { page:'zt',    title:t('qa_invoice'), sub:t('qa_invoice_sub'), c:C.green,  svg:SVG.invoice },
+    { page:'scan',  title:t('qa_scan'),    sub:t('qa_scan_sub'),    c:C.sky,    svg:SVG.scan },
+    { page:'pos',   title:t('qa_pos'),     sub:t('qa_pos_sub'),     c:C.khaki,  svg:SVG.closing },
+    { page:'vat',   title:t('qa_vat'),     sub:t('qa_vat_sub'),     c:C.teal,   svg:SVG.vat },
+    { page:'tx',    title:t('qa_expense'), sub:t('qa_expense_sub'), c:C.olive,  svg:SVG.expense },
+    { page:'ai',    title:t('qa_ai'),      sub:t('qa_ai_sub'),      c:C.purple, svg:SVG.ai },
+  ];
+
+  const QUICK = ct === 'b2c' ? ACTIONS_B2C : ct === 'b2b' ? ACTIONS_B2B : ACTIONS_BOTH;
 
   el.style.gridTemplateColumns = window.innerWidth < 600 ? 'repeat(2,1fr)' : 'repeat(6,1fr)';
   el.innerHTML = QUICK.map(a => `
@@ -12971,6 +13043,94 @@ async function revokeInvite(inviteId, email) {
     await loadTeamMembers();
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// B2C Dashboard — Today's Snapshot (cafe/retail-specific)
+// ═══════════════════════════════════════════════════════════════════════
+async function loadB2CDashboard() {
+  const ct = Auth?.tenant?.customer_type;
+  const card = document.getElementById('b2cTodayCard');
+  if (!card) return;
+
+  if (ct !== 'b2c') { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+
+  const today = new Date().toISOString().slice(0,10);
+  const dateLabel = new Date().toLocaleDateString('ar-SA-u-nu-latn', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('b2cTodayDate').textContent = dateLabel;
+
+  // Update greeting subtitle for B2C
+  const greetSub = document.querySelector('.db-greet-sub');
+  if (greetSub) greetSub.textContent = 'يومك بدأ — جاهز لرفع الإغلاق ومراجعة الإيصالات؟';
+
+  try {
+    const [closingRes, expRes, inboxRes] = await Promise.all([
+      _sb.from('daily_closings').select('total_sales, cash_amount, card_amount, bank_amount, returns_amount, bank_deposit_amount, variance_amount, reconciled_at')
+         .eq('tenant_id', tid).eq('closing_date', today).maybeSingle(),
+      _sb.from('expenses').select('amount').eq('tenant_id', tid).eq('expense_date', today),
+      _sb.from('expenses').select('*', { count:'exact', head:true })
+         .eq('tenant_id', tid).eq('source','driver_quick_capture').eq('category','pending_review'),
+    ]);
+
+    // Today's closing
+    const closingEl = document.getElementById('b2cToday-closing');
+    const closingMetaEl = document.getElementById('b2cToday-closingMeta');
+    if (closingRes.data) {
+      const total = +closingRes.data.total_sales || 0;
+      closingEl.textContent = total.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' ر.س';
+      const cash = +closingRes.data.cash_amount || 0;
+      const card2 = +closingRes.data.card_amount || 0;
+      closingMetaEl.textContent = `كاش ${cash.toFixed(0)} · شبكة ${card2.toFixed(0)}`;
+      closingMetaEl.style.color = '#155e5f';
+    } else {
+      closingEl.textContent = '— ر.س';
+      closingMetaEl.textContent = 'لم يُرفع بعد — اضغط ＋ إغلاق اليوم';
+      closingMetaEl.style.color = '#a8854a';
+    }
+
+    // Variance
+    const varEl = document.getElementById('b2cToday-variance');
+    const varMetaEl = document.getElementById('b2cToday-varianceMeta');
+    if (closingRes.data?.reconciled_at) {
+      const v = +closingRes.data.variance_amount || 0;
+      const color = Math.abs(v) < 0.01 ? '#155e5f' : v > 0 ? '#1e6080' : '#c93545';
+      varEl.textContent = (v > 0 ? '+' : '') + v.toFixed(2) + ' ر.س';
+      varEl.style.color = color;
+      varMetaEl.textContent = Math.abs(v) < 0.01 ? 'مطابقة تامة ✓' : v > 0 ? 'كاش زائد' : 'يحتاج مراجعة';
+      varMetaEl.style.color = color;
+    } else if (closingRes.data) {
+      varEl.textContent = '— ر.س';
+      varEl.style.color = '#a8854a';
+      varMetaEl.textContent = 'بانتظار المطابقة البنكية';
+      varMetaEl.style.color = '#a8854a';
+    } else {
+      varEl.textContent = '— ر.س';
+      varEl.style.color = 'rgba(21,94,95,.4)';
+      varMetaEl.textContent = 'يحتاج إغلاق أولاً';
+    }
+
+    // Today's expenses
+    const expSum = (expRes.data || []).reduce((s, e) => s + (+e.amount || 0), 0);
+    const expCount = (expRes.data || []).length;
+    const expEl = document.getElementById('b2cToday-expenses');
+    const expMetaEl = document.getElementById('b2cToday-expensesMeta');
+    expEl.textContent = expSum.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' ر.س';
+    expMetaEl.textContent = expCount === 0 ? 'لا مصاريف اليوم' : `${expCount} عملية`;
+
+    // Pending receipts
+    const pendingCount = inboxRes.count || 0;
+    const pendingEl = document.getElementById('b2cToday-pending');
+    pendingEl.textContent = pendingCount;
+
+  } catch (e) {
+    console.warn('loadB2CDashboard:', e.message);
+  }
+}
+
+window.addEventListener('load', () => setTimeout(loadB2CDashboard, 2000));
 
 // ═══════════════════════════════════════════════════════════════════════
 // Welcome Tour — First-time onboarding walkthrough
