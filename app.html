@@ -13557,16 +13557,31 @@ function getCurrentUser(){return appUsers.find(u=>u.id===currentUserId)||appUser
 function applyCurrentUser(){
   const u=getCurrentUser();
   const role=ROLE_DEF[u.role]||ROLE_DEF.admin;
+
+  // Profile from new system (preferred); fall back to legacy PIN-based name
+  const savedProfile = JSON.parse(localStorage.getItem('mahsoob_profile') || '{}');
+  const displayName = savedProfile.name || savedProfile.bizName
+                   || (typeof Auth !== 'undefined' && Auth?.profile?.display_name)
+                   || (typeof Auth !== 'undefined' && Auth?.tenant?.name)
+                   || u.name;
+  const photo = savedProfile.photo || null;
+
   // Sidebar
   const av=document.getElementById('userAv');
   const un=document.getElementById('userName');
   const rl=document.getElementById('userRoleLbl');
-  if(av)av.textContent=u.name.charAt(0)||role.av;
-  if(un)un.textContent=u.name;
+  if(av){
+    if (photo) {
+      av.innerHTML = `<img src="${photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>`;
+    } else {
+      av.textContent = (displayName || u.name).slice(0,2);
+    }
+  }
+  if(un)un.textContent=displayName;
   if(rl){rl.textContent=role.label+' ✓';rl.style.color='var(--'+role.color+')';}
   // Greeting
   const gn=document.getElementById('greetName');
-  if(gn)gn.textContent=u.name;
+  if(gn)gn.textContent=displayName;
   const gd=document.getElementById('greetDate');
   if(gd)gd.textContent=new Date().toLocaleDateString('ar-SA-u-nu-latn',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   // Quick actions
