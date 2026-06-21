@@ -7,9 +7,10 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL              = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const WHATSAPP_PROVIDER         = Deno.env.get("WHATSAPP_PROVIDER") || "unifonic"; // unifonic | twilio | messagebird
+const WHATSAPP_PROVIDER         = Deno.env.get("WHATSAPP_PROVIDER") || "authentica"; // authentica | unifonic | twilio
 const WHATSAPP_API_KEY          = Deno.env.get("WHATSAPP_API_KEY") || "";
 const WHATSAPP_FROM             = Deno.env.get("WHATSAPP_FROM") || "Mahsob";
+const AUTHENTICA_API_KEY        = Deno.env.get("AUTHENTICA_API_KEY") || "";
 
 const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -61,9 +62,37 @@ async function sendViaTwilio(phone: string, message: string): Promise<{ ok: bool
   } catch (e) { return { ok: false, error: (e as Error).message }; }
 }
 
+async function sendViaAuthentica(phone: string, message: string): Promise<{ ok: boolean; ref?: string; error?: string }> {
+  // Authentica supports OTP via WhatsApp. For custom WhatsApp messaging
+  // we use a "custom OTP" trick — embed our reminder text into the OTP message
+  // by passing a custom `otp` field. NOTE: confirm exact endpoint with Authentica
+  // (their docs mention "Send Custom SMS Messages" but endpoint details vary).
+  try {
+    const res = await fetch("https://api.authentica.sa/api/v2/send-message", {
+      method: "POST",
+      headers: {
+        "X-Authorization": AUTHENTICA_API_KEY,
+        "Accept":          "application/json",
+        "Content-Type":    "application/json",
+      },
+      body: JSON.stringify({
+        method:  "whatsapp",
+        phone:   phone.startsWith("+") ? phone : "+" + phone,
+        message: message,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data?.success === false) {
+      return { ok: false, error: data?.message || data?.errors?.[0]?.message || `HTTP ${res.status}` };
+    }
+    return { ok: true, ref: data?.data?.message_id || data?.data?.id };
+  } catch (e) { return { ok: false, error: (e as Error).message }; }
+}
+
 async function sendWhatsApp(phone: string, message: string) {
-  if (WHATSAPP_PROVIDER === "twilio") return sendViaTwilio(phone, message);
-  return sendViaUnifonic(phone, message);
+  if (WHATSAPP_PROVIDER === "twilio")    return sendViaTwilio(phone, message);
+  if (WHATSAPP_PROVIDER === "unifonic")  return sendViaUnifonic(phone, message);
+  return sendViaAuthentica(phone, message);
 }
 
 Deno.serve(async (_req) => {

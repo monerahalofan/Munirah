@@ -275,20 +275,30 @@ function setBtn(id, loading, text) {
   else { b.disabled = false; b.textContent = text || b.dataset.original || b.textContent; }
 }
 
-// ── OTP flow ─────────────────────────────────────────────
+// ── OTP flow (via Authentica Edge Function) ──────────────
 async function sendOtp() {
   clearMsgs();
   const raw = document.getElementById('phoneIn').value.trim();
   if (!raw || raw.length < 9) { showErr('أدخل رقم جوال صحيح'); return; }
   _phone = '+966' + raw.replace(/^0/, '');
   setBtn('sendBtn', true);
-  const { error } = await sb.auth.signInWithOtp({ phone: _phone });
-  setBtn('sendBtn', false, 'إرسال رمز التحقق ←');
-  if (error) { showErr(error.message || 'فشل إرسال الرمز'); return; }
-  document.getElementById('phoneStep').classList.add('hidden');
-  document.getElementById('otpStep').classList.remove('hidden');
-  document.getElementById('otpHint').textContent = `أُرسل الرمز إلى ${_phone}`;
-  document.querySelectorAll('.otp-digit')[0].focus();
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/auth-send-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+      body:    JSON.stringify({ phone: _phone, channel: 'sms', context: 'capture' }),
+    });
+    const data = await res.json();
+    setBtn('sendBtn', false, 'إرسال رمز التحقق ←');
+    if (!data.success) { showErr(data.error || 'فشل إرسال الرمز'); return; }
+    document.getElementById('phoneStep').classList.add('hidden');
+    document.getElementById('otpStep').classList.remove('hidden');
+    document.getElementById('otpHint').textContent = `أُرسل الرمز إلى ${_phone}`;
+    document.querySelectorAll('.otp-digit')[0].focus();
+  } catch (e) {
+    setBtn('sendBtn', false, 'إرسال رمز التحقق ←');
+    showErr('تعذّر الاتصال — حاول مرة أخرى');
+  }
 }
 
 function otpNext(el, idx) {
@@ -301,11 +311,28 @@ async function verifyOtp() {
   const code = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
   if (code.length < 6) { showErr('أدخل الرمز المكوّن من 6 أرقام'); return; }
   setBtn('verifyBtn', true);
-  const { data, error } = await sb.auth.verifyOtp({ phone: _phone, token: code, type: 'sms' });
-  setBtn('verifyBtn', false, 'دخول ←');
-  if (error) { showErr('رمز غير صحيح'); return; }
-  _userInfo = data.user;
-  showCaptureUI();
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/auth-verify-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+      body:    JSON.stringify({ phone: _phone, otp: code, context: 'capture' }),
+    });
+    const data = await res.json();
+    setBtn('verifyBtn', false, 'دخول ←');
+    if (!data.success || !data.session) { showErr(data.error || 'رمز غير صحيح'); return; }
+
+    // Apply session
+    const { error: setErr } = await sb.auth.setSession({
+      access_token:  data.session.access_token,
+      refresh_token: data.session.refresh_token,
+    });
+    if (setErr) { showErr('فشل تطبيق الجلسة'); return; }
+    _userInfo = data.user;
+    showCaptureUI();
+  } catch (e) {
+    setBtn('verifyBtn', false, 'دخول ←');
+    showErr('تعذّر الاتصال — حاول مرة أخرى');
+  }
 }
 
 function resetOtp() {

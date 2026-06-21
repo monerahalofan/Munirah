@@ -638,15 +638,28 @@ async function doSendOtp() {
   if (!raw || raw.length < 9) { showErr('يرجى إدخال رقم جوال صحيح (9 أرقام بدون الصفر)'); return; }
   const phone = '+966' + raw.replace(/^0/, '');
   setBtnLoading('phoneSendBtn', true, 'إرسال رمز التحقق ←');
-  const { error } = await sb.auth.signInWithOtp({ phone });
-  setBtnLoading('phoneSendBtn', false);
-  if (error) { showErr(translateError(error.message)); return; }
-  document.getElementById('phoneStep1').style.display = 'none';
-  document.getElementById('phoneStep2').style.display = '';
-  document.getElementById('otpSubtitle').textContent  = `أُرسل الرمز إلى ${phone}`;
-  document.querySelectorAll('.otp-digit')[0].focus();
-  clearMsgs();
-  showSuc('تم إرسال رمز التحقق');
+
+  try {
+    // Use Authentica via our Edge Function instead of Supabase Phone Auth
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/auth-send-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+      body:    JSON.stringify({ phone, channel: 'sms', context: 'login' }),
+    });
+    const data = await res.json();
+    setBtnLoading('phoneSendBtn', false);
+    if (!data.success) { showErr(data.error || 'فشل إرسال الرمز'); return; }
+
+    document.getElementById('phoneStep1').style.display = 'none';
+    document.getElementById('phoneStep2').style.display = '';
+    document.getElementById('otpSubtitle').textContent  = `أُرسل الرمز إلى ${phone}`;
+    document.querySelectorAll('.otp-digit')[0].focus();
+    clearMsgs();
+    showSuc(data.message || 'تم إرسال رمز التحقق');
+  } catch (e) {
+    setBtnLoading('phoneSendBtn', false);
+    showErr('تعذّر الاتصال بالخادم — حاول مرة أخرى');
+  }
 }
 
 function otpNext(el, idx) {
@@ -661,24 +674,42 @@ async function doVerifyOtp() {
   const raw   = document.getElementById('phoneNum').value.trim();
   const phone = '+966' + raw.replace(/^0/, '');
 
-  // Honor "remember me long" toggle — stored to be read by app on next boot
+  // Honor "remember me long" toggle
   const longSession = document.getElementById('otpRememberLong')?.checked ?? true;
   try { localStorage.setItem('mahsoob_long_session', longSession ? '1' : '0'); } catch(_) {}
 
   setBtnLoading('otpVerifyBtn', true, 'تحقق والدخول ←');
-  const { data, error } = await sb.auth.verifyOtp({ phone, token: digits, type: 'sms' });
-  setBtnLoading('otpVerifyBtn', false);
-  if (error) { showErr(translateError(error.message)); return; }
-
-  // Track session start time so app can warn on long-session expiry
   try {
-    if (data?.session) {
-      localStorage.setItem('mahsoob_session_started', String(Date.now()));
-      localStorage.setItem('mahsoob_login_method', 'phone_otp');
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/auth-verify-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+      body:    JSON.stringify({ phone, otp: digits, context: 'login' }),
+    });
+    const data = await res.json();
+    setBtnLoading('otpVerifyBtn', false);
+    if (!data.success || !data.session) {
+      showErr(data.error || 'رمز غير صحيح');
+      return;
     }
-  } catch(_) {}
 
-  window.location.href = '/app';
+    // Apply the session returned from the Edge Function
+    const { error: setErr } = await sb.auth.setSession({
+      access_token:  data.session.access_token,
+      refresh_token: data.session.refresh_token,
+    });
+    if (setErr) { showErr('فشل تطبيق الجلسة: ' + setErr.message); return; }
+
+    // Track session
+    try {
+      localStorage.setItem('mahsoob_session_started', String(Date.now()));
+      localStorage.setItem('mahsoob_login_method', 'authentica_phone_otp');
+    } catch(_) {}
+
+    window.location.href = '/app';
+  } catch (e) {
+    setBtnLoading('otpVerifyBtn', false);
+    showErr('تعذّر الاتصال بالخادم — حاول مرة أخرى');
+  }
 }
 
 function resetPhone() {
