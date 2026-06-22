@@ -4985,6 +4985,25 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="font-size:11px;color:var(--t3);margin-top:10px">⏰ التمديد يبدأ من تاريخ انتهاء التجربة الحالي (لو لسه شغّالة) أو من اليوم (لو انتهت)</div>
   </div>
 
+  <!-- Manage Platform Admins Card -->
+  <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(130,176,199,.15);color:#1e6080;display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:#000">إدارة الأدمن (Platform Admins)</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">رقّي أي مستخدم لأدمن — يصير عنده وصول كامل للوحة الإدارة</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <input class="fi" id="newAdminEmail" placeholder="إيميل المستخدم" style="flex:1;min-width:220px;direction:ltr;text-align:left">
+      <input class="fi" id="newAdminNote" placeholder="ملاحظة (اختيارية)" style="flex:1;min-width:160px">
+      <button class="btn bp" onclick="adminGrantAdmin()">👑 ترقية لأدمن</button>
+    </div>
+    <div id="adminsList" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
   <!-- Users table -->
   <div style="background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden">
     <div style="padding:16px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
@@ -8690,6 +8709,9 @@ async function adminLoad() {
     console.error('admin_list_users failed:', e);
     document.getElementById('adminUsersList').innerHTML = `<div style="padding:30px;text-align:center;color:#dc2626">${e.message}</div>`;
   }
+
+  // Platform admins list
+  loadPlatformAdmins().catch(() => {});
 }
 
 function renderAdminStats(s) {
@@ -8750,6 +8772,7 @@ function adminRenderUsers() {
           ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#155e5f;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="adminQuickPromote('${u.email}')" title="ترقية لأدمن" style="padding:6px 10px;background:rgba(130,176,199,.12);color:#1e6080;border:1px solid rgba(130,176,199,.3);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">👑 أدمن</button>
           <button onclick="adminQuickExtend('${u.email}', 14)" title="تمديد التجربة 14 يوم" style="padding:6px 10px;background:rgba(168,133,74,.1);color:#a8854a;border:1px solid rgba(168,133,74,.28);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ 14 يوم</button>
           <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(206,217,217,.1);color:#7fc57b;border:1px solid rgba(206,217,217,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
           <button onclick="adminQuickGrant('${u.email}','free')" title="إلغاء" style="padding:6px 10px;background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">إلغاء</button>
@@ -8798,6 +8821,80 @@ async function _doAdminExtendTrial(email, days) {
     if (typeof adminLoad === 'function') adminLoad();
   } catch (e) {
     toast({ type:'error', msg: e.message || 'فشل التمديد' });
+  }
+}
+
+// ─── Platform Admins Management ────────────────────────────────────────
+async function adminGrantAdmin() {
+  const email = (document.getElementById('newAdminEmail').value || '').trim();
+  const note  = (document.getElementById('newAdminNote').value || '').trim();
+  if (!email) { toast({ type:'warn', msg:'أدخل الإيميل' }); return; }
+  if (!confirm(`ترقية ${email} لأدمن؟ سيحصل على وصول كامل للوحة الإدارة.`)) return;
+  await _doGrantAdmin(email, note || null);
+}
+
+async function adminQuickPromote(email) {
+  if (!confirm(`ترقية ${email} لأدمن؟`)) return;
+  await _doGrantAdmin(email, null);
+}
+
+async function _doGrantAdmin(email, note) {
+  try {
+    const { data, error } = await _sb.rpc('admin_grant_admin', {
+      target_email: email,
+      note_in:      note,
+    });
+    if (error) throw error;
+    toast({ type:'success', title:'تم!', msg: data || 'تمت الترقية' });
+    document.getElementById('newAdminEmail').value = '';
+    document.getElementById('newAdminNote').value = '';
+    logActivity('settings', 'admin_grant_admin', `ترقية ${email} لأدمن منصة`, { email, note }).catch(()=>{});
+    await loadPlatformAdmins();
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل الترقية' });
+  }
+}
+
+async function adminRevokeAdmin(email) {
+  if (!confirm(`إزالة صلاحيات الأدمن من ${email}؟`)) return;
+  try {
+    const { data, error } = await _sb.rpc('admin_revoke_admin', { target_email: email });
+    if (error) throw error;
+    toast({ type:'success', msg: data || 'تمت الإزالة' });
+    logActivity('settings', 'admin_revoke_admin', `إزالة صلاحيات أدمن من ${email}`, { email }).catch(()=>{});
+    await loadPlatformAdmins();
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل الإزالة' });
+  }
+}
+
+async function loadPlatformAdmins() {
+  const list = document.getElementById('adminsList');
+  if (!list) return;
+  try {
+    const { data, error } = await _sb.rpc('list_platform_admins');
+    if (error) throw error;
+    const admins = data || [];
+    if (!admins.length) {
+      list.innerHTML = `<div style="text-align:center;padding:14px;color:var(--t3);font-size:12px">لا يوجد أدمن مسجّل في الجدول — راجعي SQL migration</div>`;
+      return;
+    }
+    list.innerHTML = admins.map(a => {
+      const isFounder = a.email === 'monerahalofan@gmail.com';
+      const added = a.added_at ? new Date(a.added_at).toLocaleDateString('ar-SA-u-nu-latn') : '—';
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--b);border-radius:10px;background:rgba(130,176,199,.04)">
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(130,176,199,.18);color:#1e6080;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">👑</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:700;color:#155e5f;direction:ltr;text-align:right">${a.email}</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">${a.notes || 'بدون ملاحظة'} · أُضيف في ${added}</div>
+        </div>
+        ${isFounder
+          ? `<span style="background:rgba(127,197,123,.15);color:#155e5f;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap">المؤسس (محمي)</span>`
+          : `<button onclick="adminRevokeAdmin('${a.email}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.28);padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">إزالة</button>`}
+      </div>`;
+    }).join('');
+  } catch (e) {
+    list.innerHTML = `<div style="text-align:center;padding:14px;color:#c93545;font-size:12px">⚠️ شغّل SQL migration الجديد</div>`;
   }
 }
 

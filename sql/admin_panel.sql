@@ -13,16 +13,38 @@ alter table tenants add column if not exists plan_expires_at timestamptz;
 
 -- ─── 1. قائمة إيميلات الـ Admins ──────────────────────────────────────────
 -- ⚠️ عدّل القائمة في الدالة لإضافة/حذف admins
+-- جدول قابل للتحديث من الواجهة (بدل القائمة المثبتة في الكود)
+create table if not exists platform_admins (
+  email       text primary key,
+  added_by    uuid references auth.users(id) on delete set null,
+  added_at    timestamptz default now(),
+  notes       text
+);
+
+-- زرع الأدمن الافتراضي (آمن — ON CONFLICT لا يفعل شي)
+insert into platform_admins (email, notes) values
+  ('monerahalofan@gmail.com', 'Founder'),
+  ('hello@mahsob.sa',         'Official mahsob account')
+on conflict (email) do nothing;
+
+alter table platform_admins enable row level security;
+drop policy if exists "admins_read" on platform_admins;
+create policy "admins_read" on platform_admins for select
+  using (auth.jwt() ->> 'email' in (select email from platform_admins));
+
+grant select on platform_admins to authenticated;
+
+-- تحديث الدالة لتقرأ من الجدول (مع fallback آمن للأدمن الأساسي)
 create or replace function is_admin()
 returns boolean
 language sql
 security definer
 stable
 as $$
-  select auth.jwt() ->> 'email' in (
-    'monerahalofan@gmail.com',
-    'hello@mahsob.sa'
-  );
+  select exists (
+    select 1 from platform_admins
+    where lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+  ) or coalesce(auth.jwt() ->> 'email', '') = 'monerahalofan@gmail.com';
 $$;
 
 grant execute on function is_admin() to authenticated;
@@ -167,6 +189,71 @@ end;
 $$;
 
 grant execute on function admin_extend_trial(text, int) to authenticated;
+
+-- ─── RPC: ترقية/إزالة أدمن ─────────────────────────────────────────────────
+create or replace function admin_grant_admin(target_email text, note_in text default null)
+returns text
+language plpgsql
+security definer
+as $$
+declare
+  e text := lower(trim(target_email));
+begin
+  if not is_admin() then raise exception 'unauthorized'; end if;
+  if e is null or e !~ '^[^@]+@[^@]+\.[^@]+$' then
+    raise exception 'invalid email';
+  end if;
+  insert into platform_admins (email, added_by, notes)
+  values (e, auth.uid(), note_in)
+  on conflict (email) do update set added_by = excluded.added_by, notes = coalesce(excluded.notes, platform_admins.notes);
+  return 'تم تعيين ' || e || ' كأدمن ✓';
+end;
+$$;
+
+grant execute on function admin_grant_admin(text, text) to authenticated;
+
+create or replace function admin_revoke_admin(target_email text)
+returns text
+language plpgsql
+security definer
+as $$
+declare
+  my_email text := lower(coalesce(auth.jwt() ->> 'email', ''));
+  e text := lower(trim(target_email));
+  remaining int;
+begin
+  if not is_admin() then raise exception 'unauthorized'; end if;
+  if e = my_email then
+    raise exception 'لا يمكنك إزالة صلاحياتك بنفسك';
+  end if;
+  if e = 'monerahalofan@gmail.com' then
+    raise exception 'الحساب المؤسس محمي ولا يمكن إزالته';
+  end if;
+
+  delete from platform_admins where lower(email) = e;
+  select count(*) into remaining from platform_admins;
+  if remaining < 1 then
+    raise exception 'لازم يبقى أدمن واحد على الأقل';
+  end if;
+  return 'تم إزالة صلاحيات الأدمن من ' || e || ' ✓';
+end;
+$$;
+
+grant execute on function admin_revoke_admin(text) to authenticated;
+
+-- ─── RPC: قائمة الأدمن الحاليين ───────────────────────────────────────────
+create or replace function list_platform_admins()
+returns table (email text, added_at timestamptz, notes text)
+language sql
+security definer
+as $$
+  select email, added_at, notes
+    from platform_admins
+   where is_admin()
+   order by added_at;
+$$;
+
+grant execute on function list_platform_admins() to authenticated;
 
 -- ─── 5. RPC: إحصائيات Dashboard ─────────────────────────────────────────
 create or replace function admin_stats()
