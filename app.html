@@ -4960,6 +4960,31 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="font-size:11px;color:var(--t3);margin-top:10px">💡 لازم المستخدم يكون مسجّل دخوله مرة واحدة على الأقل</div>
   </div>
 
+  <!-- Extend Trial Card -->
+  <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(168,133,74,.12);color:#a8854a;display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:#000">تمديد فترة التجربة</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:2px">أضف أيام تجربة لمستخدم محدد (تنضاف على المتبقي إذا تجربته لسه شغّالة)</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input class="fi" id="trialEmail" placeholder="إيميل المستخدم" style="flex:1;min-width:220px;direction:ltr;text-align:left">
+      <select class="fi" id="trialDays" style="width:140px">
+        <option value="7">+ 7 أيام</option>
+        <option value="14" selected>+ 14 يوم</option>
+        <option value="30">+ 30 يوم</option>
+        <option value="60">+ 60 يوم</option>
+        <option value="90">+ 90 يوم</option>
+      </select>
+      <button class="btn bp" onclick="adminExtendTrial()">تمديد</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:10px">⏰ التمديد يبدأ من تاريخ انتهاء التجربة الحالي (لو لسه شغّالة) أو من اليوم (لو انتهت)</div>
+  </div>
+
   <!-- Users table -->
   <div style="background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden">
     <div style="padding:16px 20px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
@@ -8724,7 +8749,8 @@ function adminRenderUsers() {
           <span style="background:${sc}1A;color:${sc};font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${sl}</span>
           ${u.plan ? `<span style="background:rgba(44,85,89,.08);color:#155e5f;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px">${planBadge[u.plan] || u.plan}</span>` : ''}
         </div>
-        <div style="display:flex;gap:6px">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="adminQuickExtend('${u.email}', 14)" title="تمديد التجربة 14 يوم" style="padding:6px 10px;background:rgba(168,133,74,.1);color:#a8854a;border:1px solid rgba(168,133,74,.28);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ 14 يوم</button>
           <button onclick="adminQuickGrant('${u.email}','business')" title="منح Business" style="padding:6px 10px;background:rgba(206,217,217,.1);color:#7fc57b;border:1px solid rgba(206,217,217,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">+ Business</button>
           <button onclick="adminQuickGrant('${u.email}','free')" title="إلغاء" style="padding:6px 10px;background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.25);border-radius:7px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">إلغاء</button>
         </div>
@@ -8743,6 +8769,36 @@ async function adminGrant() {
 async function adminQuickGrant(email, plan) {
   if (!confirm(`تطبيق "${plan}" للحساب: ${email}؟`)) return;
   await _doAdminGrant(email, plan);
+}
+
+// ─── Extend Trial ──────────────────────────────────────────────────────
+async function adminExtendTrial() {
+  const email = document.getElementById('trialEmail').value.trim();
+  const days  = parseInt(document.getElementById('trialDays').value) || 14;
+  if (!email) { toast({ type:'warn', msg:'أدخل الإيميل' }); return; }
+  await _doAdminExtendTrial(email, days);
+}
+
+async function adminQuickExtend(email, days) {
+  if (!confirm(`تمديد التجربة ${days} يوم لـ: ${email}؟`)) return;
+  await _doAdminExtendTrial(email, days);
+}
+
+async function _doAdminExtendTrial(email, days) {
+  try {
+    const { data, error } = await _sb.rpc('admin_extend_trial', {
+      target_email: email,
+      extra_days:   days,
+    });
+    if (error) throw error;
+    toast({ type:'success', title:'تم!', msg: data || `تم تمديد التجربة ${days} يوم` });
+    const el = document.getElementById('trialEmail');
+    if (el) el.value = '';
+    try { logActivity('settings', 'admin_extend_trial', `تمديد تجربة ${days} يوم لـ ${email}`, { email, days }); } catch(_) {}
+    if (typeof adminLoad === 'function') adminLoad();
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل التمديد' });
+  }
 }
 
 async function _doAdminGrant(email, plan) {

@@ -20,7 +20,8 @@ security definer
 stable
 as $$
   select auth.jwt() ->> 'email' in (
-    'monerahalofan@gmail.com'
+    'monerahalofan@gmail.com',
+    'hello@mahsob.sa'
   );
 $$;
 
@@ -115,6 +116,57 @@ end;
 $$;
 
 grant execute on function admin_set_plan(text, text, boolean) to authenticated;
+
+-- ─── RPC: تمديد فترة التجربة لمستخدم ───────────────────────────────────────
+create or replace function admin_extend_trial(target_email text, extra_days int)
+returns text
+language plpgsql
+security definer
+as $$
+declare
+  target_user_id uuid;
+  current_trial_end timestamptz;
+  new_trial_end timestamptz;
+begin
+  if not is_admin() then
+    raise exception 'unauthorized';
+  end if;
+
+  if extra_days <= 0 or extra_days > 365 then
+    raise exception 'invalid days: must be between 1 and 365';
+  end if;
+
+  select id into target_user_id from auth.users where email = target_email;
+  if target_user_id is null then
+    return 'لم يتم العثور على هذا الإيميل';
+  end if;
+
+  -- Get current trial end (or now if expired/missing)
+  select trial_ends_at into current_trial_end
+    from tenants where owner_id = target_user_id;
+
+  if current_trial_end is null or current_trial_end < now() then
+    new_trial_end := now() + (extra_days || ' days')::interval;
+  else
+    new_trial_end := current_trial_end + (extra_days || ' days')::interval;
+  end if;
+
+  update tenants
+     set trial_ends_at = new_trial_end,
+         plan = 'free',
+         updated_at = now()
+   where owner_id = target_user_id;
+
+  if not found then
+    return 'المستخدم سجّل دخوله لكن لم يكمل الإعداد';
+  end if;
+
+  return 'تم تمديد التجربة لـ ' || extra_days || ' يوم — تنتهي في ' ||
+         to_char(new_trial_end, 'YYYY-MM-DD');
+end;
+$$;
+
+grant execute on function admin_extend_trial(text, int) to authenticated;
 
 -- ─── 5. RPC: إحصائيات Dashboard ─────────────────────────────────────────
 create or replace function admin_stats()
