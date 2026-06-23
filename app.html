@@ -6229,6 +6229,18 @@ async function zatcaGenerateCsr() {
     const el = document.getElementById('zcsrResult');
     el.style.display = 'block';
     el.innerHTML = `<b>✓ تم إنشاء CSR بنجاح</b><br>المفتاحان (Public + Private) محفوظان في قاعدة بياناتك المشفّرة.<br>الخطوة التالية: أدخل OTP في الخطوة 3.`;
+
+    // Sync new automation state — non-blocking
+    try {
+      await _sb.from('zatca_state').upsert({
+        tenant_id:    Auth?.tenant?.id,
+        status:       'csr_generated',
+        environment:  env,
+        updated_at:   new Date().toISOString(),
+      }, { onConflict: 'tenant_id' });
+      logActivity('settings', 'zatca_csr_generated', `إنشاء CSR لـ ZATCA (${env})`).catch(()=>{});
+      setTimeout(() => { if (typeof renderZatcaWizard === 'function') renderZatcaWizard(); }, 400);
+    } catch(_) {}
   } catch(e) {
     alert('تعذّر الاتصال: ' + e.message);
   } finally {
@@ -6259,7 +6271,25 @@ async function zatcaSubmitOtp() {
     } else {
       el.style.background = 'rgba(206,217,217,.08)'; el.style.border = '1px solid rgba(206,217,217,.3)'; el.style.color = '#2C5559';
       el.innerHTML = `<b>✓ تم الربط بنجاح!</b><br>${data.message}<br>RequestID: <code>${data.requestID||'-'}</code>`;
-      setTimeout(() => zatcaLoad(), 800);
+
+      // Sync new automation state — mark as onboarded with expiry dates
+      try {
+        const now = new Date();
+        const ccsidExpiry = new Date(now); ccsidExpiry.setFullYear(ccsidExpiry.getFullYear() + 1);
+        const pcsidExpiry = new Date(now); pcsidExpiry.setFullYear(pcsidExpiry.getFullYear() + 3);
+        await _sb.from('zatca_state').upsert({
+          tenant_id:        Auth?.tenant?.id,
+          status:           'onboarded',
+          environment:      env,
+          onboarded_at:     now.toISOString(),
+          ccsid_expires_at: ccsidExpiry.toISOString(),
+          pcsid_expires_at: pcsidExpiry.toISOString(),
+          updated_at:       now.toISOString(),
+        }, { onConflict: 'tenant_id' });
+        logActivity('settings', 'zatca_onboarded_full', `إكمال ربط ZATCA — البيئة ${env}`, { environment: env }).catch(()=>{});
+      } catch(_) {}
+
+      setTimeout(() => { zatcaLoad(); if (typeof renderZatcaWizard === 'function') renderZatcaWizard(); }, 800);
     }
   } catch(e) {
     el.style.display = 'block';
@@ -12654,9 +12684,41 @@ async function issueZ(){
       body: JSON.stringify({ seller: sel, sellerVat: selV, sellerCity: selC, buyer: buy, buyerVat: buyV, invoiceType: iTyp, items }),
     });
     const data = await res.json();
-    if (!res.ok || data.error) { alert(data.error || 'خطأ في إصدار الفاتورة'); return; }
+    if (!res.ok || data.error) {
+      // Log failure to zatca_invoice_log
+      try {
+        await _sb.rpc('zatca_log_invoice', {
+          invoice_id_in:     null,
+          invoice_number_in: null,
+          invoice_type_in:   iTyp || 'simplified',
+          status_in:         'failed',
+          errors_in:         data?.errors || [{ message: data?.error || 'Unknown error' }],
+        });
+      } catch(_) {}
+      alert(data.error || 'خطأ في إصدار الفاتورة');
+      return;
+    }
 
     const inv = data.invoice;
+
+    // Log success to zatca_invoice_log
+    try {
+      const status = data.zatca_status === 'ACCEPTED' ? 'accepted'
+                  : data.zatca_status === 'ACCEPTED_WITH_WARNINGS' ? 'warning'
+                  : data.zatca_status === 'REJECTED' ? 'rejected'
+                  : 'submitted';
+      await _sb.rpc('zatca_log_invoice', {
+        invoice_id_in:     inv?.id || null,
+        invoice_number_in: inv?.number || null,
+        invoice_type_in:   iTyp || 'simplified',
+        status_in:         status,
+        warnings_in:       data?.warnings || null,
+        errors_in:         data?.errors || null,
+        uuid_in:           inv?.uuid || null,
+        hash_in:           inv?.hash || null,
+      });
+    } catch(_) {}
+
     // Fetch tenant branding (logo, colors, template, footer, terms)
     let brand = window._tenantBrand;
     if (!brand) {
