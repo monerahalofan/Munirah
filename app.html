@@ -4131,6 +4131,30 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
   </div>
 
+  <!-- Rejected Invoices Report Card -->
+  <div id="zatcaRejectionsCard" class="card" style="margin-bottom:14px;display:none">
+    <div class="sh" style="margin-bottom:12px">
+      <div>
+        <div class="st" style="display:flex;align-items:center;gap:8px">⚠️ الفواتير المرفوضة <span id="zatcaRejCount" style="background:#c93545;color:#fff;font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700">0</span></div>
+        <div style="font-size:11px;color:rgba(21,94,95,.65);margin-top:2px">أسباب الرفض من ZATCA مع اقتراحات الإصلاح بالعربي</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <select class="fi" id="zatcaRejFilter" onchange="loadZatcaRejections()" style="width:auto;min-width:140px;padding:5px 10px;font-size:11px">
+          <option value="rejected">مرفوضة فقط</option>
+          <option value="warning">تحذيرات</option>
+          <option value="all">الكل</option>
+        </select>
+        <button class="btn bg2" onclick="loadZatcaRejections()" style="font-size:11px;padding:5px 12px">↻ تحديث</button>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div id="zatcaRejStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px"></div>
+
+    <!-- Rejections list -->
+    <div id="zatcaRejList"></div>
+  </div>
+
   <!-- Status card -->
   <div class="card" style="margin-bottom:14px">
     <div style="padding:18px 20px">
@@ -6133,6 +6157,8 @@ async function brandSave() {
 async function zatcaLoad() {
   // Render the smart wizard (uses zatca_state from new automation)
   renderZatcaWizard().catch(e => console.warn('renderZatcaWizard:', e.message));
+  // Load rejections report (only displays if there are rejected/warning invoices)
+  loadZatcaRejections().catch(e => console.warn('loadZatcaRejections:', e.message));
 
   try {
     const { data: cfg } = await _sb.from('zatca_config').select('*').maybeSingle();
@@ -8317,6 +8343,258 @@ async function zatcaWizardSubmitOtp() {
   } catch (e) {
     toast({ type:'error', msg: e.message || 'فشل الربط' });
     if (btn) { btn.disabled = false; btn.textContent = '✅ أكمل الربط'; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ZATCA Rejections Knowledge Base + Report
+// ═══════════════════════════════════════════════════════════════════════
+const ZATCA_ERROR_KB = {
+  // VAT-related
+  'BR-KSA-EN16931-39': {
+    title: 'الرقم الضريبي للبائع غير صحيح',
+    fix:   'تأكد أن الرقم الضريبي 15 رقم ويبدأ بـ 3 وينتهي بـ 3.',
+    nav:   'profile',
+  },
+  'BR-KSA-EN16931-40': {
+    title: 'الرقم الضريبي للمشتري ناقص',
+    fix:   'لفواتير B2B (الأعمال) لازم تضيف الرقم الضريبي للعميل قبل الإصدار.',
+    nav:   'inv',
+  },
+  'BR-KSA-EN16931-41': {
+    title: 'صيغة الرقم الضريبي خاطئة',
+    fix:   'الرقم الضريبي لازم يكون 15 رقم بدقّة. تحقق من رقمك في إعدادات الحساب.',
+    nav:   'profile',
+  },
+  // VAT calculations
+  'BR-S-09': {
+    title: 'مبلغ الضريبة غير مطابق للحساب',
+    fix:   'تحقق أن مبلغ VAT = 15% من المبلغ قبل الضريبة (بدون تقريب زائد).',
+    nav:   'inv',
+  },
+  'BR-CO-17': {
+    title: 'فئة الضريبة غير معرّفة',
+    fix:   'كل بند يحتاج تصنيف ضريبي (15% / صفر / معفي). راجع تصنيف منتجاتك.',
+    nav:   'products',
+  },
+  // Customer info
+  'BR-08': {
+    title: 'اسم البائع مفقود',
+    fix:   'أضف اسم نشاطك في إعدادات الحساب.',
+    nav:   'profile',
+  },
+  'BR-07': {
+    title: 'بيانات العميل ناقصة',
+    fix:   'اسم العميل والعنوان مطلوبان للفواتير الضريبية.',
+    nav:   'inv',
+  },
+  // Numbering/sequence
+  'BR-02': {
+    title: 'رقم الفاتورة مفقود',
+    fix:   'يجب أن تحتوي كل فاتورة على رقم تسلسلي. (محسوب يوّلده تلقائياً)',
+    nav:   'zatca',
+  },
+  // Cryptography
+  'BR-KSA-26': {
+    title: 'الختم الإلكتروني غير صحيح',
+    fix:   'احتمال انتهت شهادة الـ CSID. سيتم تجديدها تلقائياً.',
+    nav:   'zatca',
+  },
+  'BR-KSA-27': {
+    title: 'سلسلة Hash مكسورة',
+    fix:   'فاتورة سابقة لم تُرسل بنجاح. اضغط "إعادة الإرسال" أو راجع آخر فاتورة مرفوضة.',
+    nav:   'zatca',
+  },
+  // Date/time
+  'BR-KSA-15': {
+    title: 'تاريخ الفاتورة في المستقبل',
+    fix:   'تاريخ الفاتورة لا يمكن أن يكون في المستقبل. تحقق من تاريخ الإصدار.',
+    nav:   'inv',
+  },
+  // QR
+  'BR-KSA-22': {
+    title: 'رمز QR غير صحيح',
+    fix:   'محسوب يوّلد QR تلقائياً. لو الخطأ تكرر، تواصل مع الدعم.',
+    nav:   'zatca',
+  },
+};
+
+function explainZatcaError(code, fallbackMsg) {
+  if (ZATCA_ERROR_KB[code]) {
+    return ZATCA_ERROR_KB[code];
+  }
+  // Try prefix match
+  for (const key of Object.keys(ZATCA_ERROR_KB)) {
+    if (code && code.startsWith(key)) return ZATCA_ERROR_KB[key];
+  }
+  return {
+    title: code || 'خطأ غير معروف',
+    fix:   fallbackMsg || 'راجع تفاصيل الخطأ الكاملة من ZATCA أو تواصل مع الدعم.',
+    nav:   null,
+  };
+}
+
+async function loadZatcaRejections() {
+  const tid = Auth?.tenant?.id;
+  const card = document.getElementById('zatcaRejectionsCard');
+  if (!tid || !card) return;
+
+  const filter = document.getElementById('zatcaRejFilter')?.value || 'rejected';
+
+  try {
+    let q = _sb.from('zatca_invoice_log')
+      .select('*')
+      .eq('tenant_id', tid)
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (filter === 'rejected') q = q.in('status', ['rejected', 'failed']);
+    else if (filter === 'warning') q = q.eq('status', 'warning');
+    else q = q.in('status', ['rejected', 'failed', 'warning']);
+
+    const { data, error } = await q;
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      card.style.display = 'none';
+      return;
+    }
+
+    card.style.display = 'block';
+    document.getElementById('zatcaRejCount').textContent = data.length;
+    renderZatcaRejectionsStats(data);
+    renderZatcaRejectionsList(data);
+  } catch (e) {
+    console.warn('loadZatcaRejections:', e.message);
+    card.style.display = 'none';
+  }
+}
+
+function renderZatcaRejectionsStats(rows) {
+  const el = document.getElementById('zatcaRejStats');
+  if (!el) return;
+
+  // Aggregate errors by code
+  const codeCount = new Map();
+  rows.forEach(r => {
+    const errs = r.errors || r.warnings;
+    if (Array.isArray(errs)) {
+      errs.forEach(e => {
+        const code = e.code || e.errorCode || e.type || 'unknown';
+        codeCount.set(code, (codeCount.get(code) || 0) + 1);
+      });
+    }
+  });
+
+  // Top 3 most common
+  const top = Array.from(codeCount.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+
+  const totalRej = rows.filter(r => r.status === 'rejected' || r.status === 'failed').length;
+  const totalWarn = rows.filter(r => r.status === 'warning').length;
+
+  let html = `
+    <div style="background:rgba(201,53,69,.06);border:1px solid rgba(201,53,69,.2);border-radius:11px;padding:10px;text-align:center">
+      <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">مرفوضة</div>
+      <div style="font-size:18px;font-weight:900;color:#c93545;margin-top:3px">${totalRej}</div>
+    </div>
+    <div style="background:rgba(168,133,74,.06);border:1px solid rgba(168,133,74,.2);border-radius:11px;padding:10px;text-align:center">
+      <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">تحذيرات</div>
+      <div style="font-size:18px;font-weight:900;color:#a8854a;margin-top:3px">${totalWarn}</div>
+    </div>
+  `;
+
+  top.forEach(([code, count]) => {
+    const kb = explainZatcaError(code);
+    html += `
+      <div style="background:rgba(130,176,199,.06);border:1px solid rgba(130,176,199,.18);border-radius:11px;padding:10px">
+        <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600;direction:ltr;text-align:right">${code} × ${count}</div>
+        <div style="font-size:11px;color:#155e5f;margin-top:3px;font-weight:700">${kb.title}</div>
+      </div>
+    `;
+  });
+
+  el.innerHTML = html;
+}
+
+function renderZatcaRejectionsList(rows) {
+  const el = document.getElementById('zatcaRejList');
+  if (!el) return;
+
+  el.innerHTML = rows.map(r => {
+    const errs = r.errors || r.warnings || [];
+    const isWarn = r.status === 'warning';
+    const color = isWarn ? '#a8854a' : '#c93545';
+    const bg    = isWarn ? 'rgba(168,133,74,.05)' : 'rgba(201,53,69,.04)';
+    const border = isWarn ? 'rgba(168,133,74,.22)' : 'rgba(201,53,69,.22)';
+    const time = r.created_at ? new Date(r.created_at).toLocaleString('ar-SA-u-nu-latn', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+
+    let errorsHtml = '';
+    if (Array.isArray(errs) && errs.length) {
+      errorsHtml = '<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">' +
+        errs.slice(0, 4).map(e => {
+          const code = e.code || e.errorCode || e.type || '';
+          const msg  = e.message || e.description || '';
+          const kb   = explainZatcaError(code, msg);
+          return `<div style="background:#fff;border-radius:8px;padding:10px 12px;border-right:3px solid ${color}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+              <div style="font-size:12px;font-weight:800;color:#155e5f">${kb.title}</div>
+              ${code ? `<span style="font-size:10px;color:rgba(21,94,95,.5);direction:ltr;font-family:monospace">${code}</span>` : ''}
+            </div>
+            <div style="font-size:11px;color:rgba(21,94,95,.75);line-height:1.7">💡 ${kb.fix}</div>
+            ${kb.nav ? `<button onclick="go('${kb.nav}', null)" style="margin-top:6px;background:#155e5f;color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">افتح ${kb.nav==='profile'?'الإعدادات':kb.nav==='inv'?'الفاتورة':kb.nav==='products'?'المنتجات':'الصفحة'}</button>` : ''}
+          </div>`;
+        }).join('') +
+        (errs.length > 4 ? `<div style="font-size:10px;color:rgba(21,94,95,.55);text-align:center;padding:4px">و ${errs.length - 4} خطأ آخر</div>` : '') +
+      '</div>';
+    }
+
+    return `<div style="background:${bg};border:1px solid ${border};border-radius:12px;padding:14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="font-size:14px;font-weight:800;color:#155e5f">📄 ${r.invoice_number || '—'}</div>
+            <span style="background:${color};color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:8px">${isWarn ? 'تحذير' : 'مرفوضة'}</span>
+            ${r.invoice_type ? `<span style="background:rgba(130,176,199,.12);color:#1e6080;font-size:10px;font-weight:700;padding:2px 9px;border-radius:8px">${r.invoice_type === 'standard' ? 'ضريبية' : r.invoice_type === 'simplified' ? 'مبسّطة' : r.invoice_type}</span>` : ''}
+          </div>
+          <div style="font-size:10px;color:rgba(21,94,95,.6);margin-top:3px">📅 ${time}${r.attempt_count > 1 ? ` · المحاولة ${r.attempt_count}` : ''}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          ${!isWarn ? `<button onclick="zatcaRetryInvoice('${r.invoice_id}', '${r.id}')" style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🔄 إعادة الإرسال</button>` : ''}
+          ${r.invoice_id ? `<button onclick="viewInvoice('${r.invoice_id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">👁 عرض</button>` : ''}
+        </div>
+      </div>
+      ${errorsHtml}
+    </div>`;
+  }).join('');
+}
+
+async function zatcaRetryInvoice(invoiceId, logId) {
+  if (!invoiceId) { toast({ type:'warn', msg:'لا يمكن إعادة الإرسال — معرّف الفاتورة مفقود' }); return; }
+  if (!confirm('إعادة إرسال الفاتورة لـ ZATCA؟ تأكد من إصلاح الأخطاء أولاً.')) return;
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+      body:    JSON.stringify({ invoice_id: invoiceId, retry: true }),
+    });
+    const data = await res.json();
+    if (!res.ok || data?.error) throw new Error(data?.error || 'فشلت إعادة الإرسال');
+
+    // Increment attempt count on log
+    await _sb.from('zatca_invoice_log').update({
+      attempt_count: 2,
+      status: data?.zatca_status || 'submitted',
+      responded_at: new Date().toISOString(),
+    }).eq('id', logId);
+
+    toast({ type:'success', msg:'تم إعادة الإرسال — تحقق من النتيجة' });
+    logActivity('invoice', 'zatca_retry', `إعادة إرسال فاتورة لـ ZATCA`, { invoice_id: invoiceId }).catch(()=>{});
+    setTimeout(loadZatcaRejections, 1200);
+  } catch (e) {
+    toast({ type:'error', msg: e.message });
   }
 }
 
