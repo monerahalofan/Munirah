@@ -1624,6 +1624,24 @@ body.dark .prc-sv{color:#f0f2f8}
     <button onclick="document.getElementById('dailyDoneBanner').style.display='none'" style="background:none;color:#155e5f;border:none;padding:6px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1">×</button>
   </div>
 
+  <!-- ZATCA Health Monitor Card (smart visibility) -->
+  <div id="zatcaHealthCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px 18px;margin-bottom:14px;gap:14px;flex-wrap:wrap;transition:all .2s">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%">
+      <div id="zatcaHealthIcon" style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div id="zatcaHealthTitle" style="font-size:14px;font-weight:800;color:#155e5f">حالة ربط ZATCA</div>
+          <span id="zatcaHealthBadge" style="font-size:10px;font-weight:700;padding:2px 9px;border-radius:8px"></span>
+        </div>
+        <div id="zatcaHealthSub" style="font-size:11px;color:rgba(21,94,95,.7);margin-top:3px"></div>
+      </div>
+      <button onclick="go('zatca', null)" style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">إدارة ←</button>
+    </div>
+    <div id="zatcaHealthStats" style="display:none;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:6px"></div>
+  </div>
+
   <!-- Inbox Card (Driver/Field Receipts pending) -->
   <div id="dbInboxCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px 18px;margin-bottom:14px;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer;transition:all .2s" onclick="go('inbox', null)" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(21,94,95,.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
     <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -4052,10 +4070,65 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 <div class="pg" id="pg-zatca">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <div style="font-size:22px;font-weight:900;color:#000;letter-spacing:-.3px">ربط النظام مع ZATCA</div>
-      <div style="font-size:12px;color:var(--t3);margin-top:4px">المرحلة 2 — تكامل مع منصة Fatoora الرسمية</div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">ربط النظام مع ZATCA</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">المرحلة 2 — تكامل مع منصة فاتورة الرسمية</div>
     </div>
     <div id="zatcaEnvBadge" style="padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;background:rgba(168,134,75,.12);color:#a8854a">غير مربوط</div>
+  </div>
+
+  <!-- ═══════ Smart Wizard ═══════ -->
+  <div id="zatcaWizard" class="card" style="margin-bottom:14px;background:linear-gradient(135deg,#fff,#fafafa);border:1px solid #ced9d9">
+    <div style="padding:24px">
+      <!-- Wave detection banner -->
+      <div id="zatcaWaveAlert" style="display:none;background:linear-gradient(135deg,rgba(201,53,69,.08),rgba(201,53,69,.02));border:1px solid rgba(201,53,69,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px"></div>
+
+      <!-- Smart wizard intro -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap">
+        <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:16px;font-weight:900;color:#155e5f">المعالج الذكي للربط</div>
+          <div style="font-size:11px;color:rgba(21,94,95,.65);margin-top:3px">5 خطوات أتمتها محسوب — تبقى لك خطوة واحدة فقط</div>
+        </div>
+        <div id="zatcaWizardProgress" style="font-size:12px;font-weight:700;color:#155e5f;background:rgba(127,197,123,.12);padding:6px 14px;border-radius:9px">جاري التحقق...</div>
+      </div>
+
+      <!-- Step rail (visual) -->
+      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+        <div class="wstep" data-step="1" style="flex:1;min-width:130px;background:#fff;border:1.5px solid #ced9d9;border-radius:11px;padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="wstep-num" style="width:26px;height:26px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">1</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;color:#155e5f">إنشاء CSR</div>
+            <div class="wstep-status" style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">تلقائي</div>
+          </div>
+        </div>
+        <div class="wstep" data-step="2" style="flex:1;min-width:130px;background:#fff;border:1.5px solid #ced9d9;border-radius:11px;padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="wstep-num" style="width:26px;height:26px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">2</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;color:#155e5f">دخول فاتورة</div>
+            <div class="wstep-status" style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">يدوي — 30 ثانية</div>
+          </div>
+        </div>
+        <div class="wstep" data-step="3" style="flex:1;min-width:130px;background:#fff;border:1.5px solid #ced9d9;border-radius:11px;padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="wstep-num" style="width:26px;height:26px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">3</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;color:#155e5f">تبادل CSID</div>
+            <div class="wstep-status" style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">تلقائي</div>
+          </div>
+        </div>
+        <div class="wstep" data-step="4" style="flex:1;min-width:130px;background:#fff;border:1.5px solid #ced9d9;border-radius:11px;padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="wstep-num" style="width:26px;height:26px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">✓</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:800;color:#155e5f">جاهز للإرسال</div>
+            <div class="wstep-status" style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">تلقائي مدى الحياة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action panel (changes based on state) -->
+      <div id="zatcaActionPanel"></div>
+    </div>
   </div>
 
   <!-- Status card -->
@@ -5786,7 +5859,7 @@ function go(id,el){
   if (id === 'activity') loadActivityLog();
   if (id === 'gls')      loadGoals();
   if (id === 'inbox')    loadInbox();
-  if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); }
+  if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); loadZatcaHealth(); }
   if (id === 'annual')   loadAnnualReport();
 }
 
@@ -6058,6 +6131,9 @@ async function brandSave() {
 
 // ═══════════ ZATCA Phase 2 Onboarding ═══════════
 async function zatcaLoad() {
+  // Render the smart wizard (uses zatca_state from new automation)
+  renderZatcaWizard().catch(e => console.warn('renderZatcaWizard:', e.message));
+
   try {
     const { data: cfg } = await _sb.from('zatca_config').select('*').maybeSingle();
     const { data: subs } = await _sb.from('zatca_submissions').select('*').order('created_at',{ascending:false}).limit(20);
@@ -7880,6 +7956,382 @@ function printAnnualReport() {
   <script>setTimeout(function(){window.print();}, 600);<\/script>
   </body></html>`);
   w.document.close();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ZATCA Health Monitor — dashboard widget + state management
+// ═══════════════════════════════════════════════════════════════════════
+let _zatcaHealth = null;
+
+async function loadZatcaHealth() {
+  if (!Auth?.tenant?.id) return;
+  const card = document.getElementById('zatcaHealthCard');
+  if (!card) return;
+
+  try {
+    const { data, error } = await _sb.rpc('zatca_health_snapshot');
+    if (error) throw error;
+    if (data?.error) return;
+    _zatcaHealth = data;
+    renderZatcaHealth(data);
+  } catch (e) {
+    // Silently hide — non-critical if migration hasn't run yet
+    console.warn('zatca_health_snapshot:', e.message);
+    card.style.display = 'none';
+  }
+}
+
+function renderZatcaHealth(h) {
+  const card    = document.getElementById('zatcaHealthCard');
+  const iconBox = document.getElementById('zatcaHealthIcon');
+  const title   = document.getElementById('zatcaHealthTitle');
+  const badge   = document.getElementById('zatcaHealthBadge');
+  const sub     = document.getElementById('zatcaHealthSub');
+  const stats   = document.getElementById('zatcaHealthStats');
+  if (!card) return;
+
+  // Decide visibility — show when:
+  // - onboarded (so user sees stats)
+  // - needs renewal soon
+  // - mandatory date approaching
+  // - has rejected invoices in last 24h
+  const shouldShow =
+    h.onboarded
+    || h.needs_renewal
+    || h.is_due_soon
+    || h.last_24h_rejected > 0
+    || h.status === 'csr_generated'
+    || h.status === 'otp_pending';
+
+  if (!shouldShow) { card.style.display = 'none'; return; }
+
+  card.style.display = 'flex';
+  card.style.flexDirection = 'column';
+
+  // Status badge
+  let badgeText = '', badgeColor = '', iconBg = '', iconColor = '';
+  if (h.onboarded) {
+    if (h.last_24h_rejected > 0) {
+      badgeText = '⚠️ يحتاج مراجعة'; badgeColor = '#c93545';
+      iconBg = 'rgba(201,53,69,.12)'; iconColor = '#c93545';
+    } else if (h.needs_renewal) {
+      badgeText = `🔄 تجديد خلال ${h.days_until_expiry} يوم`; badgeColor = '#a8854a';
+      iconBg = 'rgba(168,133,74,.15)'; iconColor = '#a8854a';
+    } else {
+      badgeText = '✓ متصل'; badgeColor = '#155e5f';
+      iconBg = 'rgba(127,197,123,.18)'; iconColor = '#155e5f';
+    }
+  } else if (h.status === 'otp_pending') {
+    badgeText = '⏳ بانتظار OTP'; badgeColor = '#a8854a';
+    iconBg = 'rgba(168,133,74,.15)'; iconColor = '#a8854a';
+  } else if (h.status === 'csr_generated') {
+    badgeText = '🔧 إعداد جزئي'; badgeColor = '#a8854a';
+    iconBg = 'rgba(168,133,74,.15)'; iconColor = '#a8854a';
+  } else if (h.is_due_soon) {
+    badgeText = `📅 إلزامي خلال ${h.days_until_mandatory} يوم`; badgeColor = '#c93545';
+    iconBg = 'rgba(201,53,69,.12)'; iconColor = '#c93545';
+  } else {
+    badgeText = '🟡 غير مربوط'; badgeColor = '#a8854a';
+    iconBg = 'rgba(168,133,74,.15)'; iconColor = '#a8854a';
+  }
+
+  iconBox.style.background = iconBg;
+  iconBox.style.color = iconColor;
+  badge.textContent = badgeText;
+  badge.style.background = badgeColor + '1A';
+  badge.style.color = badgeColor;
+
+  // Sub-text
+  if (h.onboarded) {
+    const acc = h.acceptance_rate !== null ? `${h.acceptance_rate}%` : '—';
+    sub.textContent = `${h.lifetime_sent} فاتورة مُرسلة · نسبة القبول ${acc}`;
+  } else if (h.is_due_soon) {
+    sub.textContent = `أنت في الموجة ${h.estimated_wave} — يلزمك الربط قبل ${h.wave_mandatory_at}`;
+  } else if (h.estimated_wave) {
+    sub.textContent = `موجتك المتوقّعة: ${h.estimated_wave} — يبدأ الإلزام في ${h.wave_mandatory_at}`;
+  } else {
+    sub.textContent = 'اربط نشاطك بـ ZATCA لإصدار فواتير ضريبية معتمدة';
+  }
+
+  // Stats (only when onboarded)
+  if (h.onboarded && h.lifetime_sent > 0) {
+    stats.style.display = 'grid';
+    stats.innerHTML = `
+      <div style="background:rgba(127,197,123,.06);border:1px solid rgba(127,197,123,.18);border-radius:9px;padding:8px 10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">آخر 24 ساعة</div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f;margin-top:2px">${h.last_24h_sent} مُرسلة</div>
+      </div>
+      <div style="background:rgba(127,197,123,.06);border:1px solid rgba(127,197,123,.18);border-radius:9px;padding:8px 10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">مقبولة</div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f;margin-top:2px">${h.last_24h_accepted}</div>
+      </div>
+      <div style="background:${h.last_24h_rejected>0?'rgba(201,53,69,.06)':'rgba(127,197,123,.06)'};border:1px solid ${h.last_24h_rejected>0?'rgba(201,53,69,.18)':'rgba(127,197,123,.18)'};border-radius:9px;padding:8px 10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">مرفوضة</div>
+        <div style="font-size:14px;font-weight:800;color:${h.last_24h_rejected>0?'#c93545':'#155e5f'};margin-top:2px">${h.last_24h_rejected}</div>
+      </div>
+      <div style="background:rgba(130,176,199,.06);border:1px solid rgba(130,176,199,.18);border-radius:9px;padding:8px 10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.65);font-weight:600">تجديد بعد</div>
+        <div style="font-size:14px;font-weight:800;color:#1e6080;margin-top:2px">${h.days_until_expiry !== null ? h.days_until_expiry + ' يوم' : '—'}</div>
+      </div>
+    `;
+  } else {
+    stats.style.display = 'none';
+    stats.innerHTML = '';
+  }
+}
+
+// Re-load on dashboard navigation
+window.addEventListener('load', () => setTimeout(loadZatcaHealth, 2500));
+
+// ═══════════════════════════════════════════════════════════════════════
+// ZATCA Smart Wizard — renders the wizard panel based on current state
+// ═══════════════════════════════════════════════════════════════════════
+async function renderZatcaWizard() {
+  const panel = document.getElementById('zatcaActionPanel');
+  if (!panel) return;
+
+  // Get health snapshot
+  let h = null;
+  try {
+    const { data } = await _sb.rpc('zatca_health_snapshot');
+    if (data && !data.error) h = data;
+  } catch(_) {}
+
+  if (!h) {
+    panel.innerHTML = `<div style="text-align:center;padding:24px;color:rgba(21,94,95,.6);font-size:13px">⚠️ شغّل migration: <code>sql/zatca_automation.sql</code> في Supabase</div>`;
+    return;
+  }
+
+  // Update steps visual state
+  const stepNum = h.status === 'onboarded' ? 4
+                : h.status === 'otp_pending' ? 3
+                : h.status === 'csr_generated' ? 2 : 1;
+  document.querySelectorAll('.wstep').forEach(el => {
+    const s = +el.dataset.step;
+    const numEl = el.querySelector('.wstep-num');
+    const stEl  = el.querySelector('.wstep-status');
+    if (s < stepNum) {
+      el.style.borderColor = '#7fc57b';
+      el.style.background = 'rgba(127,197,123,.04)';
+      if (numEl) { numEl.style.background = '#7fc57b'; numEl.style.color = '#fff'; numEl.innerHTML = '✓'; }
+      if (stEl)  { stEl.textContent = 'مكتمل'; stEl.style.color = '#155e5f'; }
+    } else if (s === stepNum) {
+      el.style.borderColor = '#a8854a';
+      el.style.background = 'rgba(168,133,74,.04)';
+      if (numEl) { numEl.style.background = '#a8854a'; numEl.style.color = '#fff'; numEl.textContent = s === 4 ? '✓' : String(s); }
+      if (stEl)  { stEl.textContent = 'الخطوة الحالية'; stEl.style.color = '#a8854a'; stEl.style.fontWeight = '700'; }
+    } else {
+      el.style.borderColor = '#ced9d9';
+      el.style.background = '#fff';
+      if (numEl) { numEl.style.background = 'rgba(127,197,123,.15)'; numEl.style.color = '#155e5f'; numEl.textContent = s === 4 ? '✓' : String(s); }
+      if (stEl)  { stEl.textContent = s === 1 ? 'تلقائي' : s === 2 ? 'يدوي — 30 ثانية' : s === 3 ? 'تلقائي' : 'تلقائي مدى الحياة'; stEl.style.color = 'rgba(21,94,95,.6)'; }
+    }
+  });
+
+  // Progress badge
+  const prog = document.getElementById('zatcaWizardProgress');
+  if (prog) {
+    if (h.status === 'onboarded') {
+      prog.textContent = '✓ الربط مكتمل';
+      prog.style.background = 'rgba(127,197,123,.18)';
+      prog.style.color = '#155e5f';
+    } else {
+      prog.textContent = `${stepNum} من 4`;
+      prog.style.background = 'rgba(168,133,74,.12)';
+      prog.style.color = '#a8854a';
+    }
+  }
+
+  // Wave alert banner
+  const wave = document.getElementById('zatcaWaveAlert');
+  if (wave && h.is_due_soon && !h.onboarded) {
+    wave.style.display = 'block';
+    wave.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">⚠️</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:800;color:#c93545">يلزمك الربط الفعلي خلال ${h.days_until_mandatory} يوم</div>
+          <div style="font-size:11px;color:rgba(90,7,17,.7);margin-top:3px">حسب إيراداتك السنوية (${(h.annual_revenue || 0).toLocaleString('en-US',{maximumFractionDigits:0})} ر.س)، أنت في الموجة ${h.estimated_wave} — تبدأ في ${h.wave_mandatory_at}</div>
+        </div>
+      </div>`;
+  } else if (wave) {
+    wave.style.display = 'none';
+  }
+
+  // Render appropriate action panel
+  if (h.onboarded) {
+    panel.innerHTML = renderWizardOnboarded(h);
+  } else if (h.status === 'otp_pending') {
+    panel.innerHTML = renderWizardOtpStep(h);
+  } else if (h.status === 'csr_generated') {
+    panel.innerHTML = renderWizardOpenFatoora(h);
+  } else {
+    panel.innerHTML = renderWizardStart(h);
+  }
+}
+
+function renderWizardStart(h) {
+  return `<div style="background:rgba(127,197,123,.05);border:1px solid rgba(127,197,123,.2);border-radius:12px;padding:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(127,197,123,.18);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800">1</div>
+      <div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f">جاهز للبدء؟</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.7);margin-top:2px">سننشئ CSR تلقائياً بناءً على بيانات نشاطك</div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#155e5f;line-height:1.8">
+      ✅ تأكد من تعبئة هذه البيانات في إعدادات الحساب:
+      <ul style="margin:8px 0 0;padding-right:18px">
+        <li>الرقم الضريبي (VAT)</li>
+        <li>السجل التجاري</li>
+        <li>عنوان النشاط</li>
+        <li>رقم الجوال</li>
+      </ul>
+    </div>
+    <button onclick="zatcaWizardStart()" class="btn bp" style="width:100%;padding:14px;font-size:14px">🚀 ابدأ الربط الآن</button>
+  </div>`;
+}
+
+function renderWizardOpenFatoora(h) {
+  return `<div style="background:rgba(168,133,74,.05);border:1px solid rgba(168,133,74,.2);border-radius:12px;padding:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(168,133,74,.18);color:#a8854a;display:flex;align-items:center;justify-content:center;font-weight:800">2</div>
+      <div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f">الخطوة اليدوية الوحيدة (30 ثانية)</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.7);margin-top:2px">دخول بنفاذ على منصة فاتورة لاستلام OTP</div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="font-size:12px;font-weight:800;color:#155e5f;margin-bottom:10px">📋 الخطوات داخل بوابة فاتورة:</div>
+      <ol style="margin:0;padding-right:18px;font-size:12px;color:#155e5f;line-height:2">
+        <li>اضغط <b>"دخول بنفاذ"</b></li>
+        <li>أدخل رقم هويتك واستلم OTP على جوالك</li>
+        <li>اضغط <b>"الأجهزة"</b> → <b>"إضافة حل / جهاز"</b></li>
+        <li>اختر <b>"محسوب"</b> من قائمة الحلول المعتمدة</li>
+        <li>ستحصل على <b>OTP من 8 أرقام</b> — انسخه</li>
+        <li>ارجع لهنا والصقه أدناه ↓</li>
+      </ol>
+    </div>
+    <button onclick="zatcaWizardOpenFatoora()" class="btn bp" style="width:100%;padding:14px;font-size:14px;margin-bottom:8px">🔗 افتح بوابة فاتورة الآن</button>
+    <button onclick="renderZatcaWizard()" class="btn bg2" style="width:100%;padding:10px;font-size:12px">↻ تحديث الحالة</button>
+  </div>`;
+}
+
+function renderWizardOtpStep(h) {
+  return `<div style="background:rgba(127,197,123,.05);border:1px solid rgba(127,197,123,.25);border-radius:12px;padding:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(127,197,123,.18);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800">3</div>
+      <div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f">الصق OTP من بوابة فاتورة</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.7);margin-top:2px">سنتولّى الباقي تلقائياً</div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:14px">
+      <label style="display:block;font-size:11px;font-weight:700;color:rgba(21,94,95,.75);margin-bottom:6px">OTP (8 أرقام)</label>
+      <input type="text" id="zatcaWizOtp" inputmode="numeric" maxlength="8" placeholder="••••••••" style="width:100%;padding:14px;border:1.5px solid #ced9d9;border-radius:11px;font-size:20px;text-align:center;letter-spacing:8px;font-family:monospace;direction:ltr">
+      <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:6px;text-align:center">📲 يمكنك لصق الرمز من جوالك مباشرة</div>
+    </div>
+    <button onclick="zatcaWizardSubmitOtp()" id="zatcaWizSubmitBtn" class="btn bp" style="width:100%;padding:14px;font-size:14px">✅ أكمل الربط</button>
+    <button onclick="zatcaWizardOpenFatoora()" style="width:100%;background:transparent;border:none;color:rgba(21,94,95,.6);font-size:11px;cursor:pointer;font-family:inherit;margin-top:8px;padding:8px">إعادة فتح بوابة فاتورة</button>
+  </div>`;
+}
+
+function renderWizardOnboarded(h) {
+  const onboardedDate = h.onboarded_at ? new Date(h.onboarded_at).toLocaleDateString('ar-SA-u-nu-latn') : '—';
+  return `<div style="background:linear-gradient(135deg,rgba(127,197,123,.08),rgba(127,197,123,.02));border:1px solid rgba(127,197,123,.3);border-radius:12px;padding:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="width:44px;height:44px;border-radius:50%;background:rgba(127,197,123,.2);color:#155e5f;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:900;color:#155e5f">✓ مربوط بالكامل مع فاتورة</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.65);margin-top:2px">منذ ${onboardedDate} · ${h.lifetime_sent || 0} فاتورة مُرسلة · نسبة القبول ${h.acceptance_rate !== null ? h.acceptance_rate + '%' : '—'}</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px">
+      <div style="background:#fff;border-radius:9px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.7);font-weight:600">تجديد بعد</div>
+        <div style="font-size:14px;font-weight:800;color:${h.days_until_expiry < 30 ? '#a8854a' : '#155e5f'};margin-top:3px">${h.days_until_expiry !== null ? h.days_until_expiry + ' يوم' : '—'}</div>
+      </div>
+      <div style="background:#fff;border-radius:9px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.7);font-weight:600">آخر 24 ساعة</div>
+        <div style="font-size:14px;font-weight:800;color:#155e5f;margin-top:3px">${h.last_24h_sent || 0} مُرسلة</div>
+      </div>
+      <div style="background:#fff;border-radius:9px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:rgba(21,94,95,.7);font-weight:600">مرفوضة (لحظياً)</div>
+        <div style="font-size:14px;font-weight:800;color:${h.last_24h_rejected > 0 ? '#c93545' : '#155e5f'};margin-top:3px">${h.last_24h_rejected || 0}</div>
+      </div>
+    </div>
+
+    <label style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ced9d9;border-radius:10px;padding:12px;cursor:pointer">
+      <input type="checkbox" ${h.auto_renew_enabled ? 'checked' : ''} onchange="zatcaToggleAutoRenew(this.checked)" style="accent-color:#7fc57b;width:18px;height:18px">
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:#155e5f">التجديد التلقائي مُفعّل</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.65)">محسوب يجدّد شهادتك قبل 30 يوم من الانتهاء — بدون تدخّل منك</div>
+      </div>
+    </label>
+  </div>`;
+}
+
+async function zatcaWizardStart() {
+  // Trigger the existing zatcaGenerateCsr flow OR call wizard-specific endpoint
+  if (typeof zatcaGenerateCsr === 'function') {
+    await zatcaGenerateCsr();
+    setTimeout(renderZatcaWizard, 800);
+  } else {
+    toast({ type:'error', msg:'وظيفة إنشاء CSR غير متاحة — راجع رسائل الكونسول' });
+  }
+}
+
+function zatcaWizardOpenFatoora() {
+  window.open('https://fatoora.zatca.gov.sa', '_blank', 'width=1100,height=900');
+  toast({ type:'info', msg:'نافذة فاتورة فُتحت — ارجع وألصق OTP لما تستلمه', duration: 6000 });
+}
+
+async function zatcaWizardSubmitOtp() {
+  const otp = (document.getElementById('zatcaWizOtp')?.value || '').trim();
+  if (!/^\d{6,8}$/.test(otp)) {
+    toast({ type:'error', msg:'أدخل OTP صحيح (6-8 أرقام)' });
+    return;
+  }
+  const btn = document.getElementById('zatcaWizSubmitBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري الربط...'; }
+  try {
+    if (typeof zatcaSubmitOtp === 'function') {
+      await zatcaSubmitOtp(otp);
+    } else {
+      // Fallback: direct call to onboard edge function
+      const { data: { session } } = await _sb.auth.getSession();
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-onboard`, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+        body: JSON.stringify({ otp, mode: 'exchange' }),
+      });
+      const data = await res.json();
+      if (!res.ok || data?.error) throw new Error(data?.error || 'فشل الربط');
+    }
+    toast({ type:'success', title:'مبروك!', msg:'تم ربط نشاطك بـ ZATCA بنجاح ✓' });
+    logActivity('settings', 'zatca_onboarded', 'إكمال ربط ZATCA بنجاح').catch(()=>{});
+    setTimeout(() => { renderZatcaWizard(); loadZatcaHealth(); }, 600);
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل الربط' });
+    if (btn) { btn.disabled = false; btn.textContent = '✅ أكمل الربط'; }
+  }
+}
+
+async function zatcaToggleAutoRenew(enabled) {
+  try {
+    const { error } = await _sb.from('zatca_state').update({
+      auto_renew_enabled: enabled,
+      updated_at: new Date().toISOString(),
+    }).eq('tenant_id', Auth.tenant.id);
+    if (error) throw error;
+    toast({ type:'success', msg: enabled ? '✓ التجديد التلقائي مُفعّل' : 'تم إيقاف التجديد التلقائي' });
+    logActivity('settings', 'zatca_auto_renew_toggle', `${enabled?'تفعيل':'إيقاف'} التجديد التلقائي لـ ZATCA`, { enabled }).catch(()=>{});
+  } catch (e) {
+    toast({ type:'error', msg: e.message });
+  }
 }
 
 async function loadPerformance() {
