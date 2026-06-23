@@ -1389,6 +1389,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('vat',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></span><span data-i18n="nav_vat">تقرير الضريبة</span></div>
     <div class="ni" onclick="go('zakat',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span data-i18n="nav_zakat">احسب زكاتي</span></div>
     <div class="ni" onclick="go('taxcal',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></span><span data-i18n="nav_taxcal">مواعيد الضريبة</span></div>
+    <div class="ni" onclick="go('annual',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><line x1="9" y1="9" x2="11" y2="9"/></svg></span><span>الإقرار السنوي</span><span class="nbg" style="background:rgba(127,197,123,.15);color:#155e5f">جديد</span></div>
     <div class="ni" onclick="go('scan',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span><span data-i18n="nav_scan">مسح الفواتير</span><span class="nbg">AI</span></div>
     <div class="ns" data-i18n="ns_reports">التقارير</div>
     <div class="ni" onclick="go('st',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H7v9a2 2 0 0 1-2 2H3"/><path d="M9 22h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-7l-1.5 1.5L9 2H5a2 2 0 0 0-2 2v4"/><line x1="13" y1="10" x2="17" y2="10"/><line x1="13" y1="14" x2="17" y2="14"/></svg></span><span data-i18n="nav_st">تقاريري المالية</span></div>
@@ -3322,6 +3323,69 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
   </div>
 </div>
+<!-- ═══════════════════ ANNUAL DECLARATION ═══════════════════ -->
+<div class="pg" id="pg-annual">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">الإقرار السنوي</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">ملخّص مالي شامل عن السنة لتقديمه لهيئة الزكاة والضريبة (ZATCA)</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <select class="fi" id="annualYear" onchange="loadAnnualReport()" style="width:auto;min-width:120px">
+      </select>
+      <button class="btn bg2" onclick="loadAnnualReport()" style="font-size:12px">↻ تحديث</button>
+      <button class="btn bp" onclick="printAnnualReport()" style="font-size:12px">🖨 طباعة / PDF</button>
+    </div>
+  </div>
+
+  <!-- Business Info -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="st" style="margin-bottom:12px">📋 بيانات النشاط</div>
+    <div id="annualBusinessInfo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px"></div>
+  </div>
+
+  <!-- Financial Summary -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="st" style="margin-bottom:12px">💰 الملخّص المالي السنوي</div>
+    <div id="annualFinancials" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px"></div>
+  </div>
+
+  <!-- Revenue by Month -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="st" style="margin-bottom:12px">📊 الإيرادات والمصاريف الشهرية</div>
+    <div id="annualMonthlyTable" style="overflow-x:auto"></div>
+  </div>
+
+  <!-- VAT Summary -->
+  <div class="card" id="annualVatCard" style="margin-bottom:14px;display:none">
+    <div class="st" style="margin-bottom:12px">🇸🇦 ملخّص ضريبة القيمة المضافة</div>
+    <div id="annualVat" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px"></div>
+  </div>
+
+  <!-- Zakat Calculation -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh" style="margin-bottom:12px">
+      <div>
+        <div class="st">🕌 حساب الزكاة (2.5%)</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">تقديري — تأكد منه مع محاسبك</div>
+      </div>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#155e5f;cursor:pointer">
+        <input type="checkbox" id="annualIncludeZakat" checked onchange="recalcAnnualZakat()" style="accent-color:#7fc57b">
+        تضمين الزكاة في التقرير
+      </label>
+    </div>
+    <div id="annualZakat"></div>
+  </div>
+
+  <!-- Action notes -->
+  <div style="background:rgba(168,133,74,.08);border:1px solid rgba(168,133,74,.25);border-radius:12px;padding:14px;margin-bottom:14px;font-size:12px;color:#5a4408;line-height:1.8">
+    ⚠️ <b>تنبيه:</b> هذا التقرير تلقائي بناءً على بياناتك في محسوب. <br>
+    قبل التقديم لـ ZATCA، يُنصح بمراجعته مع محاسب معتمد لضمان دقة الأرقام واكتمال البيانات.
+  </div>
+</div>
+
 <div class="pg" id="pg-taxcal">
 
   <!-- Header tabs -->
@@ -5554,7 +5618,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',inbox:'الإيصالات الواردة',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',inbox:'الإيصالات الواردة',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون',annual:'الإقرار السنوي'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -5723,6 +5787,7 @@ function go(id,el){
   if (id === 'gls')      loadGoals();
   if (id === 'inbox')    loadInbox();
   if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); }
+  if (id === 'annual')   loadAnnualReport();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -7447,6 +7512,375 @@ function expSwitchTab(tab) {
 // ═══════════════════════════════════════════════════════════════════════
 let _perfData = null;
 let _perfTab = 'day';
+
+// ═══════════════════════════════════════════════════════════════════════
+// Annual Tax Declaration Report
+// ═══════════════════════════════════════════════════════════════════════
+let _annualData = null;
+
+function fmtSAR(n) {
+  return (+n || 0).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' ر.س';
+}
+
+function annualKpiCard(label, value, color, sub) {
+  return `<div style="background:${color}1A;border:1px solid ${color}55;border-radius:12px;padding:14px">
+    <div style="font-size:11px;color:rgba(21,94,95,.7);font-weight:600">${label}</div>
+    <div style="font-size:18px;font-weight:900;color:${color};direction:ltr;text-align:right;margin-top:5px">${value}</div>
+    ${sub ? `<div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px">${sub}</div>` : ''}
+  </div>`;
+}
+
+async function loadAnnualReport() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+
+  // Populate year selector if empty
+  const yearSel = document.getElementById('annualYear');
+  if (yearSel && !yearSel.options.length) {
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= currentYear - 5; y--) {
+      const opt = document.createElement('option');
+      opt.value = String(y); opt.textContent = String(y);
+      yearSel.appendChild(opt);
+    }
+    yearSel.value = String(currentYear);
+  }
+  const year = parseInt(yearSel?.value || new Date().getFullYear());
+  const fromDate = `${year}-01-01`;
+  const toDate   = `${year}-12-31`;
+
+  try {
+    // Fetch tenant business info
+    const { data: tenant } = await _sb.from('tenants').select('*').eq('id', tid).maybeSingle();
+
+    // Fetch all transactions in the year
+    const { data: txs } = await _sb.from('transactions')
+      .select('type, amount, vat_amount, date')
+      .eq('tenant_id', tid)
+      .gte('date', fromDate).lte('date', toDate);
+
+    // Fetch all expenses in the year
+    const { data: exps } = await _sb.from('expenses')
+      .select('amount, vat_amount, expense_date, category')
+      .eq('tenant_id', tid)
+      .gte('expense_date', fromDate).lte('expense_date', toDate);
+
+    // Fetch all invoices in the year
+    const { data: invs } = await _sb.from('invoices')
+      .select('total, subtotal, vat_amount, issue_date, payment_status')
+      .eq('tenant_id', tid)
+      .gte('issue_date', fromDate).lte('issue_date', toDate);
+
+    // Fetch daily closings (B2C)
+    const { data: closings } = await _sb.from('daily_closings')
+      .select('total_sales, vat_amount, subtotal, closing_date')
+      .eq('tenant_id', tid)
+      .gte('closing_date', fromDate).lte('closing_date', toDate);
+
+    // Aggregate
+    let revenue   = 0;
+    let expenses  = 0;
+    let vatCollected = 0;
+    let vatPaid   = 0;
+    const monthly = {};
+    for (let m = 1; m <= 12; m++) monthly[m] = { revenue: 0, expense: 0, vat_out: 0, vat_in: 0 };
+
+    (txs || []).forEach(t => {
+      const m = parseInt((t.date || '').slice(5,7));
+      if (t.type === 'income') {
+        revenue += +t.amount || 0;
+        if (monthly[m]) monthly[m].revenue += +t.amount || 0;
+      } else {
+        expenses += +t.amount || 0;
+        if (monthly[m]) monthly[m].expense += +t.amount || 0;
+      }
+    });
+
+    (invs || []).forEach(i => {
+      const m = parseInt((i.issue_date || '').slice(5,7));
+      revenue += +i.subtotal || (+i.total - (+i.vat_amount || 0));
+      vatCollected += +i.vat_amount || 0;
+      if (monthly[m]) {
+        monthly[m].revenue += +i.subtotal || 0;
+        monthly[m].vat_out += +i.vat_amount || 0;
+      }
+    });
+
+    (closings || []).forEach(c => {
+      const m = parseInt((c.closing_date || '').slice(5,7));
+      revenue += +c.subtotal || (+c.total_sales - (+c.vat_amount || 0));
+      vatCollected += +c.vat_amount || 0;
+      if (monthly[m]) {
+        monthly[m].revenue += +c.subtotal || 0;
+        monthly[m].vat_out += +c.vat_amount || 0;
+      }
+    });
+
+    (exps || []).forEach(e => {
+      const m = parseInt((e.expense_date || '').slice(5,7));
+      expenses += +e.amount || 0;
+      vatPaid  += +e.vat_amount || 0;
+      if (monthly[m]) {
+        monthly[m].expense += +e.amount || 0;
+        monthly[m].vat_in  += +e.vat_amount || 0;
+      }
+    });
+
+    const netProfit  = revenue - expenses;
+    const vatNet     = vatCollected - vatPaid;
+
+    _annualData = {
+      year, fromDate, toDate, tenant,
+      revenue, expenses, netProfit,
+      vatCollected, vatPaid, vatNet,
+      monthly,
+      txCount: (txs?.length||0) + (invs?.length||0) + (closings?.length||0),
+      expCount: exps?.length || 0,
+    };
+
+    renderAnnualBusinessInfo(tenant, year);
+    renderAnnualFinancials();
+    renderAnnualMonthly();
+    renderAnnualVat(tenant);
+    recalcAnnualZakat();
+  } catch (e) {
+    console.warn('loadAnnualReport:', e.message);
+  }
+}
+
+function renderAnnualBusinessInfo(t, year) {
+  const el = document.getElementById('annualBusinessInfo');
+  if (!el) return;
+  const fields = [
+    { label:'اسم النشاط',    val: t?.name || '—' },
+    { label:'السنة المالية', val: year, color:'#155e5f' },
+    { label:'الرقم الضريبي',  val: t?.vat_number || '— غير مسجّل', color: t?.vat_number ? '#155e5f' : '#a8854a' },
+    { label:'السجل التجاري',  val: t?.cr_number || '—' },
+    { label:'نوع النشاط',    val: t?.business_type || '—' },
+    { label:'تاريخ الإصدار',  val: new Date().toLocaleDateString('ar-SA-u-nu-latn') },
+  ];
+  el.innerHTML = fields.map(f => `
+    <div style="background:#fafafa;border-radius:10px;padding:10px 12px">
+      <div style="font-size:11px;color:rgba(21,94,95,.6);font-weight:600">${f.label}</div>
+      <div style="font-size:14px;font-weight:800;color:${f.color || '#155e5f'};margin-top:3px;direction:ltr;text-align:right">${f.val}</div>
+    </div>
+  `).join('');
+}
+
+function renderAnnualFinancials() {
+  const d = _annualData; if (!d) return;
+  const el = document.getElementById('annualFinancials');
+  if (!el) return;
+  el.innerHTML = [
+    annualKpiCard('💰 إجمالي الإيرادات',  fmtSAR(d.revenue),  '#155e5f', `${d.txCount} عملية`),
+    annualKpiCard('💸 إجمالي المصاريف',  fmtSAR(d.expenses), '#c93545', `${d.expCount} مصروف`),
+    annualKpiCard(d.netProfit >= 0 ? '✅ صافي الربح' : '⚠ صافي الخسارة', fmtSAR(Math.abs(d.netProfit)), d.netProfit >= 0 ? '#155e5f' : '#c93545', `هامش ${d.revenue > 0 ? ((d.netProfit/d.revenue)*100).toFixed(1) : 0}%`),
+    annualKpiCard('🇸🇦 صافي الضريبة', fmtSAR(d.vatNet), d.vatNet >= 0 ? '#a8854a' : '#155e5f', d.vatNet >= 0 ? 'مستحق للدولة' : 'استرداد'),
+  ].join('');
+}
+
+function renderAnnualMonthly() {
+  const d = _annualData; if (!d) return;
+  const el = document.getElementById('annualMonthlyTable');
+  if (!el) return;
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  let totRev = 0, totExp = 0, totVatOut = 0, totVatIn = 0;
+  const rows = months.map((mName, i) => {
+    const m = d.monthly[i+1];
+    totRev += m.revenue; totExp += m.expense; totVatOut += m.vat_out; totVatIn += m.vat_in;
+    const net = m.revenue - m.expense;
+    return `<tr style="border-bottom:1px solid #f0f0f0">
+      <td style="padding:8px 12px;font-weight:600">${mName}</td>
+      <td style="padding:8px 12px;direction:ltr;text-align:right;color:#155e5f;font-weight:600">${fmtSAR(m.revenue)}</td>
+      <td style="padding:8px 12px;direction:ltr;text-align:right;color:#c93545">${fmtSAR(m.expense)}</td>
+      <td style="padding:8px 12px;direction:ltr;text-align:right;color:#a8854a">${fmtSAR(m.vat_out)}</td>
+      <td style="padding:8px 12px;direction:ltr;text-align:right;color:#1e6080">${fmtSAR(m.vat_in)}</td>
+      <td style="padding:8px 12px;direction:ltr;text-align:right;font-weight:700;color:${net >= 0 ? '#155e5f' : '#c93545'}">${fmtSAR(net)}</td>
+    </tr>`;
+  }).join('');
+  const totalNet = totRev - totExp;
+  el.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;min-width:680px">
+    <thead><tr style="background:#155e5f;color:#fff">
+      <th style="padding:10px 12px;text-align:right">الشهر</th>
+      <th style="padding:10px 12px;text-align:right">الإيرادات</th>
+      <th style="padding:10px 12px;text-align:right">المصاريف</th>
+      <th style="padding:10px 12px;text-align:right">VAT مُحصّلة</th>
+      <th style="padding:10px 12px;text-align:right">VAT مدفوعة</th>
+      <th style="padding:10px 12px;text-align:right">صافي الشهر</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr style="background:#f3f5f5;font-weight:800">
+      <td style="padding:11px 12px">المجموع</td>
+      <td style="padding:11px 12px;direction:ltr;text-align:right;color:#155e5f">${fmtSAR(totRev)}</td>
+      <td style="padding:11px 12px;direction:ltr;text-align:right;color:#c93545">${fmtSAR(totExp)}</td>
+      <td style="padding:11px 12px;direction:ltr;text-align:right;color:#a8854a">${fmtSAR(totVatOut)}</td>
+      <td style="padding:11px 12px;direction:ltr;text-align:right;color:#1e6080">${fmtSAR(totVatIn)}</td>
+      <td style="padding:11px 12px;direction:ltr;text-align:right;color:${totalNet >= 0 ? '#155e5f' : '#c93545'}">${fmtSAR(totalNet)}</td>
+    </tr></tfoot>
+  </table>`;
+}
+
+function renderAnnualVat(tenant) {
+  const d = _annualData; if (!d) return;
+  const card = document.getElementById('annualVatCard');
+  const el   = document.getElementById('annualVat');
+  if (!card || !el) return;
+  if (!tenant?.vat_registered && !d.vatCollected) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  el.innerHTML = [
+    annualKpiCard('VAT مُحصّلة (مخرجات)', fmtSAR(d.vatCollected), '#a8854a', 'من العملاء'),
+    annualKpiCard('VAT مدفوعة (مدخلات)', fmtSAR(d.vatPaid), '#1e6080', 'للموردين'),
+    annualKpiCard(d.vatNet >= 0 ? 'مستحق لـ ZATCA' : 'مستحق استرداد', fmtSAR(Math.abs(d.vatNet)), d.vatNet >= 0 ? '#c93545' : '#155e5f', d.vatNet >= 0 ? 'يجب سدادها' : 'تطالب بها'),
+  ].join('');
+}
+
+function recalcAnnualZakat() {
+  const d = _annualData; if (!d) return;
+  const el = document.getElementById('annualZakat');
+  if (!el) return;
+  const include = document.getElementById('annualIncludeZakat')?.checked;
+  if (!include) { el.innerHTML = `<div style="text-align:center;padding:14px;color:var(--t3);font-size:12px">الزكاة مستثناة من التقرير</div>`; return; }
+  const zakatBase = Math.max(0, d.netProfit);
+  const zakatDue  = zakatBase * 0.025;
+  el.innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(127,197,123,.08),rgba(127,197,123,.02));border:1px solid rgba(127,197,123,.22);border-radius:12px;padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:14px">
+        <div>
+          <div style="font-size:11px;color:rgba(21,94,95,.7);font-weight:600">وعاء الزكاة</div>
+          <div style="font-size:16px;font-weight:800;color:#155e5f;direction:ltr;text-align:right;margin-top:4px">${fmtSAR(zakatBase)}</div>
+          <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:2px">صافي الربح السنوي</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:rgba(21,94,95,.7);font-weight:600">النسبة</div>
+          <div style="font-size:16px;font-weight:800;color:#155e5f;direction:ltr;text-align:right;margin-top:4px">2.5%</div>
+          <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:2px">للنشاط التجاري</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:rgba(21,94,95,.7);font-weight:600">الزكاة المستحقة</div>
+          <div style="font-size:22px;font-weight:900;color:#155e5f;direction:ltr;text-align:right;margin-top:4px">${fmtSAR(zakatDue)}</div>
+          <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:2px">تقديري</div>
+        </div>
+      </div>
+      ${zakatBase === 0 ? `<div style="background:rgba(168,133,74,.1);border-radius:8px;padding:10px;font-size:11px;color:#5a4408">ℹ️ لا تجب الزكاة هذي السنة (الربح صفر أو خسارة)</div>` : ''}
+    </div>`;
+}
+
+function printAnnualReport() {
+  if (!_annualData) { toast({ type:'warn', msg:'حدّث التقرير أولاً' }); return; }
+  const d = _annualData;
+  const t = d.tenant || {};
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  let totRev = 0, totExp = 0, totVatOut = 0, totVatIn = 0;
+  const rows = months.map((mName, i) => {
+    const m = d.monthly[i+1];
+    totRev += m.revenue; totExp += m.expense; totVatOut += m.vat_out; totVatIn += m.vat_in;
+    const net = m.revenue - m.expense;
+    return `<tr><td>${mName}</td><td style="direction:ltr;text-align:right">${fmtSAR(m.revenue)}</td><td style="direction:ltr;text-align:right">${fmtSAR(m.expense)}</td><td style="direction:ltr;text-align:right">${fmtSAR(m.vat_out)}</td><td style="direction:ltr;text-align:right">${fmtSAR(m.vat_in)}</td><td style="direction:ltr;text-align:right;font-weight:700">${fmtSAR(net)}</td></tr>`;
+  }).join('');
+  const includeZakat = document.getElementById('annualIncludeZakat')?.checked;
+  const zakatBase = Math.max(0, d.netProfit);
+  const zakatDue = zakatBase * 0.025;
+
+  const w = window.open('', '_blank', 'width=900,height=1100');
+  if (!w) { alert('السماح بالنوافذ المنبثقة مطلوب'); return; }
+  w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">
+  <title>الإقرار السنوي ${d.year}</title>
+  <style>
+  @page { size:A4; margin:14mm }
+  *{box-sizing:border-box;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif}
+  body{margin:0;padding:24px;background:#fff;color:#1a1a1a}
+  h1{font-size:22px;color:#155e5f;margin:0 0 8px}
+  .h{border-bottom:3px solid #155e5f;padding-bottom:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+  .h-meta{text-align:left;font-size:12px;color:#666}
+  .info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+  .info div{background:#fafafa;padding:10px 12px;border-radius:8px}
+  .info .lbl{font-size:11px;color:#666;font-weight:600}
+  .info .val{font-size:13px;font-weight:800;color:#155e5f;margin-top:3px;direction:ltr;text-align:right}
+  h2{font-size:16px;color:#155e5f;margin:20px 0 10px;border-right:4px solid #7fc57b;padding-right:10px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .kpi{background:#f3f5f5;padding:12px;border-radius:8px}
+  .kpi .l{font-size:11px;color:#666}
+  .kpi .v{font-size:14px;font-weight:800;color:#155e5f;direction:ltr;text-align:right;margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+  th{background:#155e5f;color:#fff;padding:8px;text-align:right}
+  td{padding:7px 8px;border-bottom:1px solid #ececec}
+  tfoot td{background:#f3f5f5;font-weight:800;border-top:2px solid #155e5f}
+  .zakat{background:linear-gradient(135deg,rgba(127,197,123,.1),rgba(127,197,123,.04));border:1px solid rgba(127,197,123,.3);border-radius:10px;padding:14px;margin:14px 0}
+  .zakat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+  .zakat-val{font-size:20px;font-weight:900;color:#155e5f;direction:ltr;margin-top:3px}
+  .actions{text-align:center;margin:18px 0;padding:14px;background:#fafafa;border-radius:10px}
+  .actions button{padding:10px 22px;background:#7fc57b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:800;margin:0 4px}
+  .actions .close{background:#94a3b8}
+  .foot{margin-top:24px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#888;text-align:center;line-height:1.7}
+  @media print{.no-print{display:none!important}body{padding:0}}
+  </style></head><body>
+  <div class="no-print actions">
+    <button onclick="window.print()">🖨 طباعة / حفظ PDF</button>
+    <button class="close" onclick="window.close()">إغلاق</button>
+  </div>
+  <div class="h">
+    <div>
+      <h1>الإقرار السنوي للسنة المالية ${d.year}</h1>
+      <div style="font-size:13px;color:#666">من ${d.fromDate} إلى ${d.toDate}</div>
+    </div>
+    <div class="h-meta">
+      <div style="font-size:18px;font-weight:900;color:#155e5f">${t.name || 'النشاط'}</div>
+      <div style="margin-top:6px">تاريخ الإصدار: ${new Date().toLocaleDateString('ar-SA-u-nu-latn')}</div>
+    </div>
+  </div>
+
+  <h2>📋 بيانات النشاط</h2>
+  <div class="info">
+    <div><div class="lbl">اسم النشاط</div><div class="val">${t.name || '—'}</div></div>
+    <div><div class="lbl">الرقم الضريبي</div><div class="val">${t.vat_number || '— غير مسجّل'}</div></div>
+    <div><div class="lbl">السجل التجاري</div><div class="val">${t.cr_number || '—'}</div></div>
+    <div><div class="lbl">نوع النشاط</div><div class="val">${t.business_type || '—'}</div></div>
+    <div><div class="lbl">السنة المالية</div><div class="val">${d.year}</div></div>
+    <div><div class="lbl">الحالة</div><div class="val">${t.vat_registered ? 'مسجّل بالضريبة' : 'غير مسجّل'}</div></div>
+  </div>
+
+  <h2>💰 الملخّص المالي</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="l">إجمالي الإيرادات</div><div class="v">${fmtSAR(d.revenue)}</div></div>
+    <div class="kpi"><div class="l">إجمالي المصاريف</div><div class="v" style="color:#c93545">${fmtSAR(d.expenses)}</div></div>
+    <div class="kpi"><div class="l">${d.netProfit >= 0 ? 'صافي الربح' : 'صافي الخسارة'}</div><div class="v" style="color:${d.netProfit >= 0 ? '#155e5f' : '#c93545'}">${fmtSAR(Math.abs(d.netProfit))}</div></div>
+    <div class="kpi"><div class="l">صافي ضريبة القيمة المضافة</div><div class="v" style="color:#a8854a">${fmtSAR(d.vatNet)}</div></div>
+  </div>
+
+  <h2>📊 التفصيل الشهري</h2>
+  <table>
+    <thead><tr>
+      <th>الشهر</th><th>الإيرادات</th><th>المصاريف</th><th>VAT مُحصّلة</th><th>VAT مدفوعة</th><th>صافي الشهر</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td>المجموع</td>
+      <td style="direction:ltr;text-align:right">${fmtSAR(totRev)}</td>
+      <td style="direction:ltr;text-align:right">${fmtSAR(totExp)}</td>
+      <td style="direction:ltr;text-align:right">${fmtSAR(totVatOut)}</td>
+      <td style="direction:ltr;text-align:right">${fmtSAR(totVatIn)}</td>
+      <td style="direction:ltr;text-align:right">${fmtSAR(totRev - totExp)}</td>
+    </tr></tfoot>
+  </table>
+
+  ${includeZakat ? `
+  <h2>🕌 حساب الزكاة</h2>
+  <div class="zakat">
+    <div class="zakat-grid">
+      <div><div class="l">وعاء الزكاة</div><div class="zakat-val">${fmtSAR(zakatBase)}</div></div>
+      <div><div class="l">النسبة</div><div class="zakat-val">2.5%</div></div>
+      <div><div class="l">الزكاة المستحقة</div><div class="zakat-val">${fmtSAR(zakatDue)}</div></div>
+    </div>
+  </div>
+  ` : ''}
+
+  <div class="foot">
+    📑 صادر تلقائياً من منصة محسوب (mahsob.sa) — هذا التقرير تقديري ويجب مراجعته من محاسب معتمد قبل التقديم لهيئة الزكاة والضريبة (ZATCA)
+  </div>
+  <script>setTimeout(function(){window.print();}, 600);<\/script>
+  </body></html>`);
+  w.document.close();
+}
 
 async function loadPerformance() {
   if (!Auth?.tenant?.id) return;
@@ -13964,10 +14398,10 @@ const PERM_GROUPS = [
 // Default permissions per role (used as template when admin doesn't customize)
 const ROLE_DEFAULTS = {
   admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','channels',
-          'tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','brand','zatca','usrs','inbox','activity'],
-  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','ar','coa','gls','profile','sub','inbox','activity'],
+          'tx','bg','tax','vat','zakat','taxcal','annual','ar','coa','gls','profile','sub','brand','zatca','usrs','inbox','activity'],
+  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','annual','ar','coa','gls','profile','sub','inbox','activity'],
   cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile','inbox'],
-  viewer:  ['db','hl','cf','st','inv','tx','profile','activity'],
+  viewer:  ['db','hl','cf','st','inv','tx','profile','activity','annual'],
 };
 
 function getEffectivePermissions(member) {
