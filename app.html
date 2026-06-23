@@ -1395,6 +1395,7 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('st',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H7v9a2 2 0 0 1-2 2H3"/><path d="M9 22h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-7l-1.5 1.5L9 2H5a2 2 0 0 0-2 2v4"/><line x1="13" y1="10" x2="17" y2="10"/><line x1="13" y1="14" x2="17" y2="14"/></svg></span><span data-i18n="nav_st">تقاريري المالية</span></div>
     <div class="ni" onclick="go('zt',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span><span data-i18n="nav_zt">فاتورة جديدة</span></div>
     <div class="ni" onclick="go('products',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
+    <div class="ni" onclick="go('costing',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span>تكلفة الأصناف</span><span class="nbg" style="background:rgba(127,197,123,.15);color:#155e5f">جديد</span></div>
     <div class="ni" onclick="go('ai',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg></span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
@@ -2976,6 +2977,60 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
 </div>
 
 <!-- PRODUCTS / SERVICES -->
+<!-- ═══════════════════ RECIPE COSTING (تكلفة الأصناف) ═══════════════════ -->
+<div class="pg" id="pg-costing">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">تكلفة الأصناف</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">احسب تكلفة كل صنف من مكوناته — واعرف هامش ربحك الحقيقي</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bg2" onclick="openSmartSeedModal()" style="font-size:12px;background:linear-gradient(135deg,rgba(127,197,123,.15),rgba(168,213,158,.1));color:#155e5f;border-color:rgba(127,197,123,.4)">🪄 قائمة ذكية لنشاطي</button>
+      <button class="btn bg2" onclick="openIngredientModal()">＋ مكوّن جديد</button>
+      <button class="btn bp" onclick="openRecipeModal()">＋ صنف جديد</button>
+    </div>
+  </div>
+
+  <!-- Stats strip -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#fff;border-radius:14px;padding:14px">
+      <div style="font-size:11px;opacity:.9">🍽 إجمالي الأصناف</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px" id="costing-recipes-count">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">🥫 المكونات النشطة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="costing-ingredients-count">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">📊 متوسط الهامش</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="costing-avg-margin">—</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">⚠️ أصناف تحت الهدف</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#a8854a" id="costing-below-target">0</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;background:#f3f5f5;border-radius:12px;padding:4px;width:fit-content;margin-bottom:18px">
+    <button id="costingTab-recipes" class="tgl-tab on" onclick="costingSwitchTab('recipes')">الأصناف</button>
+    <button id="costingTab-ingredients" class="tgl-tab" onclick="costingSwitchTab('ingredients')">المكونات</button>
+  </div>
+
+  <!-- Recipes panel -->
+  <div id="costingPanel-recipes" class="card">
+    <div id="recipesList"></div>
+  </div>
+
+  <!-- Ingredients panel -->
+  <div id="costingPanel-ingredients" class="card" style="display:none">
+    <div id="ingredientsList"></div>
+  </div>
+
+</div>
+
 <div class="pg" id="pg-products">
 
   <!-- Header: stats cards + actions -->
@@ -5715,7 +5770,7 @@ function toggleLang() {
 }
 
 // ── Navigation ─────────────────────────
-const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',inbox:'الإيصالات الواردة',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون',annual:'الإقرار السنوي'};
+const PGN={scan:'مسح الفواتير',vat:'تقرير ض.ق.م',zakat:'حاسبة الزكاة',taxcal:'التقويم الضريبي',db:'لوحة التحكم',hl:'الصحة المالية',cf:'التدفق النقدي',activity:'سجل الحركات',inbox:'الإيصالات الواردة',cp:'ربحية العملاء',gls:'أهدافي المالية',tax:'الضرائب والزكاة',tx:'المعاملات',inv:'الفواتير',bg:'الميزانية',st:'القوائم المالية',zt:'فاتورة جديدة',products:'خدماتي ومنتجاتي',pos:'الإغلاقات اليومية',channels:'مصادر المبيعات',daily:'الموازنة اليومية',profile:'إعدادات الحساب',ai:'المستشار الذكي',usrs:'المستخدمون والصلاحيات',coa:'أين أموالي؟',sub:'اشتراكي',admin:'لوحة الإدارة',zatca:'ربط ZATCA',brand:'تخصيص الفاتورة',ar:'الفلوس عند الناس',quotes:'عروض الأسعار',pricing:'تسعير المنتج',exp:'المصاريف والموردون',annual:'الإقرار السنوي',costing:'تكلفة الأصناف'};
 // ═══════════ SAR Symbol auto-injector ═══════════
 // Replaces every "ر.س" text occurrence with "ر.س <icon>" using a TreeWalker.
 // Also observes DOM mutations to handle dynamically inserted content.
@@ -5885,6 +5940,7 @@ function go(id,el){
   if (id === 'inbox')    loadInbox();
   if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); loadZatcaHealth(); }
   if (id === 'annual')   loadAnnualReport();
+  if (id === 'costing')  loadCosting();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -8013,6 +8069,589 @@ function printAnnualReport() {
   </body></html>`);
   w.document.close();
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Recipe Costing — تكلفة الأصناف من المكونات
+// ═══════════════════════════════════════════════════════════════════════
+let _ingredientsCache = [];
+let _recipesCache = [];
+let _editingIngredientId = null;
+let _editingRecipeId = null;
+
+const UNIT_LABELS = {
+  kg:'كيلو', g:'جرام', liter:'لتر', ml:'مل',
+  piece:'حبة', dozen:'دزينة', box:'علبة', bag:'كيس',
+  bottle:'قنينة', can:'علبة معدنية', cup:'كوب', tbsp:'م.كبيرة', tsp:'م.صغيرة', other:'أخرى',
+};
+
+async function loadCosting() {
+  await Promise.all([loadIngredients(), loadRecipes()]);
+  refreshCostingStats();
+}
+
+async function loadIngredients() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  try {
+    const { data, error } = await _sb.from('ingredients')
+      .select('*').eq('tenant_id', tid)
+      .eq('active', true).order('name');
+    if (error) throw error;
+    _ingredientsCache = data || [];
+    renderIngredients();
+  } catch (e) {
+    console.warn('loadIngredients:', e.message);
+    document.getElementById('ingredientsList').innerHTML = `<div style="text-align:center;padding:24px;color:#c93545;font-size:12px">⚠️ شغّل migration: <code>sql/recipe_costing.sql</code></div>`;
+  }
+}
+
+async function loadRecipes() {
+  const tid = Auth?.tenant?.id;
+  if (!tid) return;
+  try {
+    const { data, error } = await _sb.from('recipes_with_costs')
+      .select('*').eq('tenant_id', tid)
+      .eq('active', true).order('name');
+    if (error) throw error;
+    _recipesCache = data || [];
+    renderRecipes();
+  } catch (e) {
+    console.warn('loadRecipes:', e.message);
+  }
+}
+
+function refreshCostingStats() {
+  document.getElementById('costing-recipes-count').textContent = _recipesCache.length;
+  document.getElementById('costing-ingredients-count').textContent = _ingredientsCache.length;
+  const margined = _recipesCache.filter(r => r.actual_margin_pct !== null);
+  const avgMargin = margined.length
+    ? (margined.reduce((s, r) => s + (+r.actual_margin_pct || 0), 0) / margined.length).toFixed(1)
+    : '—';
+  document.getElementById('costing-avg-margin').textContent = avgMargin !== '—' ? avgMargin + '%' : '—';
+  const belowTarget = _recipesCache.filter(r =>
+    r.actual_margin_pct !== null && r.target_margin && +r.actual_margin_pct < +r.target_margin).length;
+  document.getElementById('costing-below-target').textContent = belowTarget;
+}
+
+function costingSwitchTab(tab) {
+  ['recipes','ingredients'].forEach(t => {
+    document.getElementById('costingTab-' + t).classList.toggle('on', t === tab);
+    document.getElementById('costingPanel-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+function renderIngredients() {
+  const el = document.getElementById('ingredientsList');
+  if (!el) return;
+  if (!_ingredientsCache.length) {
+    el.innerHTML = `<div style="text-align:center;padding:36px;color:rgba(21,94,95,.6);font-size:13px">
+      🥫 لا توجد مكونات بعد<br>
+      <span style="font-size:11px;display:block;margin-top:6px">اضغطي <b>⚡ مكونات قهوة جاهزة</b> لإضافة قائمة جاهزة، أو <b>＋ مكوّن جديد</b></span>
+    </div>`;
+    return;
+  }
+  el.innerHTML = _ingredientsCache.map(i => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--b);border-radius:11px;margin-bottom:8px;background:#fff;flex-wrap:wrap">
+      <div style="width:38px;height:38px;border-radius:10px;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${(i.name||'?').charAt(0)}</div>
+      <div style="flex:1;min-width:160px">
+        <div style="font-size:13px;font-weight:800;color:#155e5f">${i.name}</div>
+        <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">${i.category || '—'}${i.supplier_name ? ' · ' + i.supplier_name : ''}</div>
+      </div>
+      <div style="text-align:left">
+        <div style="font-size:14px;font-weight:800;color:#155e5f;direction:ltr">${(+i.cost_per_unit).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4})} ر.س</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.65)">لكل ${UNIT_LABELS[i.unit] || i.unit}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button onclick="openIngredientModal('${i.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
+        <button onclick="deleteIngredient('${i.id}', '${(i.name||'').replace(/'/g,"\\'")}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRecipes() {
+  const el = document.getElementById('recipesList');
+  if (!el) return;
+  if (!_recipesCache.length) {
+    el.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(21,94,95,.6);font-size:13px">
+      🍽 لا توجد أصناف بعد<br>
+      <span style="font-size:11px;display:block;margin-top:6px">أضف المكونات أولاً، ثم ركّب صنفك الأول من قائمتها</span>
+    </div>`;
+    return;
+  }
+  el.innerHTML = _recipesCache.map(r => {
+    const cost = +r.cost || 0;
+    const price = +r.selling_price || 0;
+    const margin = r.actual_margin_pct;
+    const target = +r.target_margin || 60;
+    const suggested = +r.suggested_price || 0;
+    let marginColor = '#a8854a', marginLabel = '—';
+    if (margin !== null) {
+      marginColor = margin >= target ? '#155e5f' : margin >= 30 ? '#a8854a' : '#c93545';
+      marginLabel = margin + '%';
+    }
+    const belowTarget = margin !== null && margin < target;
+    const noPrice = price === 0;
+
+    return `<div style="background:#fff;border:1px solid ${belowTarget?'rgba(201,53,69,.25)':'#ced9d9'};border-radius:13px;padding:14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="width:40px;height:40px;border-radius:11px;background:${marginColor}22;color:${marginColor};display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">🍽</div>
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:14px;font-weight:800;color:#155e5f">${r.name}</div>
+          <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">${r.category || '—'} · ${r.ingredient_count || 0} مكوّن${r.serving_size ? ' · ' + r.serving_size : ''}</div>
+        </div>
+        <span style="background:${marginColor}1A;color:${marginColor};padding:4px 12px;border-radius:10px;font-size:12px;font-weight:800;white-space:nowrap">هامش ${marginLabel}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:12px 0">
+        <div style="background:rgba(168,133,74,.06);border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:10px;color:rgba(21,94,95,.65)">التكلفة</div>
+          <div style="font-size:13px;font-weight:800;color:#a8854a;margin-top:2px;direction:ltr">${cost.toFixed(2)} ر.س</div>
+        </div>
+        <div style="background:rgba(127,197,123,.06);border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:10px;color:rgba(21,94,95,.65)">سعر البيع</div>
+          <div style="font-size:13px;font-weight:800;color:#155e5f;margin-top:2px;direction:ltr">${noPrice ? '— ' : price.toFixed(2) + ' '}ر.س</div>
+        </div>
+        ${!noPrice ? `<div style="background:rgba(130,176,199,.06);border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:10px;color:rgba(21,94,95,.65)">ربح الوحدة</div>
+          <div style="font-size:13px;font-weight:800;color:#1e6080;margin-top:2px;direction:ltr">${(+r.profit_amount).toFixed(2)} ر.س</div>
+        </div>` : ''}
+        ${belowTarget || noPrice ? `<div style="background:rgba(127,197,123,.1);border:1px dashed rgba(127,197,123,.4);border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:10px;color:rgba(21,94,95,.65)">💡 السعر المقترح</div>
+          <div style="font-size:13px;font-weight:800;color:#155e5f;margin-top:2px;direction:ltr">${suggested.toFixed(2)} ر.س</div>
+        </div>` : ''}
+      </div>
+
+      ${belowTarget && !noPrice ? `<div style="background:rgba(201,53,69,.05);border:1px solid rgba(201,53,69,.2);border-radius:9px;padding:10px;margin-bottom:8px;font-size:11px;color:#5a0711;line-height:1.7">
+        ⚠️ هامشك الحالي ${margin}% تحت هدفك (${target}%). للوصول لهدفك، ارفعي السعر إلى <b>${suggested.toFixed(2)} ر.س</b>
+      </div>` : ''}
+
+      <div style="display:flex;gap:6px;flex-wrap:wrap;border-top:1px dashed var(--b);padding-top:10px">
+        <button onclick="openRecipeModal('${r.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
+        <button onclick="viewRecipeBreakdown('${r.id}')" style="background:rgba(127,197,123,.1);color:#155e5f;border:1px solid rgba(127,197,123,.3);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📋 تفصيل المكونات</button>
+        <button onclick="deleteRecipe('${r.id}', '${(r.name||'').replace(/'/g,"\\'")}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;margin-right:auto">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── Ingredient Modal ────────────────────────────────────────────────────
+function openIngredientModal(id) {
+  _editingIngredientId = id || null;
+  const i = id ? _ingredientsCache.find(x => x.id === id) : null;
+  let m = document.getElementById('ingredientModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'ingredientModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:480px;width:100%;max-height:92vh;overflow:auto">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#ced9d9,#dde5e5);border-radius:18px 18px 0 0">
+        <div style="font-size:16px;font-weight:800;color:#155e5f">🥫 ${i ? 'تعديل مكوّن' : 'مكوّن جديد'}</div>
+        <button onclick="document.getElementById('ingredientModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div class="ff" style="margin-bottom:10px"><label class="fl">الاسم *</label>
+          <input class="fi" id="ing-name" placeholder="بن عربي، حليب، سكر..." value="${i?.name || ''}"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="ff"><label class="fl">السعر *</label>
+            <input class="fi" id="ing-cost" type="number" step="0.0001" placeholder="0.00" value="${i?.cost_per_unit || ''}"/></div>
+          <div class="ff"><label class="fl">لكل *</label>
+            <select class="fi" id="ing-unit">
+              ${Object.entries(UNIT_LABELS).map(([k,v]) => `<option value="${k}" ${i?.unit===k?'selected':''}>${v}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="ff"><label class="fl">التصنيف</label>
+            <input class="fi" id="ing-cat" placeholder="مشروبات، توابل..." value="${i?.category || ''}"/></div>
+          <div class="ff"><label class="fl">المورد (اختياري)</label>
+            <input class="fi" id="ing-supplier" placeholder="اسم المورد" value="${i?.supplier_name || ''}"/></div>
+        </div>
+        <div class="ff" style="margin-bottom:14px"><label class="fl">ملاحظات</label>
+          <textarea class="fi" id="ing-notes" rows="2">${i?.notes || ''}</textarea></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn bg2" onclick="document.getElementById('ingredientModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" onclick="saveIngredient()">💾 حفظ</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+async function saveIngredient() {
+  const name = document.getElementById('ing-name').value.trim();
+  const cost = parseFloat(document.getElementById('ing-cost').value);
+  if (!name) { toast({ type:'error', msg:'أدخلي اسم المكوّن' }); return; }
+  if (isNaN(cost) || cost < 0) { toast({ type:'error', msg:'أدخلي سعراً صحيحاً' }); return; }
+  const tid = Auth?.tenant?.id;
+  const payload = {
+    tenant_id: tid,
+    name,
+    cost_per_unit: cost,
+    unit: document.getElementById('ing-unit').value,
+    category: document.getElementById('ing-cat').value.trim() || null,
+    supplier_name: document.getElementById('ing-supplier').value.trim() || null,
+    notes: document.getElementById('ing-notes').value.trim() || null,
+    last_updated: new Date().toISOString(),
+  };
+  try {
+    let res;
+    if (_editingIngredientId) {
+      res = await _sb.from('ingredients').update(payload).eq('id', _editingIngredientId);
+    } else {
+      res = await _sb.from('ingredients').insert(payload);
+    }
+    if (res.error) throw res.error;
+    toast({ type:'success', msg: _editingIngredientId ? 'تم التعديل ✓' : `تم إضافة "${name}" ✓` });
+    logActivity('settings', _editingIngredientId?'ingredient_update':'ingredient_create',
+      `${_editingIngredientId?'تعديل':'إضافة'} مكوّن: ${name}`, { cost, unit: payload.unit }).catch(()=>{});
+    document.getElementById('ingredientModal').style.display = 'none';
+    await loadCosting();
+  } catch (e) {
+    toast({ type:'error', msg: e.message });
+  }
+}
+
+async function deleteIngredient(id, name) {
+  if (!confirm(`حذف المكوّن "${name}"؟ سيؤثر على أي صنف يستخدمه.`)) return;
+  try {
+    const { error } = await _sb.from('ingredients').update({ active: false }).eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم الحذف' });
+    await loadCosting();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Recipe Modal ────────────────────────────────────────────────────────
+let _recipeIngredients = []; // working copy while editing
+
+function openRecipeModal(id) {
+  _editingRecipeId = id || null;
+  const r = id ? _recipesCache.find(x => x.id === id) : null;
+  _recipeIngredients = [];
+
+  // If editing, fetch ingredients
+  const load = async () => {
+    if (id) {
+      const { data } = await _sb.from('recipe_ingredients').select('*').eq('recipe_id', id);
+      _recipeIngredients = (data || []).map(ri => ({
+        ingredient_id: ri.ingredient_id, quantity: +ri.quantity, unit: ri.unit,
+      }));
+    }
+    showRecipeModal(r);
+  };
+  load();
+}
+
+function showRecipeModal(r) {
+  let m = document.getElementById('recipeModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'recipeModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:580px;width:100%;max-height:94vh;overflow:auto">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0">
+        <div>
+          <div style="font-size:16px;font-weight:800">🍽 ${r ? 'تعديل صنف' : 'صنف جديد'}</div>
+          <div style="font-size:11px;opacity:.85;margin-top:2px">حدّد المكونات وكمياتها وسيُحسب السعر تلقائياً</div>
+        </div>
+        <button onclick="document.getElementById('recipeModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div class="ff" style="margin-bottom:10px"><label class="fl">اسم الصنف *</label>
+          <input class="fi" id="rec-name" placeholder="قهوة عربي، كابتشينو، شاي بالحليب..." value="${r?.name || ''}"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="ff"><label class="fl">التصنيف</label>
+            <input class="fi" id="rec-cat" placeholder="مشروبات، حلويات..." value="${r?.category || ''}"/></div>
+          <div class="ff"><label class="fl">حجم الحصة</label>
+            <input class="fi" id="rec-serving" placeholder="كوب، صحن، حبة..." value="${r?.serving_size || ''}"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="ff"><label class="fl">سعر البيع</label>
+            <input class="fi" id="rec-price" type="number" step="0.01" placeholder="0.00" value="${r?.selling_price || ''}"/></div>
+          <div class="ff"><label class="fl">هامش الربح المستهدف %</label>
+            <input class="fi" id="rec-target" type="number" min="0" max="100" value="${r?.target_margin || 60}"/></div>
+        </div>
+
+        <!-- Ingredients section -->
+        <div style="background:rgba(127,197,123,.06);border:1px solid rgba(127,197,123,.2);border-radius:11px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-size:13px;font-weight:800;color:#155e5f">🥫 المكونات</div>
+            <button onclick="addRecipeIngredient()" style="background:#155e5f;color:#fff;border:none;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">＋ إضافة مكوّن</button>
+          </div>
+          <div id="recipeIngList"></div>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--b);padding-top:12px">
+          <button class="btn bg2" onclick="document.getElementById('recipeModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" onclick="saveRecipe()">💾 حفظ الصنف</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+  renderRecipeIngList();
+}
+
+function addRecipeIngredient() {
+  _recipeIngredients.push({ ingredient_id: '', quantity: 1, unit: 'g' });
+  renderRecipeIngList();
+}
+
+function removeRecipeIngredient(idx) {
+  _recipeIngredients.splice(idx, 1);
+  renderRecipeIngList();
+}
+
+function updateRecipeIngredient(idx, field, value) {
+  if (_recipeIngredients[idx]) {
+    _recipeIngredients[idx][field] = value;
+    if (field === 'ingredient_id') {
+      const ing = _ingredientsCache.find(i => i.id === value);
+      if (ing) _recipeIngredients[idx].unit = ing.unit;
+      renderRecipeIngList();
+    }
+  }
+}
+
+function renderRecipeIngList() {
+  const el = document.getElementById('recipeIngList');
+  if (!el) return;
+  if (!_recipeIngredients.length) {
+    el.innerHTML = `<div style="text-align:center;padding:14px;color:rgba(21,94,95,.55);font-size:11px">لم تضيفي أي مكوّن بعد</div>`;
+    return;
+  }
+  el.innerHTML = _recipeIngredients.map((ri, idx) => {
+    const ing = _ingredientsCache.find(i => i.id === ri.ingredient_id);
+    const rowCost = ing ? (+ri.quantity * +ing.cost_per_unit) : 0;
+    return `<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap">
+      <select onchange="updateRecipeIngredient(${idx}, 'ingredient_id', this.value)" style="flex:2;min-width:140px;padding:8px 10px;border:1px solid #ced9d9;border-radius:8px;font-family:inherit;font-size:12px;background:#fff">
+        <option value="">— اختر مكوّن —</option>
+        ${_ingredientsCache.map(i => `<option value="${i.id}" ${ri.ingredient_id===i.id?'selected':''}>${i.name}</option>`).join('')}
+      </select>
+      <input type="number" step="0.01" placeholder="الكمية" value="${ri.quantity}" oninput="updateRecipeIngredient(${idx}, 'quantity', parseFloat(this.value)||0)" style="width:80px;padding:8px 10px;border:1px solid #ced9d9;border-radius:8px;font-family:inherit;font-size:12px;direction:ltr;text-align:left">
+      <select onchange="updateRecipeIngredient(${idx}, 'unit', this.value)" style="width:90px;padding:8px 10px;border:1px solid #ced9d9;border-radius:8px;font-family:inherit;font-size:12px;background:#fff">
+        ${Object.entries(UNIT_LABELS).map(([k,v]) => `<option value="${k}" ${ri.unit===k?'selected':''}>${v}</option>`).join('')}
+      </select>
+      ${ing ? `<span style="font-size:11px;color:#155e5f;font-weight:700;direction:ltr;min-width:60px;text-align:left">${rowCost.toFixed(2)} ر.س</span>` : ''}
+      <button onclick="removeRecipeIngredient(${idx})" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:6px 8px;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit">🗑</button>
+    </div>`;
+  }).join('') + `<div style="border-top:1px dashed #ced9d9;margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#155e5f">
+    <span>تكلفة الصنف:</span>
+    <span style="direction:ltr">${_recipeIngredients.reduce((s, ri) => {
+      const ing = _ingredientsCache.find(i => i.id === ri.ingredient_id);
+      return s + (ing ? +ri.quantity * +ing.cost_per_unit : 0);
+    }, 0).toFixed(2)} ر.س</span>
+  </div>`;
+}
+
+async function saveRecipe() {
+  const name = document.getElementById('rec-name').value.trim();
+  if (!name) { toast({ type:'error', msg:'أدخلي اسم الصنف' }); return; }
+  if (!_recipeIngredients.length) { toast({ type:'error', msg:'أضيفي مكوّن واحد على الأقل' }); return; }
+  const validIngs = _recipeIngredients.filter(ri => ri.ingredient_id && ri.quantity > 0);
+  if (!validIngs.length) { toast({ type:'error', msg:'تأكدي إن كل مكوّن مختار ومعه كمية' }); return; }
+
+  const tid = Auth?.tenant?.id;
+  const payload = {
+    tenant_id: tid,
+    name,
+    category: document.getElementById('rec-cat').value.trim() || null,
+    serving_size: document.getElementById('rec-serving').value.trim() || null,
+    selling_price: parseFloat(document.getElementById('rec-price').value) || null,
+    target_margin: parseFloat(document.getElementById('rec-target').value) || 60,
+    updated_at: new Date().toISOString(),
+  };
+  try {
+    let recipeId;
+    if (_editingRecipeId) {
+      const { error } = await _sb.from('recipes').update(payload).eq('id', _editingRecipeId);
+      if (error) throw error;
+      recipeId = _editingRecipeId;
+      await _sb.from('recipe_ingredients').delete().eq('recipe_id', recipeId);
+    } else {
+      const { data, error } = await _sb.from('recipes').insert(payload).select().single();
+      if (error) throw error;
+      recipeId = data.id;
+    }
+    // Insert ingredients
+    const rows = validIngs.map(ri => ({
+      recipe_id: recipeId, ingredient_id: ri.ingredient_id,
+      quantity: ri.quantity, unit: ri.unit,
+    }));
+    const { error: insErr } = await _sb.from('recipe_ingredients').insert(rows);
+    if (insErr) throw insErr;
+
+    toast({ type:'success', msg: _editingRecipeId ? 'تم التعديل ✓' : `تم إضافة "${name}" ✓` });
+    logActivity('settings', _editingRecipeId?'recipe_update':'recipe_create',
+      `${_editingRecipeId?'تعديل':'إضافة'} صنف: ${name}`, { ingredients: validIngs.length }).catch(()=>{});
+    document.getElementById('recipeModal').style.display = 'none';
+    await loadCosting();
+  } catch (e) {
+    toast({ type:'error', msg: e.message });
+  }
+}
+
+async function deleteRecipe(id, name) {
+  if (!confirm(`حذف الصنف "${name}"؟`)) return;
+  try {
+    const { error } = await _sb.from('recipes').update({ active: false }).eq('id', id);
+    if (error) throw error;
+    toast({ type:'success', msg:'تم الحذف' });
+    await loadCosting();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+async function viewRecipeBreakdown(id) {
+  const r = _recipesCache.find(x => x.id === id);
+  if (!r) return;
+  try {
+    const { data: rows } = await _sb.from('recipe_ingredients').select('*').eq('recipe_id', id);
+    let html = `<div style="font-size:14px;font-weight:800;color:#155e5f;margin-bottom:10px">📋 تفصيل تكلفة "${r.name}"</div>`;
+    let total = 0;
+    (rows || []).forEach(ri => {
+      const ing = _ingredientsCache.find(i => i.id === ri.ingredient_id);
+      if (!ing) return;
+      const rowCost = +ri.quantity * +ing.cost_per_unit;
+      total += rowCost;
+      html += `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #eee;font-size:12px">
+        <span>${ing.name} (${ri.quantity} ${UNIT_LABELS[ri.unit] || ri.unit})</span>
+        <span style="direction:ltr;font-weight:700;color:#155e5f">${rowCost.toFixed(2)} ر.س</span>
+      </div>`;
+    });
+    html += `<div style="display:flex;justify-content:space-between;padding:10px 0 0;margin-top:6px;border-top:2px solid #155e5f;font-size:14px;font-weight:800;color:#155e5f">
+      <span>المجموع</span><span style="direction:ltr">${total.toFixed(2)} ر.س</span>
+    </div>`;
+    alert(html.replace(/<[^>]+>/g, '\n').replace(/\n+/g, '\n'));
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Smart AI-driven seed (works for ANY industry) ──────────────────────
+function openSmartSeedModal() {
+  const t = Auth?.tenant || {};
+  // Try to auto-fill from tenant business_type
+  const businessTypes = {
+    cafe:'مقهى', restaurant:'مطعم', grocery:'بقالة',
+    salon:'صالون', laundry:'مغسلة ملابس', retail:'محل تجاري',
+    services:'مكتب خدمات', wholesale:'تجارة جملة', manufacturing:'مصنع',
+  };
+  const detectedType = businessTypes[t.business_type] || '';
+
+  let m = document.getElementById('smartSeedModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'smartSeedModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:460px;width:100%;max-height:92vh;overflow:auto">
+      <div style="padding:20px 22px 16px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0;text-align:center">
+        <div style="font-size:42px;margin-bottom:6px">🪄</div>
+        <div style="font-size:18px;font-weight:900">قائمة ذكية لنشاطك</div>
+        <div style="font-size:11px;opacity:.85;margin-top:4px">اكتبي نوع نشاطك — AI يولّد لك قائمة جاهزة بأسعار سعودية واقعية</div>
+      </div>
+      <div style="padding:20px 22px">
+        <div class="ff" style="margin-bottom:12px">
+          <label class="fl">وصف نشاطك *</label>
+          <input class="fi" id="smartSeedDesc" placeholder="مثال: مطعم مأكولات بحرية، صالون رجالي، صيدلية..." value="${detectedType}" autofocus>
+          <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:6px;line-height:1.7">
+            💡 كل ما تفاصلتي أكثر، كل ما القائمة كانت أدق:<br>
+            • "مطعم" → عام<br>
+            • "مطعم برجر سعودي" → دقيق ✓<br>
+            • "صيدلية حيوانات" → دقيق ✓
+          </div>
+        </div>
+        <div class="ff" style="margin-bottom:14px">
+          <label class="fl">كم عنصر تريدين؟</label>
+          <select class="fi" id="smartSeedCount">
+            <option value="10">10 عناصر (سريع)</option>
+            <option value="15" selected>15 عنصر (موصى به)</option>
+            <option value="25">25 عنصر (شامل)</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn bg2" onclick="document.getElementById('smartSeedModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" id="smartSeedBtn" onclick="generateSmartSeed()">🚀 أنشئ القائمة</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+async function generateSmartSeed() {
+  const desc = document.getElementById('smartSeedDesc').value.trim();
+  const count = parseInt(document.getElementById('smartSeedCount').value) || 15;
+  if (!desc || desc.length < 3) { toast({ type:'error', msg:'اكتبي نوع نشاطك' }); return; }
+
+  const btn = document.getElementById('smartSeedBtn');
+  btn.disabled = true; btn.innerHTML = '⏳ AI يفكر... (10 ثواني)';
+
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    const prompt = `أنت خبير في السوق السعودي ومحاسبة المشاريع الصغيرة. أحتاج قائمة بـ ${count} عنصر/مكوّن شائع لنشاط: "${desc}"
+
+أعد JSON فقط (بدون أي شرح) بالشكل التالي:
+{"items":[{"name":"اسم العنصر بالعربي","unit":"kg|g|liter|ml|piece|dozen|box|bag|bottle|can|cup","cost_per_unit":السعر_بالريال_السعودي,"category":"التصنيف"}]}
+
+شروط:
+- أسعار واقعية حسب السوق السعودي 2026 (بالريال)
+- أسماء عربية مفهومة
+- وحدات قياس مناسبة لكل عنصر
+- صنّف العناصر في فئات منطقية (مثال: لحوم، خضروات، مشروبات، مستلزمات، إلخ)
+- أعد JSON فقط بدون أي نص آخر`;
+
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+      body: JSON.stringify({
+        messages: [{ role:'user', content: prompt }],
+        max_tokens: 2500,
+      }),
+    });
+    const data = await res.json();
+    const reply = (data?.content?.[0]?.text || data?.text || '').trim();
+
+    // Extract JSON from response
+    let items = [];
+    try {
+      const jsonMatch = reply.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('JSON not found');
+      const parsed = JSON.parse(jsonMatch[0]);
+      items = parsed.items || [];
+    } catch (parseErr) {
+      throw new Error('فشل قراءة استجابة AI — حاولي مرة أخرى');
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new Error('AI لم يرجع أي عناصر — جرّبي وصف مختلف');
+    }
+
+    // Insert via SQL
+    const { data: insertedCount, error: insErr } = await _sb.rpc('seed_items_from_list', { items_in: items });
+    if (insErr) throw insErr;
+
+    toast({ type:'success', title:'تم!', msg:`تم إضافة ${insertedCount || items.length} عنصر لنشاطك — حدّثي الأسعار لتطابق موردينك`, duration: 6000 });
+    logActivity('settings', 'smart_seed', `قائمة ذكية: ${desc} (${items.length} عنصر)`, { description: desc, count: items.length }).catch(()=>{});
+    document.getElementById('smartSeedModal').style.display = 'none';
+    await loadCosting();
+    costingSwitchTab('ingredients');
+  } catch (e) {
+    toast({ type:'error', msg: e.message || 'فشل التوليد' });
+  } finally {
+    btn.disabled = false; btn.innerHTML = '🚀 أنشئ القائمة';
+  }
+}
+
+// Backward compat — old functions now redirect to smart AI version
+function openSeedModal() { openSmartSeedModal(); }
+async function costingSeedSamples() { openSmartSeedModal(); }
+async function costingSeedIndustry(_industry) { openSmartSeedModal(); }
 
 // ═══════════════════════════════════════════════════════════════════════
 // ZATCA Health Monitor — dashboard widget + state management
@@ -15189,11 +15828,11 @@ const PERM_GROUPS = [
 
 // Default permissions per role (used as template when admin doesn't customize)
 const ROLE_DEFAULTS = {
-  admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','channels',
+  admin: ['db','hl','cf','st','cp','ai','inv','zt','quotes','scan','pos','daily','products','costing','channels',
           'tx','bg','tax','vat','zakat','taxcal','annual','ar','coa','gls','profile','sub','brand','zatca','usrs','inbox','activity'],
-  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','annual','ar','coa','gls','profile','sub','inbox','activity'],
-  cashier: ['inv','zt','quotes','scan','pos','daily','products','tx','profile','inbox'],
-  viewer:  ['db','hl','cf','st','inv','tx','profile','activity','annual'],
+  accountant: ['db','hl','cf','st','cp','ai','inv','quotes','tx','bg','tax','vat','zakat','taxcal','annual','ar','coa','gls','profile','sub','inbox','activity','costing'],
+  cashier: ['inv','zt','quotes','scan','pos','daily','products','costing','tx','profile','inbox'],
+  viewer:  ['db','hl','cf','st','inv','tx','profile','activity','annual','costing'],
 };
 
 function getEffectivePermissions(member) {
