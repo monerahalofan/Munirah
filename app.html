@@ -4808,6 +4808,9 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     </div>
   </div>
 
+  <!-- Active user filter pill (shown when filtered from Users page) -->
+  <div id="inboxUserFilterBar" style="display:none;margin-bottom:14px"></div>
+
   <!-- Stats -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px">
     <div style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border-radius:14px;padding:14px">
@@ -14085,11 +14088,15 @@ async function loadFieldTeam() {
       const daysSince = m.last_upload ? Math.floor((Date.now() - new Date(m.last_upload).getTime()) / 86400000) : 999;
       const activeStatus = daysSince <= 7 ? { label:'نشط', color:'#155e5f', bg:'rgba(127,197,123,.15)' } : daysSince <= 30 ? { label:'متوسط النشاط', color:'#a8854a', bg:'rgba(168,133,74,.12)' } : { label:'خامل', color:'#666', bg:'rgba(100,100,100,.1)' };
 
-      return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--b);border-radius:12px;margin-bottom:8px;background:#fff;flex-wrap:wrap">
+      const safeName = name.replace(/'/g, "\\'");
+      return `<div onclick="filterInboxByUser('${m.user_id}', '${safeName}')" title="اضغطي لعرض إيصالات هذا العضو فقط" style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--b);border-radius:12px;margin-bottom:8px;background:#fff;flex-wrap:wrap;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#7fc57b';this.style.background='rgba(127,197,123,.04)';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='var(--b)';this.style.background='#fff';this.style.transform='translateY(0)'">
         <div style="width:38px;height:38px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${initial}</div>
         <div style="flex:1;min-width:160px">
-          <div style="font-size:13px;font-weight:800;color:#155e5f">${name}</div>
-          <div style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">آخر رفع: ${lastDate}</div>
+          <div style="font-size:13px;font-weight:800;color:#155e5f;display:flex;align-items:center;gap:6px">
+            ${name}
+            <span style="font-size:14px;color:#7fc57b;opacity:.7">↗</span>
+          </div>
+          <div style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">آخر رفع: ${lastDate} · اضغطي لعرض إيصالاته</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <span style="background:rgba(127,197,123,.1);color:#155e5f;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px">📦 ${m.total_uploads} رفع</span>
@@ -14581,11 +14588,39 @@ window.addEventListener('load', () => {
 // Field Receipts Inbox — Review driver/worker uploads
 // ═══════════════════════════════════════════════════════════════════════
 let _inboxCache = [];
+let _inboxUserFilter = null; // { user_id, name }
+
+function filterInboxByUser(userId, displayName) {
+  _inboxUserFilter = { user_id: userId, name: displayName };
+  go('inbox', null);
+}
+
+function clearInboxUserFilter() {
+  _inboxUserFilter = null;
+  loadInbox();
+}
 
 async function loadInbox() {
   const tid = Auth?.tenant?.id;
   if (!tid) return;
   const filter = document.getElementById('inboxFilter')?.value || 'pending_review';
+
+  // Render the user filter pill (if any)
+  const filterBar = document.getElementById('inboxUserFilterBar');
+  if (filterBar) {
+    if (_inboxUserFilter) {
+      filterBar.style.display = 'flex';
+      filterBar.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(127,197,123,.1);border:1px solid rgba(127,197,123,.28);border-radius:11px;padding:10px 14px;flex:1;flex-wrap:wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#155e5f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          <span style="font-size:12px;color:#155e5f">مفلتر حسب: <b>${_inboxUserFilter.name}</b></span>
+          <button onclick="clearInboxUserFilter()" style="margin-right:auto;background:#fff;color:#155e5f;border:1px solid rgba(127,197,123,.4);padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✕ مسح الفلتر</button>
+        </div>`;
+    } else {
+      filterBar.style.display = 'none';
+      filterBar.innerHTML = '';
+    }
+  }
 
   try {
     let q = _sb.from('expenses')
@@ -14597,6 +14632,7 @@ async function loadInbox() {
     if (filter === 'pending_review') q = q.eq('category', 'pending_review');
     else if (filter === 'approved') q = q.neq('category', 'pending_review').neq('category', 'rejected');
     else if (filter === 'rejected') q = q.eq('category', 'rejected');
+    if (_inboxUserFilter?.user_id) q = q.eq('created_by', _inboxUserFilter.user_id);
 
     const { data, error } = await q.limit(200);
     if (error) throw error;
