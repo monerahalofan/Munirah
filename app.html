@@ -1633,7 +1633,7 @@ body.dark .prc-sv{color:#f0f2f8}
         الإيصالات الواردة
         <span id="dbInboxBadge" style="background:#a8854a;color:#fff;font-size:11px;padding:2px 9px;border-radius:10px;font-weight:700">0</span>
       </div>
-      <div style="font-size:12px;color:rgba(21,94,95,.7);margin-top:3px" id="dbInboxSub">إيصالات بانتظار المراجعة من السواقين/العمال</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.7);margin-top:3px" id="dbInboxSub">إيصالات بانتظار المراجعة من الفريق الميداني</div>
     </div>
     <button onclick="event.stopPropagation();openShareCaptureModal()" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">📤 شارك الرابط</button>
     <button style="background:linear-gradient(135deg,#ced9d9,#dde5e5);color:#155e5f;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">راجع ←</button>
@@ -1744,7 +1744,7 @@ body.dark .prc-sv{color:#f0f2f8}
           إيصالات بانتظار
         </div>
         <div style="font-size:18px;font-weight:900;color:#a8854a" id="b2cToday-pending">—</div>
-        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px">من السواقين/العمال</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:3px">من الفريق الميداني</div>
       </div>
     </div>
   </div>
@@ -4800,7 +4800,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
     <div>
       <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">الإيصالات الواردة</div>
-      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">فواتير ومصاريف يرفعها السواقين والعمال من الجوال — راجعها واعتمدها</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">فواتير ومصاريف يرفعها الفريق الميداني من الجوال — راجعها واعتمدها</div>
     </div>
     <div style="display:flex;gap:8px">
       <button class="btn bg2" onclick="loadInbox()">↻ تحديث</button>
@@ -4849,7 +4849,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(120deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0">
       <div>
         <div style="font-size:17px;font-weight:800">📤 شارك رابط الرفع</div>
-        <div style="font-size:11px;opacity:.85;margin-top:2px">أرسله للسواق أو العامل — يدخل برقم جواله فقط</div>
+        <div style="font-size:11px;opacity:.85;margin-top:2px">أرسله لعضو من الفريق — يدخل برقم جواله فقط</div>
       </div>
       <button onclick="closeShareCaptureModal()" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer;line-height:1">×</button>
     </div>
@@ -4867,7 +4867,7 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
       </div>
 
       <div style="background:rgba(127,197,123,.08);border:1px solid rgba(127,197,123,.22);border-radius:11px;padding:12px;margin-top:14px;font-size:12px;color:rgba(21,94,95,.85);line-height:1.7">
-        💡 <b>كيف يستخدم السواق؟</b><br>
+        💡 <b>كيف يستخدمه عضو الفريق؟</b><br>
         يفتح الرابط من جواله → يدخل رقمه → يستلم رمز OTP → يصور الفاتورة → ترفع لقائمتك مباشرة.
       </div>
     </div>
@@ -5075,6 +5075,18 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <div class="card" id="pendingCard" style="margin-bottom:16px;display:none">
     <div class="st" style="margin-bottom:14px">📬 دعوات معلّقة</div>
     <div id="pendingInvites"></div>
+  </div>
+
+  <!-- Field Team — مرفوعات السواقين/العمال عبر رابط القابتشر -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="sh" style="margin-bottom:14px">
+      <div>
+        <div class="st">📦 الفريق الميداني</div>
+        <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:3px">أعضاء يدخلون من رابط التصوير برقم جوالهم فقط — لرفع فواتير الموردين</div>
+      </div>
+      <button class="btn bg2" onclick="openShareCaptureModal()" style="font-size:12px">📤 شارك رابط الرفع</button>
+    </div>
+    <div id="fieldTeamList"></div>
   </div>
 
 </div>
@@ -13782,7 +13794,7 @@ function renderQuickActions(role){
     { page:'pos',   title:'إغلاق يومي',     sub:'ارفع تقرير الكاشير',     c:C.green,  svg:SVG.closing },
     { page:'pos',   title:'مطابقة بنكية',   sub:'قارن مع الإيداع',       c:C.teal,   svg:SVG.bank },
     { page:'tx',    title:'سجّل مصروف',      sub:'مصاريف اليوم',           c:C.olive,  svg:SVG.expense },
-    { page:'inbox', title:'إيصالات السواق',  sub:'مراجعة الفواتير الواردة', c:C.khaki,  svg:SVG.inbox },
+    { page:'inbox', title:'إيصالات الميدان',  sub:'مراجعة الفواتير الواردة', c:C.khaki,  svg:SVG.inbox },
     { page:'scan',  title:'مسح فاتورة',     sub:'فاتورة مورد بالـ AI',    c:C.sky,    svg:SVG.scan },
     { page:'ai',    title:'استشر AI',        sub:'تحليل ذكي فوري',         c:C.purple, svg:SVG.ai },
   ];
@@ -14007,6 +14019,89 @@ async function loadTeamMembers() {
     console.error('list_team_members failed:', e);
     const list = document.getElementById('usersList');
     if (list) list.innerHTML = `<div style="padding:14px;color:var(--t3);font-size:12px;text-align:center">⚠️ شغّل migration: <code>sql/multi_user_invites.sql</code> في Supabase</div>`;
+  }
+  // Load field team in parallel
+  loadFieldTeam().catch(() => {});
+}
+
+// ─── Field Team (driver/worker uploaders via capture link) ──────────────
+async function loadFieldTeam() {
+  const tid = Auth?.tenant?.id;
+  const list = document.getElementById('fieldTeamList');
+  if (!tid || !list) return;
+  try {
+    const { data, error } = await _sb.from('expenses')
+      .select('created_by, created_at, amount, category, receipt_url')
+      .eq('tenant_id', tid)
+      .eq('source', 'driver_quick_capture')
+      .order('created_at', { ascending: false })
+      .limit(500);
+    if (error) throw error;
+
+    // Aggregate by user
+    const byUser = new Map();
+    (data || []).forEach(e => {
+      const uid = e.created_by;
+      if (!uid) return;
+      if (!byUser.has(uid)) {
+        byUser.set(uid, {
+          user_id: uid,
+          total_uploads: 0,
+          pending: 0,
+          approved: 0,
+          total_amount: 0,
+          last_upload: null,
+        });
+      }
+      const m = byUser.get(uid);
+      m.total_uploads++;
+      if (e.category === 'pending_review') m.pending++;
+      else if (e.category !== 'rejected') m.approved++;
+      m.total_amount += +e.amount || 0;
+      if (!m.last_upload || e.created_at > m.last_upload) m.last_upload = e.created_at;
+    });
+
+    if (byUser.size === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:24px;color:rgba(21,94,95,.55);font-size:12px">
+        📦 لا يوجد رفعات من الفريق الميداني بعد<br>
+        <span style="font-size:11px">اضغطي <b>📤 شارك رابط الرفع</b> وأرسليه لأي عضو فريق</span>
+      </div>`;
+      return;
+    }
+
+    // Fetch phone numbers for the user_ids (via tenant_users)
+    const userIds = Array.from(byUser.keys());
+    const { data: tu } = await _sb.from('tenant_users')
+      .select('user_id, display_name')
+      .in('user_id', userIds);
+    const nameMap = new Map((tu || []).map(t => [t.user_id, t.display_name]));
+
+    const members = Array.from(byUser.values()).sort((a, b) => (b.last_upload || '').localeCompare(a.last_upload || ''));
+
+    list.innerHTML = members.map(m => {
+      const name = nameMap.get(m.user_id) || 'عضو ميداني';
+      const initial = name.charAt(0).toUpperCase();
+      const lastDate = m.last_upload ? new Date(m.last_upload).toLocaleDateString('ar-SA-u-nu-latn', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+      const daysSince = m.last_upload ? Math.floor((Date.now() - new Date(m.last_upload).getTime()) / 86400000) : 999;
+      const activeStatus = daysSince <= 7 ? { label:'نشط', color:'#155e5f', bg:'rgba(127,197,123,.15)' } : daysSince <= 30 ? { label:'متوسط النشاط', color:'#a8854a', bg:'rgba(168,133,74,.12)' } : { label:'خامل', color:'#666', bg:'rgba(100,100,100,.1)' };
+
+      return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--b);border-radius:12px;margin-bottom:8px;background:#fff;flex-wrap:wrap">
+        <div style="width:38px;height:38px;border-radius:50%;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${initial}</div>
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:13px;font-weight:800;color:#155e5f">${name}</div>
+          <div style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">آخر رفع: ${lastDate}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span style="background:rgba(127,197,123,.1);color:#155e5f;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px">📦 ${m.total_uploads} رفع</span>
+          ${m.pending > 0 ? `<span style="background:rgba(168,133,74,.12);color:#a8854a;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px">⏳ ${m.pending}</span>` : ''}
+          <span style="background:rgba(130,176,199,.1);color:#1e6080;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px;direction:ltr">${m.total_amount.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})} ر.س</span>
+        </div>
+        <span style="background:${activeStatus.bg};color:${activeStatus.color};padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap">${activeStatus.label}</span>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    console.warn('loadFieldTeam:', e.message);
+    list.innerHTML = `<div style="text-align:center;padding:14px;color:rgba(21,94,95,.55);font-size:12px">تعذّر تحميل القائمة</div>`;
   }
 }
 
@@ -14352,8 +14447,8 @@ const TOUR_B2C_STEPS = [
   {
     icon:'📥',
     title:'الإيصالات الواردة',
-    subtitle:'السواقين والعمال يرفعون فواتيرهم',
-    body:'شارك رابط مع السواق أو العامل — يدخل برقم جواله فقط، يصوّر الفاتورة، وترجع لصندوقك بانتظار المراجعة.',
+    subtitle:'أعضاء الفريق الميداني يرفعون الفواتير',
+    body:'شارك رابط مع عضو الفريق — يدخل برقم جواله فقط، يصوّر الفاتورة، وترجع لصندوقك بانتظار المراجعة.',
     nav: 'inbox',
     features: [
       { icon:'📱', name:'بدون حساب', desc:'OTP بالجوال فقط' },
@@ -14551,7 +14646,7 @@ async function refreshInboxStats() {
     if (pending > 0) {
       dbCard.style.display = 'flex';
       if (dbBadge) dbBadge.textContent = pending;
-      if (dbSub) dbSub.textContent = `${pending} إيصال بانتظار المراجعة من السواقين/العمال`;
+      if (dbSub) dbSub.textContent = `${pending} إيصال بانتظار المراجعة من الفريق الميداني`;
     } else {
       dbCard.style.display = 'none';
     }
