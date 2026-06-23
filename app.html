@@ -1625,6 +1625,22 @@ body.dark .prc-sv{color:#f0f2f8}
     <button onclick="document.getElementById('dailyDoneBanner').style.display='none'" style="background:none;color:#155e5f;border:none;padding:6px;cursor:pointer;font-family:inherit;font-size:18px;line-height:1">×</button>
   </div>
 
+  <!-- Low Stock Alerts Card -->
+  <div id="lowStockCard" style="display:none;background:linear-gradient(135deg,rgba(168,133,74,.08),rgba(168,133,74,.02));border:1px solid rgba(168,133,74,.28);border-radius:14px;padding:14px 18px;margin-bottom:14px;flex-wrap:wrap;gap:14px;cursor:pointer" onclick="go('costing', null)" onmouseover="this.style.background='linear-gradient(135deg,rgba(168,133,74,.12),rgba(168,133,74,.04))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(168,133,74,.08),rgba(168,133,74,.02))'">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="width:42px;height:42px;border-radius:12px;background:rgba(168,133,74,.2);color:#a8854a;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:14px;font-weight:800;color:#5a4408;display:flex;align-items:center;gap:8px"><span id="lowStockTitle">— مكوّن وصل للحد الأدنى</span></div>
+        <div style="font-size:11px;color:#7a5a1a;margin-top:3px" id="lowStockSub">راجعي قائمة الطلب قبل ما تنفد</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="event.stopPropagation();go('costing', null)" style="background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">📦 افتحي المخزون</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ZATCA Health Monitor Card (smart visibility) -->
   <div id="zatcaHealthCard" style="display:none;background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px 18px;margin-bottom:14px;gap:14px;flex-wrap:wrap;transition:all .2s">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%">
@@ -3010,6 +3026,11 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
     <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
       <div style="font-size:11px;color:rgba(21,94,95,.65)">⚠️ أصناف تحت الهدف</div>
       <div style="font-size:24px;font-weight:900;margin-top:4px;color:#a8854a" id="costing-below-target">0</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#155e5f,#1a7c7e);color:#fff;border-radius:14px;padding:14px">
+      <div style="font-size:11px;opacity:.9">📦 قيمة المخزون</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px" id="costing-stock-value">— ر.س</div>
+      <div style="font-size:10px;opacity:.85;margin-top:2px" id="costing-stock-sub">—</div>
     </div>
   </div>
 
@@ -8131,6 +8152,19 @@ function refreshCostingStats() {
   const belowTarget = _recipesCache.filter(r =>
     r.actual_margin_pct !== null && r.target_margin && +r.actual_margin_pct < +r.target_margin).length;
   document.getElementById('costing-below-target').textContent = belowTarget;
+
+  // Stock value (computed locally from ingredients cache)
+  const stockValue = _ingredientsCache.reduce((s, i) => s + (+i.current_stock || 0) * (+i.cost_per_unit || 0), 0);
+  const lowCount = _ingredientsCache.filter(i => +i.min_stock > 0 && +i.current_stock <= +i.min_stock).length;
+  const outCount = _ingredientsCache.filter(i => +i.current_stock === 0).length;
+  const sv = document.getElementById('costing-stock-value');
+  const ss = document.getElementById('costing-stock-sub');
+  if (sv) sv.textContent = stockValue.toLocaleString('ar-SA', { maximumFractionDigits: 0 }) + ' ر.س';
+  if (ss) ss.textContent = outCount > 0
+    ? `${outCount} نفد · ${lowCount} منخفض`
+    : lowCount > 0
+      ? `${lowCount} مكوّن منخفض`
+      : 'كل المخزون بحالة جيدة ✓';
 }
 
 function costingSwitchTab(tab) {
@@ -8146,27 +8180,46 @@ function renderIngredients() {
   if (!_ingredientsCache.length) {
     el.innerHTML = `<div style="text-align:center;padding:36px;color:rgba(21,94,95,.6);font-size:13px">
       🥫 لا توجد مكونات بعد<br>
-      <span style="font-size:11px;display:block;margin-top:6px">اضغطي <b>⚡ مكونات قهوة جاهزة</b> لإضافة قائمة جاهزة، أو <b>＋ مكوّن جديد</b></span>
+      <span style="font-size:11px;display:block;margin-top:6px">اضغطي <b>🪄 قائمة ذكية لنشاطي</b> أو <b>＋ مكوّن جديد</b></span>
     </div>`;
     return;
   }
-  el.innerHTML = _ingredientsCache.map(i => `
-    <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--b);border-radius:11px;margin-bottom:8px;background:#fff;flex-wrap:wrap">
+  el.innerHTML = _ingredientsCache.map(i => {
+    const stock = +i.current_stock || 0;
+    const minStock = +i.min_stock || 0;
+    const stockValue = stock * (+i.cost_per_unit || 0);
+    // Stock status
+    let stockBadge = '', stockColor = '';
+    if (stock === 0) {
+      stockBadge = '⛔ نفد'; stockColor = '#c93545';
+    } else if (minStock > 0 && stock <= minStock) {
+      stockBadge = '⚠️ منخفض'; stockColor = '#a8854a';
+    } else if (stock > 0) {
+      stockBadge = '✓ متوفر'; stockColor = '#155e5f';
+    }
+
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid ${stock===0?'rgba(201,53,69,.3)':(minStock>0&&stock<=minStock?'rgba(168,133,74,.3)':'var(--b)')};border-radius:11px;margin-bottom:8px;background:#fff;flex-wrap:wrap">
       <div style="width:38px;height:38px;border-radius:10px;background:rgba(127,197,123,.15);color:#155e5f;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0">${(i.name||'?').charAt(0)}</div>
       <div style="flex:1;min-width:160px">
-        <div style="font-size:13px;font-weight:800;color:#155e5f">${i.name}</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div style="font-size:13px;font-weight:800;color:#155e5f">${i.name}</div>
+          ${stockBadge ? `<span style="background:${stockColor}1A;color:${stockColor};font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px">${stockBadge}</span>` : ''}
+        </div>
         <div style="font-size:11px;color:rgba(21,94,95,.6);margin-top:2px">${i.category || '—'}${i.supplier_name ? ' · ' + i.supplier_name : ''}</div>
+        ${stock > 0 || minStock > 0 ? `<div style="font-size:10px;color:rgba(21,94,95,.65);margin-top:3px">📦 الرصيد: <b style="color:#155e5f;direction:ltr">${stock.toLocaleString('en-US',{maximumFractionDigits:2})} ${UNIT_LABELS[i.unit] || i.unit}</b>${minStock > 0 ? ` · حد أدنى: ${minStock} ${UNIT_LABELS[i.unit] || i.unit}` : ''}${stockValue > 0 ? ` · قيمة: ${stockValue.toFixed(2)} ر.س` : ''}</div>` : ''}
       </div>
       <div style="text-align:left">
         <div style="font-size:14px;font-weight:800;color:#155e5f;direction:ltr">${(+i.cost_per_unit).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4})} ر.س</div>
         <div style="font-size:10px;color:rgba(21,94,95,.65)">لكل ${UNIT_LABELS[i.unit] || i.unit}</div>
       </div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button onclick="openReceiveStockModal('${i.id}')" style="background:rgba(127,197,123,.1);color:#155e5f;border:1px solid rgba(127,197,123,.3);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📥 استلام</button>
+        <button onclick="openAdjustStockModal('${i.id}')" style="background:rgba(168,133,74,.1);color:#a8854a;border:1px solid rgba(168,133,74,.3);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📊 جرد</button>
         <button onclick="openIngredientModal('${i.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
         <button onclick="deleteIngredient('${i.id}', '${(i.name||'').replace(/'/g,"\\'")}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🗑</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function renderRecipes() {
@@ -8227,6 +8280,7 @@ function renderRecipes() {
       </div>` : ''}
 
       <div style="display:flex;gap:6px;flex-wrap:wrap;border-top:1px dashed var(--b);padding-top:10px">
+        <button onclick="openSellRecipeModal('${r.id}')" style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border:none;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">🍽 بيع</button>
         <button onclick="openRecipeModal('${r.id}')" style="background:#fff;color:#155e5f;border:1px solid #ced9d9;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✎ تعديل</button>
         <button onclick="viewRecipeBreakdown('${r.id}')" style="background:rgba(127,197,123,.1);color:#155e5f;border:1px solid rgba(127,197,123,.3);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📋 تفصيل المكونات</button>
         <button onclick="deleteRecipe('${r.id}', '${(r.name||'').replace(/'/g,"\\'")}')" style="background:transparent;color:#c93545;border:1px solid rgba(201,53,69,.3);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;margin-right:auto">🗑</button>
@@ -8321,6 +8375,211 @@ async function deleteIngredient(id, name) {
     const { error } = await _sb.from('ingredients').update({ active: false }).eq('id', id);
     if (error) throw error;
     toast({ type:'success', msg:'تم الحذف' });
+    await loadCosting();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Receive Stock Modal (استلام من مورد) ────────────────────────────────
+function openReceiveStockModal(ingId) {
+  const ing = _ingredientsCache.find(i => i.id === ingId);
+  if (!ing) return;
+  let m = document.getElementById('receiveStockModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'receiveStockModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:440px;width:100%">
+      <div style="padding:18px 22px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:16px;font-weight:800">📥 استلام من مورد</div>
+          <div style="font-size:11px;opacity:.85;margin-top:2px">${ing.name} · رصيد حالي: ${(+ing.current_stock || 0).toFixed(2)} ${UNIT_LABELS[ing.unit] || ing.unit}</div>
+        </div>
+        <button onclick="document.getElementById('receiveStockModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="ff"><label class="fl">الكمية المستلمة *</label>
+            <input class="fi" id="recv-qty" type="number" step="0.01" placeholder="0.00" autofocus></div>
+          <div class="ff"><label class="fl">الوحدة</label>
+            <input class="fi" value="${UNIT_LABELS[ing.unit] || ing.unit}" disabled></div>
+        </div>
+        <div class="ff" style="margin-bottom:10px"><label class="fl">السعر الجديد (اختياري)</label>
+          <input class="fi" id="recv-cost" type="number" step="0.0001" placeholder="${ing.cost_per_unit} (الحالي)"></div>
+        <div class="ff" style="margin-bottom:10px"><label class="fl">رقم فاتورة المورد (اختياري)</label>
+          <input class="fi" id="recv-ref" placeholder="INV-12345"></div>
+        <div class="ff" style="margin-bottom:14px"><label class="fl">ملاحظات</label>
+          <input class="fi" id="recv-notes" placeholder="ملاحظات إضافية"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn bg2" onclick="document.getElementById('receiveStockModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" onclick="submitReceiveStock('${ingId}')">💾 تأكيد الاستلام</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+async function submitReceiveStock(ingId) {
+  const qty = parseFloat(document.getElementById('recv-qty').value);
+  if (!qty || qty <= 0) { toast({ type:'error', msg:'أدخلي كمية صحيحة' }); return; }
+  const cost = parseFloat(document.getElementById('recv-cost').value) || null;
+  const ref = document.getElementById('recv-ref').value.trim() || null;
+  const notes = document.getElementById('recv-notes').value.trim() || null;
+  try {
+    const { error } = await _sb.rpc('receive_stock', {
+      ingredient_id_in: ingId,
+      quantity_in: qty,
+      unit_cost_in: cost,
+      reference_in: ref,
+      notes_in: notes,
+    });
+    if (error) throw error;
+    toast({ type:'success', msg:`تم استلام ${qty} وتحديث الرصيد ✓` });
+    logActivity('expense', 'stock_received', `استلام ${qty} للمكوّن`, { ingredient_id: ingId, qty, cost }).catch(()=>{});
+    document.getElementById('receiveStockModal').style.display = 'none';
+    await loadCosting();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ─── Adjust Stock Modal (جرد) ────────────────────────────────────────────
+function openAdjustStockModal(ingId) {
+  const ing = _ingredientsCache.find(i => i.id === ingId);
+  if (!ing) return;
+  let m = document.getElementById('adjustStockModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'adjustStockModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:440px;width:100%">
+      <div style="padding:18px 22px;background:linear-gradient(135deg,#a8854a,#c5a878);color:#fff;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:16px;font-weight:800">📊 جرد فعلي</div>
+          <div style="font-size:11px;opacity:.9;margin-top:2px">${ing.name} · النظام يقول: ${(+ing.current_stock || 0).toFixed(2)} ${UNIT_LABELS[ing.unit] || ing.unit}</div>
+        </div>
+        <button onclick="document.getElementById('adjustStockModal').style.display='none'" style="background:transparent;border:none;color:#fff;font-size:26px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div class="ff" style="margin-bottom:10px"><label class="fl">الكمية الفعلية بعد العدّ *</label>
+          <input class="fi" id="adj-qty" type="number" step="0.01" placeholder="0.00" value="${+ing.current_stock || 0}" autofocus></div>
+        <div class="ff" style="margin-bottom:10px"><label class="fl">الحد الأدنى للتنبيه</label>
+          <input class="fi" id="adj-min" type="number" step="0.01" placeholder="0" value="${+ing.min_stock || 0}"></div>
+        <div class="ff" style="margin-bottom:14px"><label class="fl">سبب التعديل</label>
+          <select class="fi" id="adj-reason">
+            <option value="جرد دوري">جرد دوري</option>
+            <option value="هدر / تالف">هدر / تالف</option>
+            <option value="فقد / سرقة">فقد / سرقة</option>
+            <option value="انتهاء صلاحية">انتهاء صلاحية</option>
+            <option value="نقل لفرع آخر">نقل لفرع آخر</option>
+            <option value="أخرى">أخرى</option>
+          </select></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn bg2" onclick="document.getElementById('adjustStockModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" onclick="submitAdjustStock('${ingId}')">💾 حفظ الجرد</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+// ─── Sell Recipe Modal (يخصم المكونات تلقائياً من المخزون) ───────────────
+function openSellRecipeModal(recipeId) {
+  const r = _recipesCache.find(x => x.id === recipeId);
+  if (!r) return;
+  let m = document.getElementById('sellRecipeModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'sellRecipeModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.55);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  const sellPrice = +r.suggested_price || +r.target_price || 0;
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:420px;width:100%">
+      <div style="padding:18px 22px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:16px;font-weight:800">🍽 تسجيل بيع</div>
+          <div style="font-size:11px;opacity:.85;margin-top:2px">${r.name} · تكلفة: ${(+r.actual_cost || 0).toFixed(2)} ر.س</div>
+        </div>
+        <button onclick="document.getElementById('sellRecipeModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:18px 22px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="ff"><label class="fl">عدد المباع *</label>
+            <input class="fi" id="sell-qty" type="number" min="1" step="1" value="1" autofocus></div>
+          <div class="ff"><label class="fl">سعر البيع (ر.س)</label>
+            <input class="fi" id="sell-price" type="number" step="0.01" value="${sellPrice}"></div>
+        </div>
+        <div class="ff" style="margin-bottom:14px"><label class="fl">ملاحظات (اختياري)</label>
+          <input class="fi" id="sell-notes" placeholder="رقم الطلب، الكاشير..."></div>
+        <div style="background:rgba(127,197,123,.08);border:1px dashed rgba(127,197,123,.4);border-radius:10px;padding:10px;margin-bottom:14px;font-size:11px;color:#155e5f">
+          💡 سيتم خصم كل المكونات من المخزون تلقائياً وتسجيل الإيراد
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn bg2" onclick="document.getElementById('sellRecipeModal').style.display='none'">إلغاء</button>
+          <button class="btn bp" onclick="submitSellRecipe('${recipeId}')">💾 تأكيد البيع</button>
+        </div>
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+async function submitSellRecipe(recipeId) {
+  const qty = parseInt(document.getElementById('sell-qty').value, 10);
+  if (!qty || qty < 1) { toast({ type:'error', msg:'أدخلي عدد صحيح' }); return; }
+  const price = parseFloat(document.getElementById('sell-price').value) || 0;
+  const notes = document.getElementById('sell-notes').value.trim() || null;
+  const r = _recipesCache.find(x => x.id === recipeId);
+  try {
+    const { data, error } = await _sb.rpc('sell_recipe', {
+      recipe_id_in: recipeId,
+      quantity_sold: qty,
+      reason_in: notes,
+    });
+    if (error) throw error;
+    const warnings = (data && data.warnings) || [];
+    if (warnings.length) {
+      const wMsg = warnings.map(w => `${w.ingredient}: ينقص ${(+w.shortage).toFixed(2)}`).join('، ');
+      toast({ type:'warning', msg:`تم البيع مع تنبيه — ${wMsg}` });
+    } else {
+      toast({ type:'success', msg:`تم بيع ${qty} × ${r.name} وخصم المكونات ✓` });
+    }
+    // Log revenue if price > 0
+    if (price > 0 && r) {
+      logActivity('income', 'recipe_sold',
+        `بيع ${qty} × ${r.name}`,
+        { recipe_id: recipeId, qty, amount: price * qty, cost: (data && data.total_cost) || 0 }
+      ).catch(()=>{});
+    }
+    document.getElementById('sellRecipeModal').style.display = 'none';
+    await loadCosting();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+async function submitAdjustStock(ingId) {
+  const qty = parseFloat(document.getElementById('adj-qty').value);
+  if (isNaN(qty) || qty < 0) { toast({ type:'error', msg:'أدخلي كمية صحيحة (≥ 0)' }); return; }
+  const minStock = parseFloat(document.getElementById('adj-min').value) || 0;
+  const reason = document.getElementById('adj-reason').value;
+  try {
+    // Update min_stock if changed
+    const ing = _ingredientsCache.find(i => i.id === ingId);
+    if (ing && +ing.min_stock !== minStock) {
+      await _sb.from('ingredients').update({ min_stock: minStock }).eq('id', ingId);
+    }
+    const { error } = await _sb.rpc('adjust_stock', {
+      ingredient_id_in: ingId,
+      new_quantity: qty,
+      reason_in: reason,
+    });
+    if (error) throw error;
+    toast({ type:'success', msg:`تم تحديث الرصيد إلى ${qty} ✓` });
+    logActivity('settings', 'stock_adjusted', `جرد المكوّن: ${qty} (${reason})`, { ingredient_id: ingId, qty, reason }).catch(()=>{});
+    document.getElementById('adjustStockModal').style.display = 'none';
     await loadCosting();
   } catch (e) { toast({ type:'error', msg: e.message }); }
 }
@@ -14927,7 +15186,28 @@ function refreshDashboardKPIs() {
 }
 
 // ── Dashboard AI Insights ─────────────────────────
+async function loadLowStockBanner() {
+  const card = document.getElementById('lowStockCard');
+  if (!card || !_sb) return;
+  try {
+    const { data, error } = await _sb.from('low_stock_alerts').select('name, shortage, days_remaining').limit(5);
+    if (error || !data || data.length === 0) { card.style.display = 'none'; return; }
+    const t = document.getElementById('lowStockTitle');
+    const s = document.getElementById('lowStockSub');
+    if (t) t.textContent = `${data.length} مكوّن وصل للحد الأدنى`;
+    if (s) {
+      const names = data.slice(0, 3).map(d => d.name).join('، ');
+      const urgent = data.find(d => d.days_remaining !== null && d.days_remaining <= 3);
+      s.textContent = urgent
+        ? `${names}${data.length > 3 ? '...' : ''} · ${urgent.name} يكفي ${urgent.days_remaining} يوم فقط`
+        : `${names}${data.length > 3 ? '...' : ''} · راجعي قائمة الطلب`;
+    }
+    card.style.display = 'flex';
+  } catch (e) { card.style.display = 'none'; }
+}
+
 function loadDashboardInsights() {
+  loadLowStockBanner();
   const el = document.getElementById('dbAlerts2');
   if (!el) return;
   const cached = JSON.parse(localStorage.getItem('mahsoob_ai_insights') || 'null');
