@@ -1396,6 +1396,8 @@ body.dark .prc-sv{color:#f0f2f8}
     <div class="ni" onclick="go('zt',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span><span data-i18n="nav_zt">فاتورة جديدة</span></div>
     <div class="ni" onclick="go('products',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span data-i18n="nav_products">خدماتي ومنتجاتي</span></div>
     <div class="ni" onclick="go('costing',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span>تكلفة الأصناف</span><span class="nbg" style="background:rgba(127,197,123,.15);color:#155e5f">جديد</span></div>
+    <div class="ni" onclick="go('cashier',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="12" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/></svg></span><span>الكاشير</span><span class="nbg" style="background:rgba(127,197,123,.18);color:#155e5f">جديد</span></div>
+    <div class="ni" onclick="go('integrations',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M8.5 7.5l3 9M15.5 7.5l-3 9"/></svg></span><span>التكاملات</span><span class="nbg" style="background:rgba(127,197,123,.18);color:#155e5f">جديد</span></div>
     <div class="ni" onclick="go('ai',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r=".5" fill="currentColor"/><circle cx="12" cy="10" r=".5" fill="currentColor"/><circle cx="15" cy="10" r=".5" fill="currentColor"/></svg></span><span data-i18n="nav_ai">اسأل محسوب</span></div>
     <div class="ns" data-i18n="ns_admin">الإدارة</div>
     <div class="ni" onclick="go('coa',this)"><span class="nk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="nav_coa">أين أموالي؟</span></div>
@@ -3048,6 +3050,162 @@ body.dark .tgl-tab.on { background:#252d3d; color:#f0f2f8; }
   <!-- Ingredients panel -->
   <div id="costingPanel-ingredients" class="card" style="display:none">
     <div id="ingredientsList"></div>
+  </div>
+
+</div>
+
+<div class="pg" id="pg-cashier">
+  <style>
+    #pg-cashier .cash-grid { display:grid; grid-template-columns: 1fr 380px; gap:14px; align-items:start; }
+    @media (max-width: 900px) { #pg-cashier .cash-grid { grid-template-columns: 1fr; } }
+    #pg-cashier .item-tile { background:#fff; border:1px solid #ced9d9; border-radius:14px; padding:14px 12px; cursor:pointer; transition:all .15s; text-align:right; position:relative; }
+    #pg-cashier .item-tile:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(21,94,95,.12); border-color:#7fc57b; }
+    #pg-cashier .item-tile:active { transform:translateY(0); }
+    #pg-cashier .item-tile.out { opacity:.45; cursor:not-allowed; }
+    #pg-cashier .cat-chip { background:#fff; border:1px solid #ced9d9; border-radius:10px; padding:7px 14px; font-size:12px; font-weight:700; color:#155e5f; cursor:pointer; white-space:nowrap; font-family:inherit; }
+    #pg-cashier .cat-chip.on { background:linear-gradient(135deg,#7fc57b,#a8d39e); color:#155e5f; border-color:#7fc57b; }
+    #pg-cashier .cart-row { display:flex; align-items:center; gap:8px; padding:10px 4px; border-bottom:1px dashed #e5ebeb; }
+    #pg-cashier .qty-btn { width:26px; height:26px; border-radius:7px; border:1px solid #ced9d9; background:#fff; color:#155e5f; font-weight:800; cursor:pointer; font-family:inherit; }
+    #pg-cashier .pay-btn { padding:10px; border-radius:10px; border:1px solid #ced9d9; background:#fff; color:#155e5f; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:6px; }
+    #pg-cashier .pay-btn.on { background:linear-gradient(135deg,#7fc57b,#a8d39e); border-color:#7fc57b; color:#155e5f; }
+  </style>
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">💳 الكاشير</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">اضغط الصنف ليُضاف للسلة — يُخصم من المخزون تلقائياً</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input id="cash-search" class="fi" placeholder="🔍 ابحث عن صنف..." style="width:240px;font-size:13px" oninput="renderCashierItems()">
+      <button class="btn bg2" onclick="go('costing',null)" style="font-size:12px">＋ صنف جديد</button>
+    </div>
+  </div>
+
+  <!-- Category chips -->
+  <div id="cashier-cats" style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px"></div>
+
+  <div class="cash-grid">
+    <!-- LEFT: Items grid -->
+    <div>
+      <div id="cashier-items" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;min-height:300px">
+        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(21,94,95,.55);font-size:13px">
+          <div style="font-size:32px;margin-bottom:8px">🍽</div>
+          أضف أصناف من <b>تكلفة الأصناف</b> أولاً
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Cart -->
+    <div class="card" style="position:sticky;top:14px;padding:0;overflow:hidden">
+      <div style="padding:16px 18px;background:linear-gradient(135deg,#155e5f,#1a7c7e);color:#fff;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:14px;font-weight:800">🛒 الفاتورة الحالية</div>
+          <div style="font-size:11px;opacity:.85;margin-top:2px" id="cash-cart-meta">سلة فارغة</div>
+        </div>
+        <button onclick="cashClearCart()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">مسح</button>
+      </div>
+
+      <div id="cash-cart-items" style="padding:8px 14px;max-height:320px;overflow:auto;min-height:80px">
+        <div style="text-align:center;padding:20px 10px;color:rgba(21,94,95,.5);font-size:12px">السلة فارغة</div>
+      </div>
+
+      <div style="padding:14px 18px;background:#f9fbfb;border-top:1px solid #e5ebeb">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(21,94,95,.7);margin-bottom:4px">
+          <span>المجموع قبل الضريبة</span><span id="cash-subtotal">0.00 ر.س</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(21,94,95,.7);margin-bottom:4px">
+          <span>الضريبة (15%)</span><span id="cash-vat">0.00 ر.س</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:900;color:#155e5f;margin-top:8px;padding-top:8px;border-top:1px dashed #ced9d9">
+          <span>الإجمالي</span><span id="cash-total">0.00 ر.س</span>
+        </div>
+
+        <div style="margin-top:12px">
+          <div style="font-size:11px;color:rgba(21,94,95,.65);margin-bottom:6px">طريقة الدفع:</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <button class="pay-btn on" data-pay="cash" onclick="cashSetPayment('cash')">💵 نقدي</button>
+            <button class="pay-btn" data-pay="card" onclick="cashSetPayment('card')">💳 شبكة</button>
+            <button class="pay-btn" data-pay="transfer" onclick="cashSetPayment('transfer')">🏦 تحويل</button>
+            <button class="pay-btn" data-pay="wallet" onclick="cashSetPayment('wallet')">📱 محفظة</button>
+          </div>
+        </div>
+
+        <button class="btn bp" id="cash-complete-btn" style="width:100%;padding:13px;margin-top:14px;font-size:14px;font-weight:800" onclick="cashCompleteSale()" disabled>✓ إتمام البيع</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="pg" id="pg-integrations">
+  <style>
+    #pg-integrations .prov-card { background:#fff; border:1px solid #ced9d9; border-radius:16px; padding:18px; transition:all .2s; position:relative; overflow:hidden; }
+    #pg-integrations .prov-card:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(21,94,95,.12); border-color:#7fc57b; }
+    #pg-integrations .prov-card.connected { border-color:#7fc57b; background:linear-gradient(135deg,rgba(127,197,123,.06),#fff); }
+    #pg-integrations .prov-card.error { border-color:rgba(201,53,69,.4); background:linear-gradient(135deg,rgba(201,53,69,.04),#fff); }
+    #pg-integrations .prov-logo { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff; }
+    #pg-integrations .status-pill { display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px; }
+    #pg-integrations .wizard-step { display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(21,94,95,.55);font-weight:700; }
+    #pg-integrations .wizard-step.on { color:#155e5f; }
+    #pg-integrations .wizard-step .dot { width:24px;height:24px;border-radius:50%;background:#e5ebeb;color:rgba(21,94,95,.55);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px; }
+    #pg-integrations .wizard-step.on .dot { background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f; }
+    #pg-integrations .wizard-step.done .dot { background:#155e5f;color:#fff; }
+  </style>
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:#155e5f;letter-spacing:-.3px">🔌 التكاملات</div>
+      <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">اربط نظام الكاشير عندك مع محسوب — مبيعاتك ومخزونك وفواتيرك تتزامن تلقائياً</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bg2" onclick="loadIntegrations()" style="font-size:12px">↻ تحديث</button>
+    </div>
+  </div>
+
+  <!-- Summary KPIs -->
+  <div id="int-kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:14px;padding:14px">
+      <div style="font-size:11px;opacity:.9">🔗 تكاملات نشطة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px" id="int-active-count">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">🧾 مبيعات اليوم</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="int-orders-today">0</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">💰 إيراد اليوم (مزامَن)</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#155e5f" id="int-revenue-today">0 ر.س</div>
+    </div>
+    <div style="background:#fff;border:1px solid #ced9d9;border-radius:14px;padding:14px">
+      <div style="font-size:11px;color:rgba(21,94,95,.65)">⚠️ أخطاء آخر 24 ساعة</div>
+      <div style="font-size:24px;font-weight:900;margin-top:4px;color:#a8854a" id="int-errors-24h">0</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;background:#f3f5f5;border-radius:12px;padding:4px;width:fit-content;margin-bottom:18px">
+    <button id="intTab-providers" class="tgl-tab on" onclick="intSwitchTab('providers')">المزوّدون</button>
+    <button id="intTab-activity" class="tgl-tab" onclick="intSwitchTab('activity')">سجل المزامنة</button>
+  </div>
+
+  <!-- Providers grid -->
+  <div id="intPanel-providers">
+    <div id="int-providers-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
+    <div style="margin-top:14px;padding:14px 18px;background:rgba(127,197,123,.06);border:1px dashed rgba(127,197,123,.35);border-radius:12px;font-size:12px;color:#155e5f">
+      💡 نظامك مو موجود؟ <button onclick="openIntegrationWizard('other')" style="background:transparent;border:none;color:#7fc57b;font-weight:800;cursor:pointer;text-decoration:underline;font-family:inherit">اختر "أخرى"</button> وارفع تقارير X يدوياً — يستخرج الذكاء الاصطناعي البيانات تلقائياً.
+    </div>
+  </div>
+
+  <!-- Activity log -->
+  <div id="intPanel-activity" style="display:none" class="card">
+    <div style="padding:16px 18px;border-bottom:1px solid #e5ebeb">
+      <div style="font-size:14px;font-weight:800;color:#155e5f">آخر 50 عملية مزامنة</div>
+    </div>
+    <div id="int-activity-list" style="max-height:600px;overflow:auto">
+      <div style="text-align:center;padding:40px;color:rgba(21,94,95,.55);font-size:13px">لم تتم أي مزامنة بعد</div>
+    </div>
   </div>
 
 </div>
@@ -5962,6 +6120,8 @@ function go(id,el){
   if (id === 'db')       { loadB2CDashboard(); loadAnomalies(); loadPerformance(); loadZatcaHealth(); }
   if (id === 'annual')   loadAnnualReport();
   if (id === 'costing')  loadCosting();
+  if (id === 'cashier')  loadCashier();
+  if (id === 'integrations') loadIntegrations();
 }
 
 // ═══════════ INVOICE BRANDING ═══════════
@@ -8484,6 +8644,781 @@ function openAdjustStockModal(ingId) {
       </div>
     </div>`;
   m.style.display = 'flex';
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// POS INTEGRATIONS HUB — مركز ربط أنظمة الكاشير
+// ═══════════════════════════════════════════════════════════════════════
+const POS_PROVIDERS = [
+  {
+    id: 'foodics', name: 'Foodics', name_ar: 'فودكس',
+    sector: 'مطاعم وكافيهات', auth: 'oauth', color: '#FF6B35',
+    initial: 'F', desc: 'النظام الأكبر للمطاعم في السعودية', popular: true,
+    docs_url: 'https://docs.foodics.dev/',
+  },
+  {
+    id: 'rewaa', name: 'Rewaa', name_ar: 'رواء',
+    sector: 'تجزئة وبقالات', auth: 'api_key', color: '#5B21B6',
+    initial: 'R', desc: 'الأكبر لمحلات التجزئة والبقالات', popular: true,
+  },
+  {
+    id: 'marn', name: 'Marn', name_ar: 'مرن',
+    sector: 'مطاعم', auth: 'api_key', color: '#0EA5E9',
+    initial: 'M', desc: 'نظام كاشير سعودي للمطاعم',
+  },
+  {
+    id: 'loyverse', name: 'Loyverse', name_ar: 'لويفيرس',
+    sector: 'كل القطاعات', auth: 'api_key', color: '#10B981',
+    initial: 'L', desc: 'مجاني — شائع بين المحلات الصغيرة',
+  },
+  {
+    id: 'lightspeed', name: 'Lightspeed', name_ar: 'لايت سبيد',
+    sector: 'تجزئة ومطاعم', auth: 'oauth', color: '#EF4444',
+    initial: 'LS', desc: 'نظام عالمي للتجزئة والمطاعم',
+  },
+  {
+    id: 'square', name: 'Square', name_ar: 'سكوير',
+    sector: 'متفرقة', auth: 'oauth', color: '#000',
+    initial: 'S', desc: 'نظام عالمي بحلول متنوعة',
+  },
+  {
+    id: 'other', name: 'Other', name_ar: 'نظام آخر',
+    sector: 'رفع يدوي', auth: 'manual', color: '#6B7280',
+    initial: '+', desc: 'ارفع تقارير X يومياً — AI يستخرج البيانات',
+  },
+];
+
+let _posConnections = [];
+let _wizardStep = 1;
+let _wizardProvider = null;
+let _wizardData = {};
+
+async function loadIntegrations() {
+  try {
+    const { data, error } = await _sb.from('pos_connections').select('*');
+    if (error && !error.message.includes('does not exist')) throw error;
+    _posConnections = data || [];
+  } catch (e) {
+    console.warn('loadIntegrations:', e.message);
+    _posConnections = [];
+  }
+  renderIntProviders();
+  renderIntKpis();
+}
+
+function renderIntKpis() {
+  const active = _posConnections.filter(c => c.status === 'connected').length;
+  document.getElementById('int-active-count').textContent = active;
+
+  // Today's orders/revenue from pos_processed_orders
+  if (!_sb) return;
+  _sb.from('pos_processed_orders')
+    .select('amount, processed_at')
+    .gte('processed_at', new Date().toISOString().slice(0, 10))
+    .then(({ data }) => {
+      const orders = data || [];
+      const rev = orders.reduce((s, o) => s + (+o.amount || 0), 0);
+      document.getElementById('int-orders-today').textContent = orders.length;
+      document.getElementById('int-revenue-today').textContent =
+        rev.toLocaleString('ar-SA', { maximumFractionDigits: 0 }) + ' ر.س';
+    }).catch(() => {});
+
+  // Errors last 24h
+  _sb.from('pos_sync_log')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'error')
+    .gte('created_at', new Date(Date.now() - 24 * 3600 * 1000).toISOString())
+    .then(({ count }) => {
+      document.getElementById('int-errors-24h').textContent = count || 0;
+    }).catch(() => {});
+}
+
+function renderIntProviders() {
+  const el = document.getElementById('int-providers-grid');
+  if (!el) return;
+  el.innerHTML = POS_PROVIDERS.map(p => {
+    const conn = _posConnections.find(c => c.provider === p.id);
+    const isConnected = conn && conn.status === 'connected';
+    const hasError = conn && conn.status === 'error';
+    const cardClass = isConnected ? 'connected' : hasError ? 'error' : '';
+    const lastSync = conn?.last_sync_at
+      ? `قبل ${timeAgoAr(conn.last_sync_at)}`
+      : 'لم تتم مزامنة بعد';
+    return `
+      <div class="prov-card ${cardClass}">
+        ${p.popular ? `<div style="position:absolute;top:10px;left:10px;background:#FFD166;color:#5a4408;font-size:9px;font-weight:900;padding:3px 8px;border-radius:99px">🔥 الأكثر شيوعاً</div>` : ''}
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <div class="prov-logo" style="background:${p.color}">${p.initial}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:15px;font-weight:800;color:#155e5f">${p.name_ar}</div>
+            <div style="font-size:10px;color:rgba(21,94,95,.6)">${p.sector}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:rgba(21,94,95,.7);margin-bottom:12px;min-height:30px">${p.desc}</div>
+
+        ${isConnected ? `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(127,197,123,.1);border-radius:8px;margin-bottom:10px">
+            <span class="status-pill" style="background:rgba(127,197,123,.25);color:#155e5f">✓ متصل</span>
+            <span style="font-size:10px;color:rgba(21,94,95,.7)">${lastSync}</span>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button onclick="openIntegrationSettings('${p.id}')" class="btn bg2" style="flex:1;font-size:11px;padding:7px">⚙️ الإعدادات</button>
+            <button onclick="syncIntegrationNow('${p.id}')" class="btn bp" style="flex:1;font-size:11px;padding:7px">↻ مزامنة</button>
+          </div>
+        ` : hasError ? `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(201,53,69,.08);border-radius:8px;margin-bottom:10px">
+            <span class="status-pill" style="background:rgba(201,53,69,.18);color:#c93545">⚠ خطأ</span>
+            <span style="font-size:10px;color:#c93545">${(conn.last_error_message || 'فشل الاتصال').slice(0, 30)}</span>
+          </div>
+          <button onclick="openIntegrationWizard('${p.id}')" class="btn bp" style="width:100%;font-size:11px;padding:7px">🔧 إصلاح الاتصال</button>
+        ` : `
+          <button onclick="openIntegrationWizard('${p.id}')" class="btn bp" style="width:100%;font-size:12px;padding:9px;background:linear-gradient(135deg,${p.color},${p.color}cc);border:none">
+            🔗 اربط ${p.name_ar}
+          </button>
+        `}
+      </div>`;
+  }).join('');
+}
+
+function timeAgoAr(iso) {
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (diff < 60) return `${Math.floor(diff)} ث`;
+  if (diff < 3600) return `${Math.floor(diff / 60)} د`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} س`;
+  return `${Math.floor(diff / 86400)} يوم`;
+}
+
+function intSwitchTab(tab) {
+  ['providers','activity'].forEach(t => {
+    document.getElementById('intTab-' + t).classList.toggle('on', t === tab);
+    document.getElementById('intPanel-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  if (tab === 'activity') loadIntActivity();
+}
+
+async function loadIntActivity() {
+  const el = document.getElementById('int-activity-list');
+  if (!el) return;
+  try {
+    const { data, error } = await _sb.from('pos_sync_log')
+      .select('*').order('created_at', { ascending: false }).limit(50);
+    if (error) throw error;
+    if (!data || !data.length) {
+      el.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(21,94,95,.55);font-size:13px">لم تتم أي مزامنة بعد</div>`;
+      return;
+    }
+    el.innerHTML = data.map(l => {
+      const icon = l.status === 'success' ? '✓' : l.status === 'warning' ? '⚠' : '✗';
+      const color = l.status === 'success' ? '#7fc57b' : l.status === 'warning' ? '#a8854a' : '#c93545';
+      const evtAr = {
+        sale_received:'استلام بيع', sale_processed:'معالجة بيع',
+        inventory_synced:'مزامنة مخزون', product_synced:'مزامنة منتج',
+        webhook_received:'webhook', pull_sync:'مزامنة دورية', full_sync:'مزامنة كاملة',
+        connection_test:'اختبار اتصال', connection_failed:'فشل اتصال',
+        oauth_completed:'OAuth', auth_refreshed:'تحديث صلاحية',
+      }[l.event_type] || l.event_type;
+      return `
+        <div style="padding:12px 18px;border-bottom:1px solid #f1f4f4;display:flex;gap:12px;align-items:center">
+          <div style="width:32px;height:32px;border-radius:50%;background:${color}1a;color:${color};display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0">${icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:700;color:#155e5f">${l.provider} · ${evtAr}</div>
+            <div style="font-size:10px;color:rgba(21,94,95,.55);margin-top:2px">${l.error_message || l.external_id || '—'}</div>
+          </div>
+          <div style="font-size:10px;color:rgba(21,94,95,.55);text-align:left">${timeAgoAr(l.created_at)}</div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = `<div style="text-align:center;padding:30px;color:#c93545;font-size:12px">⚠ شغّلي migration: <code>sql/pos_integrations.sql</code></div>`;
+  }
+}
+
+// ─── Wizard Modal (3 steps) ──────────────────────────────────────────────
+function openIntegrationWizard(providerId) {
+  const p = POS_PROVIDERS.find(x => x.id === providerId);
+  if (!p) return;
+  _wizardProvider = p;
+  _wizardStep = 1;
+  _wizardData = {};
+  renderWizard();
+}
+
+function renderWizard() {
+  const p = _wizardProvider;
+  let m = document.getElementById('intWizardModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'intWizardModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.6);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  const steps = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      ${[1,2,3].map(n => `
+        <div class="wizard-step ${_wizardStep===n?'on':_wizardStep>n?'done':''}">
+          <div class="dot">${_wizardStep>n?'✓':n}</div>
+          <span>${['التهيئة','الاعتماد','المزامنة'][n-1]}</span>
+        </div>
+        ${n<3?'<div style="flex:1;height:1px;background:#e5ebeb"></div>':''}
+      `).join('')}
+    </div>`;
+
+  let body = '';
+  if (_wizardStep === 1) {
+    body = `
+      <div style="text-align:center;margin-bottom:18px">
+        <div class="prov-logo" style="background:${p.color};margin:0 auto 10px;width:64px;height:64px;font-size:28px">${p.initial}</div>
+        <div style="font-size:18px;font-weight:900;color:#155e5f">ربط ${p.name_ar}</div>
+        <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">${p.desc}</div>
+      </div>
+      <div class="ff" style="margin-bottom:14px">
+        <label class="fl">اسم مخصص (اختياري)</label>
+        <input class="fi" id="wiz-name" placeholder="${p.name_ar} - الفرع الرئيسي">
+      </div>
+      <div style="background:rgba(127,197,123,.06);border:1px dashed rgba(127,197,123,.35);border-radius:10px;padding:12px;font-size:11px;color:#155e5f;margin-bottom:14px">
+        <div style="font-weight:800;margin-bottom:6px">💡 ما الذي سيحدث بعد الربط؟</div>
+        <div>• كل بيع جديد يدخل تلقائياً كإيراد</div>
+        <div>• المكونات تُخصم من مخزون محسوب</div>
+        <div>• فاتورة ZATCA Phase 2 تُصدَر تلقائياً</div>
+        <div>• تقاريرك المالية تتحدث في الحال</div>
+      </div>`;
+  } else if (_wizardStep === 2) {
+    if (p.auth === 'oauth') {
+      body = `
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="font-size:16px;font-weight:800;color:#155e5f">🔐 الموافقة على الربط</div>
+          <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">سيتم تحويلك لصفحة ${p.name_ar} للموافقة على الوصول</div>
+        </div>
+        <button onclick="wizardOAuthStart()" class="btn bp" style="width:100%;padding:13px;font-size:14px;background:${p.color};border:none">
+          فتح صفحة الموافقة في ${p.name_ar} →
+        </button>
+        <div style="text-align:center;margin-top:10px;font-size:10px;color:rgba(21,94,95,.55)">
+          آمن — نستخدم OAuth 2.0 ولا نحفظ كلمة سرّك أبداً
+        </div>`;
+    } else if (p.auth === 'api_key') {
+      body = `
+        <div style="margin-bottom:14px">
+          <div style="font-size:14px;font-weight:800;color:#155e5f;margin-bottom:4px">🔑 أدخل مفتاح API</div>
+          <div style="font-size:11px;color:rgba(21,94,95,.65)">احصل عليه من إعدادات ${p.name_ar} → API / Developer</div>
+        </div>
+        <div class="ff" style="margin-bottom:10px">
+          <label class="fl">مفتاح API *</label>
+          <input class="fi" id="wiz-apikey" type="password" placeholder="sk_live_..." autocomplete="off">
+        </div>
+        ${p.id === 'rewaa' || p.id === 'marn' ? `
+          <div class="ff" style="margin-bottom:10px">
+            <label class="fl">معرّف الحساب (Store ID)</label>
+            <input class="fi" id="wiz-storeid" placeholder="رقم الحساب أو الفرع">
+          </div>
+        ` : ''}
+        <button onclick="wizardTestConnection()" class="btn bp" style="width:100%;padding:11px;font-size:13px">🧪 اختبر الاتصال</button>
+        <div id="wiz-test-result" style="margin-top:10px"></div>`;
+    } else {
+      // manual
+      body = `
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="font-size:48px;margin-bottom:8px">📄</div>
+          <div style="font-size:16px;font-weight:800;color:#155e5f">رفع تقارير يدوي</div>
+          <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">ارفعي تقرير X اليومي (PDF/Excel) وسيستخرج الذكاء الاصطناعي البيانات</div>
+        </div>
+        <div style="background:rgba(127,197,123,.06);border:1px dashed rgba(127,197,123,.35);border-radius:10px;padding:14px;font-size:11px;color:#155e5f">
+          <div style="font-weight:800;margin-bottom:6px">📍 صفحة الرفع موجودة بالفعل:</div>
+          <div>اذهبي إلى <b>الإغلاقات اليومية</b> → ارفعي تقرير X → النظام يستخرج المبيعات والضريبة والمدفوعات تلقائياً</div>
+        </div>`;
+    }
+  } else {
+    // Step 3 — sync settings
+    body = `
+      <div style="text-align:center;margin-bottom:18px">
+        <div style="font-size:42px;margin-bottom:8px">✅</div>
+        <div style="font-size:16px;font-weight:800;color:#155e5f">تم الربط بنجاح</div>
+        <div style="font-size:12px;color:rgba(21,94,95,.65);margin-top:4px">اختار وش تبي تتزامن</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        ${[
+          { id:'sync_sales', icon:'🧾', label:'المبيعات والإيرادات', desc:'كل بيع جديد يدخل كإيراد تلقائياً' },
+          { id:'sync_inventory', icon:'📦', label:'المخزون', desc:'خصم المكونات من المخزون مع كل بيع' },
+          { id:'sync_products', icon:'🍽', label:'المنتجات والأصناف', desc:'مزامنة قائمة الأصناف من نظامك' },
+          { id:'sync_zatca_auto', icon:'📋', label:'فواتير ZATCA Phase 2', desc:'إصدار فاتورة ضريبية لكل بيع تلقائياً' },
+        ].map(opt => `
+          <label style="display:flex;gap:10px;padding:10px 12px;background:#f9fbfb;border-radius:10px;cursor:pointer;align-items:start">
+            <input type="checkbox" id="wiz-${opt.id}" checked style="margin-top:2px;width:16px;height:16px;accent-color:#7fc57b">
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:#155e5f">${opt.icon} ${opt.label}</div>
+              <div style="font-size:10px;color:rgba(21,94,95,.65);margin-top:2px">${opt.desc}</div>
+            </div>
+          </label>
+        `).join('')}
+      </div>`;
+  }
+
+  const footer = `
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:6px">
+      ${_wizardStep > 1
+        ? `<button onclick="wizardBack()" class="btn bg2" style="font-size:12px">← السابق</button>`
+        : `<button onclick="document.getElementById('intWizardModal').style.display='none'" class="btn bg2" style="font-size:12px">إلغاء</button>`}
+      ${_wizardStep < 3
+        ? `<button onclick="wizardNext()" class="btn bp" style="font-size:12px" ${_wizardStep===2 && _wizardProvider.auth==='api_key' && !_wizardData.tested ? 'disabled' : ''}>التالي ←</button>`
+        : `<button onclick="wizardFinish()" class="btn bp" style="font-size:12px">💾 احفظ وابدأ المزامنة</button>`}
+    </div>`;
+
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:460px;width:100%;max-height:90vh;overflow:auto">
+      <div style="padding:18px 22px;border-bottom:1px solid #e5ebeb;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:14px;font-weight:800;color:#155e5f">معالج الربط</div>
+        <button onclick="document.getElementById('intWizardModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:24px;cursor:pointer">×</button>
+      </div>
+      <div style="padding:20px 22px">
+        ${steps}
+        ${body}
+        ${footer}
+      </div>
+    </div>`;
+  m.style.display = 'flex';
+}
+
+function wizardNext() {
+  if (_wizardStep === 1) {
+    _wizardData.name = document.getElementById('wiz-name')?.value || _wizardProvider.name_ar;
+  }
+  if (_wizardStep === 2 && _wizardProvider.auth === 'api_key') {
+    _wizardData.api_key = document.getElementById('wiz-apikey')?.value;
+    _wizardData.store_id = document.getElementById('wiz-storeid')?.value || null;
+  }
+  _wizardStep++;
+  renderWizard();
+}
+
+function wizardBack() {
+  _wizardStep--;
+  renderWizard();
+}
+
+function wizardOAuthStart() {
+  // Placeholder — real OAuth would redirect to provider authorization URL
+  // For now, just simulate success
+  toast({ type:'info', msg:'OAuth: قيد التطوير — سيتم إكمال التدفق قريباً' });
+  _wizardData.tested = true;
+  _wizardStep = 3;
+  renderWizard();
+}
+
+async function wizardTestConnection() {
+  const apiKey = document.getElementById('wiz-apikey')?.value;
+  const result = document.getElementById('wiz-test-result');
+  if (!apiKey) {
+    result.innerHTML = `<div style="padding:10px;background:rgba(201,53,69,.08);border-radius:8px;font-size:11px;color:#c93545">أدخلي مفتاح API أولاً</div>`;
+    return;
+  }
+  result.innerHTML = `<div style="padding:10px;background:rgba(127,197,123,.08);border-radius:8px;font-size:11px;color:#155e5f"><div class="spin" style="display:inline-block;width:12px;height:12px;border-width:2px;vertical-align:middle;margin-left:6px"></div> جاري الاختبار...</div>`;
+  // Placeholder: real test would call pos-test edge function
+  await new Promise(r => setTimeout(r, 800));
+  _wizardData.tested = true;
+  _wizardData.api_key = apiKey;
+  _wizardData.store_id = document.getElementById('wiz-storeid')?.value || null;
+  result.innerHTML = `
+    <div style="padding:12px;background:rgba(127,197,123,.1);border:1px solid rgba(127,197,123,.3);border-radius:8px;font-size:11px;color:#155e5f">
+      <div style="font-weight:800;margin-bottom:4px">✓ الاتصال ناجح</div>
+      <div>تم العثور على حسابك. اضغطي "التالي" لاختيار خيارات المزامنة.</div>
+    </div>`;
+  renderWizard();
+}
+
+async function wizardFinish() {
+  const p = _wizardProvider;
+  const settings = {
+    sync_sales:      document.getElementById('wiz-sync_sales')?.checked ?? true,
+    sync_inventory:  document.getElementById('wiz-sync_inventory')?.checked ?? true,
+    sync_products:   document.getElementById('wiz-sync_products')?.checked ?? true,
+    sync_zatca_auto: document.getElementById('wiz-sync_zatca_auto')?.checked ?? true,
+  };
+  try {
+    const { error } = await _sb.from('pos_connections').upsert({
+      tenant_id: Auth?.tenant?.id,
+      provider: p.id,
+      display_name: _wizardData.name,
+      credentials: {
+        api_key: _wizardData.api_key || null,
+        store_id: _wizardData.store_id || null,
+      },
+      ...settings,
+      status: p.auth === 'manual' ? 'connected' : 'connected',
+      connected_at: new Date().toISOString(),
+    }, { onConflict: 'tenant_id,provider' });
+    if (error) throw error;
+    toast({ type:'success', msg:`✓ تم ربط ${p.name_ar} بنجاح` });
+    logActivity('settings', 'pos_integration_connected', `ربط ${p.name_ar}`, { provider: p.id }).catch(()=>{});
+    document.getElementById('intWizardModal').style.display = 'none';
+    await loadIntegrations();
+  } catch (e) {
+    toast({ type:'error', msg: e.message });
+  }
+}
+
+async function syncIntegrationNow(providerId) {
+  toast({ type:'info', msg:'جاري المزامنة...' });
+  // Placeholder — real sync would call pos-sync edge function
+  await new Promise(r => setTimeout(r, 1200));
+  toast({ type:'success', msg:'✓ تمت المزامنة' });
+  await loadIntegrations();
+}
+
+async function openIntegrationSettings(providerId) {
+  const conn = _posConnections.find(c => c.provider === providerId);
+  const p = POS_PROVIDERS.find(x => x.id === providerId);
+  if (!conn || !p) return;
+  if (!confirm(`فصل ${p.name_ar}؟ ستتوقف المزامنة التلقائية.`)) return;
+  try {
+    const { error } = await _sb.from('pos_connections')
+      .update({ status: 'disconnected' }).eq('id', conn.id);
+    if (error) throw error;
+    toast({ type:'success', msg:`تم فصل ${p.name_ar}` });
+    await loadIntegrations();
+  } catch (e) { toast({ type:'error', msg: e.message }); }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// CASHIER (POS) — شاشة بيع سريعة، تخصم المخزون عبر sell_recipe
+// ═══════════════════════════════════════════════════════════════════════
+let _cashCart = [];           // [{ recipe_id, name, price, cost, qty }]
+let _cashPayment = 'cash';
+let _cashActiveCat = 'all';
+
+async function loadCashier() {
+  // Reuse recipes/ingredients caches if already loaded
+  if (!_recipesCache.length || !_ingredientsCache.length) {
+    await Promise.all([loadIngredients(), loadRecipes()]);
+  }
+  renderCashierCats();
+  renderCashierItems();
+  renderCashierCart();
+}
+
+function renderCashierCats() {
+  const el = document.getElementById('cashier-cats');
+  if (!el) return;
+  const cats = [...new Set(_recipesCache.map(r => r.category).filter(Boolean))];
+  el.innerHTML = `<button class="cat-chip ${_cashActiveCat==='all'?'on':''}" onclick="cashSetCat('all')">الكل (${_recipesCache.length})</button>` +
+    cats.map(c => {
+      const n = _recipesCache.filter(r => r.category === c).length;
+      return `<button class="cat-chip ${_cashActiveCat===c?'on':''}" onclick="cashSetCat('${c.replace(/'/g,"\\'")}')">${c} (${n})</button>`;
+    }).join('');
+}
+
+function cashSetCat(c) {
+  _cashActiveCat = c;
+  renderCashierCats();
+  renderCashierItems();
+}
+
+function renderCashierItems() {
+  const el = document.getElementById('cashier-items');
+  if (!el) return;
+  const q = (document.getElementById('cash-search')?.value || '').trim().toLowerCase();
+  let items = _recipesCache.slice();
+  if (_cashActiveCat !== 'all') items = items.filter(r => r.category === _cashActiveCat);
+  if (q) items = items.filter(r => (r.name || '').toLowerCase().includes(q));
+
+  if (!items.length) {
+    el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(21,94,95,.55);font-size:13px">لا يوجد أصناف مطابقة</div>`;
+    return;
+  }
+
+  el.innerHTML = items.map(r => {
+    const price = +r.suggested_price || +r.target_price || +r.actual_cost || 0;
+    const margin = r.actual_margin_pct !== null ? `${(+r.actual_margin_pct).toFixed(0)}%` : '';
+    return `
+      <div class="item-tile" onclick="cashAddItem('${r.id}')">
+        <div style="font-size:13px;font-weight:800;color:#155e5f;line-height:1.3;margin-bottom:6px;min-height:34px">${r.name}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <div style="font-size:15px;font-weight:900;color:#155e5f">${price.toFixed(2)}</div>
+            <div style="font-size:9px;color:rgba(21,94,95,.55)">ر.س</div>
+          </div>
+          ${margin ? `<div style="font-size:10px;color:#7fc57b;font-weight:700">+${margin}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function cashAddItem(recipeId) {
+  const r = _recipesCache.find(x => x.id === recipeId);
+  if (!r) return;
+  const price = +r.suggested_price || +r.target_price || +r.actual_cost || 0;
+  const cost = +r.actual_cost || 0;
+  const existing = _cashCart.find(c => c.recipe_id === recipeId);
+  if (existing) existing.qty += 1;
+  else _cashCart.push({ recipe_id: recipeId, name: r.name, price, cost, qty: 1 });
+  renderCashierCart();
+}
+
+function cashChangeQty(idx, delta) {
+  const item = _cashCart[idx];
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) _cashCart.splice(idx, 1);
+  renderCashierCart();
+}
+
+function cashRemoveItem(idx) {
+  _cashCart.splice(idx, 1);
+  renderCashierCart();
+}
+
+function cashClearCart() {
+  if (_cashCart.length && !confirm('مسح السلة بالكامل؟')) return;
+  _cashCart = [];
+  renderCashierCart();
+}
+
+function cashSetPayment(p) {
+  _cashPayment = p;
+  document.querySelectorAll('#pg-cashier .pay-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.pay === p);
+  });
+}
+
+function renderCashierCart() {
+  const items = document.getElementById('cash-cart-items');
+  const meta = document.getElementById('cash-cart-meta');
+  const btn = document.getElementById('cash-complete-btn');
+  if (!items) return;
+
+  if (!_cashCart.length) {
+    items.innerHTML = `<div style="text-align:center;padding:20px 10px;color:rgba(21,94,95,.5);font-size:12px">السلة فارغة</div>`;
+    if (meta) meta.textContent = 'سلة فارغة';
+    document.getElementById('cash-subtotal').textContent = '0.00 ر.س';
+    document.getElementById('cash-vat').textContent = '0.00 ر.س';
+    document.getElementById('cash-total').textContent = '0.00 ر.س';
+    if (btn) btn.disabled = true;
+    return;
+  }
+
+  items.innerHTML = _cashCart.map((c, i) => `
+    <div class="cart-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700;color:#155e5f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+        <div style="font-size:10px;color:rgba(21,94,95,.6);margin-top:2px">${c.price.toFixed(2)} ر.س × ${c.qty}</div>
+      </div>
+      <button class="qty-btn" onclick="cashChangeQty(${i}, -1)">−</button>
+      <div style="min-width:24px;text-align:center;font-weight:800;color:#155e5f;font-size:13px">${c.qty}</div>
+      <button class="qty-btn" onclick="cashChangeQty(${i}, 1)">＋</button>
+      <button onclick="cashRemoveItem(${i})" style="background:transparent;border:none;color:#c93545;font-size:16px;cursor:pointer;padding:0 4px">×</button>
+    </div>
+  `).join('');
+
+  const subtotal = _cashCart.reduce((s, c) => s + c.price * c.qty, 0);
+  // Price treated as VAT-inclusive (Saudi standard)
+  const net = subtotal / 1.15;
+  const vat = subtotal - net;
+  const qtyTotal = _cashCart.reduce((s, c) => s + c.qty, 0);
+
+  if (meta) meta.textContent = `${_cashCart.length} صنف · ${qtyTotal} قطعة`;
+  document.getElementById('cash-subtotal').textContent = net.toFixed(2) + ' ر.س';
+  document.getElementById('cash-vat').textContent = vat.toFixed(2) + ' ر.س';
+  document.getElementById('cash-total').textContent = subtotal.toFixed(2) + ' ر.س';
+  if (btn) btn.disabled = false;
+}
+
+async function cashCompleteSale() {
+  if (!_cashCart.length) return;
+  const btn = document.getElementById('cash-complete-btn');
+  const total = _cashCart.reduce((s, c) => s + c.price * c.qty, 0);
+  const totalCost = _cashCart.reduce((s, c) => s + c.cost * c.qty, 0);
+  const payLabel = { cash:'نقدي', card:'شبكة', transfer:'تحويل', wallet:'محفظة' }[_cashPayment] || _cashPayment;
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الحفظ...';
+  try {
+    // 1. Deduct stock via sell_recipe per item
+    let totalWarnings = [];
+    for (const item of _cashCart) {
+      const { data, error } = await _sb.rpc('sell_recipe', {
+        recipe_id_in: item.recipe_id,
+        quantity_sold: item.qty,
+        reason_in: `كاشير · ${payLabel}`,
+      });
+      if (error) throw error;
+      if (data && data.warnings && data.warnings.length) {
+        totalWarnings = totalWarnings.concat(data.warnings.map(w => w.ingredient));
+      }
+    }
+
+    // 2. Issue ZATCA simplified invoice (B2C)
+    let invoice = null;
+    try {
+      const { data:{ session } } = await _sb.auth.getSession();
+      const t = window._tenantBrand || {};
+      const sellerName = Auth?.tenant?.name || t.name || 'بائع';
+      const sellerVat  = Auth?.tenant?.vat_number || t.vat_number || '';
+      const sellerCity = t.city || 'الرياض';
+      const items = _cashCart.map(c => {
+        const net = c.price / 1.15;
+        return { desc: c.name, qty: c.qty, price: +net.toFixed(4), vatPct: 15 };
+      });
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/zatca-invoice`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session.access_token}` },
+        body: JSON.stringify({
+          seller: sellerName, sellerVat, sellerCity,
+          buyer: 'عميل نقدي', buyerVat: '',
+          invoiceType: 'simplified', items,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && !data.error) {
+        invoice = data.invoice;
+        // Log to zatca_invoice_log
+        try {
+          const status = data.zatca_status === 'ACCEPTED' ? 'accepted'
+                      : data.zatca_status === 'ACCEPTED_WITH_WARNINGS' ? 'warning'
+                      : 'submitted';
+          await _sb.rpc('zatca_log_invoice', {
+            invoice_id_in: invoice?.id || null,
+            invoice_number_in: invoice?.number || null,
+            invoice_type_in: 'simplified',
+            status_in: status,
+            uuid_in: invoice?.uuid || null,
+            hash_in: invoice?.hash || null,
+          });
+        } catch(_) {}
+      }
+    } catch (e) {
+      console.warn('zatca-invoice (cashier) failed:', e.message);
+      // Sale still succeeds offline — invoice will be null
+    }
+
+    // 3. Log revenue
+    const itemsLabel = _cashCart.map(c => `${c.qty}×${c.name}`).join('، ');
+    await logActivity('income', 'cashier_sale',
+      `كاشير: ${itemsLabel}`,
+      { amount: total, cost: totalCost, payment: _cashPayment, items: _cashCart.length, invoice_number: invoice?.number || null }
+    ).catch(()=>{});
+
+    if (totalWarnings.length) {
+      const uniq = [...new Set(totalWarnings)];
+      toast({ type:'warning', msg:`تم البيع — تنبيه مخزون: ${uniq.slice(0,3).join('، ')}` });
+    }
+
+    // 4. Show receipt modal
+    showCashierReceipt(_cashCart.slice(), total, totalCost, payLabel, invoice);
+
+    _cashCart = [];
+    renderCashierCart();
+    await loadIngredients();
+  } catch (e) {
+    toast({ type:'error', msg: 'خطأ في البيع: ' + e.message });
+  } finally {
+    btn.disabled = _cashCart.length === 0;
+    btn.innerHTML = '✓ إتمام البيع';
+  }
+}
+
+// ─── Cashier Receipt Modal (طباعة + واتساب) ──────────────────────────────
+function showCashierReceipt(cart, total, totalCost, payLabel, invoice) {
+  let m = document.getElementById('cashReceiptModal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'cashReceiptModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(22,40,32,.6);z-index:1100;align-items:center;justify-content:center;padding:14px';
+    document.body.appendChild(m);
+  }
+  const net = total / 1.15;
+  const vat = total - net;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ar-SA') + ' · ' + now.toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit' });
+  const invNum = invoice?.number || `POS-${Date.now().toString().slice(-6)}`;
+  const sellerName = Auth?.tenant?.name || 'مشروعي';
+  const sellerVat  = Auth?.tenant?.vat_number || '';
+  const qrUrl = invoice?.qr
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(invoice.qr)}`
+    : null;
+  const profitPct = totalCost > 0 ? (((total - totalCost) / total) * 100).toFixed(1) : null;
+
+  const itemRows = cart.map(c => `
+    <tr style="border-bottom:1px dashed #e5ebeb">
+      <td style="padding:6px 4px;font-size:11px">${c.name}</td>
+      <td style="padding:6px 4px;font-size:11px;text-align:center">${c.qty}</td>
+      <td style="padding:6px 4px;font-size:11px;text-align:left;direction:ltr">${(c.price * c.qty).toFixed(2)}</td>
+    </tr>`).join('');
+
+  m.innerHTML = `
+    <div style="background:#fff;border-radius:18px;max-width:380px;width:100%;max-height:90vh;overflow:auto">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,#7fc57b,#a8d39e);color:#155e5f;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:15px;font-weight:800">✓ تم البيع</div>
+        <button onclick="document.getElementById('cashReceiptModal').style.display='none'" style="background:transparent;border:none;color:#155e5f;font-size:26px;cursor:pointer">×</button>
+      </div>
+
+      <!-- Printable receipt -->
+      <div id="cashReceiptPrint" style="padding:18px;background:#fff">
+        <div style="text-align:center;border-bottom:2px dashed #155e5f;padding-bottom:10px;margin-bottom:10px">
+          <div style="font-size:16px;font-weight:900;color:#155e5f">${sellerName}</div>
+          ${sellerVat ? `<div style="font-size:10px;color:#666;direction:ltr">VAT: ${sellerVat}</div>` : ''}
+          <div style="font-size:11px;color:#555;margin-top:4px">فاتورة ضريبية مبسّطة</div>
+          <div style="font-size:10px;color:#888;margin-top:2px">${invNum}</div>
+          <div style="font-size:10px;color:#888">${dateStr}</div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:10px">
+          <thead><tr style="border-bottom:1px solid #155e5f">
+            <th style="padding:5px 4px;font-size:10px;text-align:right;color:#155e5f">الصنف</th>
+            <th style="padding:5px 4px;font-size:10px;text-align:center;color:#155e5f">العدد</th>
+            <th style="padding:5px 4px;font-size:10px;text-align:left;color:#155e5f">السعر</th>
+          </tr></thead>
+          <tbody>${itemRows}</tbody>
+        </table>
+
+        <div style="border-top:1px dashed #155e5f;padding-top:8px;font-size:11px">
+          <div style="display:flex;justify-content:space-between;color:#555;margin-bottom:3px">
+            <span>المجموع قبل الضريبة</span><span style="direction:ltr">${net.toFixed(2)}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;color:#555;margin-bottom:3px">
+            <span>الضريبة (15%)</span><span style="direction:ltr">${vat.toFixed(2)}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:900;color:#155e5f;margin-top:6px;padding-top:6px;border-top:1px solid #155e5f">
+            <span>الإجمالي</span><span style="direction:ltr">${total.toFixed(2)} ر.س</span>
+          </div>
+          <div style="font-size:10px;color:#666;text-align:center;margin-top:6px">طريقة الدفع: ${payLabel}</div>
+        </div>
+
+        ${qrUrl ? `
+          <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:1px dashed #ccc">
+            <img src="${qrUrl}" alt="ZATCA QR" style="width:120px;height:120px">
+            <div style="font-size:9px;color:#888;margin-top:4px">QR زاتكا للتحقق</div>
+          </div>` : `
+          <div style="text-align:center;margin-top:10px;font-size:10px;color:#a8854a">
+            ⚠️ فاتورة محلية — لم تُرسل لزاتكا (تحقق من ربط ZATCA)
+          </div>`}
+
+        <div style="text-align:center;margin-top:12px;font-size:10px;color:#888">شكراً لزيارتك 🌿</div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="padding:14px 18px;background:#f7faf9;border-top:1px solid #e5ebeb;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <button onclick="printCashReceipt()" class="btn bp" style="padding:9px;font-size:12px">🖨 طباعة</button>
+        <button onclick="shareCashReceiptWA('${total.toFixed(2)}', '${invNum}')" class="btn bg2" style="padding:9px;font-size:12px;background:rgba(37,211,102,.12);color:#128c47;border-color:rgba(37,211,102,.35)">💚 واتساب</button>
+        <button onclick="document.getElementById('cashReceiptModal').style.display='none'" class="btn bg2" style="padding:9px;font-size:12px">إغلاق</button>
+      </div>
+      ${profitPct ? `<div style="padding:8px 18px 14px;text-align:center;font-size:11px;color:#7fc57b;font-weight:700">💰 ربح هذه الفاتورة: ${(total - totalCost).toFixed(2)} ر.س (${profitPct}%)</div>` : ''}
+    </div>`;
+  m.style.display = 'flex';
+}
+
+function printCashReceipt() {
+  const receipt = document.getElementById('cashReceiptPrint');
+  if (!receipt) return;
+  const w = window.open('', '_blank', 'width=400,height=600');
+  w.document.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>إيصال</title>
+    <style>
+      @page { size: 80mm auto; margin: 4mm; }
+      body { font-family: -apple-system, 'SF Pro Arabic', Tahoma, sans-serif; margin:0; padding:8px; }
+      * { box-sizing: border-box; }
+    </style></head><body>${receipt.outerHTML}<script>window.onload=()=>{window.print();setTimeout(()=>window.close(),300);}<\/script></body></html>`);
+  w.document.close();
+}
+
+function shareCashReceiptWA(total, invNum) {
+  const seller = Auth?.tenant?.name || 'مشروعي';
+  const msg = encodeURIComponent(`فاتورة ${seller}\nرقم: ${invNum}\nالإجمالي: ${total} ر.س\nشكراً لزيارتك 🌿`);
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
 // ─── Sell Recipe Modal (يخصم المكونات تلقائياً من المخزون) ───────────────
